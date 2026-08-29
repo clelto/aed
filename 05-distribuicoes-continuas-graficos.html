@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análise Exploratória de Dados – 5&nbsp; Distribuições de frequências para variáveis quantitativas contínuas e representações gráficas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06-revisao-unidade1.html" rel="next">
+<link href="./04-distribuicoes-frequencias.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles2.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-fundamentos-aed.html">Parte I — Fundamentos e análise univariada</a></li><li class="breadcrumb-item"><a href="./05-distribuicoes-continuas-graficos.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis quantitativas contínuas e representações gráficas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise Exploratória de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apresentação</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I — Fundamentos e análise univariada</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-fundamentos-aed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-r-rstudio-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-dados-organizacao-qualidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estrutura, organização e qualidade dos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distribuicoes-frequencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis qualitativas e quantitativas discretas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-distribuicoes-continuas-graficos.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis quantitativas contínuas e representações gráficas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-revisao-unidade1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">06-revisao-unidade1</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Medidas resumo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-medidas-tendencia-central.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">07-medidas-tendencia-central</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-medidas-posicao-boxplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">08-medidas-posicao-boxplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-medidas-dispersao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">09-medidas-dispersao</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-forma-distribuicao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">10-forma-distribuicao</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-revisao-unidade2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">11-revisao-unidade2</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Associação e análise multivariada</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-associacao-qualitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">12-associacao-qualitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-associacao-quantitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">13-associacao-quantitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-qualitativa-quantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">14-qualitativa-quantitativa</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-analise-multivariada.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">15-analise-multivariada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./referencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Neste capítulo</h2>
+   
+  <ul>
+  <li><a href="#amplitude-total" id="toc-amplitude-total" class="nav-link active" data-scroll-target="#amplitude-total"><span class="header-section-number">5.1</span> Amplitude total</a></li>
+  <li><a href="#classes-limites-e-amplitude-de-classe" id="toc-classes-limites-e-amplitude-de-classe" class="nav-link" data-scroll-target="#classes-limites-e-amplitude-de-classe"><span class="header-section-number">5.2</span> Classes, limites e amplitude de classe</a>
+  <ul class="collapse">
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">5.2.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#ponto-médio-da-classe" id="toc-ponto-médio-da-classe" class="nav-link" data-scroll-target="#ponto-médio-da-classe"><span class="header-section-number">5.3</span> Ponto médio da classe</a></li>
+  <li><a href="#quantas-classes-utilizar" id="toc-quantas-classes-utilizar" class="nav-link" data-scroll-target="#quantas-classes-utilizar"><span class="header-section-number">5.4</span> Quantas classes utilizar?</a>
+  <ul class="collapse">
+  <li><a href="#regra-da-raiz-quadrada" id="toc-regra-da-raiz-quadrada" class="nav-link" data-scroll-target="#regra-da-raiz-quadrada"><span class="header-section-number">5.4.1</span> Regra da raiz quadrada</a></li>
+  <li><a href="#regra-de-sturges" id="toc-regra-de-sturges" class="nav-link" data-scroll-target="#regra-de-sturges"><span class="header-section-number">5.4.2</span> Regra de Sturges</a></li>
+  <li><a href="#regra-de-scott" id="toc-regra-de-scott" class="nav-link" data-scroll-target="#regra-de-scott"><span class="header-section-number">5.4.3</span> Regra de Scott</a></li>
+  <li><a href="#regra-de-freedmandiaconis" id="toc-regra-de-freedmandiaconis" class="nav-link" data-scroll-target="#regra-de-freedmandiaconis"><span class="header-section-number">5.4.4</span> Regra de Freedman–Diaconis</a></li>
+  <li><a href="#comparando-as-quatro-propostas" id="toc-comparando-as-quatro-propostas" class="nav-link" data-scroll-target="#comparando-as-quatro-propostas"><span class="header-section-number">5.4.5</span> Comparando as quatro propostas</a></li>
+  </ul></li>
+  <li><a href="#construindo-uma-tabela-de-frequências-por-classes-passo-a-passo" id="toc-construindo-uma-tabela-de-frequências-por-classes-passo-a-passo" class="nav-link" data-scroll-target="#construindo-uma-tabela-de-frequências-por-classes-passo-a-passo"><span class="header-section-number">5.5</span> Construindo uma tabela de frequências por classes: passo a passo</a>
+  <ul class="collapse">
+  <li><a href="#passo-1-identificar-o-tamanho-do-conjunto-e-os-extremos" id="toc-passo-1-identificar-o-tamanho-do-conjunto-e-os-extremos" class="nav-link" data-scroll-target="#passo-1-identificar-o-tamanho-do-conjunto-e-os-extremos"><span class="header-section-number">5.5.1</span> Passo 1 — Identificar o tamanho do conjunto e os extremos</a></li>
+  <li><a href="#passo-2-calcular-a-amplitude-total" id="toc-passo-2-calcular-a-amplitude-total" class="nav-link" data-scroll-target="#passo-2-calcular-a-amplitude-total"><span class="header-section-number">5.5.2</span> Passo 2 — Calcular a amplitude total</a></li>
+  <li><a href="#passo-3-escolher-um-número-inicial-de-classes" id="toc-passo-3-escolher-um-número-inicial-de-classes" class="nav-link" data-scroll-target="#passo-3-escolher-um-número-inicial-de-classes"><span class="header-section-number">5.5.3</span> Passo 3 — Escolher um número inicial de classes</a></li>
+  <li><a href="#passo-4-obter-uma-largura-inicial" id="toc-passo-4-obter-uma-largura-inicial" class="nav-link" data-scroll-target="#passo-4-obter-uma-largura-inicial"><span class="header-section-number">5.5.4</span> Passo 4 — Obter uma largura inicial</a></li>
+  <li><a href="#passo-5-escolher-os-limites-das-classes" id="toc-passo-5-escolher-os-limites-das-classes" class="nav-link" data-scroll-target="#passo-5-escolher-os-limites-das-classes"><span class="header-section-number">5.5.5</span> Passo 5 — Escolher os limites das classes</a></li>
+  <li><a href="#passo-6-calcular-o-ponto-médio-de-cada-classe" id="toc-passo-6-calcular-o-ponto-médio-de-cada-classe" class="nav-link" data-scroll-target="#passo-6-calcular-o-ponto-médio-de-cada-classe"><span class="header-section-number">5.5.6</span> Passo 6 — Calcular o ponto médio de cada classe</a></li>
+  <li><a href="#passo-7-contar-as-observações-em-cada-classe" id="toc-passo-7-contar-as-observações-em-cada-classe" class="nav-link" data-scroll-target="#passo-7-contar-as-observações-em-cada-classe"><span class="header-section-number">5.5.7</span> Passo 7 — Contar as observações em cada classe</a></li>
+  <li><a href="#passo-8-calcular-frequências-relativas-e-percentuais" id="toc-passo-8-calcular-frequências-relativas-e-percentuais" class="nav-link" data-scroll-target="#passo-8-calcular-frequências-relativas-e-percentuais"><span class="header-section-number">5.5.8</span> Passo 8 — Calcular frequências relativas e percentuais</a></li>
+  <li><a href="#passo-9-calcular-as-frequências-acumuladas" id="toc-passo-9-calcular-as-frequências-acumuladas" class="nav-link" data-scroll-target="#passo-9-calcular-as-frequências-acumuladas"><span class="header-section-number">5.5.9</span> Passo 9 — Calcular as frequências acumuladas</a></li>
+  <li><a href="#passo-10-montar-a-tabela-completa" id="toc-passo-10-montar-a-tabela-completa" class="nav-link" data-scroll-target="#passo-10-montar-a-tabela-completa"><span class="header-section-number">5.5.10</span> Passo 10 — Montar a tabela completa</a></li>
+  <li><a href="#passo-11-conferir-a-tabela" id="toc-passo-11-conferir-a-tabela" class="nav-link" data-scroll-target="#passo-11-conferir-a-tabela"><span class="header-section-number">5.5.11</span> Passo 11 — Conferir a tabela</a></li>
+  <li><a href="#passo-12-interpretar-não-apenas-calcular" id="toc-passo-12-interpretar-não-apenas-calcular" class="nav-link" data-scroll-target="#passo-12-interpretar-não-apenas-calcular"><span class="header-section-number">5.5.12</span> Passo 12 — Interpretar, não apenas calcular</a></li>
+  </ul></li>
+  <li><a href="#da-tabela-ao-gráfico" id="toc-da-tabela-ao-gráfico" class="nav-link" data-scroll-target="#da-tabela-ao-gráfico"><span class="header-section-number">5.6</span> Da tabela ao gráfico</a></li>
+  <li><a href="#gráfico-de-barras" id="toc-gráfico-de-barras" class="nav-link" data-scroll-target="#gráfico-de-barras"><span class="header-section-number">5.7</span> Gráfico de barras</a></li>
+  <li><a href="#gráfico-de-pareto" id="toc-gráfico-de-pareto" class="nav-link" data-scroll-target="#gráfico-de-pareto"><span class="header-section-number">5.8</span> Gráfico de Pareto</a></li>
+  <li><a href="#gráfico-de-setores" id="toc-gráfico-de-setores" class="nav-link" data-scroll-target="#gráfico-de-setores"><span class="header-section-number">5.9</span> Gráfico de setores</a></li>
+  <li><a href="#gráfico-de-pontos" id="toc-gráfico-de-pontos" class="nav-link" data-scroll-target="#gráfico-de-pontos"><span class="header-section-number">5.10</span> Gráfico de pontos</a></li>
+  <li><a href="#histograma" id="toc-histograma" class="nav-link" data-scroll-target="#histograma"><span class="header-section-number">5.11</span> Histograma</a>
+  <ul class="collapse">
+  <li><a href="#barras-histograma" id="toc-barras-histograma" class="nav-link" data-scroll-target="#barras-histograma"><span class="header-section-number">5.11.1</span> Barras × histograma</a></li>
+  <li><a href="#a-área-dos-retângulos" id="toc-a-área-dos-retângulos" class="nav-link" data-scroll-target="#a-área-dos-retângulos"><span class="header-section-number">5.11.2</span> A área dos retângulos</a></li>
+  </ul></li>
+  <li><a href="#o-efeito-da-escolha-das-classes" id="toc-o-efeito-da-escolha-das-classes" class="nav-link" data-scroll-target="#o-efeito-da-escolha-das-classes"><span class="header-section-number">5.12</span> O efeito da escolha das classes</a></li>
+  <li><a href="#polígono-de-frequências" id="toc-polígono-de-frequências" class="nav-link" data-scroll-target="#polígono-de-frequências"><span class="header-section-number">5.13</span> Polígono de frequências</a></li>
+  <li><a href="#ogiva" id="toc-ogiva" class="nav-link" data-scroll-target="#ogiva"><span class="header-section-number">5.14</span> Ogiva</a></li>
+  <li><a href="#diagrama-de-ramo-e-folhas" id="toc-diagrama-de-ramo-e-folhas" class="nav-link" data-scroll-target="#diagrama-de-ramo-e-folhas"><span class="header-section-number">5.15</span> Diagrama de ramo e folhas</a></li>
+  <li><a href="#curva-de-densidade" id="toc-curva-de-densidade" class="nav-link" data-scroll-target="#curva-de-densidade"><span class="header-section-number">5.16</span> Curva de densidade</a>
+  <ul class="collapse">
+  <li><a href="#o-papel-da-suavização" id="toc-o-papel-da-suavização" class="nav-link" data-scroll-target="#o-papel-da-suavização"><span class="header-section-number">5.16.1</span> O papel da suavização</a></li>
+  </ul></li>
+  <li><a href="#como-escolher-e-interpretar-uma-representação-gráfica" id="toc-como-escolher-e-interpretar-uma-representação-gráfica" class="nav-link" data-scroll-target="#como-escolher-e-interpretar-uma-representação-gráfica"><span class="header-section-number">5.17</span> Como escolher e interpretar uma representação gráfica</a></li>
+  <li><a href="#erros-comuns-em-representações-gráficas" id="toc-erros-comuns-em-representações-gráficas" class="nav-link" data-scroll-target="#erros-comuns-em-representações-gráficas"><span class="header-section-number">5.18</span> Erros comuns em representações gráficas</a></li>
+  <li><a href="#exemplo-integrado-tempo-de-deslocamento" id="toc-exemplo-integrado-tempo-de-deslocamento" class="nav-link" data-scroll-target="#exemplo-integrado-tempo-de-deslocamento"><span class="header-section-number">5.19</span> Exemplo integrado — tempo de deslocamento</a></li>
+  <li><a href="#exercícios-teóricos-aula-7" id="toc-exercícios-teóricos-aula-7" class="nav-link" data-scroll-target="#exercícios-teóricos-aula-7"><span class="header-section-number">5.20</span> Exercícios teóricos — Aula 7</a>
+  <ul class="collapse">
+  <li><a href="#exercício-1-elementos-de-uma-distribuição-agrupada" id="toc-exercício-1-elementos-de-uma-distribuição-agrupada" class="nav-link" data-scroll-target="#exercício-1-elementos-de-uma-distribuição-agrupada"><span class="header-section-number">5.20.1</span> Exercício 1 — Elementos de uma distribuição agrupada</a></li>
+  <li><a href="#exercício-2-construção-de-tabela" id="toc-exercício-2-construção-de-tabela" class="nav-link" data-scroll-target="#exercício-2-construção-de-tabela"><span class="header-section-number">5.20.2</span> Exercício 2 — Construção de tabela</a></li>
+  <li><a href="#exercício-3-número-de-classes" id="toc-exercício-3-número-de-classes" class="nav-link" data-scroll-target="#exercício-3-número-de-classes"><span class="header-section-number">5.20.3</span> Exercício 3 — Número de classes</a></li>
+  <li><a href="#exercício-4-escolha-do-gráfico" id="toc-exercício-4-escolha-do-gráfico" class="nav-link" data-scroll-target="#exercício-4-escolha-do-gráfico"><span class="header-section-number">5.20.4</span> Exercício 4 — Escolha do gráfico</a></li>
+  <li><a href="#exercício-5-leitura-crítica" id="toc-exercício-5-leitura-crítica" class="nav-link" data-scroll-target="#exercício-5-leitura-crítica"><span class="header-section-number">5.20.5</span> Exercício 5 — Leitura crítica</a></li>
+  </ul></li>
+  <li><a href="#síntese-da-aula-7" id="toc-síntese-da-aula-7" class="nav-link" data-scroll-target="#síntese-da-aula-7"><span class="header-section-number">5.21</span> Síntese da Aula 7</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-fundamentos-aed.html">Parte I — Fundamentos e análise univariada</a></li><li class="breadcrumb-item"><a href="./05-distribuicoes-continuas-graficos.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis quantitativas contínuas e representações gráficas</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis quantitativas contínuas e representações gráficas</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled" title="Objetivos da aula">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Objetivos da aula
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final desta aula, espera-se que você seja capaz de:</p>
+<ul>
+<li>compreender por que dados quantitativos contínuos podem ser agrupados em classes;</li>
+<li>identificar amplitude total, limites, amplitude e ponto médio de uma classe;</li>
+<li>construir e interpretar uma distribuição de frequências por intervalos;</li>
+<li>compreender que o número e a largura das classes são escolhas analíticas;</li>
+<li>aplicar e comparar as regras da raiz quadrada, de Sturges, de Scott e de Freedman–Diaconis;</li>
+<li>distinguir os principais gráficos utilizados na análise univariada;</li>
+<li>selecionar uma representação gráfica coerente com a natureza da variável;</li>
+<li>interpretar gráficos procurando concentração, dispersão, forma e observações incomuns.</li>
+</ul>
+</div>
+</div>
+<p>Nas Aulas 5 e 6, organizamos variáveis qualitativas e quantitativas discretas por meio de tabelas de frequências. Para uma variável discreta, como o número de faltas, é natural contar quantas observações assumem cada valor: 0, 1, 2, 3 e assim por diante.</p>
+<p>Com variáveis quantitativas contínuas, a situação pode ser diferente. Altura, massa, tempo, temperatura e distância são grandezas que, em princípio, podem assumir qualquer valor em determinado intervalo. Mesmo quando registradas com precisão limitada, podem apresentar muitos valores distintos.</p>
+<p>Considere o tempo de deslocamento, em minutos, de 20 estudantes:</p>
+<p><span class="math display">\[12{,}4,\ 18{,}7,\ 21{,}5,\ 23{,}9,\ 25{,}2,\ 27{,}6,\ 29{,}8,\ 31{,}1,\ 33{,}5,\ 35{,}4,\]</span></p>
+<p><span class="math display">\[37{,}9,\ 39{,}2,\ 42{,}6,\ 45{,}1,\ 47{,}8,\ 51{,}3,\ 54{,}7,\ 61{,}2,\ 68{,}5,\ 79{,}4.\]</span></p>
+<p>Uma tabela contendo uma linha para cada valor teria pouca capacidade de síntese. Em situações como essa, podemos <strong>agrupar valores próximos em intervalos</strong>, chamados de <strong>classes</strong>, e contar quantas observações pertencem a cada intervalo.</p>
+<p>Essa organização produz uma <strong>distribuição de frequências para dados agrupados em classes</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Agrupar é resumir">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Agrupar é resumir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao agrupar dados contínuos em classes, ganhamos uma visão mais compacta da distribuição, mas perdemos parte da informação individual. Depois do agrupamento, sabemos quantas observações existem em cada intervalo, mas não os valores exatos de todas elas.</p>
+<p>Por isso, a tabela agrupada deve ser entendida como um <strong>resumo</strong>, e não como um substituto permanente dos dados originais.</p>
+</div>
+</div>
+<section id="amplitude-total" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="amplitude-total"><span class="header-section-number">5.1</span> Amplitude total</h2>
+<p>Antes de formar as classes, é útil conhecer a extensão ocupada pelos dados.</p>
+<p>A <strong>amplitude total</strong> é a diferença entre o maior e o menor valor observado:</p>
+<p><span class="math display">\[A_t = x_{\max} - x_{\min}.\]</span></p>
+<p>No exemplo:</p>
+<p><span class="math display">\[x_{\min}=12{,}4\]</span></p>
+<p>e</p>
+<p><span class="math display">\[x_{\max}=79{,}4.\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[A_t=79{,}4-12{,}4=67{,}0.\]</span></p>
+<p>Portanto, os valores observados se distribuem ao longo de uma faixa de 67 minutos.</p>
+<p>A amplitude total é simples e útil, mas depende apenas dos dois valores extremos. Ela ainda não informa como as observações estão distribuídas dentro desse intervalo.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Amplitude total não é amplitude de classe">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Amplitude total não é amplitude de classe
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>amplitude total</strong> descreve a extensão de todo o conjunto de dados.</p>
+<p>A <strong>amplitude de classe</strong> descreve a largura de um único intervalo da tabela de frequências.</p>
+<p>São conceitos diferentes.</p>
+</div>
+</div>
+</section>
+<section id="classes-limites-e-amplitude-de-classe" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="classes-limites-e-amplitude-de-classe"><span class="header-section-number">5.2</span> Classes, limites e amplitude de classe</h2>
+<p>Uma <strong>classe</strong> é um intervalo de valores utilizado para reunir observações próximas.</p>
+<p>Por exemplo:</p>
+<p><span class="math display">\[[10;25)\]</span></p>
+<p>representa todos os valores <span class="math inline">\(x\)</span> tais que</p>
+<p><span class="math display">\[10 \leq x &lt; 25.\]</span></p>
+<p>O número 10 é o <strong>limite inferior</strong> da classe e 25 é o <strong>limite superior</strong>.</p>
+<p>A notação <span class="math inline">\([10;25)\)</span> indica que:</p>
+<ul>
+<li>o limite inferior está incluído;</li>
+<li>o limite superior não está incluído.</li>
+</ul>
+<p>Assim, <code>10</code> pertence à classe, mas <code>25</code> pertence à classe seguinte.</p>
+<p>Esse tipo de convenção é útil porque evita que um valor localizado exatamente na fronteira seja contado em duas classes.</p>
+<p>A <strong>amplitude da classe</strong>, também chamada de largura da classe, é</p>
+<p><span class="math display">\[h=L_s-L_i,\]</span></p>
+<p>em que <span class="math inline">\(L_i\)</span> é o limite inferior e <span class="math inline">\(L_s\)</span> o limite superior.</p>
+<p>Para a classe <span class="math inline">\([10;25)\)</span>:</p>
+<p><span class="math display">\[h=25-10=15.\]</span></p>
+<section id="exemplo" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">5.2.1</span> Exemplo</h3>
+<p>Considere as classes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Classe</th>
+<th style="text-align: center;">Intervalo</th>
+<th style="text-align: right;">Amplitude</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;"><span class="math inline">\([10;25)\)</span></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;"><span class="math inline">\([25;40)\)</span></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;"><span class="math inline">\([40;55)\)</span></td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;"><span class="math inline">\([55;70)\)</span></td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+<p>Todas possuem a mesma amplitude.</p>
+<p>Na maior parte das aplicações introdutórias, classes de mesma largura facilitam a leitura e a comparação. Classes de larguras diferentes podem ser utilizadas, mas exigem mais cuidado, especialmente na construção de histogramas.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="As classes precisam formar uma partição coerente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+As classes precisam formar uma partição coerente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma boa classificação deve evitar:</p>
+<ul>
+<li><strong>sobreposição</strong> — uma mesma observação não pode pertencer a duas classes;</li>
+<li><strong>lacunas</strong> — valores possíveis na região estudada não devem ficar sem classe;</li>
+<li><strong>ambiguidade</strong> — a regra de inclusão dos limites precisa estar clara.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="ponto-médio-da-classe" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="ponto-médio-da-classe"><span class="header-section-number">5.3</span> Ponto médio da classe</h2>
+<p>O <strong>ponto médio</strong> de uma classe é o valor situado no centro do intervalo:</p>
+<p><span class="math display">\[x_i=\frac{L_i+L_s}{2}.\]</span></p>
+<p>Para a classe <span class="math inline">\([10;25)\)</span>:</p>
+<p><span class="math display">\[x_i=\frac{10+25}{2}=17{,}5.\]</span></p>
+<p>Para <span class="math inline">\([25;40)\)</span>:</p>
+<p><span class="math display">\[x_i=\frac{25+40}{2}=32{,}5.\]</span></p>
+<p>O ponto médio é uma representação numérica da classe e será útil em alguns procedimentos com dados agrupados.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Classe</th>
+<th style="text-align: right;">Limite inferior</th>
+<th style="text-align: right;">Limite superior</th>
+<th style="text-align: right;">Ponto médio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\([10;25)\)</span></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">17,5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\([25;40)\)</span></td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">32,5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\([40;55)\)</span></td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">47,5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\([55;70)\)</span></td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">62,5</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled" title="O ponto médio é uma aproximação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O ponto médio é uma aproximação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se sabemos apenas que uma observação pertence à classe <span class="math inline">\([25;40)\)</span>, não sabemos seu valor exato. Usar <code>32,5</code> para representar essa classe é uma aproximação.</p>
+<p>Não devemos interpretar o ponto médio como se todas as observações da classe fossem realmente iguais a ele.</p>
+</div>
+</div>
+</section>
+<section id="quantas-classes-utilizar" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="quantas-classes-utilizar"><span class="header-section-number">5.4</span> Quantas classes utilizar?</h2>
+<p>Depois de conhecer a amplitude total, precisamos decidir <strong>como dividir a extensão dos dados em intervalos</strong>. Essa escolha determina quantas classes serão utilizadas e qual será a largura de cada uma.</p>
+<p>Se utilizarmos <strong>poucas classes</strong>, podemos esconder características importantes da distribuição. Se utilizarmos <strong>classes demais</strong>, o resumo pode ficar fragmentado e excessivamente sensível a pequenas variações dos dados.</p>
+<p>Não existe um único número correto de classes para todos os conjuntos de dados. Existem, porém, <strong>regras práticas</strong> que fornecem pontos de partida para a construção da tabela e do histograma.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Número de classes e largura de classe são decisões relacionadas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Número de classes e largura de classe são decisões relacionadas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando definimos o número de classes <span class="math inline">\(k\)</span>, podemos obter uma largura inicial pela razão</p>
+<p><span class="math display">\[h \approx \frac{A_t}{k},\]</span></p>
+<p>em que <span class="math inline">\(A_t\)</span> é a amplitude total.</p>
+<p>Algumas regras, como raiz quadrada e Sturges, sugerem diretamente <span class="math inline">\(k\)</span>. Outras, como Scott e Freedman–Diaconis, sugerem diretamente a largura <span class="math inline">\(h\)</span>.</p>
+</div>
+</div>
+<section id="regra-da-raiz-quadrada" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="regra-da-raiz-quadrada"><span class="header-section-number">5.4.1</span> Regra da raiz quadrada</h3>
+<p>Uma regra simples é</p>
+<p><span class="math display">\[k\approx\sqrt{n},\]</span></p>
+<p>em que <span class="math inline">\(n\)</span> é o número de observações.</p>
+<p>Para <span class="math inline">\(n=80\)</span>:</p>
+<p><span class="math display">\[k\approx\sqrt{80}\approx8{,}94.\]</span></p>
+<p>Podemos utilizar aproximadamente <strong>9 classes</strong>.</p>
+<p>A vantagem dessa regra é a simplicidade. Entretanto, ela considera apenas o tamanho do conjunto de dados e não utiliza informações sobre sua dispersão.</p>
+</section>
+<section id="regra-de-sturges" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="regra-de-sturges"><span class="header-section-number">5.4.2</span> Regra de Sturges</h3>
+<p>A regra de Sturges pode ser escrita como</p>
+<p><span class="math display">\[k=1+\log_2(n),\]</span></p>
+<p>ou, de forma equivalente,</p>
+<p><span class="math display">\[k=1+3{,}322\log_{10}(n).\]</span></p>
+<p>Para <span class="math inline">\(n=80\)</span>:</p>
+<p><span class="math display">\[k=1+\log_2(80)\approx7{,}32.\]</span></p>
+<p>Arredondando para cima, obtemos aproximadamente <strong>8 classes</strong>.</p>
+<p>A regra de Sturges também depende apenas de <span class="math inline">\(n\)</span>. Em conjuntos maiores ou com formatos mais complexos, pode produzir uma divisão pouco flexível.</p>
+</section>
+<section id="regra-de-scott" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="regra-de-scott"><span class="header-section-number">5.4.3</span> Regra de Scott</h3>
+<p>A regra de Scott determina uma <strong>largura de classe</strong>:</p>
+<p><span class="math display">\[h_{\text{Scott}}=3{,}5\,s\,n^{-1/3},\]</span></p>
+<p>em que <span class="math inline">\(s\)</span> é o desvio-padrão amostral.</p>
+<p>Para os tempos de deslocamento,</p>
+<p><span class="math display">\[s\approx 21{,}57.\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[h_{\text{Scott}}
+=3{,}5(21{,}57)(80)^{-1/3}
+\approx17{,}52.\]</span></p>
+<p>Como a amplitude total é <span class="math inline">\(A_t=100{,}3\)</span>, essa largura corresponde aproximadamente a</p>
+<p><span class="math display">\[k\approx\frac{100{,}3}{17{,}52}\approx5{,}72,\]</span></p>
+<p>ou cerca de <strong>6 classes</strong>.</p>
+<p>Scott incorpora a dispersão dos dados por meio do desvio-padrão.</p>
+</section>
+<section id="regra-de-freedmandiaconis" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="regra-de-freedmandiaconis"><span class="header-section-number">5.4.4</span> Regra de Freedman–Diaconis</h3>
+<p>A regra de Freedman–Diaconis também determina uma largura de classe, mas utiliza a <strong>amplitude interquartil (AIQ)</strong>:</p>
+<p><span class="math display">\[h_{\text{FD}}=2\,AIQ\,n^{-1/3},\]</span></p>
+<p>em que</p>
+<p><span class="math display">\[AIQ=Q_3-Q_1.\]</span></p>
+<p>Para os tempos de deslocamento,</p>
+<p><span class="math display">\[Q_1\approx24{,}675
+\qquad\text{e}\qquad
+Q_3\approx51{,}775.\]</span></p>
+<p>Portanto,</p>
+<p><span class="math display">\[AIQ=51{,}775-24{,}675=27{,}1.\]</span></p>
+<p>Assim,</p>
+<p><span class="math display">\[h_{\text{FD}}
+=2(27{,}1)(80)^{-1/3}
+\approx12{,}58.\]</span></p>
+<p>Isso corresponde aproximadamente a</p>
+<p><span class="math display">\[k\approx\frac{100{,}3}{12{,}58}\approx7{,}97,\]</span></p>
+<p>ou cerca de <strong>8 classes</strong>.</p>
+<p>Como utiliza a amplitude interquartil, a regra de Freedman–Diaconis tende a ser menos sensível a valores extremos do que uma regra baseada no desvio-padrão.</p>
+</section>
+<section id="comparando-as-quatro-propostas" class="level3" data-number="5.4.5">
+<h3 data-number="5.4.5" class="anchored" data-anchor-id="comparando-as-quatro-propostas"><span class="header-section-number">5.4.5</span> Comparando as quatro propostas</h3>
+<p>Para este conjunto de dados:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Regra</th>
+<th style="text-align: right;">Resultado aproximado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Raiz quadrada</td>
+<td style="text-align: right;">9 classes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sturges</td>
+<td style="text-align: right;">8 classes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Scott</td>
+<td style="text-align: right;">largura 17,52 → cerca de 6 classes</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Freedman–Diaconis</td>
+<td style="text-align: right;">largura 12,58 → cerca de 8 classes</td>
+</tr>
+</tbody>
+</table>
+<p>As regras não concordam perfeitamente — e isso é esperado.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="As regras são pontos de partida, não leis">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+As regras são pontos de partida, não leis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A escolha não deve ser feita perguntando apenas <strong>“qual fórmula está certa?”</strong>. Uma pergunta mais útil é:</p>
+<blockquote class="blockquote">
+<p><strong>Qual agrupamento resume os dados com clareza sem esconder padrões importantes e sem exagerar pequenas irregularidades?</strong></p>
+</blockquote>
+<p>Também é legítimo ajustar a largura sugerida para um valor mais conveniente à unidade de medida e à comunicação, desde que os intervalos cubram todos os dados e a decisão seja explicitada.</p>
+</div>
+</div>
+<p>Se <span class="math inline">\(AIQ=0\)</span>, a regra de Freedman–Diaconis produz largura zero e não pode ser aplicada diretamente. Isso pode ocorrer quando muitos valores são repetidos. Nessa situação, outra regra ou uma escolha baseada no contexto deve ser utilizada.</p>
+</section>
+</section>
+<section id="construindo-uma-tabela-de-frequências-por-classes-passo-a-passo" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="construindo-uma-tabela-de-frequências-por-classes-passo-a-passo"><span class="header-section-number">5.5</span> Construindo uma tabela de frequências por classes: passo a passo</h2>
+<p>Agora aplicaremos os conceitos anteriores a <strong>um único conjunto de dados do início ao fim</strong>. Esse mesmo exemplo será reconstruído computacionalmente na Aula 8.</p>
+<p>Considere a variável <strong>tempo de deslocamento até a universidade</strong>, medida em minutos, para 80 estudantes. Os valores individuais estão no banco <code>aula7_8_estudantes.csv</code>.</p>
+<section id="passo-1-identificar-o-tamanho-do-conjunto-e-os-extremos" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="passo-1-identificar-o-tamanho-do-conjunto-e-os-extremos"><span class="header-section-number">5.5.1</span> Passo 1 — Identificar o tamanho do conjunto e os extremos</h3>
+<p>Temos</p>
+<p><span class="math display">\[n=80,\]</span></p>
+<p>com</p>
+<p><span class="math display">\[x_{\min}=11{,}7
+\qquad\text{e}\qquad
+x_{\max}=112{,}0.\]</span></p>
+<p>Antes de formar classes, é indispensável saber qual intervalo precisa ser coberto.</p>
+</section>
+<section id="passo-2-calcular-a-amplitude-total" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="passo-2-calcular-a-amplitude-total"><span class="header-section-number">5.5.2</span> Passo 2 — Calcular a amplitude total</h3>
+<p>A amplitude total é</p>
+<p><span class="math display">\[A_t=x_{\max}-x_{\min}.\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[A_t=112{,}0-11{,}7=100{,}3.\]</span></p>
+<p>Os dados ocupam, portanto, uma extensão de <strong>100,3 minutos</strong>.</p>
+</section>
+<section id="passo-3-escolher-um-número-inicial-de-classes" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="passo-3-escolher-um-número-inicial-de-classes"><span class="header-section-number">5.5.3</span> Passo 3 — Escolher um número inicial de classes</h3>
+<p>As regras anteriores produziram aproximadamente:</p>
+<ul>
+<li>9 classes pela raiz quadrada;</li>
+<li>8 classes por Sturges;</li>
+<li>6 classes por Scott;</li>
+<li>8 classes por Freedman–Diaconis.</li>
+</ul>
+<p>Para iniciar a construção, adotaremos <strong>8 classes como referência</strong>, pois esse valor aparece em duas das regras e fornece uma divisão de magnitude intermediária.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Escolher 8 classes não significa que 8 seja o único valor correto">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Escolher 8 classes não significa que 8 seja o único valor correto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O objetivo aqui é construir uma tabela didática e interpretável. Em uma análise real, outras divisões poderiam ser comparadas antes da decisão final.</p>
+</div>
+</div>
+</section>
+<section id="passo-4-obter-uma-largura-inicial" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="passo-4-obter-uma-largura-inicial"><span class="header-section-number">5.5.4</span> Passo 4 — Obter uma largura inicial</h3>
+<p>Se utilizássemos exatamente 8 classes de mesma largura, teríamos aproximadamente</p>
+<p><span class="math display">\[h\approx\frac{A_t}{k}
+=\frac{100{,}3}{8}
+\approx12{,}54.\]</span></p>
+<p>Uma largura de <code>12,54</code> minutos produziria limites pouco convenientes para leitura. Para tornar a tabela mais simples, adotaremos uma largura de <strong>15 minutos</strong>.</p>
+<p>Com essa largura, o número efetivo de classes será aproximadamente</p>
+<p><span class="math display">\[\frac{100{,}3}{15}\approx6{,}69,\]</span></p>
+<p>portanto serão necessárias <strong>7 classes</strong> para cobrir toda a extensão dos dados.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Ajustar a largura pode alterar o número de classes">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ajustar a largura pode alterar o número de classes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esse é um ponto importante: <span class="math inline">\(k\)</span> e <span class="math inline">\(h\)</span> estão relacionados. Ao arredondar uma largura para um valor conveniente, o número final de classes pode mudar. Isso não representa erro; representa uma decisão de construção que deve ser coerente e explicitada.</p>
+</div>
+</div>
+</section>
+<section id="passo-5-escolher-os-limites-das-classes" class="level3" data-number="5.5.5">
+<h3 data-number="5.5.5" class="anchored" data-anchor-id="passo-5-escolher-os-limites-das-classes"><span class="header-section-number">5.5.5</span> Passo 5 — Escolher os limites das classes</h3>
+<p>O menor valor observado é <code>11,7</code>. Escolheremos <code>10</code> como primeiro limite inferior, pois é um valor simples e está abaixo do mínimo observado.</p>
+<p>Com amplitude de classe igual a 15, obtemos os limites:</p>
+<p><span class="math display">\[10,
+25,
+40,
+55,
+70,
+85,
+100,
+115.\]</span></p>
+<p>O último limite, <code>115</code>, é superior ao maior valor observado, <code>112,0</code>. Assim, todas as observações estão cobertas.</p>
+<p>As classes são:</p>
+<p><span class="math display">\[[10;25),\ [25;40),\ [40;55),\ [55;70),\ [70;85),\ [85;100),\ [100;115).\]</span></p>
+<p>A notação <span class="math inline">\([a;b)\)</span> significa</p>
+<p><span class="math display">\[a\leq x&lt;b.\]</span></p>
+<p>Assim, uma observação igual a <code>25</code> não pertence à primeira classe; ela pertence à segunda.</p>
+</section>
+<section id="passo-6-calcular-o-ponto-médio-de-cada-classe" class="level3" data-number="5.5.6">
+<h3 data-number="5.5.6" class="anchored" data-anchor-id="passo-6-calcular-o-ponto-médio-de-cada-classe"><span class="header-section-number">5.5.6</span> Passo 6 — Calcular o ponto médio de cada classe</h3>
+<p>O ponto médio é</p>
+<p><span class="math display">\[x_i=\frac{L_i+L_s}{2}.\]</span></p>
+<p>Para a primeira classe,</p>
+<p><span class="math display">\[x_1=\frac{10+25}{2}=17{,}5.\]</span></p>
+<p>Para a segunda,</p>
+<p><span class="math display">\[x_2=\frac{25+40}{2}=32{,}5.\]</span></p>
+<p>Aplicando o mesmo procedimento às demais classes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Classe</th>
+<th style="text-align: right;">Limite inferior</th>
+<th style="text-align: right;">Limite superior</th>
+<th style="text-align: right;">Ponto médio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\([10;25)\)</span></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">17,5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\([25;40)\)</span></td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">32,5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\([40;55)\)</span></td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">47,5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\([55;70)\)</span></td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">62,5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\([70;85)\)</span></td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">77,5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="math inline">\([85;100)\)</span></td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">92,5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="math inline">\([100;115)\)</span></td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">107,5</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="passo-7-contar-as-observações-em-cada-classe" class="level3" data-number="5.5.7">
+<h3 data-number="5.5.7" class="anchored" data-anchor-id="passo-7-contar-as-observações-em-cada-classe"><span class="header-section-number">5.5.7</span> Passo 7 — Contar as observações em cada classe</h3>
+<p>Agora percorremos os dados e contamos quantos valores pertencem a cada intervalo. Essa contagem produz a <strong>frequência absoluta</strong>, <span class="math inline">\(f_i\)</span>.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classe</th>
+<th style="text-align: right;"><span class="math inline">\(f_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([10;25)\)</span></td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([25;40)\)</span></td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([40;55)\)</span></td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([55;70)\)</span></td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([70;85)\)</span></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([85;100)\)</span></td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([100;115)\)</span></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>80</strong></td>
+</tr>
+</tbody>
+</table>
+<p>A soma precisa coincidir com o número de observações válidas:</p>
+<p><span class="math display">\[21+26+16+10+3+3+1=80.\]</span></p>
+</section>
+<section id="passo-8-calcular-frequências-relativas-e-percentuais" class="level3" data-number="5.5.8">
+<h3 data-number="5.5.8" class="anchored" data-anchor-id="passo-8-calcular-frequências-relativas-e-percentuais"><span class="header-section-number">5.5.8</span> Passo 8 — Calcular frequências relativas e percentuais</h3>
+<p>Para cada classe,</p>
+<p><span class="math display">\[f_{r_i}=\frac{f_i}{n}.\]</span></p>
+<p>Na classe <span class="math inline">\([25;40)\)</span>:</p>
+<p><span class="math display">\[f_{r_i}=\frac{26}{80}=0{,}325.\]</span></p>
+<p>Em percentual:</p>
+<p><span class="math display">\[100\times0{,}325=32{,}5\%.\]</span></p>
+<p>Portanto, <strong>32,5% dos estudantes apresentam tempo de deslocamento entre 25 minutos, inclusive, e 40 minutos, exclusive</strong>.</p>
+</section>
+<section id="passo-9-calcular-as-frequências-acumuladas" class="level3" data-number="5.5.9">
+<h3 data-number="5.5.9" class="anchored" data-anchor-id="passo-9-calcular-as-frequências-acumuladas"><span class="header-section-number">5.5.9</span> Passo 9 — Calcular as frequências acumuladas</h3>
+<p>A frequência absoluta acumulada é obtida somando progressivamente as frequências:</p>
+<p><span class="math display">\[F_i=\sum_{j=1}^{i}f_j.\]</span></p>
+<p>Por exemplo, até a segunda classe:</p>
+<p><span class="math display">\[F_2=21+26=47.\]</span></p>
+<p>Logo, <strong>47 estudantes apresentam tempo de deslocamento inferior a 40 minutos</strong>.</p>
+<p>A frequência relativa acumulada é calculada de forma análoga:</p>
+<p><span class="math display">\[F_{r_i}=\sum_{j=1}^{i}f_{r_j}.\]</span></p>
+</section>
+<section id="passo-10-montar-a-tabela-completa" class="level3" data-number="5.5.10">
+<h3 data-number="5.5.10" class="anchored" data-anchor-id="passo-10-montar-a-tabela-completa"><span class="header-section-number">5.5.10</span> Passo 10 — Montar a tabela completa</h3>
+<p>Reunindo todos os elementos:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tempo de deslocamento (min)</th>
+<th style="text-align: right;">Ponto médio</th>
+<th style="text-align: right;"><span class="math inline">\(f_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(f_{r_i}\)</span></th>
+<th style="text-align: right;">Percentual</th>
+<th style="text-align: right;"><span class="math inline">\(F_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(F_{r_i}\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([10;25)\)</span></td>
+<td style="text-align: right;">17,5</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0,2625</td>
+<td style="text-align: right;">26,25%</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">0,2625</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([25;40)\)</span></td>
+<td style="text-align: right;">32,5</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0,3250</td>
+<td style="text-align: right;">32,50%</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">0,5875</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([40;55)\)</span></td>
+<td style="text-align: right;">47,5</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">0,2000</td>
+<td style="text-align: right;">20,00%</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">0,7875</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([55;70)\)</span></td>
+<td style="text-align: right;">62,5</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0,1250</td>
+<td style="text-align: right;">12,50%</td>
+<td style="text-align: right;">73</td>
+<td style="text-align: right;">0,9125</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([70;85)\)</span></td>
+<td style="text-align: right;">77,5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0,0375</td>
+<td style="text-align: right;">3,75%</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">0,9500</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([85;100)\)</span></td>
+<td style="text-align: right;">92,5</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0,0375</td>
+<td style="text-align: right;">3,75%</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">0,9875</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([100;115)\)</span></td>
+<td style="text-align: right;">107,5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0,0125</td>
+<td style="text-align: right;">1,25%</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">1,0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;"><strong>80</strong></td>
+<td style="text-align: right;"><strong>1,0000</strong></td>
+<td style="text-align: right;"><strong>100%</strong></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">—</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="passo-11-conferir-a-tabela" class="level3" data-number="5.5.11">
+<h3 data-number="5.5.11" class="anchored" data-anchor-id="passo-11-conferir-a-tabela"><span class="header-section-number">5.5.11</span> Passo 11 — Conferir a tabela</h3>
+<p>Antes de interpretar, faça verificações simples:</p>
+<p><span class="math display">\[\sum f_i=80,\]</span></p>
+<p><span class="math display">\[\sum f_{r_i}=1,\]</span></p>
+<p><span class="math display">\[\sum \text{Percentual}=100\%,\]</span></p>
+<p>além de verificar que o último valor de <span class="math inline">\(F_i\)</span> é <code>80</code> e o último valor de <span class="math inline">\(F_{r_i}\)</span> é <code>1</code>.</p>
+<p>Essas conferências ajudam a detectar erros de contagem, de denominador ou de acumulação.</p>
+</section>
+<section id="passo-12-interpretar-não-apenas-calcular" class="level3" data-number="5.5.12">
+<h3 data-number="5.5.12" class="anchored" data-anchor-id="passo-12-interpretar-não-apenas-calcular"><span class="header-section-number">5.5.12</span> Passo 12 — Interpretar, não apenas calcular</h3>
+<p>A tabela mostra, por exemplo, que:</p>
+<ul>
+<li>a classe com maior frequência é <span class="math inline">\([25;40)\)</span>, com 26 estudantes;</li>
+<li>32,5% dos estudantes estão nessa classe;</li>
+<li>78,75% apresentam tempo de deslocamento inferior a 55 minutos;</li>
+<li>apenas 1 estudante está no intervalo de 100 a menos de 115 minutos.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Roteiro geral para construir uma tabela por classes">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Roteiro geral para construir uma tabela por classes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em outros conjuntos de dados, siga a lógica:</p>
+<p><strong>dados →</strong> <span class="math inline">\(n\)</span> e extremos → amplitude total → escolha de <span class="math inline">\(k\)</span> ou <span class="math inline">\(h\)</span> → ajuste dos limites → formação das classes → ponto médio → <span class="math inline">\(f_i\)</span> → <span class="math inline">\(f_{r_i}\)</span> → percentual → frequências acumuladas → conferência → interpretação.</p>
+</div>
+</div>
+<p>A Aula 8 reproduzirá <strong>exatamente essa tabela no R</strong>, mantendo os mesmos dados, limites, amplitude de 15 minutos e convenção <span class="math inline">\([a;b)\)</span>.</p>
+</section>
+</section>
+<section id="da-tabela-ao-gráfico" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="da-tabela-ao-gráfico"><span class="header-section-number">5.6</span> Da tabela ao gráfico</h2>
+<p>Tabelas e gráficos cumprem funções complementares.</p>
+<p>A tabela permite consultar frequências com precisão. O gráfico procura tornar a <strong>estrutura da distribuição visualmente perceptível</strong>.</p>
+<p>A escolha do gráfico deve considerar principalmente:</p>
+<ol type="1">
+<li>o <strong>tipo da variável</strong>;</li>
+<li>o <strong>objetivo da representação</strong>;</li>
+<li>o <strong>tamanho e a estrutura do conjunto de dados</strong>.</li>
+</ol>
+<p>Uma orientação inicial é:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tipo de variável</th>
+<th style="text-align: left;">Representações frequentes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Qualitativa nominal</td>
+<td style="text-align: left;">barras, Pareto, setores</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Qualitativa ordinal</td>
+<td style="text-align: left;">barras ordenadas</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Quantitativa discreta</td>
+<td style="text-align: left;">barras ou pontos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Quantitativa contínua</td>
+<td style="text-align: left;">histograma, polígono de frequências, ogiva, densidade</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Quantitativa com conjunto pequeno ou moderado</td>
+<td style="text-align: left;">pontos, ramo e folhas</td>
+</tr>
+</tbody>
+</table>
+<p>Nenhum quadro desse tipo deve ser entendido como regra absoluta. Um gráfico é adequado quando representa corretamente os dados e ajuda a responder à pergunta da análise.</p>
+</section>
+<section id="gráfico-de-barras" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="gráfico-de-barras"><span class="header-section-number">5.7</span> Gráfico de barras</h2>
+<p>O <strong>gráfico de barras</strong> é uma das representações mais úteis para variáveis qualitativas e para algumas variáveis quantitativas discretas.</p>
+<p>Cada barra representa uma categoria ou um valor, e sua altura representa a frequência absoluta, relativa ou percentual.</p>
+<p>Considere o meio de transporte de 40 estudantes:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Meio de transporte</th>
+<th style="text-align: right;">Frequência</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Carro</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Aplicativo</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motocicleta</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A pé</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bicicleta</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>No gráfico de barras:</p>
+<ul>
+<li>as categorias aparecem em um eixo;</li>
+<li>as frequências aparecem no outro;</li>
+<li>as barras são <strong>separadas</strong>, pois cada uma representa uma categoria distinta.</li>
+</ul>
+<p>Para variáveis nominais, a ordem pode ser escolhida de acordo com a finalidade da apresentação. Podemos usar ordem alfabética, ordem lógica ou ordem decrescente de frequência.</p>
+<p>Para uma variável ordinal, deve-se preservar a ordem natural das categorias.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Barras não precisam começar pela categoria mais frequente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Barras não precisam começar pela categoria mais frequente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ordenar barras do maior para o menor é útil quando o objetivo é comparar magnitudes. Porém, essa ordenação não deve destruir uma ordem substantiva da variável. Em categorias ordinais — como <code>Baixa</code>, <code>Média</code> e <code>Alta</code> — a ordem conceitual costuma ser mais importante.</p>
+</div>
+</div>
+</section>
+<section id="gráfico-de-pareto" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="gráfico-de-pareto"><span class="header-section-number">5.8</span> Gráfico de Pareto</h2>
+<p>O <strong>gráfico de Pareto</strong> é uma forma particular de gráfico de barras.</p>
+<p>As categorias são organizadas em <strong>ordem decrescente de frequência</strong>, e costuma-se acrescentar uma linha representando a frequência ou o percentual acumulado.</p>
+<p>Exemplo:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Categoria</th>
+<th style="text-align: right;">Frequência</th>
+<th style="text-align: right;">Percentual acumulado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">40,0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Carro</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">62,5%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Aplicativo</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">80,0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Motocicleta</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">90,0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A pé</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">97,5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bicicleta</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">100,0%</td>
+</tr>
+</tbody>
+</table>
+<p>O Pareto é especialmente útil quando se deseja destacar quais categorias concentram a maior parte das ocorrências.</p>
+<p>No exemplo:</p>
+<blockquote class="blockquote">
+<p>Ônibus, carro e aplicativo concentram 80% dos meios de transporte observados.</p>
+</blockquote>
+<div class="callout callout-style-default callout-important callout-titled" title="Pareto e frequência acumulada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pareto e frequência acumulada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No gráfico de Pareto, a acumulação segue a <strong>ordem decrescente de frequência</strong>, e não uma ordem natural da variável.</p>
+<p>Isso é diferente da frequência acumulada de uma variável ordinal ou quantitativa, na qual a ordem possui interpretação substantiva.</p>
+</div>
+</div>
+</section>
+<section id="gráfico-de-setores" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="gráfico-de-setores"><span class="header-section-number">5.9</span> Gráfico de setores</h2>
+<p>O <strong>gráfico de setores</strong>, também conhecido como gráfico de pizza, representa cada categoria como uma parte de um círculo.</p>
+<p>Se uma categoria corresponde a uma proporção <span class="math inline">\(p_i\)</span>, o ângulo do setor é:</p>
+<p><span class="math display">\[\theta_i=360^\circ p_i.\]</span></p>
+<p>Se 40% dos estudantes utilizam ônibus:</p>
+<p><span class="math display">\[\theta=360^\circ(0{,}40)=144^\circ.\]</span></p>
+<p>O gráfico de setores pode ser útil quando:</p>
+<ul>
+<li>existem poucas categorias;</li>
+<li>todas representam partes de um mesmo total;</li>
+<li>o objetivo principal é mostrar composição.</li>
+</ul>
+<p>Entretanto, comparar setores de tamanhos próximos visualmente pode ser difícil. Quando o objetivo é comparar magnitudes com precisão, um gráfico de barras costuma ser mais direto.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Evite excesso de setores">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Evite excesso de setores
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um gráfico de setores com muitas categorias, rótulos sobrepostos ou efeitos tridimensionais costuma dificultar a leitura.</p>
+<p>Um gráfico estatístico deve esclarecer os dados, e não apenas decorá-los.</p>
+</div>
+</div>
+</section>
+<section id="gráfico-de-pontos" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="gráfico-de-pontos"><span class="header-section-number">5.10</span> Gráfico de pontos</h2>
+<p>O <strong>gráfico de pontos</strong> (<em>dot plot</em>) representa cada observação por um ponto em uma escala numérica. Quando valores se repetem ou ficam muito próximos, os pontos são empilhados.</p>
+<p>Considere:</p>
+<p><span class="math display">\[2,\ 3,\ 3,\ 4,\ 4,\ 4,\ 5,\ 5,\ 7.\]</span></p>
+<p>Uma representação esquemática seria:</p>
+<pre class="text"><code>          •
+      •   •
+  •   •   •   •       •
+  2   3   4   5   6   7</code></pre>
+<p>O gráfico permite perceber ao mesmo tempo:</p>
+<ul>
+<li>valores observados;</li>
+<li>repetições;</li>
+<li>concentração;</li>
+<li>lacunas;</li>
+<li>extensão dos dados.</li>
+</ul>
+<p>É especialmente interessante para conjuntos pequenos ou moderados, pois preserva mais informação individual que um histograma.</p>
+</section>
+<section id="histograma" class="level2" data-number="5.11">
+<h2 data-number="5.11" class="anchored" data-anchor-id="histograma"><span class="header-section-number">5.11</span> Histograma</h2>
+<p>O <strong>histograma</strong> é uma representação fundamental para variáveis quantitativas contínuas.</p>
+<p>Nele, a escala numérica é dividida em intervalos, e cada retângulo representa uma classe.</p>
+<p>Diferentemente do gráfico de barras, as barras de um histograma são <strong>adjacentes</strong>, pois representam intervalos contíguos de uma escala quantitativa.</p>
+<p>Um histograma permite observar aspectos como:</p>
+<ul>
+<li>região de maior concentração;</li>
+<li>extensão dos valores;</li>
+<li>dispersão;</li>
+<li>simetria ou assimetria;</li>
+<li>presença de mais de uma região de concentração;</li>
+<li>lacunas;</li>
+<li>observações afastadas.</li>
+</ul>
+<section id="barras-histograma" class="level3" data-number="5.11.1">
+<h3 data-number="5.11.1" class="anchored" data-anchor-id="barras-histograma"><span class="header-section-number">5.11.1</span> Barras × histograma</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Gráfico de barras</th>
+<th style="text-align: left;">Histograma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Representa categorias ou valores discretos</td>
+<td style="text-align: left;">Representa uma escala quantitativa dividida em intervalos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Barras geralmente separadas</td>
+<td style="text-align: left;">Retângulos adjacentes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A ordem pode ser arbitrária para categorias nominais</td>
+<td style="text-align: left;">A ordem numérica é obrigatória</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cada barra representa uma categoria</td>
+<td style="text-align: left;">Cada retângulo representa um intervalo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A largura normalmente não carrega informação quantitativa</td>
+<td style="text-align: left;">A largura representa a amplitude da classe</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled" title="Histograma não é gráfico de barras com as barras encostadas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Histograma não é gráfico de barras com as barras encostadas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A diferença não é apenas estética. Os dois gráficos representam estruturas distintas de dados.</p>
+</div>
+</div>
+</section>
+<section id="a-área-dos-retângulos" class="level3" data-number="5.11.2">
+<h3 data-number="5.11.2" class="anchored" data-anchor-id="a-área-dos-retângulos"><span class="header-section-number">5.11.2</span> A área dos retângulos</h3>
+<p>Quando todas as classes possuem a mesma largura, é comum usar a frequência como altura dos retângulos.</p>
+<p>Quando as classes possuem <strong>larguras diferentes</strong>, isso pode ser enganoso. Nesse caso, o princípio correto é fazer com que a <strong>área</strong> do retângulo represente a frequência ou a proporção.</p>
+<p>A densidade de frequência de uma classe pode ser definida como:</p>
+<p><span class="math display">\[d_i=\frac{f_i}{h_i},\]</span></p>
+<p>em que <span class="math inline">\(h_i\)</span> é a largura da classe.</p>
+<p>Assim:</p>
+<p><span class="math display">\[\text{área}=h_i\times d_i=f_i.\]</span></p>
+<p>Essa observação será importante quando compararmos histogramas com curvas de densidade.</p>
+</section>
+</section>
+<section id="o-efeito-da-escolha-das-classes" class="level2" data-number="5.12">
+<h2 data-number="5.12" class="anchored" data-anchor-id="o-efeito-da-escolha-das-classes"><span class="header-section-number">5.12</span> O efeito da escolha das classes</h2>
+<p>Considere o mesmo conjunto de dados representado por três histogramas:</p>
+<ul>
+<li>um com 4 classes;</li>
+<li>outro com 8 classes;</li>
+<li>outro com 25 classes.</li>
+</ul>
+<p>Com poucas classes, diferenças importantes podem desaparecer. Com classes demais, pequenas flutuações podem dominar a figura.</p>
+<p>Portanto, o histograma é resultado de duas coisas:</p>
+<ol type="1">
+<li>os dados observados;</li>
+<li>a regra usada para agrupá-los.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Boa prática exploratória">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Boa prática exploratória
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao explorar uma variável contínua, não dependa de um único histograma. Compare algumas escolhas plausíveis de <code>bins</code> ou de largura de classe e verifique quais características permanecem estáveis.</p>
+</div>
+</div>
+</section>
+<section id="polígono-de-frequências" class="level2" data-number="5.13">
+<h2 data-number="5.13" class="anchored" data-anchor-id="polígono-de-frequências"><span class="header-section-number">5.13</span> Polígono de frequências</h2>
+<p>O <strong>polígono de frequências</strong> representa a distribuição por meio de pontos localizados, em geral, nos pontos médios das classes.</p>
+<p>Cada ponto possui coordenadas:</p>
+<p><span class="math display">\[(x_i,f_i),\]</span></p>
+<p>em que <span class="math inline">\(x_i\)</span> é o ponto médio da classe e <span class="math inline">\(f_i\)</span> sua frequência.</p>
+<p>Os pontos consecutivos são ligados por segmentos.</p>
+<p>Para as classes de tempo de deslocamento:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Ponto médio</th>
+<th style="text-align: right;">Frequência</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">17,5</td>
+<td style="text-align: right;">21</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">32,5</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">47,5</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">62,5</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">77,5</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">92,5</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">107,5</td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>O polígono enfatiza a <strong>forma geral da distribuição</strong> e pode ser útil para comparar distribuições, desde que a comparação seja feita com escalas coerentes.</p>
+</section>
+<section id="ogiva" class="level2" data-number="5.14">
+<h2 data-number="5.14" class="anchored" data-anchor-id="ogiva"><span class="header-section-number">5.14</span> Ogiva</h2>
+<p>A <strong>ogiva</strong> é um gráfico de frequências acumuladas.</p>
+<p>Para cada limite superior de classe, representamos a quantidade ou a proporção acumulada de observações abaixo daquele limite.</p>
+<p>Usando a distribuição anterior:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Limite superior</th>
+<th style="text-align: right;">Frequência acumulada</th>
+<th style="text-align: right;">Percentual acumulado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">26,25%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">58,75%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">63</td>
+<td style="text-align: right;">78,75%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">73</td>
+<td style="text-align: right;">91,25%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">76</td>
+<td style="text-align: right;">95,00%</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">98,75%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">115</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">100,00%</td>
+</tr>
+</tbody>
+</table>
+<p>A ogiva ajuda a responder perguntas como:</p>
+<blockquote class="blockquote">
+<p>Qual percentual possui tempo de deslocamento inferior a 55 minutos?</p>
+</blockquote>
+<p>Pela tabela:</p>
+<p><span class="math display">\[\frac{63}{80}=0{,}7875.\]</span></p>
+<p>Portanto:</p>
+<blockquote class="blockquote">
+<p>aproximadamente 78,75% dos estudantes apresentam tempo de deslocamento inferior a 55 minutos.</p>
+</blockquote>
+<p>A ogiva também ajuda a visualizar posições acumuladas e prepara o estudo de mediana, quartis e percentis.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Ogiva e distribuição acumulada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ogiva e distribuição acumulada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A ogiva construída a partir de classes é uma representação agrupada. Ela não conserva a posição exata de cada observação.</p>
+<p>Mais adiante, no R, veremos também a função de distribuição empírica, que utiliza diretamente os valores observados.</p>
+</div>
+</div>
+</section>
+<section id="diagrama-de-ramo-e-folhas" class="level2" data-number="5.15">
+<h2 data-number="5.15" class="anchored" data-anchor-id="diagrama-de-ramo-e-folhas"><span class="header-section-number">5.15</span> Diagrama de ramo e folhas</h2>
+<p>O <strong>diagrama de ramo e folhas</strong> (<em>stem-and-leaf plot</em>) organiza os valores separando cada observação em duas partes:</p>
+<ul>
+<li><strong>ramo</strong> — parte inicial do número;</li>
+<li><strong>folha</strong> — dígito final ou parte menos significativa escolhida.</li>
+</ul>
+<p>Considere:</p>
+<p><span class="math display">\[21,\ 22,\ 24,\ 27,\ 31,\ 33,\ 33,\ 35,\ 42,\ 46.\]</span></p>
+<p>Uma representação possível é:</p>
+<pre class="text"><code>2 | 1 2 4 7
+3 | 1 3 3 5
+4 | 2 6</code></pre>
+<p>A chave é:</p>
+<pre class="text"><code>2 | 1 = 21</code></pre>
+<p>Diferentemente de um histograma, o ramo e folhas conserva os valores individuais — ou uma aproximação muito próxima deles, dependendo da escala adotada.</p>
+<p>Ele é útil para conjuntos pequenos ou moderados e permite perceber:</p>
+<ul>
+<li>concentração;</li>
+<li>simetria ou assimetria;</li>
+<li>lacunas;</li>
+<li>valores extremos;</li>
+<li>valores específicos.</li>
+</ul>
+<p>Para grandes bancos de dados, a representação pode se tornar extensa e perder sua vantagem.</p>
+</section>
+<section id="curva-de-densidade" class="level2" data-number="5.16">
+<h2 data-number="5.16" class="anchored" data-anchor-id="curva-de-densidade"><span class="header-section-number">5.16</span> Curva de densidade</h2>
+<p>Uma <strong>curva de densidade</strong> fornece uma representação suave da distribuição de uma variável quantitativa contínua.</p>
+<p>Em vez de dividir o eixo em classes rígidas como o histograma, a estimativa de densidade distribui suavemente a contribuição das observações ao redor de seus valores.</p>
+<p>A área total sob uma curva de densidade é igual a 1:</p>
+<p><span class="math display">\[\int_{-\infty}^{\infty}\hat f(x)\,dx=1.\]</span></p>
+<p>A altura da curva em um ponto <strong>não deve ser interpretada como uma probabilidade naquele valor exato</strong>. Para uma variável contínua, probabilidades estão associadas a <strong>intervalos</strong>, representados por áreas sob a curva.</p>
+<section id="o-papel-da-suavização" class="level3" data-number="5.16.1">
+<h3 data-number="5.16.1" class="anchored" data-anchor-id="o-papel-da-suavização"><span class="header-section-number">5.16.1</span> O papel da suavização</h3>
+<p>A forma da curva depende de um parâmetro de suavização chamado <strong>largura de banda</strong> (<em>bandwidth</em>).</p>
+<ul>
+<li>largura muito pequena → curva excessivamente irregular;</li>
+<li>largura muito grande → curva excessivamente suavizada;</li>
+<li>escolha intermediária → procura revelar a estrutura principal.</li>
+</ul>
+<p>Assim como o número de classes influencia o histograma, a largura de banda influencia a curva de densidade.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Gráficos também envolvem decisões">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Gráficos também envolvem decisões
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma característica central da Análise Exploratória de Dados é reconhecer que uma representação visual não é completamente automática.</p>
+<p>Histograma, polígono e densidade dependem de escolhas. Uma análise responsável verifica se as conclusões visuais permanecem razoáveis quando essas escolhas são modificadas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="como-escolher-e-interpretar-uma-representação-gráfica" class="level2" data-number="5.17">
+<h2 data-number="5.17" class="anchored" data-anchor-id="como-escolher-e-interpretar-uma-representação-gráfica"><span class="header-section-number">5.17</span> Como escolher e interpretar uma representação gráfica</h2>
+<p>Antes de construir um gráfico, pergunte:</p>
+<ol type="1">
+<li><strong>Qual é a variável?</strong></li>
+<li><strong>Qual é seu tipo?</strong></li>
+<li><strong>Qual informação desejo destacar?</strong></li>
+<li><strong>Estou mostrando contagens, proporções ou densidade?</strong></li>
+<li><strong>A escala representa corretamente os dados?</strong></li>
+<li><strong>A escolha de classes ou suavização altera muito a interpretação?</strong></li>
+</ol>
+<p>Depois de construir o gráfico, procure responder:</p>
+<ul>
+<li>onde os dados se concentram?</li>
+<li>qual é aproximadamente a extensão dos valores?</li>
+<li>existe uma única região de concentração ou várias?</li>
+<li>a distribuição parece aproximadamente simétrica?</li>
+<li>existe uma cauda mais longa?</li>
+<li>existem lacunas?</li>
+<li>há valores muito afastados do restante?</li>
+<li>existe algo que merece investigação adicional?</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Construir um gráfico é apenas parte da análise. O objetivo é aprender a fazer perguntas ao gráfico e aos dados.</strong></p>
+</blockquote>
+</section>
+<section id="erros-comuns-em-representações-gráficas" class="level2" data-number="5.18">
+<h2 data-number="5.18" class="anchored" data-anchor-id="erros-comuns-em-representações-gráficas"><span class="header-section-number">5.18</span> Erros comuns em representações gráficas</h2>
+<p>Alguns problemas aparecem com frequência:</p>
+<ul>
+<li>utilizar um gráfico incompatível com o tipo da variável;</li>
+<li>omitir título, unidades ou identificação dos eixos;</li>
+<li>ordenar uma variável ordinal de forma inadequada;</li>
+<li>usar setores demais em um gráfico de pizza;</li>
+<li>acrescentar efeitos tridimensionais sem necessidade;</li>
+<li>truncar escalas de forma que pequenas diferenças pareçam enormes;</li>
+<li>escolher classes do histograma sem verificar seu efeito;</li>
+<li>comparar gráficos construídos com escalas incompatíveis;</li>
+<li>esconder valores ausentes sem informar como foram tratados;</li>
+<li>usar um gráfico visualmente sofisticado que dificulta uma mensagem simples.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Princípio de uma boa visualização">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Princípio de uma boa visualização
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O gráfico deve servir aos dados e à pergunta de investigação. Elementos visuais que não acrescentam informação devem ser utilizados com moderação.</p>
+</div>
+</div>
+</section>
+<section id="exemplo-integrado-tempo-de-deslocamento" class="level2" data-number="5.19">
+<h2 data-number="5.19" class="anchored" data-anchor-id="exemplo-integrado-tempo-de-deslocamento"><span class="header-section-number">5.19</span> Exemplo integrado — tempo de deslocamento</h2>
+<p>Vamos reunir as ideias principais.</p>
+<p>Para 80 estudantes:</p>
+<p><span class="math display">\[n=80,\qquad x_{\min}=11{,}7,\qquad x_{\max}=112{,}0.\]</span></p>
+<p>A amplitude é:</p>
+<p><span class="math display">\[A_t=100{,}3.\]</span></p>
+<p>As regras sugeriram aproximadamente:</p>
+<ul>
+<li>9 classes pela raiz quadrada;</li>
+<li>8 classes por Sturges;</li>
+<li>6 classes por Scott;</li>
+<li>8 classes por Freedman–Diaconis.</li>
+</ul>
+<p>Uma escolha didática de largura igual a 15 minutos produziu 7 classes e mostrou que:</p>
+<ul>
+<li>a maior frequência está entre 25 e menos de 40 minutos;</li>
+<li>58,75% apresentam deslocamento inferior a 40 minutos;</li>
+<li>78,75% apresentam deslocamento inferior a 55 minutos;</li>
+<li>poucas observações aparecem acima de 85 minutos;</li>
+<li>existe uma extensão considerável entre o mínimo e o máximo.</li>
+</ul>
+<p>O passo seguinte é examinar essas características graficamente. Isso será feito na Aula 8.</p>
+</section>
+<section id="exercícios-teóricos-aula-7" class="level2" data-number="5.20">
+<h2 data-number="5.20" class="anchored" data-anchor-id="exercícios-teóricos-aula-7"><span class="header-section-number">5.20</span> Exercícios teóricos — Aula 7</h2>
+<section id="exercício-1-elementos-de-uma-distribuição-agrupada" class="level3" data-number="5.20.1">
+<h3 data-number="5.20.1" class="anchored" data-anchor-id="exercício-1-elementos-de-uma-distribuição-agrupada"><span class="header-section-number">5.20.1</span> Exercício 1 — Elementos de uma distribuição agrupada</h3>
+<p>Uma variável contínua foi agrupada nas classes:</p>
+<p><span class="math display">\[[20;30),\ [30;40),\ [40;50),\ [50;60),\ [60;70).\]</span></p>
+<p>Responda:</p>
+<ol type="1">
+<li>qual é a amplitude de cada classe?</li>
+<li>quais são os pontos médios?</li>
+<li>em qual classe entra o valor <code>40</code>?</li>
+<li>em qual classe entra o valor <code>59,9</code>?</li>
+<li>por que as classes não se sobrepõem?</li>
+</ol>
+</section>
+<section id="exercício-2-construção-de-tabela" class="level3" data-number="5.20.2">
+<h3 data-number="5.20.2" class="anchored" data-anchor-id="exercício-2-construção-de-tabela"><span class="header-section-number">5.20.2</span> Exercício 2 — Construção de tabela</h3>
+<p>As massas, em kg, de 24 volumes são:</p>
+<p><span class="math display">\[51{,}2,\ 53{,}7,\ 54{,}1,\ 55{,}8,\ 56{,}0,\ 57{,}3,\ 58{,}9,\ 59{,}4,\]</span></p>
+<p><span class="math display">\[60{,}1,\ 60{,}8,\ 61{,}5,\ 62{,}0,\ 62{,}8,\ 63{,}1,\ 64{,}7,\ 65{,}2,\]</span></p>
+<p><span class="math display">\[66{,}5,\ 67{,}0,\ 68{,}4,\ 69{,}3,\ 70{,}8,\ 72{,}1,\ 74{,}5,\ 77{,}2.\]</span></p>
+<ol type="1">
+<li>determine o mínimo, o máximo e a amplitude total;</li>
+<li>construa classes de amplitude 5 kg iniciando em 50;</li>
+<li>calcule frequência absoluta e percentual;</li>
+<li>calcule a frequência acumulada;</li>
+<li>interprete a classe de maior frequência.</li>
+</ol>
+</section>
+<section id="exercício-3-número-de-classes" class="level3" data-number="5.20.3">
+<h3 data-number="5.20.3" class="anchored" data-anchor-id="exercício-3-número-de-classes"><span class="header-section-number">5.20.3</span> Exercício 3 — Número de classes</h3>
+<p>Para uma amostra com <span class="math inline">\(n=100\)</span>:</p>
+<ol type="1">
+<li>calcule o número sugerido pela regra da raiz quadrada;</li>
+<li>calcule o número sugerido por Sturges;</li>
+<li>se <span class="math inline">\(s=12\)</span> e <span class="math inline">\(A=68\)</span>, calcule a largura de Scott e o número aproximado de classes;</li>
+<li>se <span class="math inline">\(AIQ=18\)</span>, calcule a largura de Freedman–Diaconis e o número aproximado de classes;</li>
+<li>explique por que resultados diferentes não significam necessariamente que alguma regra esteja errada.</li>
+</ol>
+</section>
+<section id="exercício-4-escolha-do-gráfico" class="level3" data-number="5.20.4">
+<h3 data-number="5.20.4" class="anchored" data-anchor-id="exercício-4-escolha-do-gráfico"><span class="header-section-number">5.20.4</span> Exercício 4 — Escolha do gráfico</h3>
+<p>Indique uma representação gráfica apropriada e justifique:</p>
+<ol type="1">
+<li>curso de graduação de 200 estudantes;</li>
+<li>nível de satisfação: <code>Muito baixo</code>, <code>Baixo</code>, <code>Médio</code>, <code>Alto</code>, <code>Muito alto</code>;</li>
+<li>número de irmãos de 40 estudantes;</li>
+<li>altura de 500 pessoas;</li>
+<li>tempo de espera de 30 clientes;</li>
+<li>participação percentual de quatro categorias que somam 100%;</li>
+<li>categorias de defeitos de uma fábrica quando o objetivo é identificar as causas mais frequentes.</li>
+</ol>
+</section>
+<section id="exercício-5-leitura-crítica" class="level3" data-number="5.20.5">
+<h3 data-number="5.20.5" class="anchored" data-anchor-id="exercício-5-leitura-crítica"><span class="header-section-number">5.20.5</span> Exercício 5 — Leitura crítica</h3>
+<p>Dois pesquisadores constroem histogramas para o mesmo conjunto de dados.</p>
+<ul>
+<li>o primeiro utiliza 5 classes;</li>
+<li>o segundo utiliza 25 classes.</li>
+</ul>
+<p>Os histogramas parecem bastante diferentes.</p>
+<p>Explique por que isso pode ocorrer e descreva como você avaliaria qual representação é mais informativa.</p>
+</section>
+</section>
+<section id="síntese-da-aula-7" class="level2" data-number="5.21">
+<h2 data-number="5.21" class="anchored" data-anchor-id="síntese-da-aula-7"><span class="header-section-number">5.21</span> Síntese da Aula 7</h2>
+<p>Ao concluir esta aula, retenha:</p>
+<ol type="1">
+<li>variáveis quantitativas contínuas podem apresentar muitos valores distintos e podem ser resumidas por classes;</li>
+<li>a amplitude total é <span class="math inline">\(x_{\max}-x_{\min}\)</span>;</li>
+<li>uma classe é definida por limites inferior e superior;</li>
+<li>sua amplitude é <span class="math inline">\(h=L_s-L_i\)</span>;</li>
+<li>seu ponto médio é <span class="math inline">\((L_i+L_s)/2\)</span>;</li>
+<li>o número e a largura das classes são escolhas analíticas;</li>
+<li>raiz quadrada e Sturges sugerem número de classes;</li>
+<li>Scott e Freedman–Diaconis sugerem larguras de classe;</li>
+<li>gráfico de barras e histograma representam estruturas diferentes;</li>
+<li>Pareto enfatiza categorias mais frequentes;</li>
+<li>setores mostram composição, mas devem ser usados com parcimônia;</li>
+<li>pontos e ramo e folhas preservam mais informação individual;</li>
+<li>histograma, polígono, ogiva e densidade revelam aspectos diferentes de uma distribuição;</li>
+<li>a interpretação deve considerar como o gráfico foi construído.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Ideia-chave:</strong> agrupar e representar dados não é uma tarefa meramente mecânica. A escolha de classes e de gráficos influencia aquilo que enxergamos. A análise exploratória exige construir, comparar, interpretar e questionar as representações.</p>
+</blockquote>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04-distribuicoes-frequencias.html" class="pagination-link" aria-label="Distribuições de frequências para variáveis qualitativas e quantitativas discretas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis qualitativas e quantitativas discretas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06-revisao-unidade1.html" class="pagination-link" aria-label="06-revisao-unidade1">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">06-revisao-unidade1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

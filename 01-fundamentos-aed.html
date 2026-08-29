@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análise Exploratória de Dados – 1&nbsp; Fundamentos</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./02-r-rstudio-quarto.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles2.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-fundamentos-aed.html">Parte I — Fundamentos e análise univariada</a></li><li class="breadcrumb-item"><a href="./01-fundamentos-aed.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise Exploratória de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apresentação</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I — Fundamentos e análise univariada</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-fundamentos-aed.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-r-rstudio-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-dados-organizacao-qualidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estrutura, organização e qualidade dos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distribuicoes-frequencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis qualitativas e quantitativas discretas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-distribuicoes-continuas-graficos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Distribuições de frequências para variáveis quantitativas contínuas e representações gráficas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-revisao-unidade1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">06-revisao-unidade1</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Medidas resumo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-medidas-tendencia-central.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">07-medidas-tendencia-central</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-medidas-posicao-boxplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">08-medidas-posicao-boxplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-medidas-dispersao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">09-medidas-dispersao</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-forma-distribuicao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">10-forma-distribuicao</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-revisao-unidade2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">11-revisao-unidade2</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Associação e análise multivariada</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-associacao-qualitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">12-associacao-qualitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-associacao-quantitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">13-associacao-quantitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-qualitativa-quantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">14-qualitativa-quantitativa</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-analise-multivariada.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">15-analise-multivariada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./referencias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Neste capítulo</h2>
+   
+  <ul>
+  <li><a href="#apresentação-e-discussão-do-plano-de-ensino" id="toc-apresentação-e-discussão-do-plano-de-ensino" class="nav-link active" data-scroll-target="#apresentação-e-discussão-do-plano-de-ensino"><span class="header-section-number">1.1</span> Apresentação e discussão do Plano de Ensino</a></li>
+  <li><a href="#o-que-é-estatística" id="toc-o-que-é-estatística" class="nav-link" data-scroll-target="#o-que-é-estatística"><span class="header-section-number">1.2</span> O que é Estatística?</a>
+  <ul class="collapse">
+  <li><a href="#a-variabilidade-está-no-centro-da-estatística" id="toc-a-variabilidade-está-no-centro-da-estatística" class="nav-link" data-scroll-target="#a-variabilidade-está-no-centro-da-estatística"><span class="header-section-number">1.2.1</span> A variabilidade está no centro da Estatística</a></li>
+  </ul></li>
+  <li><a href="#dados-informação-e-evidência" id="toc-dados-informação-e-evidência" class="nav-link" data-scroll-target="#dados-informação-e-evidência"><span class="header-section-number">1.3</span> Dados, informação e evidência</a>
+  <ul class="collapse">
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">1.3.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#estatística-descritiva" id="toc-estatística-descritiva" class="nav-link" data-scroll-target="#estatística-descritiva"><span class="header-section-number">1.4</span> Estatística Descritiva</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-de-pergunta-descritiva" id="toc-exemplo-de-pergunta-descritiva" class="nav-link" data-scroll-target="#exemplo-de-pergunta-descritiva"><span class="header-section-number">1.4.1</span> Exemplo de pergunta descritiva</a></li>
+  </ul></li>
+  <li><a href="#análise-exploratória-de-dados" id="toc-análise-exploratória-de-dados" class="nav-link" data-scroll-target="#análise-exploratória-de-dados"><span class="header-section-number">1.5</span> Análise Exploratória de Dados</a></li>
+  <li><a href="#estatística-inferencial" id="toc-estatística-inferencial" class="nav-link" data-scroll-target="#estatística-inferencial"><span class="header-section-number">1.6</span> Estatística Inferencial</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-de-pergunta-inferencial" id="toc-exemplo-de-pergunta-inferencial" class="nav-link" data-scroll-target="#exemplo-de-pergunta-inferencial"><span class="header-section-number">1.6.1</span> Exemplo de pergunta inferencial</a></li>
+  </ul></li>
+  <li><a href="#descrição-exploração-e-inferência-comparação" id="toc-descrição-exploração-e-inferência-comparação" class="nav-link" data-scroll-target="#descrição-exploração-e-inferência-comparação"><span class="header-section-number">1.7</span> Descrição, exploração e inferência: comparação</a></li>
+  <li><a href="#método-científico-e-método-estatístico" id="toc-método-científico-e-método-estatístico" class="nav-link" data-scroll-target="#método-científico-e-método-estatístico"><span class="header-section-number">1.8</span> Método científico e método estatístico</a>
+  <ul class="collapse">
+  <li><a href="#método-científico" id="toc-método-científico" class="nav-link" data-scroll-target="#método-científico"><span class="header-section-number">1.8.1</span> Método científico</a></li>
+  <li><a href="#do-método-científico-ao-método-estatístico" id="toc-do-método-científico-ao-método-estatístico" class="nav-link" data-scroll-target="#do-método-científico-ao-método-estatístico"><span class="header-section-number">1.8.2</span> Do método científico ao método estatístico</a></li>
+  <li><a href="#onde-entra-a-análise-exploratória-de-dados" id="toc-onde-entra-a-análise-exploratória-de-dados" class="nav-link" data-scroll-target="#onde-entra-a-análise-exploratória-de-dados"><span class="header-section-number">1.8.3</span> Onde entra a Análise Exploratória de Dados?</a></li>
+  <li><a href="#como-os-processos-se-relacionam" id="toc-como-os-processos-se-relacionam" class="nav-link" data-scroll-target="#como-os-processos-se-relacionam"><span class="header-section-number">1.8.4</span> Como os processos se relacionam?</a></li>
+  </ul></li>
+  <li><a href="#etapas-de-uma-análise-de-dados" id="toc-etapas-de-uma-análise-de-dados" class="nav-link" data-scroll-target="#etapas-de-uma-análise-de-dados"><span class="header-section-number">1.9</span> Etapas de uma análise de dados</a>
+  <ul class="collapse">
+  <li><a href="#formular-uma-pergunta-investigável" id="toc-formular-uma-pergunta-investigável" class="nav-link" data-scroll-target="#formular-uma-pergunta-investigável"><span class="header-section-number">1.9.1</span> Formular uma pergunta investigável</a></li>
+  <li><a href="#definir-as-unidades-observacionais" id="toc-definir-as-unidades-observacionais" class="nav-link" data-scroll-target="#definir-as-unidades-observacionais"><span class="header-section-number">1.9.2</span> Definir as unidades observacionais</a></li>
+  <li><a href="#definir-as-variáveis" id="toc-definir-as-variáveis" class="nav-link" data-scroll-target="#definir-as-variáveis"><span class="header-section-number">1.9.3</span> Definir as variáveis</a></li>
+  <li><a href="#obter-os-dados" id="toc-obter-os-dados" class="nav-link" data-scroll-target="#obter-os-dados"><span class="header-section-number">1.9.4</span> Obter os dados</a></li>
+  <li><a href="#verificar-a-qualidade" id="toc-verificar-a-qualidade" class="nav-link" data-scroll-target="#verificar-a-qualidade"><span class="header-section-number">1.9.5</span> Verificar a qualidade</a></li>
+  <li><a href="#explorar-e-interpretar" id="toc-explorar-e-interpretar" class="nav-link" data-scroll-target="#explorar-e-interpretar"><span class="header-section-number">1.9.6</span> Explorar e interpretar</a></li>
+  <li><a href="#comunicar" id="toc-comunicar" class="nav-link" data-scroll-target="#comunicar"><span class="header-section-number">1.9.7</span> Comunicar</a></li>
+  </ul></li>
+  <li><a href="#população" id="toc-população" class="nav-link" data-scroll-target="#população"><span class="header-section-number">1.10</span> População</a>
+  <ul class="collapse">
+  <li><a href="#exemplos" id="toc-exemplos" class="nav-link" data-scroll-target="#exemplos"><span class="header-section-number">1.10.1</span> Exemplos</a></li>
+  <li><a href="#população-finita" id="toc-população-finita" class="nav-link" data-scroll-target="#população-finita"><span class="header-section-number">1.10.2</span> População finita</a></li>
+  <li><a href="#população-conceitualmente-infinita" id="toc-população-conceitualmente-infinita" class="nav-link" data-scroll-target="#população-conceitualmente-infinita"><span class="header-section-number">1.10.3</span> População conceitualmente infinita</a></li>
+  </ul></li>
+  <li><a href="#censo" id="toc-censo" class="nav-link" data-scroll-target="#censo"><span class="header-section-number">1.11</span> Censo</a>
+  <ul class="collapse">
+  <li><a href="#vantagens-possíveis" id="toc-vantagens-possíveis" class="nav-link" data-scroll-target="#vantagens-possíveis"><span class="header-section-number">1.11.1</span> Vantagens possíveis</a></li>
+  <li><a href="#limitações" id="toc-limitações" class="nav-link" data-scroll-target="#limitações"><span class="header-section-number">1.11.2</span> Limitações</a></li>
+  </ul></li>
+  <li><a href="#amostra" id="toc-amostra" class="nav-link" data-scroll-target="#amostra"><span class="header-section-number">1.12</span> Amostra</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-1" id="toc-exemplo-1" class="nav-link" data-scroll-target="#exemplo-1"><span class="header-section-number">1.12.1</span> Exemplo</a></li>
+  <li><a href="#censo-e-amostra-comparação" id="toc-censo-e-amostra-comparação" class="nav-link" data-scroll-target="#censo-e-amostra-comparação"><span class="header-section-number">1.12.2</span> Censo e amostra: comparação</a></li>
+  </ul></li>
+  <li><a href="#unidade-observacional" id="toc-unidade-observacional" class="nav-link" data-scroll-target="#unidade-observacional"><span class="header-section-number">1.13</span> Unidade observacional</a>
+  <ul class="collapse">
+  <li><a href="#exemplos-1" id="toc-exemplos-1" class="nav-link" data-scroll-target="#exemplos-1"><span class="header-section-number">1.13.1</span> Exemplos</a></li>
+  <li><a href="#unidade-amostral-e-unidade-de-análise" id="toc-unidade-amostral-e-unidade-de-análise" class="nav-link" data-scroll-target="#unidade-amostral-e-unidade-de-análise"><span class="header-section-number">1.13.2</span> Unidade amostral e unidade de análise</a></li>
+  </ul></li>
+  <li><a href="#variável" id="toc-variável" class="nav-link" data-scroll-target="#variável"><span class="header-section-number">1.14</span> Variável</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-código-não-é-quantidade" id="toc-exemplo-código-não-é-quantidade" class="nav-link" data-scroll-target="#exemplo-código-não-é-quantidade"><span class="header-section-number">1.14.1</span> Exemplo: código não é quantidade</a></li>
+  </ul></li>
+  <li><a href="#variáveis-qualitativas" id="toc-variáveis-qualitativas" class="nav-link" data-scroll-target="#variáveis-qualitativas"><span class="header-section-number">1.15</span> Variáveis qualitativas</a>
+  <ul class="collapse">
+  <li><a href="#qualitativa-nominal" id="toc-qualitativa-nominal" class="nav-link" data-scroll-target="#qualitativa-nominal"><span class="header-section-number">1.15.1</span> Qualitativa nominal</a></li>
+  <li><a href="#qualitativa-ordinal" id="toc-qualitativa-ordinal" class="nav-link" data-scroll-target="#qualitativa-ordinal"><span class="header-section-number">1.15.2</span> Qualitativa ordinal</a></li>
+  </ul></li>
+  <li><a href="#variáveis-quantitativas" id="toc-variáveis-quantitativas" class="nav-link" data-scroll-target="#variáveis-quantitativas"><span class="header-section-number">1.16</span> Variáveis quantitativas</a>
+  <ul class="collapse">
+  <li><a href="#quantitativa-discreta" id="toc-quantitativa-discreta" class="nav-link" data-scroll-target="#quantitativa-discreta"><span class="header-section-number">1.16.1</span> Quantitativa discreta</a></li>
+  <li><a href="#quantitativa-contínua" id="toc-quantitativa-contínua" class="nav-link" data-scroll-target="#quantitativa-contínua"><span class="header-section-number">1.16.2</span> Quantitativa contínua</a></li>
+  </ul></li>
+  <li><a href="#fluxo-para-classificar-uma-variável" id="toc-fluxo-para-classificar-uma-variável" class="nav-link" data-scroll-target="#fluxo-para-classificar-uma-variável"><span class="header-section-number">1.17</span> Fluxo para classificar uma variável</a></li>
+  <li><a href="#atividade-orientada-identificando-os-elementos-de-um-estudo" id="toc-atividade-orientada-identificando-os-elementos-de-um-estudo" class="nav-link" data-scroll-target="#atividade-orientada-identificando-os-elementos-de-um-estudo"><span class="header-section-number">1.18</span> Atividade orientada — identificando os elementos de um estudo</a></li>
+  <li><a href="#síntese-da-aula-1" id="toc-síntese-da-aula-1" class="nav-link" data-scroll-target="#síntese-da-aula-1"><span class="header-section-number">1.19</span> Síntese da Aula 1</a></li>
+  <li><a href="#atividade-de-encerramento" id="toc-atividade-de-encerramento" class="nav-link" data-scroll-target="#atividade-de-encerramento"><span class="header-section-number">1.20</span> Atividade de encerramento</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-fundamentos-aed.html">Parte I — Fundamentos e análise univariada</a></li><li class="breadcrumb-item"><a href="./01-fundamentos-aed.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-default callout-tip callout-titled" title="Pergunta para começar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pergunta para começar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em uma universidade, milhares de informações são registradas diariamente: notas, matrículas, frequência, solicitações, tempo de conclusão do curso, participação em projetos e motivos de evasão. <strong>Em que momento esses registros deixam de ser apenas dados e passam a sustentar uma decisão?</strong></p>
+</div>
+</div>
+<section id="apresentação-e-discussão-do-plano-de-ensino" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="apresentação-e-discussão-do-plano-de-ensino"><span class="header-section-number">1.1</span> Apresentação e discussão do Plano de Ensino</h2>
+</section>
+<section id="o-que-é-estatística" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="o-que-é-estatística"><span class="header-section-number">1.2</span> O que é Estatística?</h2>
+<p>A Estatística é a ciência que desenvolve e utiliza métodos para <strong>obter, organizar, resumir, analisar e interpretar dados</strong>, levando em consideração a variabilidade e a incerteza presentes nos fenômenos estudados.</p>
+<p>Essa definição é mais ampla do que a ideia de “fazer contas”. Uma análise estatística adequada envolve:</p>
+<ul>
+<li>formular uma pergunta clara;</li>
+<li>definir o que será observado;</li>
+<li>planejar como os dados serão obtidos;</li>
+<li>avaliar a qualidade dos registros;</li>
+<li>escolher métodos compatíveis com as variáveis;</li>
+<li>interpretar os resultados no contexto;</li>
+<li>comunicar conclusões e limitações.</li>
+</ul>
+<p>Bussab e Morettin destacam a organização, a descrição e a interpretação de conjuntos de dados como componentes fundamentais da formação estatística. Witte e Witte, assim como Murteira e colaboradores, também enfatizam que os procedimentos estatísticos precisam ser relacionados ao problema que originou os dados.</p>
+<section id="a-variabilidade-está-no-centro-da-estatística" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="a-variabilidade-está-no-centro-da-estatística"><span class="header-section-number">1.2.1</span> A variabilidade está no centro da Estatística</h3>
+<p>Considere três situações:</p>
+<ul>
+<li>estudantes que dedicam o mesmo número de horas aos estudos podem obter notas diferentes;</li>
+<li>pacientes submetidos ao mesmo tratamento podem apresentar respostas diferentes;</li>
+<li>municípios com populações semelhantes podem ter indicadores sociais distintos.</li>
+</ul>
+<p>A Estatística existe porque os fenômenos apresentam variação. Se todas as observações fossem sempre iguais, bastaria observar um único caso.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Variabilidade não é sinônimo de erro">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Variabilidade não é sinônimo de erro
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Parte da variabilidade pode resultar de erros de medição ou registro, mas grande parte é uma característica real dos indivíduos, grupos, processos e ambientes.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="dados-informação-e-evidência" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="dados-informação-e-evidência"><span class="header-section-number">1.3</span> Dados, informação e evidência</h2>
+<p>Um banco de dados não é, por si só, uma conclusão. Os valores registrados precisam ser contextualizados, verificados, organizados e interpretados.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A[Dados registrados] --&gt; B[Verificação da qualidade]
+  B --&gt; C[Organização]
+  C --&gt; D[Resumo e visualização]
+  D --&gt; E[Informação contextualizada]
+  E --&gt; F[Evidência para uma decisão]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><strong>Dados:</strong> registros obtidos sobre pessoas, objetos, eventos ou processos.</li>
+<li><strong>Informação:</strong> dados organizados de modo a responder uma pergunta.</li>
+<li><strong>Evidência:</strong> informação avaliada à luz da qualidade dos dados, do planejamento do estudo e das limitações da análise.</li>
+</ul>
+<section id="exemplo" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">1.3.1</span> Exemplo</h3>
+<p>A afirmação “a média foi 7,2” é insuficiente. Precisamos perguntar:</p>
+<ul>
+<li>média de qual variável?</li>
+<li>calculada para quais indivíduos?</li>
+<li>em qual período?</li>
+<li>houve valores ausentes?</li>
+<li>a média representa adequadamente a distribuição?</li>
+<li>o grupo observado corresponde à população de interesse?</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Cálculo correto, conclusão errada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cálculo correto, conclusão errada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma média pode estar numericamente correta e, mesmo assim, sustentar uma conclusão inadequada quando a amostra é seletiva, a variável foi mal definida ou os dados apresentam erros não identificados.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="estatística-descritiva" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="estatística-descritiva"><span class="header-section-number">1.4</span> Estatística Descritiva</h2>
+<p>A <strong>Estatística Descritiva</strong> reúne métodos utilizados para organizar, resumir e apresentar os dados observados. Entre seus principais recursos estão:</p>
+<ul>
+<li>tabelas de frequências;</li>
+<li>gráficos;</li>
+<li>medidas de tendência central;</li>
+<li>medidas de posição;</li>
+<li>medidas de dispersão;</li>
+<li>medidas de forma;</li>
+<li>medidas de associação.</li>
+</ul>
+<section id="exemplo-de-pergunta-descritiva" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="exemplo-de-pergunta-descritiva"><span class="header-section-number">1.4.1</span> Exemplo de pergunta descritiva</h3>
+<blockquote class="blockquote">
+<p>Qual foi a distribuição das notas dos estudantes matriculados em uma turma específica?</p>
+</blockquote>
+<p>A resposta descreve os estudantes daquela turma. Não é necessário, nesse momento, generalizar o resultado para todos os estudantes da universidade.</p>
+</section>
+</section>
+<section id="análise-exploratória-de-dados" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="análise-exploratória-de-dados"><span class="header-section-number">1.5</span> Análise Exploratória de Dados</h2>
+<p>A <strong>Análise Exploratória de Dados</strong>, frequentemente abreviada como AED, é uma abordagem investigativa que busca conhecer a estrutura dos dados antes de conclusões formais ou modelos mais complexos.</p>
+<p>A AED procura responder perguntas como:</p>
+<ul>
+<li>quais valores são mais frequentes?</li>
+<li>como os dados se distribuem?</li>
+<li>existem observações muito diferentes das demais?</li>
+<li>há lacunas, concentrações ou agrupamentos?</li>
+<li>existem categorias duplicadas por diferenças de grafia?</li>
+<li>quais variáveis parecem estar relacionadas?</li>
+<li>a forma da distribuição sugere assimetria?</li>
+<li>há dados ausentes?</li>
+<li>os resultados mudam quando observações suspeitas são investigadas?</li>
+</ul>
+<p>Hoaglin, Mosteller e Tukey apresentam a exploração como um processo de descoberta, diagnóstico e geração de novas perguntas. A análise não deve ficar limitada a uma única medida ou a um único gráfico.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Atitude exploratória">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Atitude exploratória
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A pergunta não é apenas “qual foi o resultado?”, mas também “como os dados foram obtidos?”, “o resultado é consistente?”, “há outra forma de visualizar?” e “o que ainda não conseguimos explicar?”.</p>
+</div>
+</div>
+</section>
+<section id="estatística-inferencial" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="estatística-inferencial"><span class="header-section-number">1.6</span> Estatística Inferencial</h2>
+<p>A <strong>Estatística Inferencial</strong> utiliza dados de uma amostra para produzir conclusões sobre uma população, reconhecendo a incerteza envolvida nesse processo.</p>
+<p>Entre os procedimentos inferenciais estão:</p>
+<ul>
+<li>estimação de parâmetros;</li>
+<li>intervalos de confiança;</li>
+<li>testes de hipóteses;</li>
+<li>modelos probabilísticos;</li>
+<li>modelos de regressão;</li>
+<li>métodos de predição.</li>
+</ul>
+<section id="exemplo-de-pergunta-inferencial" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="exemplo-de-pergunta-inferencial"><span class="header-section-number">1.6.1</span> Exemplo de pergunta inferencial</h3>
+<blockquote class="blockquote">
+<p>Com base em uma amostra de estudantes, qual é a proporção estimada de todos os estudantes da universidade que utiliza transporte coletivo?</p>
+</blockquote>
+<p>Nesta disciplina, a prioridade será a descrição e a exploração. A inferência exige fundamentos probabilísticos e será aprofundada em componentes curriculares posteriores.</p>
+</section>
+</section>
+<section id="descrição-exploração-e-inferência-comparação" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="descrição-exploração-e-inferência-comparação"><span class="header-section-number">1.7</span> Descrição, exploração e inferência: comparação</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Abordagem</th>
+<th>Pergunta central</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Estatística Descritiva</td>
+<td>O que ocorreu nos dados observados?</td>
+<td>Qual foi a mediana das notas da turma?</td>
+</tr>
+<tr class="even">
+<td>Análise Exploratória</td>
+<td>Que padrões, diferenças ou problemas aparecem nos dados?</td>
+<td>Há assimetria, grupos ou valores incomuns nas notas?</td>
+</tr>
+<tr class="odd">
+<td>Estatística Inferencial</td>
+<td>O que os dados permitem concluir sobre uma população?</td>
+<td>Qual é a média estimada das notas de todos os estudantes do curso?</td>
+</tr>
+</tbody>
+</table>
+<p>Essas abordagens não são rivais. Uma análise bem conduzida normalmente começa pela descrição e exploração e, quando o objetivo exige, avança para a inferência.</p>
+</section>
+<section id="método-científico-e-método-estatístico" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="método-científico-e-método-estatístico"><span class="header-section-number">1.8</span> Método científico e método estatístico</h2>
+<p>A Estatística não começa com uma tabela, um gráfico ou uma fórmula. Ela surge dentro de uma investigação motivada por uma <strong>questão sobre algum fenômeno de interesse</strong>. Os dados são produzidos ou obtidos porque existe algo que desejamos descrever, comparar, explicar, avaliar ou compreender.</p>
+<p>Por isso, antes de estudar técnicas de análise de dados, é importante entender onde a Estatística se insere no processo mais amplo de produção do conhecimento.</p>
+<section id="método-científico" class="level3" data-number="1.8.1">
+<h3 data-number="1.8.1" class="anchored" data-anchor-id="método-científico"><span class="header-section-number">1.8.1</span> Método científico</h3>
+<p>O <strong>método científico</strong> pode ser entendido como um conjunto organizado de princípios e práticas utilizados para investigar fenômenos, produzir evidências e construir explicações ou conclusões que possam ser avaliadas criticamente <span class="citation" data-cites="gauch2002">(<a href="referencias.html#ref-gauch2002" role="doc-biblioref"><strong>gauch2002?</strong></a>)</span>.</p>
+<p>Isso não significa que toda investigação científica siga uma sequência rígida e universal de passos. Diferentes áreas utilizam estratégias distintas de investigação, e uma pesquisa pode retornar várias vezes a etapas anteriores. O elemento fundamental é que as conclusões sejam construídas de maneira <strong>sistemática, fundamentada em evidências e aberta à revisão</strong> <span class="citation" data-cites="gauch2002 gower1997">(<a href="referencias.html#ref-gauch2002" role="doc-biblioref"><strong>gauch2002?</strong></a>; <a href="referencias.html#ref-gower1997" role="doc-biblioref"><strong>gower1997?</strong></a>)</span>.</p>
+<p>Considere uma situação simples.</p>
+<p>Um professor observa que alguns estudantes chegam frequentemente atrasados às aulas. Essa observação pode despertar uma questão inicial:</p>
+<blockquote class="blockquote">
+<p><strong>O tempo de deslocamento até a universidade pode estar relacionado aos atrasos dos estudantes?</strong></p>
+</blockquote>
+<p>A observação, por si só, não é suficiente para responder à pergunta. É necessário transformá-la em um problema investigável.</p>
+<p>Poderíamos então perguntar:</p>
+<ul>
+<li>qual é o tempo de deslocamento dos estudantes?</li>
+<li>qual meio de transporte utilizam?</li>
+<li>quantos atrasos tiveram durante determinado período?</li>
+<li>estudantes com maiores tempos de deslocamento apresentam mais atrasos?</li>
+</ul>
+<p>A partir dessas perguntas, é necessário decidir <strong>quais evidências serão necessárias e como serão obtidas</strong>.</p>
+<p>De maneira simplificada, uma investigação científica pode ser compreendida a partir de três grandes momentos:</p>
+<p><span class="math display">\[\text{Perguntar}
+\quad \longrightarrow \quad
+\text{Investigar}
+\quad \longrightarrow \quad
+\text{Concluir}.\]</span></p>
+<p>Esses momentos envolvem atividades como:</p>
+<ol type="1">
+<li><strong>identificar e formular o problema</strong>;</li>
+<li><strong>definir perguntas ou hipóteses de investigação</strong>;</li>
+<li><strong>planejar como obter evidências</strong>;</li>
+<li><strong>observar, medir ou coletar informações</strong>;</li>
+<li><strong>analisar as evidências obtidas</strong>;</li>
+<li><strong>interpretar os resultados à luz do problema inicial</strong>;</li>
+<li><strong>comunicar as conclusões e suas limitações</strong>.</li>
+</ol>
+<p>Entretanto, o processo não termina necessariamente na conclusão. Uma investigação pode revelar novas perguntas, limitações ou fenômenos que não haviam sido considerados inicialmente.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Observação ou problema"] --&gt; B["Pergunta de investigação"]
+    B --&gt; C["Planejamento"]
+    C --&gt; D["Obtenção de evidências"]
+    D --&gt; E["Análise"]
+    E --&gt; F["Interpretação e conclusão"]
+    F --&gt; G["Comunicação"]
+    G -.-&gt;|"Novas questões"| B
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="O método científico não é uma receita">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O método científico não é uma receita
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A representação em etapas é útil para organizar o raciocínio, mas não deve ser interpretada como um roteiro rígido. Durante uma investigação, uma descoberta pode levar à reformulação da pergunta, à revisão das variáveis, à obtenção de novos dados ou à reconsideração de uma conclusão. A ciência é, portanto, um processo <strong>iterativo e autocorretivo</strong> <span class="citation" data-cites="gauch2002">(<a href="referencias.html#ref-gauch2002" role="doc-biblioref"><strong>gauch2002?</strong></a>)</span>.</p>
+</div>
+</div>
+<p>Um aspecto fundamental desse processo é a relação entre <strong>afirmações e evidências</strong>. Uma conclusão científica deve ser compatível com as evidências disponíveis e com a forma pela qual essas evidências foram produzidas.</p>
+<p>É justamente nesse ponto que a Estatística assume papel central em muitas investigações.</p>
+</section>
+<section id="do-método-científico-ao-método-estatístico" class="level3" data-number="1.8.2">
+<h3 data-number="1.8.2" class="anchored" data-anchor-id="do-método-científico-ao-método-estatístico"><span class="header-section-number">1.8.2</span> Do método científico ao método estatístico</h3>
+<p>Quando as evidências são constituídas por <strong>dados sujeitos à variabilidade</strong>, surgem questões específicas:</p>
+<ul>
+<li>quem ou o que deve ser observado?</li>
+<li>quais características devem ser registradas?</li>
+<li>quantas observações serão necessárias?</li>
+<li>os dados representam adequadamente o fenômeno de interesse?</li>
+<li>existem erros ou informações ausentes?</li>
+<li>quais padrões aparecem nos dados?</li>
+<li>as diferenças observadas são relevantes?</li>
+<li>até onde os resultados podem ser generalizados?</li>
+</ul>
+<p>A Estatística fornece conceitos e métodos para lidar com essas questões.</p>
+<p>Assim, o <strong>método estatístico</strong> pode ser entendido como a parte da investigação dedicada ao <strong>planejamento da obtenção dos dados, sua organização, análise e interpretação</strong>.</p>
+<p>Uma das representações mais conhecidas do processo de investigação estatística é o ciclo <strong>PPDAC</strong>, discutido por Wild e Pfannkuch <span class="citation" data-cites="wild1999">(<a href="referencias.html#ref-wild1999" role="doc-biblioref"><strong>wild1999?</strong></a>)</span>:</p>
+<p><span class="math display">\[\text{Problema}
+\rightarrow
+\text{Plano}
+\rightarrow
+\text{Dados}
+\rightarrow
+\text{Análise}
+\rightarrow
+\text{Conclusões}.\]</span></p>
+<p>Cada etapa está relacionada à seguinte.</p>
+<p><strong>Problema</strong></p>
+<p>Tudo começa com uma pergunta. Antes de qualquer cálculo, precisamos saber <strong>o que desejamos descobrir</strong>.</p>
+<p><strong>Plano</strong></p>
+<p>Definimos como a investigação será conduzida: população, unidades observacionais, variáveis, fonte dos dados, forma de coleta e, quando necessário, procedimento de amostragem.</p>
+<p><strong>Dados</strong></p>
+<p>Os dados são obtidos e registrados. Nessa etapa também precisamos verificar sua estrutura e qualidade.</p>
+<p><strong>Análise</strong></p>
+<p>Os dados são organizados, resumidos, representados e analisados com métodos adequados ao problema.</p>
+<p><strong>Conclusões</strong></p>
+<p>Os resultados são interpretados no contexto da investigação e utilizados para responder à pergunta inicial.</p>
+<p>O ciclo pode ser representado como:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Problema"] --&gt; B["Plano"]
+    B --&gt; C["Dados"]
+    C --&gt; D["Análise"]
+    D --&gt; E["Conclusões"]
+    E -.-&gt;|"Novas perguntas"| A
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Para os objetivos desta disciplina, podemos detalhar esse processo da seguinte maneira:</p>
+<ol type="1">
+<li><p><strong>Definição do problema</strong><br>
+Estabelecer claramente o que se deseja conhecer, descrever, comparar ou investigar.</p></li>
+<li><p><strong>Definição da população, das unidades e das variáveis</strong><br>
+Determinar sobre quem ou sobre o que serão produzidas as conclusões e quais características precisam ser observadas.</p></li>
+<li><p><strong>Planejamento da obtenção dos dados</strong><br>
+Definir a fonte dos dados, a forma de coleta, os instrumentos de registro e, quando necessário, o plano amostral.</p></li>
+<li><p><strong>Obtenção dos dados</strong><br>
+Coletar dados primários ou acessar dados secundários de acordo com o planejamento estabelecido.</p></li>
+<li><p><strong>Verificação da qualidade dos dados</strong><br>
+Examinar valores ausentes, erros de registro, duplicidades, inconsistências e outras situações que possam comprometer a análise.</p></li>
+<li><p><strong>Organização e exploração</strong><br>
+Estruturar os dados e utilizar tabelas, gráficos e medidas resumo para compreender sua distribuição e identificar padrões ou situações inesperadas.</p></li>
+<li><p><strong>Análise estatística</strong><br>
+Aplicar métodos adequados ao objetivo da investigação, à natureza das variáveis e à forma como os dados foram obtidos.</p></li>
+<li><p><strong>Interpretação</strong><br>
+Relacionar os resultados estatísticos ao problema original e ao contexto em que os dados foram produzidos.</p></li>
+<li><p><strong>Comunicação e documentação</strong><br>
+Apresentar métodos, resultados, conclusões, limitações e decisões tomadas durante a análise de forma clara e reprodutível.</p></li>
+</ol>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Problema"] --&gt; B["População e variáveis"]
+    B --&gt; C["Planejamento"]
+    C --&gt; D["Obtenção dos dados"]
+    D --&gt; E["Qualidade e organização"]
+    E --&gt; F["Exploração e análise"]
+    F --&gt; G["Interpretação"]
+    G --&gt; H["Comunicação"]
+    H -.-&gt;|"Novas questões"| A
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Observe que <strong>a análise estatística não é o primeiro passo</strong>. Antes de calcular qualquer medida ou construir qualquer gráfico, precisamos compreender o problema, a origem dos dados e o significado das variáveis.</p>
+<p>Da mesma forma, o trabalho não termina quando o software produz um resultado. Esse resultado precisa ser interpretado à luz da pergunta que motivou a investigação.</p>
+</section>
+<section id="onde-entra-a-análise-exploratória-de-dados" class="level3" data-number="1.8.3">
+<h3 data-number="1.8.3" class="anchored" data-anchor-id="onde-entra-a-análise-exploratória-de-dados"><span class="header-section-number">1.8.3</span> Onde entra a Análise Exploratória de Dados?</h3>
+<p>A <strong>Análise Exploratória de Dados (AED)</strong> ocupa uma posição central entre a obtenção dos dados e a interpretação dos resultados.</p>
+<p>Tukey <span class="citation" data-cites="tukey1977">(<a href="referencias.html#ref-tukey1977" role="doc-biblioref"><strong>tukey1977?</strong></a>)</span> enfatizou a importância de examinar os dados de maneira exploratória, utilizando representações gráficas, medidas resumo e outras ferramentas para revelar padrões, estruturas, relações e observações inesperadas.</p>
+<p>A exploração permite perguntar aos próprios dados:</p>
+<ul>
+<li>quais valores são mais frequentes?</li>
+<li>onde os dados estão concentrados?</li>
+<li>existe grande variabilidade?</li>
+<li>há observações muito diferentes das demais?</li>
+<li>existem grupos distintos?</li>
+<li>duas variáveis parecem estar relacionadas?</li>
+<li>existe algum padrão que não havia sido previsto inicialmente?</li>
+</ul>
+<p>Por essa razão, a AED não deve ser vista apenas como uma coleção de gráficos e medidas descritivas. Ela representa uma <strong>forma de investigar os dados antes de formular conclusões definitivas</strong>.</p>
+<p>Podemos situá-la no processo da seguinte maneira:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Pergunta"] --&gt; B["Planejamento"]
+    B --&gt; C["Dados"]
+    C --&gt; D["Organização"]
+    D --&gt; E["Análise Exploratória de Dados"]
+    E --&gt; F["Outras análises estatísticas"]
+    F --&gt; G["Interpretação"]
+    G --&gt; H["Conclusão"]
+
+    E -.-&gt;|"novos padrões ou problemas"| A
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>A seta de retorno é particularmente importante. Durante a exploração, podemos descobrir que:</p>
+<ul>
+<li>determinada variável foi registrada incorretamente;</li>
+<li>existem valores ausentes em quantidade relevante;</li>
+<li>uma categoria precisa ser revisada;</li>
+<li>existem grupos que não haviam sido considerados;</li>
+<li>a pergunta inicial precisa ser refinada.</li>
+</ul>
+<p>Portanto, a exploração também pode modificar o rumo da investigação.</p>
+</section>
+<section id="como-os-processos-se-relacionam" class="level3" data-number="1.8.4">
+<h3 data-number="1.8.4" class="anchored" data-anchor-id="como-os-processos-se-relacionam"><span class="header-section-number">1.8.4</span> Como os processos se relacionam?</h3>
+<p>Podemos resumir a relação entre esses conceitos da seguinte forma:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Processo</th>
+<th style="text-align: left;">Pergunta principal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Método científico</td>
+<td style="text-align: left;">Como investigar sistematicamente um fenômeno e produzir conhecimento fundamentado em evidências?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Método estatístico</td>
+<td style="text-align: left;">Como obter, organizar, analisar e interpretar dados para responder a uma pergunta de investigação?</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Análise Exploratória de Dados</td>
+<td style="text-align: left;">O que os dados revelam sobre sua distribuição, estrutura, padrões e possíveis problemas?</td>
+</tr>
+</tbody>
+</table>
+<p>Assim, o método estatístico <strong>não substitui o método científico</strong>. Ele fornece princípios e ferramentas para a parte da investigação em que as evidências assumem a forma de dados <span class="citation" data-cites="wild1999">(<a href="referencias.html#ref-wild1999" role="doc-biblioref"><strong>wild1999?</strong></a>)</span>.</p>
+<p>Da mesma maneira, a Análise Exploratória de Dados não substitui todo o método estatístico. Ela corresponde a uma etapa fundamental de investigação dos dados e auxilia a orientar análises posteriores <span class="citation" data-cites="tukey1977">(<a href="referencias.html#ref-tukey1977" role="doc-biblioref"><strong>tukey1977?</strong></a>)</span>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Do problema à resposta">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Do problema à resposta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma análise de dados possui <strong>início, meio e fim</strong>.</p>
+<p><strong>No início</strong>, existe um problema ou uma pergunta e precisamos definir quais evidências serão necessárias.</p>
+<p><strong>No meio</strong>, os dados são obtidos, verificados, organizados, explorados e analisados.</p>
+<p><strong>No fim</strong>, os resultados são interpretados no contexto da investigação e utilizados para responder à pergunta inicial.</p>
+<p>Entretanto, o fim de uma investigação pode representar o início de outra: <strong>novas evidências frequentemente produzem novas perguntas</strong>.</p>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Ideia-chave:</strong> não analisamos dados simplesmente porque eles estão disponíveis. Analisamos dados porque existe uma pergunta que desejamos responder. O problema orienta a produção dos dados; os dados orientam a análise; e a análise deve retornar ao problema para produzir uma conclusão.</p>
+</blockquote>
+</section>
+</section>
+<section id="etapas-de-uma-análise-de-dados" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="etapas-de-uma-análise-de-dados"><span class="header-section-number">1.9</span> Etapas de uma análise de dados</h2>
+<section id="formular-uma-pergunta-investigável" class="level3" data-number="1.9.1">
+<h3 data-number="1.9.1" class="anchored" data-anchor-id="formular-uma-pergunta-investigável"><span class="header-section-number">1.9.1</span> Formular uma pergunta investigável</h3>
+<p>Perguntas muito amplas precisam ser transformadas em perguntas que possam ser examinadas com dados.</p>
+<p><strong>Pergunta ampla:</strong></p>
+<blockquote class="blockquote">
+<p>Os estudantes estão satisfeitos com o curso?</p>
+</blockquote>
+<p><strong>Perguntas investigáveis:</strong></p>
+<ul>
+<li>qual é a distribuição do nível de satisfação?</li>
+<li>a satisfação difere entre períodos do curso?</li>
+<li>quais aspectos recebem as menores avaliações?</li>
+<li>existe associação entre satisfação e intenção de permanecer no curso?</li>
+</ul>
+</section>
+<section id="definir-as-unidades-observacionais" class="level3" data-number="1.9.2">
+<h3 data-number="1.9.2" class="anchored" data-anchor-id="definir-as-unidades-observacionais"><span class="header-section-number">1.9.2</span> Definir as unidades observacionais</h3>
+<p>Precisamos indicar sobre quem ou sobre o que os dados serão registrados.</p>
+</section>
+<section id="definir-as-variáveis" class="level3" data-number="1.9.3">
+<h3 data-number="1.9.3" class="anchored" data-anchor-id="definir-as-variáveis"><span class="header-section-number">1.9.3</span> Definir as variáveis</h3>
+<p>Cada conceito precisa ser traduzido em uma forma de registro. “Desempenho”, por exemplo, pode ser representado por nota, média no período, aprovação, quantidade de reprovações ou tempo para concluir uma disciplina. Essas medidas não são equivalentes.</p>
+</section>
+<section id="obter-os-dados" class="level3" data-number="1.9.4">
+<h3 data-number="1.9.4" class="anchored" data-anchor-id="obter-os-dados"><span class="header-section-number">1.9.4</span> Obter os dados</h3>
+<p>Os dados podem ser obtidos por questionários, experimentos, observações, sensores, registros administrativos, entrevistas ou bases já existentes.</p>
+</section>
+<section id="verificar-a-qualidade" class="level3" data-number="1.9.5">
+<h3 data-number="1.9.5" class="anchored" data-anchor-id="verificar-a-qualidade"><span class="header-section-number">1.9.5</span> Verificar a qualidade</h3>
+<p>Devem ser investigados:</p>
+<ul>
+<li>valores ausentes;</li>
+<li>duplicidades;</li>
+<li>unidades incorretas;</li>
+<li>categorias inconsistentes;</li>
+<li>valores impossíveis;</li>
+<li>erros de digitação;</li>
+<li>alterações não documentadas.</li>
+</ul>
+</section>
+<section id="explorar-e-interpretar" class="level3" data-number="1.9.6">
+<h3 data-number="1.9.6" class="anchored" data-anchor-id="explorar-e-interpretar"><span class="header-section-number">1.9.6</span> Explorar e interpretar</h3>
+<p>A exploração combina tabelas, gráficos e medidas resumo. Nenhum resultado deve ser interpretado fora do contexto.</p>
+</section>
+<section id="comunicar" class="level3" data-number="1.9.7">
+<h3 data-number="1.9.7" class="anchored" data-anchor-id="comunicar"><span class="header-section-number">1.9.7</span> Comunicar</h3>
+<p>Uma análise deve ser compreensível e verificável. É necessário indicar a fonte, explicar as variáveis, apresentar resultados relevantes e registrar as limitações.</p>
+</section>
+</section>
+<section id="população" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="população"><span class="header-section-number">1.10</span> População</h2>
+<p>A <strong>população estatística</strong> é o conjunto de unidades sobre as quais se deseja obter informação em uma investigação.</p>
+<p>As unidades podem ser:</p>
+<ul>
+<li>pessoas;</li>
+<li>domicílios;</li>
+<li>empresas;</li>
+<li>municípios;</li>
+<li>animais;</li>
+<li>produtos;</li>
+<li>atendimentos;</li>
+<li>transações;</li>
+<li>medições;</li>
+<li>eventos;</li>
+<li>períodos de tempo.</li>
+</ul>
+<section id="exemplos" class="level3" data-number="1.10.1">
+<h3 data-number="1.10.1" class="anchored" data-anchor-id="exemplos"><span class="header-section-number">1.10.1</span> Exemplos</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pergunta</th>
+<th>População</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Qual é a idade dos estudantes do curso?</td>
+<td>Todos os estudantes do curso no período definido</td>
+</tr>
+<tr class="even">
+<td>Qual é o tempo de atendimento de uma unidade de saúde?</td>
+<td>Todos os atendimentos realizados no período de interesse</td>
+</tr>
+<tr class="odd">
+<td>Qual é a taxa de defeitos de uma linha de produção?</td>
+<td>Todos os itens produzidos no intervalo definido</td>
+</tr>
+<tr class="even">
+<td>Como variou a precipitação em Manaus?</td>
+<td>Registros de precipitação do local e período definidos</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled" title="A população precisa ser delimitada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A população precisa ser delimitada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Estudantes universitários” não define completamente uma população. É necessário indicar instituição, curso, campus, período e critérios de inclusão, conforme o objetivo da pesquisa.</p>
+</div>
+</div>
+</section>
+<section id="população-finita" class="level3" data-number="1.10.2">
+<h3 data-number="1.10.2" class="anchored" data-anchor-id="população-finita"><span class="header-section-number">1.10.2</span> População finita</h3>
+<p>Uma população é finita quando possui uma quantidade limitada de unidades no domínio considerado.</p>
+<p><strong>Exemplo:</strong> todos os estudantes regularmente matriculados em determinado curso no semestre 2026/2.</p>
+</section>
+<section id="população-conceitualmente-infinita" class="level3" data-number="1.10.3">
+<h3 data-number="1.10.3" class="anchored" data-anchor-id="população-conceitualmente-infinita"><span class="header-section-number">1.10.3</span> População conceitualmente infinita</h3>
+<p>Em alguns problemas, a população é formada por resultados possíveis de um processo que pode continuar produzindo observações.</p>
+<p><strong>Exemplos:</strong></p>
+<ul>
+<li>medições futuras de uma máquina operando nas mesmas condições;</li>
+<li>resultados de sucessivos lançamentos de um dado;</li>
+<li>tempos de espera gerados continuamente por um serviço.</li>
+</ul>
+<p>Na prática, populações extremamente grandes também podem ser tratadas, para determinados cálculos, como se fossem infinitas. Essa aproximação depende do problema e do método utilizado.</p>
+</section>
+</section>
+<section id="censo" class="level2" data-number="1.11">
+<h2 data-number="1.11" class="anchored" data-anchor-id="censo"><span class="header-section-number">1.11</span> Censo</h2>
+<p>Um <strong>censo</strong> ocorre quando se procura observar todas as unidades da população definida.</p>
+<section id="vantagens-possíveis" class="level3" data-number="1.11.1">
+<h3 data-number="1.11.1" class="anchored" data-anchor-id="vantagens-possíveis"><span class="header-section-number">1.11.1</span> Vantagens possíveis</h3>
+<ul>
+<li>cobertura completa da população-alvo;</li>
+<li>possibilidade de produzir resultados para subgrupos pequenos;</li>
+<li>ausência de erro amostral, quando todas as unidades são efetivamente observadas.</li>
+</ul>
+</section>
+<section id="limitações" class="level3" data-number="1.11.2">
+<h3 data-number="1.11.2" class="anchored" data-anchor-id="limitações"><span class="header-section-number">1.11.2</span> Limitações</h3>
+<ul>
+<li>custo elevado;</li>
+<li>maior tempo de execução;</li>
+<li>dificuldade operacional;</li>
+<li>recusas e não respostas;</li>
+<li>erros de medição ou registro;</li>
+<li>necessidade de atualização periódica.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Censo não significa ausência de erro">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Censo não significa ausência de erro
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Mesmo quando todas as unidades são pesquisadas, podem ocorrer erros de cobertura, resposta, registro, processamento e interpretação.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="amostra" class="level2" data-number="1.12">
+<h2 data-number="1.12" class="anchored" data-anchor-id="amostra"><span class="header-section-number">1.12</span> Amostra</h2>
+<p>Uma <strong>amostra</strong> é um subconjunto da população selecionado para observação.</p>
+<p>A amostra pode ser utilizada quando:</p>
+<ul>
+<li>o censo é caro ou demorado;</li>
+<li>a população é muito grande;</li>
+<li>a avaliação destrói ou modifica a unidade observada;</li>
+<li>os resultados precisam ser produzidos rapidamente;</li>
+<li>existe um plano de amostragem capaz de fornecer informação adequada.</li>
+</ul>
+<section id="exemplo-1" class="level3" data-number="1.12.1">
+<h3 data-number="1.12.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">1.12.1</span> Exemplo</h3>
+<ul>
+<li><strong>População:</strong> todos os estudantes de graduação de uma universidade.</li>
+<li><strong>Amostra:</strong> 600 estudantes selecionados segundo um plano previamente definido.</li>
+<li><strong>Objetivo:</strong> investigar hábitos de estudo e condições de permanência.</li>
+</ul>
+<p>A qualidade da conclusão não depende apenas do tamanho da amostra. Também depende de <strong>como</strong> as unidades foram selecionadas, da taxa de resposta e da qualidade da medição.</p>
+</section>
+<section id="censo-e-amostra-comparação" class="level3" data-number="1.12.2">
+<h3 data-number="1.12.2" class="anchored" data-anchor-id="censo-e-amostra-comparação"><span class="header-section-number">1.12.2</span> Censo e amostra: comparação</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aspecto</th>
+<th>Censo</th>
+<th>Amostra</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unidades observadas</td>
+<td>Todas as unidades da população definida</td>
+<td>Parte das unidades</td>
+</tr>
+<tr class="even">
+<td>Custo</td>
+<td>Geralmente maior</td>
+<td>Geralmente menor</td>
+</tr>
+<tr class="odd">
+<td>Tempo</td>
+<td>Geralmente maior</td>
+<td>Geralmente menor</td>
+</tr>
+<tr class="even">
+<td>Erro amostral</td>
+<td>Não existe</td>
+<td>Existe</td>
+</tr>
+<tr class="odd">
+<td>Outros erros</td>
+<td>Podem ocorrer</td>
+<td>Podem ocorrer</td>
+</tr>
+<tr class="even">
+<td>Atualização</td>
+<td>Pode ser difícil</td>
+<td>Pode ser mais rápida</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="unidade-observacional" class="level2" data-number="1.13">
+<h2 data-number="1.13" class="anchored" data-anchor-id="unidade-observacional"><span class="header-section-number">1.13</span> Unidade observacional</h2>
+<p>A <strong>unidade observacional</strong> é o elemento sobre o qual as variáveis são registradas.</p>
+<section id="exemplos-1" class="level3" data-number="1.13.1">
+<h3 data-number="1.13.1" class="anchored" data-anchor-id="exemplos-1"><span class="header-section-number">1.13.1</span> Exemplos</h3>
+<ul>
+<li>em uma pesquisa com estudantes, a unidade observacional pode ser cada estudante;</li>
+<li>em um estudo sobre domicílios, pode ser cada domicílio;</li>
+<li>em uma análise de atendimentos, pode ser cada atendimento;</li>
+<li>em um estudo longitudinal, pode ser cada combinação entre pessoa e momento;</li>
+<li>em uma análise de vendas, pode ser cada transação ou cada item vendido.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Uma linha nem sempre corresponde a uma pessoa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Uma linha nem sempre corresponde a uma pessoa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em um banco de dados, uma pessoa pode aparecer várias vezes quando existem medidas repetidas, diferentes consultas ou vários eventos associados a ela. A unidade observacional precisa ser definida antes da análise.</p>
+</div>
+</div>
+</section>
+<section id="unidade-amostral-e-unidade-de-análise" class="level3" data-number="1.13.2">
+<h3 data-number="1.13.2" class="anchored" data-anchor-id="unidade-amostral-e-unidade-de-análise"><span class="header-section-number">1.13.2</span> Unidade amostral e unidade de análise</h3>
+<p>Em estudos mais complexos, três conceitos podem ser diferentes:</p>
+<ul>
+<li><strong>unidade amostral:</strong> unidade selecionada no processo de amostragem;</li>
+<li><strong>unidade observacional:</strong> unidade sobre a qual o registro é realizado;</li>
+<li><strong>unidade de análise:</strong> unidade considerada na análise estatística.</li>
+</ul>
+<p>Exemplo: escolas podem ser selecionadas, estudantes podem responder ao questionário e a análise pode comparar turmas.</p>
+</section>
+</section>
+<section id="variável" class="level2" data-number="1.14">
+<h2 data-number="1.14" class="anchored" data-anchor-id="variável"><span class="header-section-number">1.14</span> Variável</h2>
+<p>Uma <strong>variável</strong> é uma característica registrada para as unidades observacionais e que pode assumir diferentes valores ou categorias.</p>
+<p>Exemplos:</p>
+<ul>
+<li>idade;</li>
+<li>curso;</li>
+<li>número de disciplinas matriculadas;</li>
+<li>meio de transporte;</li>
+<li>tempo de deslocamento;</li>
+<li>nota;</li>
+<li>situação acadêmica;</li>
+<li>nível de satisfação.</li>
+</ul>
+<p>A classificação depende do significado e da forma de registro. Um número usado como código não se torna automaticamente uma variável quantitativa.</p>
+<section id="exemplo-código-não-é-quantidade" class="level3" data-number="1.14.1">
+<h3 data-number="1.14.1" class="anchored" data-anchor-id="exemplo-código-não-é-quantidade"><span class="header-section-number">1.14.1</span> Exemplo: código não é quantidade</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Código</th>
+<th>Categoria</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>Matutino</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>Vespertino</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>Noturno</td>
+</tr>
+</tbody>
+</table>
+<p>Embora os valores 1, 2 e 3 sejam números, eles representam categorias. Somar ou calcular a média desses códigos não produz uma interpretação válida.</p>
+</section>
+</section>
+<section id="variáveis-qualitativas" class="level2" data-number="1.15">
+<h2 data-number="1.15" class="anchored" data-anchor-id="variáveis-qualitativas"><span class="header-section-number">1.15</span> Variáveis qualitativas</h2>
+<p>As variáveis qualitativas representam categorias, qualidades ou atributos.</p>
+<section id="qualitativa-nominal" class="level3" data-number="1.15.1">
+<h3 data-number="1.15.1" class="anchored" data-anchor-id="qualitativa-nominal"><span class="header-section-number">1.15.1</span> Qualitativa nominal</h3>
+<p>As categorias não possuem uma ordem natural.</p>
+<p><strong>Exemplos:</strong></p>
+<ul>
+<li>município de residência;</li>
+<li>curso;</li>
+<li>tipo de transporte;</li>
+<li>estado civil;</li>
+<li>resposta “sim” ou “não”;</li>
+<li>setor de atividade.</li>
+</ul>
+</section>
+<section id="qualitativa-ordinal" class="level3" data-number="1.15.2">
+<h3 data-number="1.15.2" class="anchored" data-anchor-id="qualitativa-ordinal"><span class="header-section-number">1.15.2</span> Qualitativa ordinal</h3>
+<p>As categorias possuem uma ordem substantiva.</p>
+<p><strong>Exemplos:</strong></p>
+<ul>
+<li>nível de satisfação: muito insatisfeito, insatisfeito, neutro, satisfeito, muito satisfeito;</li>
+<li>escolaridade;</li>
+<li>classificação de risco: baixo, moderado, alto;</li>
+<li>conceito: insuficiente, regular, bom, excelente.</li>
+</ul>
+<p>A existência de ordem não significa que as distâncias entre as categorias sejam iguais.</p>
+</section>
+</section>
+<section id="variáveis-quantitativas" class="level2" data-number="1.16">
+<h2 data-number="1.16" class="anchored" data-anchor-id="variáveis-quantitativas"><span class="header-section-number">1.16</span> Variáveis quantitativas</h2>
+<p>As variáveis quantitativas representam quantidades para as quais operações numéricas possuem interpretação.</p>
+<section id="quantitativa-discreta" class="level3" data-number="1.16.1">
+<h3 data-number="1.16.1" class="anchored" data-anchor-id="quantitativa-discreta"><span class="header-section-number">1.16.1</span> Quantitativa discreta</h3>
+<p>Assume valores separados, geralmente resultantes de contagem.</p>
+<p><strong>Exemplos:</strong></p>
+<ul>
+<li>número de filhos;</li>
+<li>quantidade de reprovações;</li>
+<li>número de atendimentos;</li>
+<li>quantidade de livros emprestados;</li>
+<li>número de defeitos em uma peça.</li>
+</ul>
+</section>
+<section id="quantitativa-contínua" class="level3" data-number="1.16.2">
+<h3 data-number="1.16.2" class="anchored" data-anchor-id="quantitativa-contínua"><span class="header-section-number">1.16.2</span> Quantitativa contínua</h3>
+<p>Pode, em princípio, assumir qualquer valor em um intervalo e geralmente resulta de medição.</p>
+<p><strong>Exemplos:</strong></p>
+<ul>
+<li>altura;</li>
+<li>peso;</li>
+<li>temperatura;</li>
+<li>tempo de deslocamento;</li>
+<li>distância;</li>
+<li>concentração de uma substância.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="A forma de registro importa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A forma de registro importa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A idade registrada em anos completos assume valores inteiros no banco e pode ser tratada como discreta em determinadas análises. A idade medida com grande precisão é conceitualmente contínua. A classificação deve considerar o fenômeno e o registro.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="fluxo-para-classificar-uma-variável" class="level2" data-number="1.17">
+<h2 data-number="1.17" class="anchored" data-anchor-id="fluxo-para-classificar-uma-variável"><span class="header-section-number">1.17</span> Fluxo para classificar uma variável</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A["A variável representa categoria ou quantidade?"]
+    
+    A --&gt;|"Categoria"| B["Existe ordem natural entre as categorias?"]
+    B --&gt;|"Não"| C["Qualitativa nominal"]
+    B --&gt;|"Sim"| D["Qualitativa ordinal"]
+    
+    A --&gt;|"Quantidade"| E["Resulta principalmente de contagem?"]
+    E --&gt;|"Sim"| F["Quantitativa discreta"]
+    E --&gt;|"Não — resulta de medição"| G["Quantitativa contínua"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Esse fluxo é um guia. Em situações ambíguas, a decisão deve ser justificada pelo significado da variável e pelo objetivo da análise.</p>
+</section>
+<section id="atividade-orientada-identificando-os-elementos-de-um-estudo" class="level2" data-number="1.18">
+<h2 data-number="1.18" class="anchored" data-anchor-id="atividade-orientada-identificando-os-elementos-de-um-estudo"><span class="header-section-number">1.18</span> Atividade orientada — identificando os elementos de um estudo</h2>
+<p>Considere a situação:</p>
+<blockquote class="blockquote">
+<p>A coordenação de um curso deseja conhecer as condições de estudo dos alunos matriculados em 2026/2. Um questionário será aplicado a 120 estudantes selecionados entre todos os períodos. Serão registrados turno, idade, meio de transporte, tempo de deslocamento, quantidade de horas semanais de estudo e nível de satisfação com a infraestrutura.</p>
+</blockquote>
+<p>Identifique:</p>
+<ol type="1">
+<li>o objetivo do estudo;</li>
+<li>a população;</li>
+<li>a amostra;</li>
+<li>a unidade observacional;</li>
+<li>uma variável qualitativa nominal;</li>
+<li>uma variável qualitativa ordinal;</li>
+<li>uma variável quantitativa discreta;</li>
+<li>uma variável quantitativa contínua;</li>
+<li>uma possível fonte de erro;</li>
+<li>uma pergunta exploratória que possa ser respondida.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Orientação para a discussão">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Orientação para a discussão
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>População: todos os estudantes matriculados no curso em 2026/2, conforme os critérios adotados.</li>
+<li>Amostra: os 120 estudantes selecionados.</li>
+<li>Unidade observacional: cada estudante respondente.</li>
+<li>Nominal: turno ou meio de transporte.</li>
+<li>Ordinal: nível de satisfação.</li>
+<li>Discreta: quantidade de horas de estudo, caso registrada em horas inteiras; também poderia ser contínua se medida com precisão.</li>
+<li>Contínua: idade ou tempo de deslocamento, dependendo do registro.</li>
+<li>Possíveis erros: não resposta, respostas imprecisas, seleção inadequada ou categorias mal definidas.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="síntese-da-aula-1" class="level2" data-number="1.19">
+<h2 data-number="1.19" class="anchored" data-anchor-id="síntese-da-aula-1"><span class="header-section-number">1.19</span> Síntese da Aula 1</h2>
+<p>Ao concluir esta aula, retenha as seguintes ideias:</p>
+<ol type="1">
+<li>Estatística é uma ciência de aprendizagem com dados e variabilidade.</li>
+<li>Estatística Descritiva resume os dados observados.</li>
+<li>Análise Exploratória investiga padrões, diferenças, problemas e novas perguntas.</li>
+<li>Estatística Inferencial utiliza amostras para aprender sobre populações.</li>
+<li>Toda análise começa com uma pergunta e uma população bem definidas.</li>
+<li>Censo e amostra podem apresentar erros; eles possuem vantagens e limitações distintas.</li>
+<li>A unidade observacional define o significado de cada linha do banco.</li>
+<li>Variáveis precisam ser classificadas pelo significado, não apenas pela aparência.</li>
+<li>O contexto e a qualidade dos dados condicionam as conclusões.</li>
+</ol>
+</section>
+<section id="atividade-de-encerramento" class="level2" data-number="1.20">
+<h2 data-number="1.20" class="anchored" data-anchor-id="atividade-de-encerramento"><span class="header-section-number">1.20</span> Atividade de encerramento</h2>
+<p>Em uma frase para cada item, registre:</p>
+<ul>
+<li>o conceito mais importante da aula;</li>
+<li>uma dúvida que permaneceu;</li>
+<li>um exemplo de população e amostra em sua área de interesse;</li>
+<li>uma variável que pode ser classificada de maneiras diferentes conforme o registro.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Apresentação">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Apresentação</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./02-r-rstudio-quarto.html" class="pagination-link" aria-label="Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
