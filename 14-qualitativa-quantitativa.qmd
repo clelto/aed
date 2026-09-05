@@ -1,0 +1,6 @@
+---
+title: "14-qualitativa-quantitativa"
+format: html
+editor: visual
+---
+

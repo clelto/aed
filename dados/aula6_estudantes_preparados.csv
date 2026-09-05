@@ -1,0 +1,12 @@
+﻿id,curso,satisfacao,idade,faltas,aprovado,tempo_deslocamento
+E001,Estatística,Alta,19.0,1.0,True,35
+E002,Estatística,Média,20.0,3.0,True,50
+E003,Matemática,Baixa,21.0,0.0,False,40
+E004,Física,Alta,22.0,2.0,True,60
+E005,Estatística,Média,18.0,4.0,True,25
+E006,Matemática,Alta,,1.0,False,45
+E007,Física,Baixa,23.0,2.0,True,30
+E008,Estatística,Média,20.0,2.0,True,35
+E009,Matemática,,19.0,,False,55
+E010,Estatística,Alta,21.0,2.0,True,40
+E011,Química,Média,20.0,1.0,False,420

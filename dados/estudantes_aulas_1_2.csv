@@ -1,0 +1,13 @@
+id,nome,turno,idade,meio_transporte,tempo_deslocamento_min,horas_estudo_semana,nivel_satisfacao
+1,Ana,Noturno,18,Ônibus,55,8,Satisfeito
+2,Bruno,Matutino,20,Carro,25,12,Muito satisfeito
+3,Carla,Noturno,19,Ônibus,70,6,Neutro
+4,Diego,Vespertino,23,Motocicleta,35,10,Satisfeito
+5,Elisa,Matutino,21,Ônibus,60,9,Neutro
+6,Felipe,Noturno,25,Ônibus,80,5,Insatisfeito
+7,Gabriela,Vespertino,20,Carro,30,14,Muito satisfeito
+8,Hugo,Noturno,22,Bicicleta,20,7,Satisfeito
+9,Iara,Matutino,19,Ônibus,65,11,Satisfeito
+10,João,Vespertino,24,Motocicleta,40,8,Neutro
+11,Kátia,Noturno,21,Ônibus,50,6,Insatisfeito
+12,Lucas,Matutino,18,A pé,15,13,Muito satisfeito

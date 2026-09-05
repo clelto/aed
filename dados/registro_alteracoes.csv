@@ -1,0 +1,8 @@
+etapa,alteracao,justificativa
+1,Remoção de espaços e padronização dos nomes dos cursos,Categorias equivalentes possuíam grafias diferentes
+2,Padronização das categorias de satisfação,Havia diferenças de acentuação e capitalização
+3,Conversão de satisfação para fator ordinal,A variável possui a ordem Baixa < Média < Alta
+4,Conversão de aprovado para variável lógica,A variável representa uma condição binária Sim/Não
+5,Remoção de uma duplicação exata do registro E010,Cada estudante deveria aparecer uma única vez no banco
+6,Substituição da idade -3 por NA,O valor é incompatível com a definição da variável; valor correto desconhecido
+7,Sinalização do tempo de 420 minutos para investigação,Valor muito superior aos demais; não alterado sem confirmação

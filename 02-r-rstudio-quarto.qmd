@@ -1,0 +1,903 @@
+# Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas
+
+::: {.callout-tip title="Objetivo da aula prática"}
+Neste capítlaula, você não precisa memorizar todos os comandos. O objetivo é compreender **como organizar um trabalho reprodutível**, executar instruções no R, importar dados, reconhecer a estrutura de uma planilha e produzir um pequeno documento em Quarto.
+:::
+
+## Objetivos de aprendizagem
+
+Ao final desta aula, espera-se que o estudante seja capaz de:
+
+- distinguir R e RStudio;
+- reconhecer as principais áreas da interface do RStudio;
+- criar e salvar um projeto;
+- diferenciar console, script, objeto e função;
+- instalar e carregar pacotes;
+- obter ajuda sobre funções;
+- criar vetores e uma tabela de dados simples;
+- importar arquivos CSV e XLSX;
+- identificar linhas, colunas, casos e variáveis;
+- reconhecer princípios de organização de planilhas;
+- pesquisar dados e documentação na internet com critérios de confiabilidade;
+- utilizar a sintaxe básica de Markdown e os blocos de código do Quarto;
+- produzir e salvar um relatório simples e reprodutível.
+
+## R e RStudio não são a mesma coisa
+
+- **R** é uma linguagem e um ambiente para computação estatística, manipulação de dados e produção de gráficos.
+- **RStudio** é um ambiente integrado de desenvolvimento que facilita a escrita de códigos, a organização de arquivos, a visualização de resultados e a produção de documentos.
+
+Uma analogia útil:
+
+- o R é o motor;
+- o RStudio é o painel de controle e o espaço de trabalho.
+
+## Organização da pasta da disciplina
+
+Antes de programar, organize o trabalho. Uma estrutura simples é:
+
+``` text
+AED/
+├── dados/
+├── figuras/
+├── relatorios/
+├── scripts/
+└── aulas_1_2.qmd
+```
+
+- `dados/`: arquivos originais e bancos preparados;
+- `figuras/`: imagens exportadas;
+- `relatorios/`: versões finais dos documentos;
+- `scripts/`: códigos auxiliares;
+- arquivo `.qmd`: texto, código e resultados da análise.
+
+::: {.callout-warning title="Evite trabalhar com arquivos espalhados"}
+Projetos com arquivos em Downloads, Área de Trabalho, pendrive e serviços de nuvem ao mesmo tempo tendem a produzir caminhos quebrados, duplicidades e versões conflitantes.
+:::
+
+## Criando um projeto no RStudio
+
+No RStudio:
+
+1.  acesse **File \> New Project**;
+2.  escolha **New Directory**;
+3.  selecione **New Project**;
+4.  escolha um nome, por exemplo `AED`;
+5.  selecione a pasta onde o projeto será criado;
+6.  clique em **Create Project**.
+
+O projeto ajuda a manter caminhos relativos. Em vez de escrever um caminho específico de um computador, como:
+
+``` text
+C:/Users/Nome/Documents/AED/dados/estudantes.csv
+```
+
+podemos usar:
+
+``` text
+dados/estudantes.csv
+```
+
+Isso facilita a transferência do projeto entre computadores.
+
+## Principais áreas do RStudio
+
+| Área        | Função principal                        |
+|-------------|-----------------------------------------|
+| Source      | Escrever e editar scripts e documentos  |
+| Console     | Executar comandos e exibir mensagens    |
+| Environment | Mostrar objetos existentes na sessão    |
+| Files       | Navegar pelos arquivos do projeto       |
+| Plots       | Exibir gráficos                         |
+| Packages    | Gerenciar pacotes                       |
+| Help        | Consultar documentação                  |
+| Viewer      | Exibir páginas, relatórios e aplicações |
+
+::: {.callout-note title="Console ou script?"}
+Use o console para testes rápidos. Registre no script ou no arquivo Quarto todo comando necessário para reproduzir a análise.
+:::
+
+## Seu primeiro contato com o R
+
+Uma expressão pode ser executada diretamente.
+
+```{r}
+2 + 3
+```
+
+O operador `<-` é utilizado para atribuir um valor a um objeto.
+
+```{r}
+numero_de_estudantes <- 35
+numero_de_estudantes
+```
+
+O objeto fica disponível na sessão.
+
+```{r}
+numero_de_estudantes * 2
+```
+
+### Nomes de objetos
+
+Prefira nomes informativos:
+
+```{r}
+media_da_turma <- 7.4
+taxa_de_aprovacao <- 0.82
+```
+
+Evite nomes pouco explicativos:
+
+```{r}
+# Evite quando o significado não estiver claro
+x <- 7.4
+y <- 0.82
+```
+
+Uma convenção útil é `snake_case`, com palavras separadas por sublinhados.
+
+## Funções e argumentos
+
+Uma função executa uma tarefa. Os valores fornecidos à função são chamados argumentos.
+
+```{r}
+notas <- c(7.5, 6.0, 8.2, 9.0, 5.8)
+mean(notas)
+```
+
+Na expressão anterior:
+
+- `mean` é a função;
+- `notas` é o argumento;
+- o resultado é a média dos valores.
+
+Outras funções básicas:
+
+```{r}
+length(notas)
+min(notas)
+max(notas)
+sum(notas)
+sort(notas)
+```
+
+::: {.callout-tip title="Leia o código como uma frase"}
+`mean(notas)` pode ser lido como “calcule a média de notas”. Essa prática ajuda a compreender códigos novos.
+:::
+
+## Obtendo ajuda
+
+O R possui documentação integrada.
+
+```{r}
+#| eval: false
+
+?mean
+help(mean)
+help("mean")
+```
+
+Para pesquisar uma palavra na documentação:
+
+```{r}
+#| eval: false
+
+help.search("median")
+```
+
+Para visualizar exemplos de uso:
+
+```{r}
+#| eval: false
+
+example(mean)
+```
+
+Ao consultar a ajuda, procure:
+
+- **Usage:** forma de utilização;
+- **Arguments:** significado dos argumentos;
+- **Value:** objeto retornado;
+- **Examples:** exemplos executáveis.
+
+## Pacotes
+
+Pacotes ampliam as funcionalidades do R.
+
+### Instalação
+
+A instalação é feita normalmente uma única vez em cada computador.
+
+```{r}
+#| eval: false
+
+install.packages(c(
+  "tidyverse",
+  "readxl",
+  "writexl",
+  "janitor"
+))
+```
+
+### Carregamento
+
+O carregamento deve ser feito em cada nova sessão.
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(janitor)
+```
+
+::: {.callout-important title="Instalar e carregar são ações diferentes"}
+`install.packages()` obtém o pacote e o instala no computador. `library()` disponibiliza suas funções na sessão atual.
+:::
+
+## Vetores
+
+Um vetor reúne valores do mesmo tipo.
+
+```{r}
+nomes <- c("Ana", "Bruno", "Carla", "Diego", "Elisa")
+idades <- c(18, 20, 19, 23, 21)
+turnos <- c("Noturno", "Matutino", "Noturno", "Vespertino", "Matutino")
+aprovado <- c(TRUE, TRUE, FALSE, TRUE, TRUE)
+```
+
+Podemos inspecionar os objetos:
+
+```{r}
+nomes
+idades
+turnos
+aprovado
+```
+
+Tipos básicos:
+
+```{r}
+class(nomes)
+class(idades)
+class(aprovado)
+```
+
+## Criando um banco de dados didático
+
+O banco abaixo é fictício e será usado apenas para aprendizagem.
+
+```{r}
+estudantes <- tibble(
+  id = 1:12,
+  nome = c(
+    "Ana", "Bruno", "Carla", "Diego", "Elisa", "Felipe",
+    "Gabriela", "Hugo", "Iara", "João", "Kátia", "Lucas"
+  ),
+  turno = c(
+    "Noturno", "Matutino", "Noturno", "Vespertino",
+    "Matutino", "Noturno", "Vespertino", "Noturno",
+    "Matutino", "Vespertino", "Noturno", "Matutino"
+  ),
+  idade = c(18, 20, 19, 23, 21, 25, 20, 22, 19, 24, 21, 18),
+  meio_transporte = c(
+    "Ônibus", "Carro", "Ônibus", "Motocicleta",
+    "Ônibus", "Ônibus", "Carro", "Bicicleta",
+    "Ônibus", "Motocicleta", "Ônibus", "A pé"
+  ),
+  tempo_deslocamento_min = c(55, 25, 70, 35, 60, 80, 30, 20, 65, 40, 50, 15),
+  horas_estudo_semana = c(8, 12, 6, 10, 9, 5, 14, 7, 11, 8, 6, 13),
+  nivel_satisfacao = c(
+    "Satisfeito", "Muito satisfeito", "Neutro", "Satisfeito",
+    "Neutro", "Insatisfeito", "Muito satisfeito", "Satisfeito",
+    "Satisfeito", "Neutro", "Insatisfeito", "Muito satisfeito"
+  )
+)
+
+estudantes
+```
+
+### Identificando os elementos
+
+- cada **linha** representa um estudante fictício;
+- cada **coluna** representa uma variável;
+- cada **célula** contém o valor de uma variável para uma unidade;
+- o conjunto completo forma uma tabela de dados.
+
+```{r}
+nrow(estudantes)
+ncol(estudantes)
+dim(estudantes)
+names(estudantes)
+```
+
+### Inspeção inicial
+
+```{r}
+glimpse(estudantes)
+```
+
+```{r}
+head(estudantes)
+```
+
+Para abrir o banco em uma janela de visualização no RStudio:
+
+```{r}
+#| eval: false
+
+View(estudantes)
+```
+
+## Casos, variáveis e valores
+
+Considere o banco `estudantes`:
+
+| Elemento                      | Exemplo           |
+|-------------------------------|-------------------|
+| Caso ou unidade observacional | Um estudante      |
+| Variável                      | `idade`           |
+| Valor observado               | 18 anos para Ana  |
+| Identificador                 | `id = 1`          |
+| Banco de dados                | A tabela completa |
+
+::: {.callout-warning title="Uma coluna não deve misturar significados"}
+Uma coluna chamada `resultado` não deve conter, em algumas linhas, notas e, em outras, palavras como “aprovado”. Cada variável precisa ter um significado consistente.
+:::
+
+## Classificando as variáveis do banco
+
+| Variável | Classificação sugerida |
+|------------------------------------|------------------------------------|
+| `id` | Identificador; não deve ser resumido como quantidade |
+| `nome` | Texto identificador |
+| `turno` | Qualitativa nominal |
+| `idade` | Quantitativa; o tratamento depende da forma de registro |
+| `meio_transporte` | Qualitativa nominal |
+| `tempo_deslocamento_min` | Quantitativa contínua, embora registrada em minutos inteiros |
+| `horas_estudo_semana` | Quantitativa, conforme a precisão do registro |
+| `nivel_satisfacao` | Qualitativa ordinal |
+
+A classificação estatística e o tipo computacional não são exatamente a mesma coisa. Uma variável ordinal pode ser armazenada como texto, mas deve ter sua ordem explicitada quando necessário.
+
+```{r}
+estudantes <- estudantes |>
+  mutate(
+    nivel_satisfacao = factor(
+      nivel_satisfacao,
+      levels = c(
+        "Muito insatisfeito",
+        "Insatisfeito",
+        "Neutro",
+        "Satisfeito",
+        "Muito satisfeito"
+      ),
+      ordered = TRUE
+    )
+  )
+
+class(estudantes$nivel_satisfacao)
+levels(estudantes$nivel_satisfacao)
+```
+
+## Exportando arquivos CSV e XLSX
+
+Crie uma pasta para os arquivos.
+
+```{r}
+dir.create("dados", showWarnings = FALSE)
+```
+
+### CSV
+
+```{r}
+write_csv(estudantes, "dados/estudantes_aulas_1_2.csv")
+```
+
+### XLSX
+
+```{r}
+writexl::write_xlsx(
+  estudantes,
+  "dados/estudantes_aulas_1_2.xlsx"
+)
+```
+
+::: {.callout-note title="CSV e XLSX"}
+CSV é um formato simples de texto, adequado para intercâmbio de dados. XLSX é o formato comum das planilhas do Excel e pode conter várias abas, formatação e fórmulas.
+:::
+
+## Importando arquivos CSV
+
+```{r}
+estudantes_csv <- read_csv(
+  "dados/estudantes_aulas_1_2.csv",
+  show_col_types = FALSE
+)
+
+estudantes_csv
+```
+
+Verifique a estrutura:
+
+```{r}
+glimpse(estudantes_csv)
+```
+
+O pacote `readr`, carregado com o `tidyverse`, tenta identificar automaticamente os tipos das colunas. Essa identificação deve ser verificada.
+
+## Importando arquivos XLSX
+
+```{r}
+estudantes_xlsx <- read_excel(
+  "dados/estudantes_aulas_1_2.xlsx"
+)
+
+estudantes_xlsx
+```
+
+Para listar as abas de uma planilha:
+
+```{r}
+excel_sheets("dados/estudantes_aulas_1_2.xlsx")
+```
+
+Para importar uma aba específica:
+
+```{r}
+#| eval: false
+
+read_excel(
+  "dados/arquivo.xlsx",
+  sheet = "Dados"
+)
+```
+
+## Padronizando nomes de colunas
+
+Nomes consistentes facilitam a programação. O pacote `janitor` oferece a função `clean_names()`.
+
+```{r}
+exemplo_nomes <- tibble(
+  `Nome do Estudante` = c("Ana", "Bruno"),
+  `Tempo de Deslocamento (min)` = c(55, 25),
+  `Nível de Satisfação` = c("Satisfeito", "Muito satisfeito")
+)
+
+exemplo_nomes
+```
+
+```{r}
+exemplo_nomes |>
+  clean_names()
+```
+
+## Princípios para organizar dados em planilhas
+
+Uma planilha destinada à análise deve seguir, sempre que possível, estes princípios:
+
+1.  uma linha por unidade observacional;
+2.  uma coluna por variável;
+3.  uma célula por valor;
+4.  uma tabela por aba;
+5.  nomes claros para as colunas;
+6.  códigos explicados em um dicionário;
+7.  valores ausentes representados de modo consistente;
+8.  unidades de medida informadas;
+9.  ausência de células mescladas dentro da tabela;
+10. ausência de subtotais misturados às observações.
+
+### Exemplo inadequado
+
+| Nome  | Informações              |
+|-------|--------------------------|
+| Ana   | 18 anos; noturno; ônibus |
+| Bruno | 20 anos; matutino; carro |
+
+Vários valores foram reunidos em uma única coluna.
+
+### Exemplo adequado
+
+| nome  | idade | turno    | transporte |
+|-------|------:|----------|------------|
+| Ana   |    18 | Noturno  | Ônibus     |
+| Bruno |    20 | Matutino | Carro      |
+
+::: {.callout-warning title="Cor não deve ser o único registro"}
+Não use apenas a cor da célula para indicar aprovação, ausência ou grupo. Essas informações devem estar registradas em uma variável explícita.
+:::
+
+## Valores ausentes em planilhas
+
+Evite misturar diferentes códigos sem documentação:
+
+- célula vazia;
+- `-`;
+- `99`;
+- `999`;
+- `Não se aplica`;
+- `Sem informação`;
+- `Não respondeu`.
+
+Esses estados podem ter significados diferentes. Um valor ausente deve ser identificado e, quando necessário, acompanhado do motivo da ausência.
+
+No R, o valor ausente é representado por `NA`.
+
+```{r}
+idades_com_ausencia <- c(18, 20, NA, 23)
+idades_com_ausencia
+```
+
+```{r}
+mean(idades_com_ausencia)
+```
+
+A função informa `NA` porque existe um valor ausente.
+
+```{r}
+mean(idades_com_ausencia, na.rm = TRUE)
+```
+
+::: {.callout-warning title="Remover ausências não resolve automaticamente o problema"}
+O argumento `na.rm = TRUE` exclui valores ausentes do cálculo, mas não explica por que eles estão ausentes nem se essa exclusão pode distorcer a análise.
+:::
+
+## Utilizando a internet de forma responsável
+
+A internet pode ser utilizada para:
+
+- localizar bancos de dados;
+- consultar documentação de funções;
+- encontrar livros, artigos e relatórios;
+- verificar definições;
+- consultar fóruns técnicos;
+- obter exemplos de código.
+
+Entretanto, nem toda informação disponível é confiável.
+
+### Checklist para avaliar uma fonte
+
+Pergunte:
+
+1.  Quem produziu a informação?
+2.  A instituição ou o autor está identificado?
+3.  A data de publicação está disponível?
+4.  A metodologia foi explicada?
+5.  A fonte original dos dados foi indicada?
+6.  O conteúdo pode ser conferido em outra fonte?
+7.  O material distingue opinião, propaganda e evidência?
+8.  Os dados correspondem ao período e à população de interesse?
+
+### Estratégias de pesquisa
+
+- use aspas para procurar uma expressão exata;
+- acrescente o nome da instituição responsável;
+- utilize termos técnicos em português e inglês;
+- procure a documentação oficial de pacotes;
+- registre a página, o título, a instituição e a data de acesso;
+- prefira o dado original a reproduções sem fonte.
+
+### Sobre códigos encontrados na internet
+
+Antes de utilizar um código:
+
+- leia cada comando;
+- verifique os nomes das funções;
+- execute por partes;
+- teste com um exemplo pequeno;
+- consulte a documentação;
+- confirme se o resultado possui interpretação;
+- registre adaptações realizadas.
+
+::: {.callout-important title="Copiar não é reproduzir"}
+Uma análise é reprodutível quando outra pessoa consegue compreender os dados, executar os procedimentos e obter os resultados. Copiar um código sem compreender as etapas não garante reprodutibilidade.
+:::
+
+## Edição de texto com Quarto
+
+O Quarto permite combinar:
+
+- texto;
+- títulos e listas;
+- equações;
+- tabelas;
+- gráficos;
+- referências;
+- códigos executáveis;
+- resultados produzidos pelo R.
+
+Essa integração reduz a necessidade de copiar e colar resultados manualmente.
+
+## Sintaxe básica de Markdown
+
+O conteúdo abaixo mostra alguns elementos.
+
+``` markdown
+# Título principal
+
+## Seção
+
+### Subseção
+
+Texto comum com **negrito**, *itálico* e `código`.
+
+- item de lista;
+- outro item.
+
+1. primeiro passo;
+2. segundo passo.
+
+> Uma citação ou observação destacada.
+```
+
+## Blocos de código em Quarto
+
+Um bloco de código R possui a seguinte estrutura:
+
+```` markdown
+```{r}
+notas <- c(7.5, 6.0, 8.2, 9.0, 5.8)
+mean(notas)
+```
+````
+
+Quando o documento é renderizado, o código é executado e o resultado é incluído no relatório.
+
+### Opções do bloco
+
+```` markdown
+```{r}
+#| label: resumo-notas
+#| echo: true
+#| warning: false
+
+summary(notas)
+```
+````
+
+- `label`: identifica o bloco;
+- `echo`: controla a exibição do código;
+- `warning`: controla a exibição de avisos;
+- `message`: controla mensagens produzidas por pacotes;
+- `eval`: define se o código será executado.
+
+::: {.callout-warning title="Identificadores devem ser únicos"}
+Não repita o mesmo `label` em dois blocos do documento.
+:::
+
+## Texto com resultado calculado pelo R
+
+O resultado pode ser inserido no meio de uma frase utilizando código R em linha.
+
+O banco possui `r nrow(estudantes)` estudantes fictícios e `r ncol(estudantes)` variáveis.
+
+Essa forma evita digitar manualmente valores que podem mudar quando o banco é atualizado.
+
+## Tabela simples no relatório
+
+```{r}
+estudantes |>
+  select(id, turno, idade, meio_transporte) |>
+  head(6) |>
+  knitr::kable(
+    caption = "Primeiras observações do banco didático"
+  )
+```
+
+## Primeiro resumo produzido no R
+
+```{r}
+summary(estudantes)
+```
+
+O comando `summary()` produz resumos diferentes conforme o tipo computacional das variáveis. O resultado deve ser interpretado, não apenas exibido.
+
+Podemos contar estudantes por turno:
+
+```{r}
+estudantes |>
+  count(turno)
+```
+
+E calcular proporções:
+
+```{r}
+estudantes |>
+  count(turno) |>
+  mutate(proporcao = n / sum(n))
+```
+
+Esses procedimentos serão aprofundados na Unidade 2.
+
+## Primeiro gráfico
+
+```{r}
+#| fig-cap: "Quantidade de estudantes fictícios por turno."
+#| fig-alt: "Gráfico de barras com a quantidade de estudantes nos turnos matutino, vespertino e noturno."
+
+estudantes |>
+  count(turno) |>
+  ggplot(aes(x = turno, y = n)) +
+  geom_col() +
+  labs(
+    x = "Turno",
+    y = "Quantidade de estudantes",
+    title = "Distribuição dos estudantes por turno",
+    subtitle = "Banco fictício utilizado na aula prática"
+  ) +
+  theme_minimal()
+```
+
+Neste momento, o objetivo não é aprofundar a construção de gráficos, mas perceber que o documento reúne dados, código, figura e interpretação.
+
+## Renderizando o documento
+
+Para transformar o arquivo `.qmd` em um documento:
+
+1.  salve o arquivo;
+2.  clique em **Render**;
+3.  acompanhe as mensagens no painel de execução;
+4.  corrija eventuais erros;
+5.  verifique o arquivo gerado.
+
+::: {.callout-tip title="Erros são parte do aprendizado"}
+Leia a mensagem de erro, identifique em qual bloco ela ocorreu e verifique nomes de objetos, parênteses, aspas, vírgulas, pacotes e caminhos de arquivos.
+:::
+
+## Atividade prática orientada
+
+### Parte A — Organização
+
+1.  Crie um projeto chamado `AED`.
+2.  Crie as pastas `dados`, `figuras`, `relatorios` e `scripts`.
+3.  Salve este arquivo no projeto.
+
+### Parte B — Objetos
+
+1.  Crie um vetor com cinco idades.
+2.  Crie um vetor com cinco meios de transporte.
+3.  Crie um vetor lógico indicando se cada pessoa utiliza transporte coletivo.
+4.  Verifique a classe de cada vetor.
+
+### Parte C — Banco
+
+1.  Crie um `tibble` com pelo menos cinco casos.
+2.  Inclua uma variável qualitativa nominal.
+3.  Inclua uma variável qualitativa ordinal.
+4.  Inclua uma variável quantitativa discreta.
+5.  Inclua uma variável quantitativa contínua.
+6.  Explique qual é a unidade observacional.
+
+### Parte D — Arquivos
+
+1.  Exporte o banco para CSV.
+2.  Exporte o banco para XLSX.
+3.  Remova o objeto da sessão.
+4.  Importe novamente os dois arquivos.
+5.  Compare a estrutura dos objetos importados.
+
+### Parte E — Quarto
+
+1.  Escreva um título.
+2.  Descreva o objetivo do banco.
+3.  Insira um bloco que mostre as primeiras linhas.
+4.  Insira uma frase com `nrow()` em código R em linha.
+5.  Produza uma tabela de frequências para uma variável.
+6.  Renderize o documento.
+
+## Desafio final da aula
+
+Crie um pequeno relatório com a seguinte estrutura:
+
+``` markdown
+# Primeiro relatório de Análise Exploratória de Dados
+
+## Objetivo
+
+## População e unidade observacional
+
+## Variáveis
+
+## Estrutura do banco
+
+## Primeiro resumo
+
+## O que aprendi
+```
+
+O relatório deve apresentar:
+
+- pelo menos cinco observações;
+- quatro tipos de variáveis;
+- um trecho de texto;
+- um bloco de código;
+- uma tabela;
+- uma interpretação escrita pelo estudante.
+
+## Problemas frequentes e como investigar
+
+| Problema | Verificação inicial |
+|------------------------------------|------------------------------------|
+| Objeto não encontrado | O nome foi escrito corretamente? O bloco anterior foi executado? |
+| Função não encontrada | O pacote foi instalado e carregado? |
+| Arquivo não encontrado | O arquivo está na pasta indicada? O projeto está aberto? |
+| Aspas ou parênteses incompletos | Revise a linha e o bloco anterior |
+| Coluna não encontrada | Use `names()` e confira a grafia |
+| Documento não renderiza | Localize o primeiro erro mostrado no processo de renderização |
+| Acentos aparecem incorretamente | Confirme a codificação UTF-8 e a forma de importação |
+
+## Síntese da Aula 2
+
+1.  R é a linguagem; RStudio é o ambiente de trabalho.
+2.  Projetos e caminhos relativos tornam a análise mais organizada.
+3.  Comandos importantes devem ser registrados em scripts ou documentos Quarto.
+4.  Pacotes precisam ser instalados e carregados.
+5.  Uma tabela de dados possui casos nas linhas e variáveis nas colunas.
+6.  CSV e XLSX possuem características diferentes.
+7.  Planilhas para análise devem evitar células mescladas, subtotais e códigos sem documentação.
+8.  A internet deve ser utilizada com avaliação crítica das fontes.
+9.  Quarto reúne texto, código e resultados em um documento reprodutível.
+10. A interpretação é responsabilidade do analista, não do software.
+
+## Exercícios de consolidação das Aulas 1 e 2
+
+### Exercício 1 — Conceitos
+
+Explique as diferenças entre:
+
+1.  população e amostra;
+2.  censo e amostragem;
+3.  unidade observacional e variável;
+4.  Estatística Descritiva e Estatística Inferencial;
+5.  dado e evidência.
+
+### Exercício 2 — Classificação
+
+Classifique as variáveis:
+
+1.  código de matrícula;
+2.  quantidade de disciplinas cursadas;
+3.  tempo de permanência na universidade;
+4.  nível de satisfação;
+5.  curso;
+6.  nota final;
+7.  situação acadêmica;
+8.  ano de ingresso.
+
+Em casos ambíguos, explique a forma de registro considerada.
+
+### Exercício 3 — Crítica de uma planilha
+
+Uma planilha apresenta:
+
+- títulos em três linhas;
+- células mescladas;
+- cores para indicar aprovação;
+- valores `99`, `-` e células vazias para ausências;
+- duas tabelas na mesma aba;
+- nomes de estudantes repetidos, sem identificador.
+
+Identifique os problemas e proponha uma reorganização.
+
+### Exercício 4 — Reprodutibilidade
+
+Explique por que cada prática abaixo pode prejudicar a reprodução da análise:
+
+1.  modificar valores diretamente no arquivo original;
+2.  usar caminhos absolutos do computador;
+3.  copiar tabelas manualmente para o editor de texto;
+4.  não registrar a versão do banco;
+5.  utilizar códigos encontrados na internet sem leitura;
+6.  apagar observações sem documentar o motivo.
+
+### Exercício 5 — Produção em Quarto
+
+Elabore um documento que:
+
+- apresente uma pergunta de interesse;
+- defina população e unidade observacional;
+- crie ou importe um banco simples;
+- classifique as variáveis;
+- mostre as primeiras linhas;
+- informe o número de casos e variáveis;
+- produza uma tabela de contagem;
+- apresente uma interpretação em linguagem clara.

@@ -1,0 +1,998 @@
+# Distribuições de frequências para variáveis quantitativas contínuas e representações gráficas
+
+::: {.callout-tip title="Objetivos da aula"}
+Ao final desta aula, espera-se que você seja capaz de:
+
+- compreender por que dados quantitativos contínuos podem ser agrupados em classes;
+- identificar amplitude total, limites, amplitude e ponto médio de uma classe;
+- construir e interpretar uma distribuição de frequências por intervalos;
+- compreender que o número e a largura das classes são escolhas analíticas;
+- aplicar e comparar as regras da raiz quadrada, de Sturges, de Scott e de Freedman–Diaconis;
+- distinguir os principais gráficos utilizados na análise univariada;
+- selecionar uma representação gráfica coerente com a natureza da variável;
+- interpretar gráficos procurando concentração, dispersão, forma e observações incomuns.
+:::
+
+Nas Aulas 5 e 6, organizamos variáveis qualitativas e quantitativas discretas por meio de tabelas de frequências. Para uma variável discreta, como o número de faltas, é natural contar quantas observações assumem cada valor: 0, 1, 2, 3 e assim por diante.
+
+Com variáveis quantitativas contínuas, a situação pode ser diferente. Altura, massa, tempo, temperatura e distância são grandezas que, em princípio, podem assumir qualquer valor em determinado intervalo. Mesmo quando registradas com precisão limitada, podem apresentar muitos valores distintos.
+
+Considere o tempo de deslocamento, em minutos, de 20 estudantes:
+
+$$12{,}4,\ 18{,}7,\ 21{,}5,\ 23{,}9,\ 25{,}2,\ 27{,}6,\ 29{,}8,\ 31{,}1,\ 33{,}5,\ 35{,}4,$$
+
+$$37{,}9,\ 39{,}2,\ 42{,}6,\ 45{,}1,\ 47{,}8,\ 51{,}3,\ 54{,}7,\ 61{,}2,\ 68{,}5,\ 79{,}4.$$
+
+Uma tabela contendo uma linha para cada valor teria pouca capacidade de síntese. Em situações como essa, podemos **agrupar valores próximos em intervalos**, chamados de **classes**, e contar quantas observações pertencem a cada intervalo.
+
+Essa organização produz uma **distribuição de frequências para dados agrupados em classes**.
+
+::: {.callout-note title="Agrupar é resumir"}
+Ao agrupar dados contínuos em classes, ganhamos uma visão mais compacta da distribuição, mas perdemos parte da informação individual. Depois do agrupamento, sabemos quantas observações existem em cada intervalo, mas não os valores exatos de todas elas.
+
+Por isso, a tabela agrupada deve ser entendida como um **resumo**, e não como um substituto permanente dos dados originais.
+:::
+
+## Amplitude total
+
+Antes de formar as classes, é útil conhecer a extensão ocupada pelos dados.
+
+A **amplitude total** é a diferença entre o maior e o menor valor observado:
+
+$$A_t = x_{\max} - x_{\min}.$$
+
+No exemplo:
+
+$$x_{\min}=12{,}4$$
+
+e
+
+$$x_{\max}=79{,}4.$$
+
+Logo,
+
+$$A_t=79{,}4-12{,}4=67{,}0.$$
+
+Portanto, os valores observados se distribuem ao longo de uma faixa de 67 minutos.
+
+A amplitude total é simples e útil, mas depende apenas dos dois valores extremos. Ela ainda não informa como as observações estão distribuídas dentro desse intervalo.
+
+::: {.callout-important title="Amplitude total não é amplitude de classe"}
+A **amplitude total** descreve a extensão de todo o conjunto de dados.
+
+A **amplitude de classe** descreve a largura de um único intervalo da tabela de frequências.
+
+São conceitos diferentes.
+:::
+
+## Classes, limites e amplitude de classe
+
+Uma **classe** é um intervalo de valores utilizado para reunir observações próximas.
+
+Por exemplo:
+
+$$[10;25)$$
+
+representa todos os valores $x$ tais que
+
+$$10 \leq x < 25.$$
+
+O número 10 é o **limite inferior** da classe e 25 é o **limite superior**.
+
+A notação $[10;25)$ indica que:
+
+- o limite inferior está incluído;
+- o limite superior não está incluído.
+
+Assim, `10` pertence à classe, mas `25` pertence à classe seguinte.
+
+Esse tipo de convenção é útil porque evita que um valor localizado exatamente na fronteira seja contado em duas classes.
+
+A **amplitude da classe**, também chamada de largura da classe, é
+
+$$h=L_s-L_i,$$
+
+em que $L_i$ é o limite inferior e $L_s$ o limite superior.
+
+Para a classe $[10;25)$:
+
+$$h=25-10=15.$$
+
+### Exemplo
+
+Considere as classes:
+
+| Classe | Intervalo | Amplitude |
+|:------:|:---------:|----------:|
+|   1    | $[10;25)$ |        15 |
+|   2    | $[25;40)$ |        15 |
+|   3    | $[40;55)$ |        15 |
+|   4    | $[55;70)$ |        15 |
+
+Todas possuem a mesma amplitude.
+
+Na maior parte das aplicações introdutórias, classes de mesma largura facilitam a leitura e a comparação. Classes de larguras diferentes podem ser utilizadas, mas exigem mais cuidado, especialmente na construção de histogramas.
+
+::: {.callout-warning title="As classes precisam formar uma partição coerente"}
+Uma boa classificação deve evitar:
+
+- **sobreposição** — uma mesma observação não pode pertencer a duas classes;
+- **lacunas** — valores possíveis na região estudada não devem ficar sem classe;
+- **ambiguidade** — a regra de inclusão dos limites precisa estar clara.
+:::
+
+## Ponto médio da classe
+
+O **ponto médio** de uma classe é o valor situado no centro do intervalo:
+
+$$x_i=\frac{L_i+L_s}{2}.$$
+
+Para a classe $[10;25)$:
+
+$$x_i=\frac{10+25}{2}=17{,}5.$$
+
+Para $[25;40)$:
+
+$$x_i=\frac{25+40}{2}=32{,}5.$$
+
+O ponto médio é uma representação numérica da classe e será útil em alguns procedimentos com dados agrupados.
+
+|  Classe   | Limite inferior | Limite superior | Ponto médio |
+|:---------:|----------------:|----------------:|------------:|
+| $[10;25)$ |              10 |              25 |        17,5 |
+| $[25;40)$ |              25 |              40 |        32,5 |
+| $[40;55)$ |              40 |              55 |        47,5 |
+| $[55;70)$ |              55 |              70 |        62,5 |
+
+::: {.callout-note title="O ponto médio é uma aproximação"}
+Se sabemos apenas que uma observação pertence à classe $[25;40)$, não sabemos seu valor exato. Usar `32,5` para representar essa classe é uma aproximação.
+
+Não devemos interpretar o ponto médio como se todas as observações da classe fossem realmente iguais a ele.
+:::
+
+## Quantas classes utilizar?
+
+Depois de conhecer a amplitude total, precisamos decidir **como dividir a extensão dos dados em intervalos**. Essa escolha determina quantas classes serão utilizadas e qual será a largura de cada uma.
+
+Se utilizarmos **poucas classes**, podemos esconder características importantes da distribuição. Se utilizarmos **classes demais**, o resumo pode ficar fragmentado e excessivamente sensível a pequenas variações dos dados.
+
+Não existe um único número correto de classes para todos os conjuntos de dados. Existem, porém, **regras práticas** que fornecem pontos de partida para a construção da tabela e do histograma.
+
+::: {.callout-important title="Número de classes e largura de classe são decisões relacionadas"}
+Quando definimos o número de classes $k$, podemos obter uma largura inicial pela razão
+
+$$h \approx \frac{A_t}{k},$$
+
+em que $A_t$ é a amplitude total.
+
+Algumas regras, como raiz quadrada e Sturges, sugerem diretamente $k$. Outras, como Scott e Freedman–Diaconis, sugerem diretamente a largura $h$.
+:::
+
+### Regra da raiz quadrada
+
+Uma regra simples é
+
+$$k\approx\sqrt{n},$$
+
+em que $n$ é o número de observações.
+
+Para $n=80$:
+
+$$k\approx\sqrt{80}\approx8{,}94.$$
+
+Podemos utilizar aproximadamente **9 classes**.
+
+A vantagem dessa regra é a simplicidade. Entretanto, ela considera apenas o tamanho do conjunto de dados e não utiliza informações sobre sua dispersão.
+
+### Regra de Sturges
+
+A regra de Sturges pode ser escrita como
+
+$$k=1+\log_2(n),$$
+
+ou, de forma equivalente,
+
+$$k=1+3{,}322\log_{10}(n).$$
+
+Para $n=80$:
+
+$$k=1+\log_2(80)\approx7{,}32.$$
+
+Arredondando para cima, obtemos aproximadamente **8 classes**.
+
+A regra de Sturges também depende apenas de $n$. Em conjuntos maiores ou com formatos mais complexos, pode produzir uma divisão pouco flexível.
+
+### Regra de Scott
+
+A regra de Scott determina uma **largura de classe**:
+
+$$h_{\text{Scott}}=3{,}5\,s\,n^{-1/3},$$
+
+em que $s$ é o desvio-padrão amostral.
+
+Para os tempos de deslocamento,
+
+$$s\approx 21{,}57.$$
+
+Logo,
+
+$$h_{\text{Scott}}
+=3{,}5(21{,}57)(80)^{-1/3}
+\approx17{,}52.$$
+
+Como a amplitude total é $A_t=100{,}3$, essa largura corresponde aproximadamente a
+
+$$k\approx\frac{100{,}3}{17{,}52}\approx5{,}72,$$
+
+ou cerca de **6 classes**.
+
+Scott incorpora a dispersão dos dados por meio do desvio-padrão.
+
+### Regra de Freedman–Diaconis
+
+A regra de Freedman–Diaconis também determina uma largura de classe, mas utiliza a **amplitude interquartil (AIQ)**:
+
+$$h_{\text{FD}}=2\,AIQ\,n^{-1/3},$$
+
+em que
+
+$$AIQ=Q_3-Q_1.$$
+
+Para os tempos de deslocamento,
+
+$$Q_1\approx24{,}675
+\qquad\text{e}\qquad
+Q_3\approx51{,}775.$$
+
+Portanto,
+
+$$AIQ=51{,}775-24{,}675=27{,}1.$$
+
+Assim,
+
+$$h_{\text{FD}}
+=2(27{,}1)(80)^{-1/3}
+\approx12{,}58.$$
+
+Isso corresponde aproximadamente a
+
+$$k\approx\frac{100{,}3}{12{,}58}\approx7{,}97,$$
+
+ou cerca de **8 classes**.
+
+Como utiliza a amplitude interquartil, a regra de Freedman–Diaconis tende a ser menos sensível a valores extremos do que uma regra baseada no desvio-padrão.
+
+### Comparando as quatro propostas
+
+Para este conjunto de dados:
+
+| Regra             |               Resultado aproximado |
+|:------------------|-----------------------------------:|
+| Raiz quadrada     |                          9 classes |
+| Sturges           |                          8 classes |
+| Scott             | largura 17,52 → cerca de 6 classes |
+| Freedman–Diaconis | largura 12,58 → cerca de 8 classes |
+
+As regras não concordam perfeitamente — e isso é esperado.
+
+::: {.callout-warning title="As regras são pontos de partida, não leis"}
+A escolha não deve ser feita perguntando apenas **“qual fórmula está certa?”**. Uma pergunta mais útil é:
+
+> **Qual agrupamento resume os dados com clareza sem esconder padrões importantes e sem exagerar pequenas irregularidades?**
+
+Também é legítimo ajustar a largura sugerida para um valor mais conveniente à unidade de medida e à comunicação, desde que os intervalos cubram todos os dados e a decisão seja explicitada.
+:::
+
+Se $AIQ=0$, a regra de Freedman–Diaconis produz largura zero e não pode ser aplicada diretamente. Isso pode ocorrer quando muitos valores são repetidos. Nessa situação, outra regra ou uma escolha baseada no contexto deve ser utilizada.
+
+## Construindo uma tabela de frequências por classes: passo a passo
+
+Agora aplicaremos os conceitos anteriores a **um único conjunto de dados do início ao fim**. Esse mesmo exemplo será reconstruído computacionalmente na Aula 8.
+
+Considere a variável **tempo de deslocamento até a universidade**, medida em minutos, para 80 estudantes. Os valores individuais estão no banco `aula7_8_estudantes.csv`.
+
+### Passo 1 — Identificar o tamanho do conjunto e os extremos
+
+Temos
+
+$$n=80,$$
+
+com
+
+$$x_{\min}=11{,}7
+\qquad\text{e}\qquad
+x_{\max}=112{,}0.$$
+
+Antes de formar classes, é indispensável saber qual intervalo precisa ser coberto.
+
+### Passo 2 — Calcular a amplitude total
+
+A amplitude total é
+
+$$A_t=x_{\max}-x_{\min}.$$
+
+Logo,
+
+$$A_t=112{,}0-11{,}7=100{,}3.$$
+
+Os dados ocupam, portanto, uma extensão de **100,3 minutos**.
+
+### Passo 3 — Escolher um número inicial de classes
+
+As regras anteriores produziram aproximadamente:
+
+- 9 classes pela raiz quadrada;
+- 8 classes por Sturges;
+- 6 classes por Scott;
+- 8 classes por Freedman–Diaconis.
+
+Para iniciar a construção, adotaremos **8 classes como referência**, pois esse valor aparece em duas das regras e fornece uma divisão de magnitude intermediária.
+
+::: {.callout-note title="Escolher 8 classes não significa que 8 seja o único valor correto"}
+O objetivo aqui é construir uma tabela didática e interpretável. Em uma análise real, outras divisões poderiam ser comparadas antes da decisão final.
+:::
+
+### Passo 4 — Obter uma largura inicial
+
+Se utilizássemos exatamente 8 classes de mesma largura, teríamos aproximadamente
+
+$$h\approx\frac{A_t}{k}
+=\frac{100{,}3}{8}
+\approx12{,}54.$$
+
+Uma largura de `12,54` minutos produziria limites pouco convenientes para leitura. Para tornar a tabela mais simples, adotaremos uma largura de **15 minutos**.
+
+Com essa largura, o número efetivo de classes será aproximadamente
+
+$$\frac{100{,}3}{15}\approx6{,}69,$$
+
+portanto serão necessárias **7 classes** para cobrir toda a extensão dos dados.
+
+::: {.callout-important title="Ajustar a largura pode alterar o número de classes"}
+Esse é um ponto importante: $k$ e $h$ estão relacionados. Ao arredondar uma largura para um valor conveniente, o número final de classes pode mudar. Isso não representa erro; representa uma decisão de construção que deve ser coerente e explicitada.
+:::
+
+### Passo 5 — Escolher os limites das classes
+
+O menor valor observado é `11,7`. Escolheremos `10` como primeiro limite inferior, pois é um valor simples e está abaixo do mínimo observado.
+
+Com amplitude de classe igual a 15, obtemos os limites:
+
+$$10,
+25,
+40,
+55,
+70,
+85,
+100,
+115.$$
+
+O último limite, `115`, é superior ao maior valor observado, `112,0`. Assim, todas as observações estão cobertas.
+
+As classes são:
+
+$$[10;25),\ [25;40),\ [40;55),\ [55;70),\ [70;85),\ [85;100),\ [100;115).$$
+
+A notação $[a;b)$ significa
+
+$$a\leq x<b.$$
+
+Assim, uma observação igual a `25` não pertence à primeira classe; ela pertence à segunda.
+
+### Passo 6 — Calcular o ponto médio de cada classe
+
+O ponto médio é
+
+$$x_i=\frac{L_i+L_s}{2}.$$
+
+Para a primeira classe,
+
+$$x_1=\frac{10+25}{2}=17{,}5.$$
+
+Para a segunda,
+
+$$x_2=\frac{25+40}{2}=32{,}5.$$
+
+Aplicando o mesmo procedimento às demais classes:
+
+|   Classe    | Limite inferior | Limite superior | Ponto médio |
+|:-----------:|----------------:|----------------:|------------:|
+|  $[10;25)$  |              10 |              25 |        17,5 |
+|  $[25;40)$  |              25 |              40 |        32,5 |
+|  $[40;55)$  |              40 |              55 |        47,5 |
+|  $[55;70)$  |              55 |              70 |        62,5 |
+|  $[70;85)$  |              70 |              85 |        77,5 |
+| $[85;100)$  |              85 |             100 |        92,5 |
+| $[100;115)$ |             100 |             115 |       107,5 |
+
+### Passo 7 — Contar as observações em cada classe
+
+Agora percorremos os dados e contamos quantos valores pertencem a cada intervalo. Essa contagem produz a **frequência absoluta**, $f_i$.
+
+| Classe      |  $f_i$ |
+|:------------|-------:|
+| $[10;25)$   |     21 |
+| $[25;40)$   |     26 |
+| $[40;55)$   |     16 |
+| $[55;70)$   |     10 |
+| $[70;85)$   |      3 |
+| $[85;100)$  |      3 |
+| $[100;115)$ |      1 |
+| **Total**   | **80** |
+
+A soma precisa coincidir com o número de observações válidas:
+
+$$21+26+16+10+3+3+1=80.$$
+
+### Passo 8 — Calcular frequências relativas e percentuais
+
+Para cada classe,
+
+$$f_{r_i}=\frac{f_i}{n}.$$
+
+Na classe $[25;40)$:
+
+$$f_{r_i}=\frac{26}{80}=0{,}325.$$
+
+Em percentual:
+
+$$100\times0{,}325=32{,}5\%.$$
+
+Portanto, **32,5% dos estudantes apresentam tempo de deslocamento entre 25 minutos, inclusive, e 40 minutos, exclusive**.
+
+### Passo 9 — Calcular as frequências acumuladas
+
+A frequência absoluta acumulada é obtida somando progressivamente as frequências:
+
+$$F_i=\sum_{j=1}^{i}f_j.$$
+
+Por exemplo, até a segunda classe:
+
+$$F_2=21+26=47.$$
+
+Logo, **47 estudantes apresentam tempo de deslocamento inferior a 40 minutos**.
+
+A frequência relativa acumulada é calculada de forma análoga:
+
+$$F_{r_i}=\sum_{j=1}^{i}f_{r_j}.$$
+
+### Passo 10 — Montar a tabela completa
+
+Reunindo todos os elementos:
+
+| Tempo de deslocamento (min) | Ponto médio | $f_i$ | $f_{r_i}$ | Percentual | $F_i$ | $F_{r_i}$ |
+|:---------|---------:|---------:|---------:|---------:|---------:|---------:|
+| $[10;25)$ | 17,5 | 21 | 0,2625 | 26,25% | 21 | 0,2625 |
+| $[25;40)$ | 32,5 | 26 | 0,3250 | 32,50% | 47 | 0,5875 |
+| $[40;55)$ | 47,5 | 16 | 0,2000 | 20,00% | 63 | 0,7875 |
+| $[55;70)$ | 62,5 | 10 | 0,1250 | 12,50% | 73 | 0,9125 |
+| $[70;85)$ | 77,5 | 3 | 0,0375 | 3,75% | 76 | 0,9500 |
+| $[85;100)$ | 92,5 | 3 | 0,0375 | 3,75% | 79 | 0,9875 |
+| $[100;115)$ | 107,5 | 1 | 0,0125 | 1,25% | 80 | 1,0000 |
+| **Total** | — | **80** | **1,0000** | **100%** | — | — |
+
+### Passo 11 — Conferir a tabela
+
+Antes de interpretar, faça verificações simples:
+
+$$\sum f_i=80,$$
+
+$$\sum f_{r_i}=1,$$
+
+$$\sum \text{Percentual}=100\%,$$
+
+além de verificar que o último valor de $F_i$ é `80` e o último valor de $F_{r_i}$ é `1`.
+
+Essas conferências ajudam a detectar erros de contagem, de denominador ou de acumulação.
+
+### Passo 12 — Interpretar, não apenas calcular
+
+A tabela mostra, por exemplo, que:
+
+- a classe com maior frequência é $[25;40)$, com 26 estudantes;
+- 32,5% dos estudantes estão nessa classe;
+- 78,75% apresentam tempo de deslocamento inferior a 55 minutos;
+- apenas 1 estudante está no intervalo de 100 a menos de 115 minutos.
+
+::: {.callout-tip title="Roteiro geral para construir uma tabela por classes"}
+Em outros conjuntos de dados, siga a lógica:
+
+**dados →** $n$ e extremos → amplitude total → escolha de $k$ ou $h$ → ajuste dos limites → formação das classes → ponto médio → $f_i$ → $f_{r_i}$ → percentual → frequências acumuladas → conferência → interpretação.
+:::
+
+A Aula 8 reproduzirá **exatamente essa tabela no R**, mantendo os mesmos dados, limites, amplitude de 15 minutos e convenção $[a;b)$.
+
+## Da tabela ao gráfico
+
+Tabelas e gráficos cumprem funções complementares.
+
+A tabela permite consultar frequências com precisão. O gráfico procura tornar a **estrutura da distribuição visualmente perceptível**.
+
+A escolha do gráfico deve considerar principalmente:
+
+1.  o **tipo da variável**;
+2.  o **objetivo da representação**;
+3.  o **tamanho e a estrutura do conjunto de dados**.
+
+Uma orientação inicial é:
+
+| Tipo de variável | Representações frequentes |
+|:-----------------------------------|:-----------------------------------|
+| Qualitativa nominal | barras, Pareto, setores |
+| Qualitativa ordinal | barras ordenadas |
+| Quantitativa discreta | barras ou pontos |
+| Quantitativa contínua | histograma, polígono de frequências, ogiva, densidade |
+| Quantitativa com conjunto pequeno ou moderado | pontos, ramo e folhas |
+
+Nenhum quadro desse tipo deve ser entendido como regra absoluta. Um gráfico é adequado quando representa corretamente os dados e ajuda a responder à pergunta da análise.
+
+## Gráfico de barras
+
+O **gráfico de barras** é uma das representações mais úteis para variáveis qualitativas e para algumas variáveis quantitativas discretas.
+
+Cada barra representa uma categoria ou um valor, e sua altura representa a frequência absoluta, relativa ou percentual.
+
+Considere o meio de transporte de 40 estudantes:
+
+| Meio de transporte | Frequência |
+|:-------------------|-----------:|
+| Ônibus             |         16 |
+| Carro              |          9 |
+| Aplicativo         |          7 |
+| Motocicleta        |          4 |
+| A pé               |          3 |
+| Bicicleta          |          1 |
+
+No gráfico de barras:
+
+- as categorias aparecem em um eixo;
+- as frequências aparecem no outro;
+- as barras são **separadas**, pois cada uma representa uma categoria distinta.
+
+Para variáveis nominais, a ordem pode ser escolhida de acordo com a finalidade da apresentação. Podemos usar ordem alfabética, ordem lógica ou ordem decrescente de frequência.
+
+Para uma variável ordinal, deve-se preservar a ordem natural das categorias.
+
+::: {.callout-note title="Barras não precisam começar pela categoria mais frequente"}
+Ordenar barras do maior para o menor é útil quando o objetivo é comparar magnitudes. Porém, essa ordenação não deve destruir uma ordem substantiva da variável. Em categorias ordinais — como `Baixa`, `Média` e `Alta` — a ordem conceitual costuma ser mais importante.
+:::
+
+## Gráfico de Pareto
+
+O **gráfico de Pareto** é uma forma particular de gráfico de barras.
+
+As categorias são organizadas em **ordem decrescente de frequência**, e costuma-se acrescentar uma linha representando a frequência ou o percentual acumulado.
+
+Exemplo:
+
+| Categoria   | Frequência | Percentual acumulado |
+|:------------|-----------:|---------------------:|
+| Ônibus      |         16 |                40,0% |
+| Carro       |          9 |                62,5% |
+| Aplicativo  |          7 |                80,0% |
+| Motocicleta |          4 |                90,0% |
+| A pé        |          3 |                97,5% |
+| Bicicleta   |          1 |               100,0% |
+
+O Pareto é especialmente útil quando se deseja destacar quais categorias concentram a maior parte das ocorrências.
+
+No exemplo:
+
+> Ônibus, carro e aplicativo concentram 80% dos meios de transporte observados.
+
+::: {.callout-important title="Pareto e frequência acumulada"}
+No gráfico de Pareto, a acumulação segue a **ordem decrescente de frequência**, e não uma ordem natural da variável.
+
+Isso é diferente da frequência acumulada de uma variável ordinal ou quantitativa, na qual a ordem possui interpretação substantiva.
+:::
+
+## Gráfico de setores
+
+O **gráfico de setores**, também conhecido como gráfico de pizza, representa cada categoria como uma parte de um círculo.
+
+Se uma categoria corresponde a uma proporção $p_i$, o ângulo do setor é:
+
+$$\theta_i=360^\circ p_i.$$
+
+Se 40% dos estudantes utilizam ônibus:
+
+$$\theta=360^\circ(0{,}40)=144^\circ.$$
+
+O gráfico de setores pode ser útil quando:
+
+- existem poucas categorias;
+- todas representam partes de um mesmo total;
+- o objetivo principal é mostrar composição.
+
+Entretanto, comparar setores de tamanhos próximos visualmente pode ser difícil. Quando o objetivo é comparar magnitudes com precisão, um gráfico de barras costuma ser mais direto.
+
+::: {.callout-warning title="Evite excesso de setores"}
+Um gráfico de setores com muitas categorias, rótulos sobrepostos ou efeitos tridimensionais costuma dificultar a leitura.
+
+Um gráfico estatístico deve esclarecer os dados, e não apenas decorá-los.
+:::
+
+## Gráfico de pontos
+
+O **gráfico de pontos** (*dot plot*) representa cada observação por um ponto em uma escala numérica. Quando valores se repetem ou ficam muito próximos, os pontos são empilhados.
+
+Considere:
+
+$$2,\ 3,\ 3,\ 4,\ 4,\ 4,\ 5,\ 5,\ 7.$$
+
+Uma representação esquemática seria:
+
+``` text
+          •
+      •   •
+  •   •   •   •       •
+  2   3   4   5   6   7
+```
+
+O gráfico permite perceber ao mesmo tempo:
+
+- valores observados;
+- repetições;
+- concentração;
+- lacunas;
+- extensão dos dados.
+
+É especialmente interessante para conjuntos pequenos ou moderados, pois preserva mais informação individual que um histograma.
+
+## Histograma
+
+O **histograma** é uma representação fundamental para variáveis quantitativas contínuas.
+
+Nele, a escala numérica é dividida em intervalos, e cada retângulo representa uma classe.
+
+Diferentemente do gráfico de barras, as barras de um histograma são **adjacentes**, pois representam intervalos contíguos de uma escala quantitativa.
+
+Um histograma permite observar aspectos como:
+
+- região de maior concentração;
+- extensão dos valores;
+- dispersão;
+- simetria ou assimetria;
+- presença de mais de uma região de concentração;
+- lacunas;
+- observações afastadas.
+
+### Barras × histograma
+
+| Gráfico de barras | Histograma |
+|:-----------------------------------|:-----------------------------------|
+| Representa categorias ou valores discretos | Representa uma escala quantitativa dividida em intervalos |
+| Barras geralmente separadas | Retângulos adjacentes |
+| A ordem pode ser arbitrária para categorias nominais | A ordem numérica é obrigatória |
+| Cada barra representa uma categoria | Cada retângulo representa um intervalo |
+| A largura normalmente não carrega informação quantitativa | A largura representa a amplitude da classe |
+
+::: {.callout-important title="Histograma não é gráfico de barras com as barras encostadas"}
+A diferença não é apenas estética. Os dois gráficos representam estruturas distintas de dados.
+:::
+
+### A área dos retângulos
+
+Quando todas as classes possuem a mesma largura, é comum usar a frequência como altura dos retângulos.
+
+Quando as classes possuem **larguras diferentes**, isso pode ser enganoso. Nesse caso, o princípio correto é fazer com que a **área** do retângulo represente a frequência ou a proporção.
+
+A densidade de frequência de uma classe pode ser definida como:
+
+$$d_i=\frac{f_i}{h_i},$$
+
+em que $h_i$ é a largura da classe.
+
+Assim:
+
+$$\text{área}=h_i\times d_i=f_i.$$
+
+Essa observação será importante quando compararmos histogramas com curvas de densidade.
+
+## O efeito da escolha das classes
+
+Considere o mesmo conjunto de dados representado por três histogramas:
+
+- um com 4 classes;
+- outro com 8 classes;
+- outro com 25 classes.
+
+Com poucas classes, diferenças importantes podem desaparecer. Com classes demais, pequenas flutuações podem dominar a figura.
+
+Portanto, o histograma é resultado de duas coisas:
+
+1.  os dados observados;
+2.  a regra usada para agrupá-los.
+
+::: {.callout-tip title="Boa prática exploratória"}
+Ao explorar uma variável contínua, não dependa de um único histograma. Compare algumas escolhas plausíveis de `bins` ou de largura de classe e verifique quais características permanecem estáveis.
+:::
+
+## Polígono de frequências
+
+O **polígono de frequências** representa a distribuição por meio de pontos localizados, em geral, nos pontos médios das classes.
+
+Cada ponto possui coordenadas:
+
+$$(x_i,f_i),$$
+
+em que $x_i$ é o ponto médio da classe e $f_i$ sua frequência.
+
+Os pontos consecutivos são ligados por segmentos.
+
+Para as classes de tempo de deslocamento:
+
+| Ponto médio | Frequência |
+|------------:|-----------:|
+|        17,5 |         21 |
+|        32,5 |         26 |
+|        47,5 |         16 |
+|        62,5 |         10 |
+|        77,5 |          3 |
+|        92,5 |          3 |
+|       107,5 |          1 |
+
+O polígono enfatiza a **forma geral da distribuição** e pode ser útil para comparar distribuições, desde que a comparação seja feita com escalas coerentes.
+
+## Ogiva
+
+A **ogiva** é um gráfico de frequências acumuladas.
+
+Para cada limite superior de classe, representamos a quantidade ou a proporção acumulada de observações abaixo daquele limite.
+
+Usando a distribuição anterior:
+
+| Limite superior | Frequência acumulada | Percentual acumulado |
+|----------------:|---------------------:|---------------------:|
+|              25 |                   21 |               26,25% |
+|              40 |                   47 |               58,75% |
+|              55 |                   63 |               78,75% |
+|              70 |                   73 |               91,25% |
+|              85 |                   76 |               95,00% |
+|             100 |                   79 |               98,75% |
+|             115 |                   80 |              100,00% |
+
+A ogiva ajuda a responder perguntas como:
+
+> Qual percentual possui tempo de deslocamento inferior a 55 minutos?
+
+Pela tabela:
+
+$$\frac{63}{80}=0{,}7875.$$
+
+Portanto:
+
+> aproximadamente 78,75% dos estudantes apresentam tempo de deslocamento inferior a 55 minutos.
+
+A ogiva também ajuda a visualizar posições acumuladas e prepara o estudo de mediana, quartis e percentis.
+
+::: {.callout-note title="Ogiva e distribuição acumulada"}
+A ogiva construída a partir de classes é uma representação agrupada. Ela não conserva a posição exata de cada observação.
+
+Mais adiante, no R, veremos também a função de distribuição empírica, que utiliza diretamente os valores observados.
+:::
+
+## Diagrama de ramo e folhas
+
+O **diagrama de ramo e folhas** (*stem-and-leaf plot*) organiza os valores separando cada observação em duas partes:
+
+- **ramo** — parte inicial do número;
+- **folha** — dígito final ou parte menos significativa escolhida.
+
+Considere:
+
+$$21,\ 22,\ 24,\ 27,\ 31,\ 33,\ 33,\ 35,\ 42,\ 46.$$
+
+Uma representação possível é:
+
+``` text
+2 | 1 2 4 7
+3 | 1 3 3 5
+4 | 2 6
+```
+
+A chave é:
+
+``` text
+2 | 1 = 21
+```
+
+Diferentemente de um histograma, o ramo e folhas conserva os valores individuais — ou uma aproximação muito próxima deles, dependendo da escala adotada.
+
+Ele é útil para conjuntos pequenos ou moderados e permite perceber:
+
+- concentração;
+- simetria ou assimetria;
+- lacunas;
+- valores extremos;
+- valores específicos.
+
+Para grandes bancos de dados, a representação pode se tornar extensa e perder sua vantagem.
+
+## Curva de densidade
+
+Uma **curva de densidade** fornece uma representação suave da distribuição de uma variável quantitativa contínua.
+
+Em vez de dividir o eixo em classes rígidas como o histograma, a estimativa de densidade distribui suavemente a contribuição das observações ao redor de seus valores.
+
+A área total sob uma curva de densidade é igual a 1:
+
+$$\int_{-\infty}^{\infty}\hat f(x)\,dx=1.$$
+
+A altura da curva em um ponto **não deve ser interpretada como uma probabilidade naquele valor exato**. Para uma variável contínua, probabilidades estão associadas a **intervalos**, representados por áreas sob a curva.
+
+### O papel da suavização
+
+A forma da curva depende de um parâmetro de suavização chamado **largura de banda** (*bandwidth*).
+
+- largura muito pequena → curva excessivamente irregular;
+- largura muito grande → curva excessivamente suavizada;
+- escolha intermediária → procura revelar a estrutura principal.
+
+Assim como o número de classes influencia o histograma, a largura de banda influencia a curva de densidade.
+
+::: {.callout-important title="Gráficos também envolvem decisões"}
+Uma característica central da Análise Exploratória de Dados é reconhecer que uma representação visual não é completamente automática.
+
+Histograma, polígono e densidade dependem de escolhas. Uma análise responsável verifica se as conclusões visuais permanecem razoáveis quando essas escolhas são modificadas.
+:::
+
+## Como escolher e interpretar uma representação gráfica
+
+Antes de construir um gráfico, pergunte:
+
+1.  **Qual é a variável?**
+2.  **Qual é seu tipo?**
+3.  **Qual informação desejo destacar?**
+4.  **Estou mostrando contagens, proporções ou densidade?**
+5.  **A escala representa corretamente os dados?**
+6.  **A escolha de classes ou suavização altera muito a interpretação?**
+
+Depois de construir o gráfico, procure responder:
+
+- onde os dados se concentram?
+- qual é aproximadamente a extensão dos valores?
+- existe uma única região de concentração ou várias?
+- a distribuição parece aproximadamente simétrica?
+- existe uma cauda mais longa?
+- existem lacunas?
+- há valores muito afastados do restante?
+- existe algo que merece investigação adicional?
+
+> **Construir um gráfico é apenas parte da análise. O objetivo é aprender a fazer perguntas ao gráfico e aos dados.**
+
+## Erros comuns em representações gráficas
+
+Alguns problemas aparecem com frequência:
+
+- utilizar um gráfico incompatível com o tipo da variável;
+- omitir título, unidades ou identificação dos eixos;
+- ordenar uma variável ordinal de forma inadequada;
+- usar setores demais em um gráfico de pizza;
+- acrescentar efeitos tridimensionais sem necessidade;
+- truncar escalas de forma que pequenas diferenças pareçam enormes;
+- escolher classes do histograma sem verificar seu efeito;
+- comparar gráficos construídos com escalas incompatíveis;
+- esconder valores ausentes sem informar como foram tratados;
+- usar um gráfico visualmente sofisticado que dificulta uma mensagem simples.
+
+::: {.callout-tip title="Princípio de uma boa visualização"}
+O gráfico deve servir aos dados e à pergunta de investigação. Elementos visuais que não acrescentam informação devem ser utilizados com moderação.
+:::
+
+## Exemplo integrado — tempo de deslocamento
+
+Vamos reunir as ideias principais.
+
+Para 80 estudantes:
+
+$$n=80,\qquad x_{\min}=11{,}7,\qquad x_{\max}=112{,}0.$$
+
+A amplitude é:
+
+$$A_t=100{,}3.$$
+
+As regras sugeriram aproximadamente:
+
+- 9 classes pela raiz quadrada;
+- 8 classes por Sturges;
+- 6 classes por Scott;
+- 8 classes por Freedman–Diaconis.
+
+Uma escolha didática de largura igual a 15 minutos produziu 7 classes e mostrou que:
+
+- a maior frequência está entre 25 e menos de 40 minutos;
+- 58,75% apresentam deslocamento inferior a 40 minutos;
+- 78,75% apresentam deslocamento inferior a 55 minutos;
+- poucas observações aparecem acima de 85 minutos;
+- existe uma extensão considerável entre o mínimo e o máximo.
+
+O passo seguinte é examinar essas características graficamente. Isso será feito na Aula 8.
+
+## Exercícios teóricos — Aula 7
+
+### Exercício 1 — Elementos de uma distribuição agrupada
+
+Uma variável contínua foi agrupada nas classes:
+
+$$[20;30),\ [30;40),\ [40;50),\ [50;60),\ [60;70).$$
+
+Responda:
+
+1.  qual é a amplitude de cada classe?
+2.  quais são os pontos médios?
+3.  em qual classe entra o valor `40`?
+4.  em qual classe entra o valor `59,9`?
+5.  por que as classes não se sobrepõem?
+
+### Exercício 2 — Construção de tabela
+
+As massas, em kg, de 24 volumes são:
+
+$$51{,}2,\ 53{,}7,\ 54{,}1,\ 55{,}8,\ 56{,}0,\ 57{,}3,\ 58{,}9,\ 59{,}4,$$
+
+$$60{,}1,\ 60{,}8,\ 61{,}5,\ 62{,}0,\ 62{,}8,\ 63{,}1,\ 64{,}7,\ 65{,}2,$$
+
+$$66{,}5,\ 67{,}0,\ 68{,}4,\ 69{,}3,\ 70{,}8,\ 72{,}1,\ 74{,}5,\ 77{,}2.$$
+
+1.  determine o mínimo, o máximo e a amplitude total;
+2.  construa classes de amplitude 5 kg iniciando em 50;
+3.  calcule frequência absoluta e percentual;
+4.  calcule a frequência acumulada;
+5.  interprete a classe de maior frequência.
+
+### Exercício 3 — Número de classes
+
+Para uma amostra com $n=100$:
+
+1.  calcule o número sugerido pela regra da raiz quadrada;
+2.  calcule o número sugerido por Sturges;
+3.  se $s=12$ e $A=68$, calcule a largura de Scott e o número aproximado de classes;
+4.  se $AIQ=18$, calcule a largura de Freedman–Diaconis e o número aproximado de classes;
+5.  explique por que resultados diferentes não significam necessariamente que alguma regra esteja errada.
+
+### Exercício 4 — Escolha do gráfico
+
+Indique uma representação gráfica apropriada e justifique:
+
+1.  curso de graduação de 200 estudantes;
+2.  nível de satisfação: `Muito baixo`, `Baixo`, `Médio`, `Alto`, `Muito alto`;
+3.  número de irmãos de 40 estudantes;
+4.  altura de 500 pessoas;
+5.  tempo de espera de 30 clientes;
+6.  participação percentual de quatro categorias que somam 100%;
+7.  categorias de defeitos de uma fábrica quando o objetivo é identificar as causas mais frequentes.
+
+### Exercício 5 — Leitura crítica
+
+Dois pesquisadores constroem histogramas para o mesmo conjunto de dados.
+
+- o primeiro utiliza 5 classes;
+- o segundo utiliza 25 classes.
+
+Os histogramas parecem bastante diferentes.
+
+Explique por que isso pode ocorrer e descreva como você avaliaria qual representação é mais informativa.
+
+## Síntese da Aula 7
+
+Ao concluir esta aula, retenha:
+
+1.  variáveis quantitativas contínuas podem apresentar muitos valores distintos e podem ser resumidas por classes;
+2.  a amplitude total é $x_{\max}-x_{\min}$;
+3.  uma classe é definida por limites inferior e superior;
+4.  sua amplitude é $h=L_s-L_i$;
+5.  seu ponto médio é $(L_i+L_s)/2$;
+6.  o número e a largura das classes são escolhas analíticas;
+7.  raiz quadrada e Sturges sugerem número de classes;
+8.  Scott e Freedman–Diaconis sugerem larguras de classe;
+9.  gráfico de barras e histograma representam estruturas diferentes;
+10. Pareto enfatiza categorias mais frequentes;
+11. setores mostram composição, mas devem ser usados com parcimônia;
+12. pontos e ramo e folhas preservam mais informação individual;
+13. histograma, polígono, ogiva e densidade revelam aspectos diferentes de uma distribuição;
+14. a interpretação deve considerar como o gráfico foi construído.
+
+> **Ideia-chave:** agrupar e representar dados não é uma tarefa meramente mecânica. A escolha de classes e de gráficos influencia aquilo que enxergamos. A análise exploratória exige construir, comparar, interpretar e questionar as representações.
+
+

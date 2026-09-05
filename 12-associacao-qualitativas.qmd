@@ -1,0 +1,6 @@
+---
+title: "12-associacao-qualitativas"
+format: html
+editor: visual
+---
+

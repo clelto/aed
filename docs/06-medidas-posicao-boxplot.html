@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análise Exploratória de Dados – 6&nbsp; Medidas de posição, resumo de cinco números e boxplot</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07-medidas-dispersao.html" rel="next">
+<link href="./05-medidas-tendencia-central.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles2.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-medidas-posicao-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise Exploratória de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apresentação</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos e análise univariada</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-fundamentos-aed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-r-rstudio-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-dados-organizacao-qualidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estrutura, organização e qualidade dos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distribuicoes-frequencias-representacoes-graficas-v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuições de frequências e representações gráficas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II — Medidas resumo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-medidas-tendencia-central.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Medidas de tendência central</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-medidas-posicao-boxplot.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-medidas-dispersao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Medidas de dispersão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-forma-distribuicao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma das distribuições e análise univariada integrada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Neste capítulo</h2>
+   
+  <ul>
+  <li><a href="#medidas-de-posição" id="toc-medidas-de-posição" class="nav-link active" data-scroll-target="#medidas-de-posição"><span class="header-section-number">6.1</span> Medidas de posição</a>
+  <ul class="collapse">
+  <li><a href="#quantis-empíricos" id="toc-quantis-empíricos" class="nav-link" data-scroll-target="#quantis-empíricos"><span class="header-section-number">6.1.1</span> Quantis empíricos</a></li>
+  </ul></li>
+  <li><a href="#resumo-de-cinco-números" id="toc-resumo-de-cinco-números" class="nav-link" data-scroll-target="#resumo-de-cinco-números"><span class="header-section-number">6.2</span> Resumo de cinco números</a>
+  <ul class="collapse">
+  <li><a href="#amplitude-interquartílica" id="toc-amplitude-interquartílica" class="nav-link" data-scroll-target="#amplitude-interquartílica"><span class="header-section-number">6.2.1</span> Amplitude interquartílica</a></li>
+  </ul></li>
+  <li><a href="#construção-conceitual-do-boxplot" id="toc-construção-conceitual-do-boxplot" class="nav-link" data-scroll-target="#construção-conceitual-do-boxplot"><span class="header-section-number">6.3</span> Construção conceitual do boxplot</a>
+  <ul class="collapse">
+  <li><a href="#limites-para-identificação-de-observações-potencialmente-atípicas" id="toc-limites-para-identificação-de-observações-potencialmente-atípicas" class="nav-link" data-scroll-target="#limites-para-identificação-de-observações-potencialmente-atípicas"><span class="header-section-number">6.3.1</span> Limites para identificação de observações potencialmente atípicas</a></li>
+  <li><a href="#o-que-o-boxplot-permite-observar" id="toc-o-que-o-boxplot-permite-observar" class="nav-link" data-scroll-target="#o-que-o-boxplot-permite-observar"><span class="header-section-number">6.3.2</span> O que o boxplot permite observar?</a></li>
+  </ul></li>
+  <li><a href="#boxplot-e-histograma-representações-complementares" id="toc-boxplot-e-histograma-representações-complementares" class="nav-link" data-scroll-target="#boxplot-e-histograma-representações-complementares"><span class="header-section-number">6.4</span> Boxplot e histograma: representações complementares</a></li>
+  <li><a href="#investigação-de-observações-potencialmente-atípicas" id="toc-investigação-de-observações-potencialmente-atípicas" class="nav-link" data-scroll-target="#investigação-de-observações-potencialmente-atípicas"><span class="header-section-number">6.5</span> Investigação de observações potencialmente atípicas</a>
+  <ul class="collapse">
+  <li><a href="#um-roteiro-de-investigação" id="toc-um-roteiro-de-investigação" class="nav-link" data-scroll-target="#um-roteiro-de-investigação"><span class="header-section-number">6.5.1</span> Um roteiro de investigação</a></li>
+  </ul></li>
+  <li><a href="#interpretação-dos-quartis-em-contexto" id="toc-interpretação-dos-quartis-em-contexto" class="nav-link" data-scroll-target="#interpretação-dos-quartis-em-contexto"><span class="header-section-number">6.6</span> Interpretação dos quartis em contexto</a></li>
+  <li><a href="#funções-principais-utilizadas-no-r" id="toc-funções-principais-utilizadas-no-r" class="nav-link" data-scroll-target="#funções-principais-utilizadas-no-r"><span class="header-section-number">6.7</span> Funções principais utilizadas no R</a></li>
+  <li><a href="#síntese" id="toc-síntese" class="nav-link" data-scroll-target="#síntese"><span class="header-section-number">6.8</span> Síntese</a></li>
+  <li><a href="#exercícios-teóricos" id="toc-exercícios-teóricos" class="nav-link" data-scroll-target="#exercícios-teóricos"><span class="header-section-number">6.9</span> Exercícios teóricos</a></li>
+  <li><a href="#exercícios-práticos-no-r" id="toc-exercícios-práticos-no-r" class="nav-link" data-scroll-target="#exercícios-práticos-no-r"><span class="header-section-number">6.10</span> Exercícios práticos no R</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-medidas-posicao-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>No capítulo anterior, estudamos medidas de tendência central e vimos que média, mediana e moda procuram representar o centro de uma distribuição. Agora ampliaremos essa ideia. Em vez de perguntar apenas <strong>onde está o centro</strong>, queremos saber também <strong>como as observações se posicionam ao longo da distribuição</strong>.</p>
+<p>As medidas de posição permitem localizar valores que dividem um conjunto ordenado de dados em determinadas proporções. Entre elas estão os <strong>quartis</strong>, <strong>decis</strong> e <strong>percentis</strong>. A partir dos quartis, construiremos o <strong>resumo de cinco números</strong>, a <strong>amplitude interquartílica</strong> e o <strong>boxplot</strong>, uma representação gráfica compacta que permite examinar posição, dispersão, assimetria e observações potencialmente atípicas.</p>
+<p>Ao final deste capítulo, você deverá ser capaz de calcular e interpretar medidas de posição, obter o resumo de cinco números, construir e interpretar boxplots e investigar valores extremos sem confundir automaticamente uma observação atípica com um erro.</p>
+<section id="medidas-de-posição" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="medidas-de-posição"><span class="header-section-number">6.1</span> Medidas de posição</h2>
+<p>Uma <strong>medida de posição</strong> indica a localização de um valor em relação às demais observações de um conjunto ordenado.</p>
+<p>Considere uma amostra com <span class="math inline">\(n\)</span> observações. Depois de colocá-las em ordem crescente, escrevemos</p>
+<p><span class="math display">\[x_{(1)} \leq x_{(2)} \leq \cdots \leq x_{(n)},\]</span></p>
+<p>em que <span class="math inline">\(x_{(1)}\)</span> representa o menor valor observado e <span class="math inline">\(x_{(n)}\)</span> representa o maior.</p>
+<p>As medidas de posição são particularmente úteis para responder perguntas como:</p>
+<ul>
+<li>Qual valor deixa aproximadamente 25% das observações abaixo dele?</li>
+<li>Qual é o ponto que divide os dados em duas partes?</li>
+<li>A partir de qual valor estão os 10% maiores resultados?</li>
+<li>Qual valor é superado por apenas 5% das observações?</li>
+</ul>
+<p>Essas perguntas conduzem ao conceito de <strong>quantil</strong>.</p>
+<section id="quantis-empíricos" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="quantis-empíricos"><span class="header-section-number">6.1.1</span> Quantis empíricos</h3>
+<p>Para uma proporção <span class="math inline">\(p\)</span>, com <span class="math inline">\(0 \leq p \leq 1\)</span>, o <strong>quantil de ordem</strong> <span class="math inline">\(p\)</span>, representado por <span class="math inline">\(q_p\)</span>, é um valor que localiza aproximadamente a proporção <span class="math inline">\(p\)</span> das observações na parte inferior da distribuição.</p>
+<p>Por exemplo:</p>
+<ul>
+<li><span class="math inline">\(q_{0,25}\)</span> localiza aproximadamente 25% das observações;</li>
+<li><span class="math inline">\(q_{0,50}\)</span> localiza aproximadamente 50% das observações;</li>
+<li><span class="math inline">\(q_{0,90}\)</span> localiza aproximadamente 90% das observações.</li>
+</ul>
+<p>O quantil de ordem <span class="math inline">\(0,50\)</span> corresponde à <strong>mediana</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Quantis em amostras finitas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Quantis em amostras finitas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando trabalhamos com um conjunto finito de dados, nem sempre existe uma observação exatamente na posição correspondente à proporção desejada. Por isso, existem diferentes convenções para o cálculo de quantis. Alguns métodos selecionam observações do conjunto; outros realizam <strong>interpolação</strong> entre valores vizinhos.</p>
+<p>Consequentemente, dois programas ou duas fórmulas podem produzir resultados ligeiramente diferentes para determinados conjuntos de dados, mesmo que ambos estejam corretos segundo suas respectivas definições.</p>
+</div>
+</div>
+<p>Para acompanhar os exemplos, considere os nove tempos, em minutos, apresentados em ordem crescente:</p>
+<p><span class="math display">\[12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50.\]</span></p>
+<p>A <a href="#tbl-quantis-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a> apresenta alguns quantis calculados por interpolação linear, conforme a convenção padrão utilizada pela função <code>quantile()</code> do R.</p>
+<div id="tbl-quantis-exemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-quantis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.1: Alguns quantis para o conjunto de tempos utilizado no exemplo.
+</figcaption>
+<div aria-describedby="tbl-quantis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Quantil</th>
+<th style="text-align: right;">Proporção</th>
+<th style="text-align: right;">Valor (min)</th>
+<th style="text-align: left;">Interpretação aproximada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(q_{0,10}\)</span></td>
+<td style="text-align: right;">10%</td>
+<td style="text-align: right;">16,8</td>
+<td style="text-align: left;">cerca de 10% dos valores estão até essa região</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(q_{0,25}\)</span></td>
+<td style="text-align: right;">25%</td>
+<td style="text-align: right;">20,0</td>
+<td style="text-align: left;">cerca de 25% dos valores estão até essa região</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(q_{0,50}\)</span></td>
+<td style="text-align: right;">50%</td>
+<td style="text-align: right;">25,0</td>
+<td style="text-align: left;">metade dos valores está até essa região</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(q_{0,75}\)</span></td>
+<td style="text-align: right;">75%</td>
+<td style="text-align: right;">30,0</td>
+<td style="text-align: left;">cerca de 75% dos valores estão até essa região</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(q_{0,90}\)</span></td>
+<td style="text-align: right;">90%</td>
+<td style="text-align: right;">38,0</td>
+<td style="text-align: left;">cerca de 90% dos valores estão até essa região</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Observe, na <a href="#tbl-quantis-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.1</span></a>, que alguns quantis coincidem com valores observados, enquanto outros, como 16,8 e 38,0, não aparecem no conjunto original. Isso ocorre porque o procedimento adotado interpola valores quando a posição desejada se encontra entre duas observações.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Como o R calcula por padrão">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Como o R calcula por padrão
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A função <code>quantile()</code> utiliza, por padrão, o método denominado <code>type = 7</code>. Para <span class="math inline">\(0&lt;p&lt;1\)</span>, esse método considera</p>
+<p><span class="math display">\[h=1+(n-1)p.\]</span></p>
+<p>Se <span class="math inline">\(h\)</span> não for inteiro, o quantil é obtido por interpolação entre as observações ordenadas vizinhas. Neste capítulo, quando utilizarmos <code>quantile()</code> sem especificar outro método, estaremos adotando essa convenção.</p>
+</div>
+</div>
+<section id="quartis" class="level4">
+<h4 class="anchored" data-anchor-id="quartis">Quartis</h4>
+<p>Os <strong>quartis</strong> dividem a distribuição ordenada em quatro partes.</p>
+<p>São definidos três pontos principais:</p>
+<p><span class="math display">\[Q_1=q_{0,25},\]</span></p>
+<p><span class="math display">\[Q_2=q_{0,50},\]</span></p>
+<p>e</p>
+<p><span class="math display">\[Q_3=q_{0,75}.\]</span></p>
+<p>Assim:</p>
+<ul>
+<li><span class="math inline">\(Q_1\)</span>, o primeiro quartil, localiza aproximadamente 25% das observações;</li>
+<li><span class="math inline">\(Q_2\)</span>, o segundo quartil, corresponde à mediana;</li>
+<li><span class="math inline">\(Q_3\)</span>, o terceiro quartil, localiza aproximadamente 75% das observações.</li>
+</ul>
+<p>No conjunto do exemplo,</p>
+<p><span class="math display">\[Q_1=20,\qquad Q_2=25,\qquad Q_3=30.\]</span></p>
+<p>A <a href="#tbl-quartis-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.2</span></a> resume a interpretação.</p>
+<div id="tbl-quartis-exemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-quartis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.2: Quartis do conjunto de tempos utilizado no exemplo.
+</figcaption>
+<div aria-describedby="tbl-quartis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor (min)</th>
+<th style="text-align: left;">Interpretação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(Q_1\)</span></td>
+<td style="text-align: right;">20</td>
+<td style="text-align: left;">aproximadamente 25% dos tempos estão até essa região</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(Q_2\)</span></td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">aproximadamente 50% dos tempos estão até essa região</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(Q_3\)</span></td>
+<td style="text-align: right;">30</td>
+<td style="text-align: left;">aproximadamente 75% dos tempos estão até essa região</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-quartis-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.2</span></a> mostra que os quartis não representam quatro grupos de valores, mas sim <strong>três pontos de corte</strong> que ajudam a dividir a distribuição em quatro partes.</p>
+</section>
+<section id="decis" class="level4">
+<h4 class="anchored" data-anchor-id="decis">Decis</h4>
+<p>Os <strong>decis</strong> dividem a distribuição em dez partes. O <span class="math inline">\(k\)</span>-ésimo decil é dado por</p>
+<p><span class="math display">\[D_k=q_{k/10},
+\qquad k=1,\ldots,9.\]</span></p>
+<p>Por exemplo,</p>
+<p><span class="math display">\[D_1=q_{0,10}, \qquad
+D_5=q_{0,50}, \qquad
+D_9=q_{0,90}.\]</span></p>
+<p>Assim, <span class="math inline">\(D_5\)</span> coincide com a mediana.</p>
+<p>Os decis são úteis quando se deseja uma divisão mais detalhada do que aquela proporcionada pelos quartis. O nono decil, por exemplo, pode ser usado para localizar aproximadamente o ponto a partir do qual se encontram os 10% maiores valores.</p>
+</section>
+<section id="percentis" class="level4">
+<h4 class="anchored" data-anchor-id="percentis">Percentis</h4>
+<p>Os <strong>percentis</strong> dividem a distribuição em cem partes. O <span class="math inline">\(k\)</span>-ésimo percentil é</p>
+<p><span class="math display">\[P_k=q_{k/100},
+\qquad k=1,\ldots,99.\]</span></p>
+<p>Algumas equivalências são particularmente úteis:</p>
+<p><span class="math display">\[Q_1=P_{25},\]</span></p>
+<p><span class="math display">\[Q_2=P_{50}=D_5,\]</span></p>
+<p>e</p>
+<p><span class="math display">\[Q_3=P_{75}.\]</span></p>
+<p>A <a href="#tbl-equivalencia-quantis" class="quarto-xref">Tabela&nbsp;<span>6.3</span></a> organiza essas relações.</p>
+<div id="tbl-equivalencia-quantis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-equivalencia-quantis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.3: Relações entre quartis, decis, percentis e quantis.
+</figcaption>
+<div aria-describedby="tbl-equivalencia-quantis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 32%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: left;">Quantil correspondente</th>
+<th style="text-align: left;">Percentil correspondente</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Primeiro quartil <span class="math inline">\(Q_1\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(q_{0,25}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(P_{25}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Segundo quartil <span class="math inline">\(Q_2\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(q_{0,50}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(P_{50}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Terceiro quartil <span class="math inline">\(Q_3\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(q_{0,75}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(P_{75}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Quinto decil <span class="math inline">\(D_5\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(q_{0,50}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(P_{50}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Nono decil <span class="math inline">\(D_9\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(q_{0,90}\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(P_{90}\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Como mostra a <a href="#tbl-equivalencia-quantis" class="quarto-xref">Tabela&nbsp;<span>6.3</span></a>, quartis, decis e percentis não são conceitos independentes: todos são casos particulares de quantis.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R — quartis, decis e percentis">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Laboratório no R — quartis, decis e percentis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>No R, a função principal para calcular quantis é <code>quantile()</code>.</p>
+<p>Começaremos com o conjunto utilizado na teoria:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">50</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12 18 20 22 25 28 30 35 50</code></pre>
+</div>
+</div>
+<p>Os quartis podem ser obtidos com:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>25% 50% 75% 
+ 20  25  30 </code></pre>
+</div>
+</div>
+<p>Também podemos incluir o mínimo e o máximo:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  0%  25%  50%  75% 100% 
+  12   20   25   30   50 </code></pre>
+</div>
+</div>
+<p>Para calcular os decis:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="at">by =</span> <span class="fl">0.10</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> 10%  20%  30%  40%  50%  60%  70%  80%  90% 
+16.8 19.2 20.8 22.6 25.0 27.4 29.2 32.0 38.0 </code></pre>
+</div>
+</div>
+<p>E, por exemplo, para obter os percentis 10, 25, 50, 75 e 90:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">0.90</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code> 10%  25%  50%  75%  90% 
+16.8 20.0 25.0 30.0 38.0 </code></pre>
+</div>
+</div>
+<p>Observe que a função recebe as proporções na escala de 0 a 1. Assim, para calcular <span class="math inline">\(P_{90}\)</span>, usamos <code>0.90</code>, e não <code>90</code>.</p>
+<p>Podemos verificar explicitamente o método padrão:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.90</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="dv">7</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>90% 
+ 38 </code></pre>
+</div>
+</div>
+<p>Agora aplicaremos o procedimento ao banco dos estudantes. Para o tempo de deslocamento:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   25%    50%    75% 
+24.675 36.000 51.775 </code></pre>
+</div>
+</div>
+<p>A tabela a seguir organiza os quartis obtidos.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>quartis_tempo <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">medida =</span> <span class="fu">c</span>(<span class="st">"Q1"</span>, <span class="st">"Q2 (mediana)"</span>, <span class="st">"Q3"</span>),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probabilidade =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">valor_min =</span> <span class="fu">as.numeric</span>(quartis_tempo)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Medida"</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Proporção"</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="tbl-quartis-tempo-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-quartis-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.4: Quartis do tempo de deslocamento dos estudantes calculados no R.
+</figcaption>
+<div aria-describedby="tbl-quartis-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Proporção</th>
+<th style="text-align: right;">Tempo (min)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">24.67</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2 (mediana)</td>
+<td style="text-align: right;">0.50</td>
+<td style="text-align: right;">36.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">0.75</td>
+<td style="text-align: right;">51.78</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>A <a href="#tbl-quartis-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.4</span></a> permite interpretar a posição dos tempos de deslocamento sem examinar individualmente as 80 observações.</p>
+<p>Também podemos calcular os decis do tempo de deslocamento:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="at">by =</span> <span class="fl">0.10</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  10%   20%   30%   40%   50%   60%   70%   80%   90% 
+16.93 22.24 27.26 31.52 36.00 40.78 50.23 56.56 68.63 </code></pre>
+</div>
+</div>
+<p>E percentis específicos:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    5%    10%    90%    95% 
+14.285 16.930 68.630 78.205 </code></pre>
+</div>
+</div>
+<p>Ao interpretar um percentil, sempre traduza o resultado para o contexto. Por exemplo, <span class="math inline">\(P_{90}\)</span> fornece um valor abaixo do qual se localiza aproximadamente 90% dos tempos de deslocamento.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="resumo-de-cinco-números" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="resumo-de-cinco-números"><span class="header-section-number">6.2</span> Resumo de cinco números</h2>
+<p>Uma forma compacta de descrever a posição e a extensão de uma distribuição é o <strong>resumo de cinco números</strong>.</p>
+<p>Ele é formado por:</p>
+<p><span class="math display">\[\text{mínimo},\quad
+Q_1,\quad
+\text{mediana},\quad
+Q_3,\quad
+\text{máximo}.\]</span></p>
+<p>Para o conjunto</p>
+<p><span class="math display">\[12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50,\]</span></p>
+<p>temos o resumo apresentado na <a href="#tbl-cinco-numeros-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.5</span></a>.</p>
+<div id="tbl-cinco-numeros-exemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cinco-numeros-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.5: Resumo de cinco números do conjunto utilizado no exemplo.
+</figcaption>
+<div aria-describedby="tbl-cinco-numeros-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor (min)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Primeiro quartil (<span class="math inline">\(Q_1\)</span>)</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana (<span class="math inline">\(Q_2\)</span>)</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Terceiro quartil (<span class="math inline">\(Q_3\)</span>)</td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-cinco-numeros-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.5</span></a> permite perceber rapidamente que a metade central dos dados se encontra entre 20 e 30 minutos, enquanto o maior valor, 50 minutos, está consideravelmente afastado do terceiro quartil.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Resumo de cinco números e boxplot não são exatamente a mesma coisa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Resumo de cinco números e boxplot não são exatamente a mesma coisa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O resumo de cinco números utiliza o <strong>mínimo e o máximo observados</strong>. No boxplot, entretanto, as extremidades dos chamados <strong>bigodes</strong> podem não coincidir com o mínimo e o máximo quando existem observações identificadas como potencialmente atípicas.</p>
+</div>
+</div>
+<section id="amplitude-interquartílica" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="amplitude-interquartílica"><span class="header-section-number">6.2.1</span> Amplitude interquartílica</h3>
+<p>A <strong>amplitude interquartílica</strong>, abreviada por AIQ, mede a extensão ocupada pela metade central das observações.</p>
+<p>Ela é definida por</p>
+<p><span class="math display">\[AIQ=Q_3-Q_1.\]</span></p>
+<p>No exemplo,</p>
+<p><span class="math display">\[AIQ=30-20=10.\]</span></p>
+<p>Portanto, os 50% centrais dos dados estão distribuídos em uma faixa de 10 minutos.</p>
+<p>A amplitude interquartílica é particularmente útil porque depende dos quartis e, por isso, é menos sensível a valores extremos do que medidas baseadas diretamente no mínimo e no máximo.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Interpretação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interpretação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Dizer que <span class="math inline">\(AIQ=10\)</span> não significa que todas as observações estejam em um intervalo de 10 unidades. Significa que a distância entre o primeiro e o terceiro quartis é igual a 10, ou seja, a metade central da distribuição ocupa essa amplitude.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R — resumo de cinco números e AIQ">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Laboratório no R — resumo de cinco números e AIQ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O resumo de cinco números pode ser obtido de maneira consistente com os quartis utilizados neste capítulo por meio de <code>quantile()</code>:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>     0%     25%     50%     75%    100% 
+ 11.700  24.675  36.000  51.775 112.000 </code></pre>
+</div>
+</div>
+<p>A amplitude interquartílica é calculada pela função <code>IQR()</code>:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27.1</code></pre>
+</div>
+</div>
+<p>Podemos organizar as cinco medidas em uma tabela.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>resumo_cinco <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">medida =</span> <span class="fu">c</span>(</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mínimo"</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Q1"</span>,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mediana"</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Q3"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Máximo"</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">tempo_min =</span> <span class="fu">as.numeric</span>(resumo_cinco)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Medida"</span>,</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="tbl-resumo-cinco-tempo-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resumo-cinco-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.6: Resumo de cinco números do tempo de deslocamento dos 80 estudantes.
+</figcaption>
+<div aria-describedby="tbl-resumo-cinco-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Tempo (min)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">11.70</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">24.67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">36.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">51.78</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">112.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>A <a href="#tbl-resumo-cinco-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.6</span></a> mostra que os tempos variam de 11,7 a 112,0 minutos, enquanto a metade central das observações está delimitada aproximadamente pelo primeiro e pelo terceiro quartis.</p>
+<p>A função <code>summary()</code> também é útil:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  11.70   24.68   36.00   40.76   51.77  112.00 </code></pre>
+</div>
+</div>
+<p>Entretanto, observe que <code>summary()</code> não apresenta apenas os cinco números: ela inclui também a <strong>média</strong>.</p>
+<p>Existe ainda a função <code>fivenum()</code>:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fivenum</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  11.70  24.65  36.00  51.85 112.00</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="quantile() e fivenum() podem diferir">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+quantile() e fivenum() podem diferir
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A função <code>fivenum()</code> utiliza os chamados <strong>hinges de Tukey</strong>, enquanto <code>quantile()</code> oferece diferentes métodos de cálculo e utiliza <code>type = 7</code> por padrão. Dependendo do tamanho e da configuração da amostra, os valores de <span class="math inline">\(Q_1\)</span> e <span class="math inline">\(Q_3\)</span> podem apresentar pequenas diferenças.</p>
+<p>Para manter consistência com os quartis definidos neste capítulo e com os cálculos de <code>IQR()</code>, utilizaremos preferencialmente <code>quantile(..., type = 7)</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="construção-conceitual-do-boxplot" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="construção-conceitual-do-boxplot"><span class="header-section-number">6.3</span> Construção conceitual do boxplot</h2>
+<p>O <strong>boxplot</strong>, também chamado de <strong>diagrama de caixa</strong>, é uma representação gráfica construída a partir dos quartis e da amplitude interquartílica.</p>
+<p>Sua estrutura básica contém:</p>
+<ol type="1">
+<li>uma caixa que se estende de <span class="math inline">\(Q_1\)</span> a <span class="math inline">\(Q_3\)</span>;</li>
+<li>uma linha dentro da caixa indicando a mediana;</li>
+<li>bigodes que se estendem até observações consideradas não atípicas;</li>
+<li>pontos individuais para observações que ultrapassam determinados limites.</li>
+</ol>
+<p>A largura da caixa, no eixo dos valores, corresponde à amplitude interquartílica:</p>
+<p><span class="math display">\[AIQ=Q_3-Q_1.\]</span></p>
+<section id="limites-para-identificação-de-observações-potencialmente-atípicas" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="limites-para-identificação-de-observações-potencialmente-atípicas"><span class="header-section-number">6.3.1</span> Limites para identificação de observações potencialmente atípicas</h3>
+<p>Uma regra muito utilizada estabelece os limites</p>
+<p><span class="math display">\[LI=Q_1-1,5(AIQ)\]</span></p>
+<p>e</p>
+<p><span class="math display">\[LS=Q_3+1,5(AIQ),\]</span></p>
+<p>em que:</p>
+<ul>
+<li><span class="math inline">\(LI\)</span> é o limite inferior;</li>
+<li><span class="math inline">\(LS\)</span> é o limite superior.</li>
+</ul>
+<p>Observações menores que <span class="math inline">\(LI\)</span> ou maiores que <span class="math inline">\(LS\)</span> são sinalizadas como <strong>potencialmente atípicas</strong>.</p>
+<p>Retomando o exemplo:</p>
+<p><span class="math display">\[Q_1=20,\qquad Q_3=30,\qquad AIQ=10.\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[LI=20-1,5(10)=5\]</span></p>
+<p>e</p>
+<p><span class="math display">\[LS=30+1,5(10)=45.\]</span></p>
+<p>O valor 50 ultrapassa o limite superior de 45 e, portanto, será sinalizado pelo boxplot como potencialmente atípico.</p>
+<p>A <a href="#tbl-elementos-boxplot-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.7</span></a> reúne os valores utilizados na construção.</p>
+<div id="tbl-elementos-boxplot-exemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-elementos-boxplot-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.7: Elementos utilizados na construção conceitual do boxplot do exemplo.
+</figcaption>
+<div aria-describedby="tbl-elementos-boxplot-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Elemento</th>
+<th style="text-align: right;">Valor (min)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo observado</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(Q_1\)</span></td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(Q_3\)</span></td>
+<td style="text-align: right;">30</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Máximo observado</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIQ</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Limite inferior</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Limite superior</td>
+<td style="text-align: right;">45</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Menor valor não atípico</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Maior valor não atípico</td>
+<td style="text-align: right;">35</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Valor potencialmente atípico</td>
+<td style="text-align: right;">50</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-elementos-boxplot-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.7</span></a> evidencia uma distinção essencial: embora o limite superior seja 45, o bigode superior termina em 35, pois 35 é a <strong>maior observação efetivamente registrada que ainda está dentro do limite</strong>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Os bigodes não terminam necessariamente nos limites">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Os bigodes não terminam necessariamente nos limites
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Os valores <span class="math inline">\(LI\)</span> e <span class="math inline">\(LS\)</span> são <strong>limites teóricos para classificação</strong>. Os bigodes do boxplot se estendem até a menor e a maior observações que permanecem dentro desses limites.</p>
+<p>Portanto, não se deve desenhar automaticamente um bigode em <span class="math inline">\(LI\)</span> e outro em <span class="math inline">\(LS\)</span>.</p>
+</div>
+</div>
+<p>O boxplot correspondente é apresentado na <a href="#fig-boxplot-conceitual" class="quarto-xref">Figura&nbsp;<span>6.1</span></a>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-boxplot-conceitual" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-conceitual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-medidas-posicao-boxplot_files/figure-html/fig-boxplot-conceitual-1.png" class="img-fluid figure-img" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-conceitual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.1: Boxplot do conjunto de tempos utilizado no exemplo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Na <a href="#fig-boxplot-conceitual" class="quarto-xref">Figura&nbsp;<span>6.1</span></a>, a caixa representa os 50% centrais dos dados, a linha interna representa a mediana e o ponto localizado em 50 minutos é destacado por ultrapassar o limite superior calculado.</p>
+</section>
+<section id="o-que-o-boxplot-permite-observar" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="o-que-o-boxplot-permite-observar"><span class="header-section-number">6.3.2</span> O que o boxplot permite observar?</h3>
+<p>A posição da mediana dentro da caixa, o tamanho dos segmentos entre os quartis, o comprimento dos bigodes e a presença de pontos isolados fornecem pistas sobre a distribuição.</p>
+<p>Entretanto, o boxplot é um <strong>resumo</strong>. Ele não mostra diretamente todos os detalhes da forma da distribuição, como picos, lacunas ou multimodalidade. Por esse motivo, sua interpretação pode ser enriquecida quando comparada com histogramas, gráficos de densidade ou gráficos de pontos.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R — construindo e interpretando o boxplot">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Laboratório no R — construindo e interpretando o boxplot
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Começaremos calculando os quartis e a amplitude interquartílica do tempo de deslocamento.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.25</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.75</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>aiq <span class="ot">&lt;-</span> <span class="fu">IQR</span>(</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>q1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   25% 
+24.675 </code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>q3</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   75% 
+51.775 </code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>aiq</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27.1</code></pre>
+</div>
+</div>
+<p>Agora calculamos os limites inferior e superior:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>limite_inferior <span class="ot">&lt;-</span> q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> aiq</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>limite_superior <span class="ot">&lt;-</span> q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> aiq</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>limite_inferior</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>    25% 
+-15.975 </code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>limite_superior</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   75% 
+92.425 </code></pre>
+</div>
+</div>
+<p>Podemos identificar as observações que ultrapassam esses limites:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>atipicos_tempo <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;</span> limite_inferior <span class="sc">|</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min <span class="sc">&gt;</span> limite_superior</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    curso,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    satisfacao,</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    idade_anos,</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    faltas,</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min</span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(tempo_deslocamento_min)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>atipicos_tempo <span class="sc">|&gt;</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span>,</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Satisfação"</span>,</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Idade"</span>,</span>
+<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Faltas"</span>,</span>
+<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
+<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="tbl-atipicos-tempo-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atipicos-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.8: Estudantes com tempos de deslocamento sinalizados pela regra de 1,5 vezes a amplitude interquartílica.
+</figcaption>
+<div aria-describedby="tbl-atipicos-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estudante</th>
+<th style="text-align: left;">Curso</th>
+<th style="text-align: left;">Transporte</th>
+<th style="text-align: left;">Satisfação</th>
+<th style="text-align: right;">Idade</th>
+<th style="text-align: right;">Faltas</th>
+<th style="text-align: right;">Tempo (min)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">E001</td>
+<td style="text-align: left;">Química</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Alta</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">96.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E054</td>
+<td style="text-align: left;">Matemática</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Alta</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">99.2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E005</td>
+<td style="text-align: left;">Física</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Alta</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">112.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>A <a href="#tbl-atipicos-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.8</span></a> mostra quais observações merecem investigação segundo a regra adotada. A presença nessa tabela, entretanto, <strong>não autoriza sua exclusão automática</strong>.</p>
+<p>O boxplot pode ser construído diretamente com <code>geom_boxplot()</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> tempo_deslocamento_min)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-boxplot-tempo-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-medidas-posicao-boxplot_files/figure-html/fig-boxplot-tempo-r-1.png" class="img-fluid figure-img" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.2: Boxplot do tempo de deslocamento dos 80 estudantes.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Na <a href="#fig-boxplot-tempo-r" class="quarto-xref">Figura&nbsp;<span>6.2</span></a>, os pontos localizados além do bigode superior correspondem a tempos que ultrapassam o limite determinado pela regra de <span class="math inline">\(1,5\times AIQ\)</span>.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="boxplot-e-histograma-representações-complementares" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="boxplot-e-histograma-representações-complementares"><span class="header-section-number">6.4</span> Boxplot e histograma: representações complementares</h2>
+<p>O boxplot resume uma distribuição utilizando poucos elementos. Isso o torna compacto e especialmente útil para comparar distribuições. Entretanto, justamente por resumir os dados, ele não revela todos os detalhes da forma.</p>
+<p>O <strong>histograma</strong> apresenta como as observações se distribuem ao longo de intervalos e permite visualizar concentrações, caudas, possíveis lacunas e outras características da forma.</p>
+<p>A <a href="#tbl-boxplot-histograma" class="quarto-xref">Tabela&nbsp;<span>6.9</span></a> resume as principais diferenças.</p>
+<div id="tbl-boxplot-histograma" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-boxplot-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.9: Comparação entre as informações destacadas por boxplot e histograma.
+</figcaption>
+<div aria-describedby="tbl-boxplot-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Aspecto</th>
+<th style="text-align: left;">Boxplot</th>
+<th style="text-align: left;">Histograma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Centro</td>
+<td style="text-align: left;">mostra explicitamente a mediana</td>
+<td style="text-align: left;">pode sugerir a região de maior concentração</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Quartis</td>
+<td style="text-align: left;">mostra <span class="math inline">\(Q_1\)</span> e <span class="math inline">\(Q_3\)</span></td>
+<td style="text-align: left;">não os mostra diretamente</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">AIQ</td>
+<td style="text-align: left;">representada pela caixa</td>
+<td style="text-align: left;">não aparece diretamente</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Valores potencialmente atípicos</td>
+<td style="text-align: left;">podem ser destacados individualmente</td>
+<td style="text-align: left;">aparecem nas classes das extremidades</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Forma da distribuição</td>
+<td style="text-align: left;">visão bastante resumida</td>
+<td style="text-align: left;">mostra mais detalhes da forma</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Comparação entre grupos</td>
+<td style="text-align: left;">muito conveniente</td>
+<td style="text-align: left;">pode exigir vários gráficos</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Como mostra a <a href="#tbl-boxplot-histograma" class="quarto-xref">Tabela&nbsp;<span>6.9</span></a>, as duas representações cumprem funções diferentes. Não é necessário escolher uma delas como universalmente melhor.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R — comparando boxplot e histograma">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Laboratório no R — comparando boxplot e histograma
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Já construímos o boxplot do tempo de deslocamento na <a href="#fig-boxplot-tempo-r" class="quarto-xref">Figura&nbsp;<span>6.2</span></a>. Agora construiremos um histograma para a mesma variável.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> tempo_deslocamento_min)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">15</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">boundary =</span> <span class="dv">10</span>,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">closed =</span> <span class="st">"left"</span>,</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.8</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">115</span>, <span class="at">by =</span> <span class="dv">15</span>)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Tempo de deslocamento (min)"</span>,</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequência"</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-histograma-comparacao-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histograma-comparacao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="06-medidas-posicao-boxplot_files/figure-html/fig-histograma-comparacao-r-1.png" class="img-fluid figure-img" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histograma-comparacao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;6.3: Histograma do tempo de deslocamento utilizado para comparação com o boxplot.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Ao comparar a <a href="#fig-boxplot-tempo-r" class="quarto-xref">Figura&nbsp;<span>6.2</span></a> com a <a href="#fig-histograma-comparacao-r" class="quarto-xref">Figura&nbsp;<span>6.3</span></a>, observe que o boxplot facilita a localização da mediana, dos quartis e das observações sinalizadas como potencialmente atípicas. O histograma, por sua vez, mostra com mais clareza onde os tempos se concentram e como a frequência diminui à medida que os tempos aumentam.</p>
+<p>Uma análise exploratória pode utilizar as duas representações de forma complementar.</p>
+</div>
+</div>
+</section>
+<section id="investigação-de-observações-potencialmente-atípicas" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="investigação-de-observações-potencialmente-atípicas"><span class="header-section-number">6.5</span> Investigação de observações potencialmente atípicas</h2>
+<p>Uma observação marcada pelo boxplot não deve ser chamada automaticamente de <strong>erro</strong>.</p>
+<p>O termo <strong>observação potencialmente atípica</strong> indica apenas que aquele valor está relativamente distante da região central da distribuição segundo uma regra estatística específica.</p>
+<p>Essa sinalização deve ser entendida como um <strong>convite à investigação</strong>.</p>
+<p>A <a href="#tbl-atipico-erro" class="quarto-xref">Tabela&nbsp;<span>6.10</span></a> apresenta algumas possibilidades.</p>
+<div id="tbl-atipico-erro" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atipico-erro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.10: Exemplos de situações relacionadas a valores extremos e possíveis condutas iniciais.
+</figcaption>
+<div aria-describedby="tbl-atipico-erro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 25%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Situação</th>
+<th style="text-align: left;">Exemplo</th>
+<th style="text-align: left;">Conduta inicial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Erro de digitação</td>
+<td style="text-align: left;">altura registrada como 17,5 m em vez de 1,75 m</td>
+<td style="text-align: left;">conferir a fonte e corrigir se houver evidência</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Erro de medição</td>
+<td style="text-align: left;">equipamento apresentou falha conhecida</td>
+<td style="text-align: left;">verificar registros e protocolo de coleta</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Valor extremo legítimo</td>
+<td style="text-align: left;">estudante realmente leva 112 min para chegar à universidade</td>
+<td style="text-align: left;">manter e interpretar</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Subgrupo distinto</td>
+<td style="text-align: left;">estudantes de uma região distante apresentam tempos maiores</td>
+<td style="text-align: left;">investigar a estrutura dos grupos</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Unidade inconsistente</td>
+<td style="text-align: left;">parte dos tempos foi registrada em horas e parte em minutos</td>
+<td style="text-align: left;">padronizar após confirmação</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Valor raro sem explicação imediata</td>
+<td style="text-align: left;">observação muito distante das demais</td>
+<td style="text-align: left;">investigar antes de decidir</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-atipico-erro" class="quarto-xref">Tabela&nbsp;<span>6.10</span></a> reforça que um valor extremo pode conter informação relevante sobre a população estudada. Excluir observações somente porque aparecem como pontos separados em um boxplot pode produzir uma análise incorreta.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Atípico não é sinônimo de erro">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Atípico não é sinônimo de erro
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A regra de <span class="math inline">\(1,5\times AIQ\)</span> é uma regra de <strong>sinalização</strong>, não uma regra automática de exclusão. Para decidir sobre uma observação é necessário considerar a origem do dado, o processo de coleta, a plausibilidade contextual e os objetivos da análise.</p>
+</div>
+</div>
+<section id="um-roteiro-de-investigação" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="um-roteiro-de-investigação"><span class="header-section-number">6.5.1</span> Um roteiro de investigação</h3>
+<p>Ao encontrar uma observação potencialmente atípica, é recomendável:</p>
+<ol type="1">
+<li>localizar a observação no banco original;</li>
+<li>conferir se houve erro de digitação, codificação ou unidade;</li>
+<li>verificar a fonte ou registro original, quando possível;</li>
+<li>avaliar se o valor é plausível no contexto estudado;</li>
+<li>investigar se ele pertence a algum subgrupo específico;</li>
+<li>comparar análises com e sem o valor apenas quando isso tiver justificativa;</li>
+<li>documentar qualquer decisão de correção ou exclusão.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R — investigando os valores extremos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Laboratório no R — investigando os valores extremos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Já identificamos os estudantes sinalizados pela regra da amplitude interquartílica. Agora vamos examinar suas informações completas.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;</span> limite_inferior <span class="sc">|</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min <span class="sc">&gt;</span> limite_superior</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(tempo_deslocamento_min) <span class="sc">|&gt;</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span>,</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Satisfação"</span>,</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Idade"</span>,</span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Faltas"</span>,</span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span>,</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Altura (m)"</span></span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="tbl-investigacao-atipicos-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-investigacao-atipicos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.11: Registros completos das observações sinalizadas como potencialmente atípicas para o tempo de deslocamento.
+</figcaption>
+<div aria-describedby="tbl-investigacao-atipicos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estudante</th>
+<th style="text-align: left;">Curso</th>
+<th style="text-align: left;">Transporte</th>
+<th style="text-align: left;">Satisfação</th>
+<th style="text-align: right;">Idade</th>
+<th style="text-align: right;">Faltas</th>
+<th style="text-align: right;">Tempo (min)</th>
+<th style="text-align: right;">Altura (m)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">E001</td>
+<td style="text-align: left;">Química</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Alta</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">96.5</td>
+<td style="text-align: right;">1.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E054</td>
+<td style="text-align: left;">Matemática</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Alta</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">99.2</td>
+<td style="text-align: right;">1.65</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E005</td>
+<td style="text-align: left;">Física</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Alta</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: right;">1.61</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>A <a href="#tbl-investigacao-atipicos-r" class="quarto-xref">Tabela&nbsp;<span>6.11</span></a> permite analisar as observações em seu contexto. No banco utilizado nesta apostila, o fato de alguns tempos serem elevados não é, por si só, evidência de erro de registro.</p>
+<p>Podemos também obter o maior valor que ainda permanece dentro do limite superior:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>maior_valor_nao_atipico <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;=</span> limite_superior</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">valor =</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(tempo_deslocamento_min, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(valor)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>maior_valor_nao_atipico</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 85.9</code></pre>
+</div>
+</div>
+<p>Esse valor corresponde à posição do bigode superior do boxplot, e não ao próprio limite superior calculado.</p>
+<p>Para localizar os identificadores dos maiores tempos, podemos ordenar o banco:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tempo_deslocamento_min)) <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    curso</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span>,</span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span></span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div id="tbl-maiores-tempos-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-maiores-tempos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.12: Dez maiores tempos de deslocamento registrados no banco de estudantes.
+</figcaption>
+<div aria-describedby="tbl-maiores-tempos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estudante</th>
+<th style="text-align: right;">Tempo (min)</th>
+<th style="text-align: left;">Transporte</th>
+<th style="text-align: left;">Curso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">E005</td>
+<td style="text-align: right;">112.0</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Física</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E054</td>
+<td style="text-align: right;">99.2</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Matemática</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E001</td>
+<td style="text-align: right;">96.5</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Química</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E045</td>
+<td style="text-align: right;">85.9</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Estatística</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E071</td>
+<td style="text-align: right;">77.8</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Física</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E038</td>
+<td style="text-align: right;">76.3</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Química</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E022</td>
+<td style="text-align: right;">72.7</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Estatística</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E031</td>
+<td style="text-align: right;">68.9</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Estatística</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">E072</td>
+<td style="text-align: right;">68.6</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Física</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">E041</td>
+<td style="text-align: right;">68.5</td>
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: left;">Matemática</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>A <a href="#tbl-maiores-tempos-r" class="quarto-xref">Tabela&nbsp;<span>6.12</span></a> facilita a inspeção dos registros localizados na extremidade superior da distribuição. Esse tipo de verificação é fundamental antes de qualquer decisão sobre os dados.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="interpretação-dos-quartis-em-contexto" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="interpretação-dos-quartis-em-contexto"><span class="header-section-number">6.6</span> Interpretação dos quartis em contexto</h2>
+<p>Calcular uma medida de posição é apenas a primeira etapa. O resultado precisa ser traduzido para a variável estudada.</p>
+<p>Se, por exemplo, o primeiro quartil do tempo de deslocamento for aproximadamente 24,7 minutos, uma interpretação adequada é:</p>
+<blockquote class="blockquote">
+<p>aproximadamente 25% dos estudantes apresentam tempos de deslocamento até a região de 24,7 minutos.</p>
+</blockquote>
+<p>Da mesma forma, se o terceiro quartil for aproximadamente 51,8 minutos:</p>
+<blockquote class="blockquote">
+<p>aproximadamente 75% dos estudantes apresentam tempos de deslocamento até a região de 51,8 minutos, enquanto aproximadamente 25% apresentam tempos superiores a esse ponto.</p>
+</blockquote>
+<p>Não devemos dizer que “25% dos estudantes possuem exatamente 24,7 minutos de deslocamento”. O quartil é um <strong>ponto de posição</strong>, e não a frequência de um valor específico.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Uma linguagem cuidadosa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Uma linguagem cuidadosa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em amostras finitas, especialmente quando há valores repetidos ou interpolação, expressões como <strong>aproximadamente 25%</strong> e <strong>aproximadamente 75%</strong> são mais adequadas do que tratar os quartis como divisões perfeitas em todos os conjuntos de dados.</p>
+</div>
+</div>
+</section>
+<section id="funções-principais-utilizadas-no-r" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="funções-principais-utilizadas-no-r"><span class="header-section-number">6.7</span> Funções principais utilizadas no R</h2>
+<p>A <a href="#tbl-funcoes-posicao-r" class="quarto-xref">Tabela&nbsp;<span>6.13</span></a> resume as funções trabalhadas neste capítulo.</p>
+<div id="tbl-funcoes-posicao-r" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-funcoes-posicao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.13: Funções do R utilizadas para medidas de posição, resumo de cinco números e boxplots.
+</figcaption>
+<div aria-describedby="tbl-funcoes-posicao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Função</th>
+<th style="text-align: left;">Finalidade principal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>quantile()</code></td>
+<td style="text-align: left;">calcular quantis, quartis, decis e percentis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>median()</code></td>
+<td style="text-align: left;">calcular a mediana</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>min()</code></td>
+<td style="text-align: left;">obter o menor valor</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>max()</code></td>
+<td style="text-align: left;">obter o maior valor</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>IQR()</code></td>
+<td style="text-align: left;">calcular a amplitude interquartílica</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>summary()</code></td>
+<td style="text-align: left;">obter um resumo numérico que inclui quartis e média</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>fivenum()</code></td>
+<td style="text-align: left;">obter o resumo de cinco números segundo os hinges de Tukey</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>geom_boxplot()</code></td>
+<td style="text-align: left;">construir boxplots com <code>ggplot2</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>geom_histogram()</code></td>
+<td style="text-align: left;">construir histogramas para comparação da forma</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-funcoes-posicao-r" class="quarto-xref">Tabela&nbsp;<span>6.13</span></a> deve ser entendida como uma referência de consulta. O objetivo não é memorizar uma lista de funções, mas saber <strong>qual pergunta estatística cada uma ajuda a responder</strong>.</p>
+</section>
+<section id="síntese" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="síntese"><span class="header-section-number">6.8</span> Síntese</h2>
+<p>Neste capítulo, ampliamos a descrição de uma variável quantitativa para além das medidas de tendência central.</p>
+<p>Os principais pontos são:</p>
+<ol type="1">
+<li><strong>quantis</strong> localizam posições relativas em uma distribuição ordenada;</li>
+<li>os <strong>quartis</strong> correspondem aos quantis de ordens 0,25, 0,50 e 0,75;</li>
+<li>os <strong>decis</strong> dividem a distribuição em dez partes e os <strong>percentis</strong>, em cem;</li>
+<li>quartis, decis e percentis são casos particulares de quantis;</li>
+<li>diferentes convenções computacionais podem produzir pequenas diferenças nos quantis de amostras finitas;</li>
+<li>o <strong>resumo de cinco números</strong> é formado por mínimo, <span class="math inline">\(Q_1\)</span>, mediana, <span class="math inline">\(Q_3\)</span> e máximo;</li>
+<li>a <strong>amplitude interquartílica</strong> é dada por <span class="math inline">\(AIQ=Q_3-Q_1\)</span> e descreve a extensão dos 50% centrais;</li>
+<li>o boxplot utiliza quartis e AIQ para fornecer um resumo gráfico da distribuição;</li>
+<li>os limites <span class="math inline">\(Q_1-1,5(AIQ)\)</span> e <span class="math inline">\(Q_3+1,5(AIQ)\)</span> são usados para sinalizar observações potencialmente atípicas;</li>
+<li>os bigodes do boxplot terminam nas observações extremas que ainda permanecem dentro desses limites;</li>
+<li>uma observação sinalizada pelo boxplot não é automaticamente um erro;</li>
+<li>boxplot e histograma apresentam informações complementares e devem ser interpretados em conjunto quando necessário.</li>
+</ol>
+<blockquote class="blockquote">
+<p><strong>Ideia-chave:</strong> medidas de posição e boxplots não servem apenas para calcular pontos de corte. Eles ajudam a compreender onde as observações se localizam, como a metade central dos dados se distribui e quais valores merecem investigação mais cuidadosa.</p>
+</blockquote>
+</section>
+<section id="exercícios-teóricos" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="exercícios-teóricos"><span class="header-section-number">6.9</span> Exercícios teóricos</h2>
+<ol type="1">
+<li><p>Explique, com suas palavras, o que significa um quantil de ordem <span class="math inline">\(p\)</span>.</p></li>
+<li><p>Qual é a relação entre:</p>
+<ol type="a">
+<li><span class="math inline">\(Q_1\)</span> e <span class="math inline">\(P_{25}\)</span>?<br>
+</li>
+<li><span class="math inline">\(Q_2\)</span>, <span class="math inline">\(D_5\)</span> e <span class="math inline">\(P_{50}\)</span>?<br>
+</li>
+<li><span class="math inline">\(Q_3\)</span> e <span class="math inline">\(P_{75}\)</span>?</li>
+</ol></li>
+<li><p>Considere os dados ordenados</p>
+<p><span class="math display">\[5,\ 7,\ 8,\ 10,\ 11,\ 13,\ 15,\ 18,\ 20.\]</span></p>
+<p>Determine, utilizando a mesma convenção adotada nos exemplos:</p>
+<ol type="a">
+<li>o mínimo;<br>
+</li>
+<li><span class="math inline">\(Q_1\)</span>;<br>
+</li>
+<li>a mediana;<br>
+</li>
+<li><span class="math inline">\(Q_3\)</span>;<br>
+</li>
+<li>o máximo;<br>
+</li>
+<li>a amplitude interquartílica.</li>
+</ol></li>
+<li><p>Utilizando os resultados do exercício anterior, calcule:</p>
+<ol type="a">
+<li>o limite inferior;<br>
+</li>
+<li>o limite superior;<br>
+</li>
+<li>verifique se alguma observação seria sinalizada como potencialmente atípica.</li>
+</ol></li>
+<li><p>Considere agora o conjunto</p>
+<p><span class="math display">\[5,\ 7,\ 8,\ 10,\ 11,\ 13,\ 15,\ 18,\ 50.\]</span></p>
+<p>Recalcule <span class="math inline">\(Q_1\)</span>, <span class="math inline">\(Q_3\)</span>, AIQ e os limites. O valor 50 é sinalizado? Justifique.</p></li>
+<li><p>Explique por que o limite superior de um boxplot não deve ser confundido com a posição do bigode superior.</p></li>
+<li><p>Um estudante afirmou: “Se um valor aparece como ponto isolado no boxplot, ele deve ser retirado do banco.” Explique por que essa afirmação é inadequada.</p></li>
+<li><p>Em uma prova, <span class="math inline">\(P_{90}=8,7\)</span>. Interprete esse resultado no contexto das notas dos estudantes.</p></li>
+<li><p>Uma variável apresenta <span class="math inline">\(Q_1=18\)</span>, mediana igual a 25 e <span class="math inline">\(Q_3=41\)</span>. Interprete:</p>
+<ol type="a">
+<li><span class="math inline">\(Q_1\)</span>;<br>
+</li>
+<li>a mediana;<br>
+</li>
+<li><span class="math inline">\(Q_3\)</span>;<br>
+</li>
+<li>a amplitude interquartílica.</li>
+</ol></li>
+<li><p>Dois conjuntos de dados possuem o mesmo resumo de cinco números. Isso garante que tenham exatamente a mesma distribuição? Explique.</p></li>
+<li><p>Compare o boxplot e o histograma. Cite pelo menos duas informações que são particularmente fáceis de observar em cada representação.</p></li>
+<li><p>Por que diferentes programas estatísticos podem apresentar pequenas diferenças nos valores dos quartis de uma mesma amostra?</p></li>
+<li><p>Em que situação o máximo do resumo de cinco números não coincide com a extremidade do bigode superior de um boxplot?</p></li>
+<li><p>Explique a diferença entre:</p>
+<ol type="a">
+<li>valor extremo;<br>
+</li>
+<li>observação potencialmente atípica;<br>
+</li>
+<li>erro de registro.</li>
+</ol></li>
+</ol>
+</section>
+<section id="exercícios-práticos-no-r" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="exercícios-práticos-no-r"><span class="header-section-number">6.10</span> Exercícios práticos no R</h2>
+<p>Utilize o banco <code>dados</code> com os 80 estudantes.</p>
+<ol type="1">
+<li><p>Para a variável <code>idade_anos</code>:</p>
+<ol type="a">
+<li>calcule <span class="math inline">\(Q_1\)</span>, mediana e <span class="math inline">\(Q_3\)</span>;<br>
+</li>
+<li>obtenha o resumo de cinco números;<br>
+</li>
+<li>calcule a AIQ;<br>
+</li>
+<li>interprete os quartis no contexto da idade dos estudantes.</li>
+</ol></li>
+<li><p>Calcule os nove decis da variável <code>tempo_deslocamento_min</code>. Interprete <span class="math inline">\(D_1\)</span>, <span class="math inline">\(D_5\)</span> e <span class="math inline">\(D_9\)</span>.</p></li>
+<li><p>Calcule <span class="math inline">\(P_5\)</span>, <span class="math inline">\(P_{10}\)</span>, <span class="math inline">\(P_{25}\)</span>, <span class="math inline">\(P_{75}\)</span>, <span class="math inline">\(P_{90}\)</span> e <span class="math inline">\(P_{95}\)</span> para <code>altura_m</code>. Organize os resultados em uma tabela com título e referência no texto.</p></li>
+<li><p>Construa um boxplot para <code>idade_anos</code>.</p>
+<ol type="a">
+<li>atribua um <code>label</code> iniciado por <code>fig-</code>;<br>
+</li>
+<li>escreva uma legenda com <code>fig-cap</code>;<br>
+</li>
+<li>faça referência à figura em um pequeno parágrafo interpretativo.</li>
+</ol></li>
+<li><p>Construa um boxplot para <code>altura_m</code>. Calcule manualmente no R, antes do gráfico:</p>
+<ol type="a">
+<li><span class="math inline">\(Q_1\)</span>;<br>
+</li>
+<li><span class="math inline">\(Q_3\)</span>;<br>
+</li>
+<li>AIQ;<br>
+</li>
+<li>limite inferior;<br>
+</li>
+<li>limite superior.<br>
+Em seguida, identifique os registros que ultrapassam os limites.</li>
+</ol></li>
+<li><p>Para <code>tempo_deslocamento_min</code>, reproduza a identificação das observações potencialmente atípicas sem copiar o código do capítulo. Organize os registros encontrados em uma tabela numerada e escreva uma interpretação.</p></li>
+<li><p>Construa, para <code>idade_anos</code>:</p>
+<ol type="a">
+<li>um histograma;<br>
+</li>
+<li>um boxplot.<br>
+Compare as duas representações e descreva quais aspectos da distribuição ficam mais evidentes em cada uma.</li>
+</ol></li>
+<li><p>Utilize <code>quantile()</code> para calcular os quartis de <code>tempo_deslocamento_min</code> com <code>type = 7</code>. Depois, utilize <code>fivenum()</code>.</p>
+<ol type="a">
+<li>compare os resultados;<br>
+</li>
+<li>verifique se existem diferenças;<br>
+</li>
+<li>explique por que elas podem ocorrer.</li>
+</ol></li>
+<li><p>Escolha uma das variáveis quantitativas do banco e investigue todos os pontos sinalizados pelo boxplot.</p>
+<ol type="a">
+<li>localize os registros originais;<br>
+</li>
+<li>examine as demais variáveis desses estudantes;<br>
+</li>
+<li>discuta se há evidência suficiente para considerar algum valor um erro;<br>
+</li>
+<li>documente sua conclusão.</li>
+</ol></li>
+<li><p>Crie uma tabela contendo, para <code>idade_anos</code>, <code>faltas</code>, <code>tempo_deslocamento_min</code> e <code>altura_m</code>:</p>
+<ol type="a">
+<li>mínimo;<br>
+</li>
+<li><span class="math inline">\(Q_1\)</span>;<br>
+</li>
+<li>mediana;<br>
+</li>
+<li><span class="math inline">\(Q_3\)</span>;<br>
+</li>
+<li>máximo;<br>
+</li>
+<li>AIQ.<br>
+A tabela deve possuir título, <code>label</code> e ser referenciada em um parágrafo interpretativo.</li>
+</ol></li>
+<li><p>Calcule <span class="math inline">\(P_{90}\)</span> do tempo de deslocamento e utilize-o para responder: aproximadamente a partir de qual tempo se encontram os 10% maiores deslocamentos?</p></li>
+<li><p>Escolha uma variável quantitativa e produza um pequeno relatório exploratório contendo:</p>
+<ol type="a">
+<li>resumo de cinco números;<br>
+</li>
+<li>AIQ;<br>
+</li>
+<li>boxplot;<br>
+</li>
+<li>histograma;<br>
+</li>
+<li>identificação das observações potencialmente atípicas;<br>
+</li>
+<li>uma conclusão de um parágrafo distinguindo <strong>valor atípico</strong> de <strong>erro</strong>.</li>
+</ol></li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05-medidas-tendencia-central.html" class="pagination-link" aria-label="Medidas de tendência central">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Medidas de tendência central</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07-medidas-dispersao.html" class="pagination-link" aria-label="Medidas de dispersão">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Medidas de dispersão</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

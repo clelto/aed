@@ -1,0 +1,29 @@
+{
+  "index.qmd": {
+    "index.html": "dcb174e1"
+  },
+  "01-fundamentos-aed.qmd": {
+    "01-fundamentos-aed.html": "a8730acc"
+  },
+  "02-r-rstudio-quarto.qmd": {
+    "02-r-rstudio-quarto.html": "36f5238d"
+  },
+  "03-dados-organizacao-qualidade.qmd": {
+    "03-dados-organizacao-qualidade.html": "2caae0d0"
+  },
+  "04-distribuicoes-frequencias-representacoes-graficas-v2.qmd": {
+    "04-distribuicoes-frequencias-representacoes-graficas-v2.html": "45bb9bb2"
+  },
+  "05-medidas-tendencia-central.qmd": {
+    "05-medidas-tendencia-central.html": "7068ce4e"
+  },
+  "06-medidas-posicao-boxplot.qmd": {
+    "06-medidas-posicao-boxplot.html": "9c05d51b"
+  },
+  "07-medidas-dispersao.qmd": {
+    "07-medidas-dispersao.html": "d2c9b065"
+  },
+  "08-forma-distribuicao.qmd": {
+    "08-forma-distribuicao.html": "cb9432d7"
+  }
+}

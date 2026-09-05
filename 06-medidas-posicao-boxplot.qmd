@@ -1,0 +1,988 @@
+# Medidas de posição, resumo de cinco números e boxplot
+
+No capítulo anterior, estudamos medidas de tendência central e vimos que média, mediana e moda procuram representar o centro de uma distribuição. Agora ampliaremos essa ideia. Em vez de perguntar apenas **onde está o centro**, queremos saber também **como as observações se posicionam ao longo da distribuição**.
+
+As medidas de posição permitem localizar valores que dividem um conjunto ordenado de dados em determinadas proporções. Entre elas estão os **quartis**, **decis** e **percentis**. A partir dos quartis, construiremos o **resumo de cinco números**, a **amplitude interquartílica** e o **boxplot**, uma representação gráfica compacta que permite examinar posição, dispersão, assimetria e observações potencialmente atípicas.
+
+Ao final deste capítulo, você deverá ser capaz de calcular e interpretar medidas de posição, obter o resumo de cinco números, construir e interpretar boxplots e investigar valores extremos sem confundir automaticamente uma observação atípica com um erro.
+
+```{r}
+#| label: setup-medidas-posicao
+#| include: false
+
+library(tidyverse)
+
+dados <- read_csv(
+  "dados/estudantes80n.csv",
+  show_col_types = FALSE
+)
+
+exemplo_posicao <- c(
+  12, 18, 20, 22, 25, 28, 30, 35, 50
+)
+```
+
+## Medidas de posição
+
+Uma **medida de posição** indica a localização de um valor em relação às demais observações de um conjunto ordenado.
+
+Considere uma amostra com $n$ observações. Depois de colocá-las em ordem crescente, escrevemos
+
+$$x_{(1)} \leq x_{(2)} \leq \cdots \leq x_{(n)},$$
+
+em que $x_{(1)}$ representa o menor valor observado e $x_{(n)}$ representa o maior.
+
+As medidas de posição são particularmente úteis para responder perguntas como:
+
+- Qual valor deixa aproximadamente 25% das observações abaixo dele?
+- Qual é o ponto que divide os dados em duas partes?
+- A partir de qual valor estão os 10% maiores resultados?
+- Qual valor é superado por apenas 5% das observações?
+
+Essas perguntas conduzem ao conceito de **quantil**.
+
+### Quantis empíricos
+
+Para uma proporção $p$, com $0 \leq p \leq 1$, o **quantil de ordem** $p$, representado por $q_p$, é um valor que localiza aproximadamente a proporção $p$ das observações na parte inferior da distribuição.
+
+Por exemplo:
+
+- $q_{0,25}$ localiza aproximadamente 25% das observações;
+- $q_{0,50}$ localiza aproximadamente 50% das observações;
+- $q_{0,90}$ localiza aproximadamente 90% das observações.
+
+O quantil de ordem $0,50$ corresponde à **mediana**.
+
+::: {.callout-note title="Quantis em amostras finitas"}
+Quando trabalhamos com um conjunto finito de dados, nem sempre existe uma observação exatamente na posição correspondente à proporção desejada. Por isso, existem diferentes convenções para o cálculo de quantis. Alguns métodos selecionam observações do conjunto; outros realizam **interpolação** entre valores vizinhos.
+
+Consequentemente, dois programas ou duas fórmulas podem produzir resultados ligeiramente diferentes para determinados conjuntos de dados, mesmo que ambos estejam corretos segundo suas respectivas definições.
+:::
+
+Para acompanhar os exemplos, considere os nove tempos, em minutos, apresentados em ordem crescente:
+
+$$12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50.$$
+
+A @tbl-quantis-exemplo apresenta alguns quantis calculados por interpolação linear, conforme a convenção padrão utilizada pela função `quantile()` do R.
+
+| Quantil | Proporção | Valor (min) | Interpretação aproximada |
+|:---------------|---------------:|---------------:|:------------------------|
+| $q_{0,10}$ | 10% | 16,8 | cerca de 10% dos valores estão até essa região |
+| $q_{0,25}$ | 25% | 20,0 | cerca de 25% dos valores estão até essa região |
+| $q_{0,50}$ | 50% | 25,0 | metade dos valores está até essa região |
+| $q_{0,75}$ | 75% | 30,0 | cerca de 75% dos valores estão até essa região |
+| $q_{0,90}$ | 90% | 38,0 | cerca de 90% dos valores estão até essa região |
+
+: Alguns quantis para o conjunto de tempos utilizado no exemplo. {#tbl-quantis-exemplo}
+
+Observe, na @tbl-quantis-exemplo, que alguns quantis coincidem com valores observados, enquanto outros, como 16,8 e 38,0, não aparecem no conjunto original. Isso ocorre porque o procedimento adotado interpola valores quando a posição desejada se encontra entre duas observações.
+
+::: {.callout-tip title="Como o R calcula por padrão"}
+A função `quantile()` utiliza, por padrão, o método denominado `type = 7`. Para $0<p<1$, esse método considera
+
+$$h=1+(n-1)p.$$
+
+Se $h$ não for inteiro, o quantil é obtido por interpolação entre as observações ordenadas vizinhas. Neste capítulo, quando utilizarmos `quantile()` sem especificar outro método, estaremos adotando essa convenção.
+:::
+
+#### Quartis
+
+Os **quartis** dividem a distribuição ordenada em quatro partes.
+
+São definidos três pontos principais:
+
+$$Q_1=q_{0,25},$$
+
+$$Q_2=q_{0,50},$$
+
+e
+
+$$Q_3=q_{0,75}.$$
+
+Assim:
+
+- $Q_1$, o primeiro quartil, localiza aproximadamente 25% das observações;
+- $Q_2$, o segundo quartil, corresponde à mediana;
+- $Q_3$, o terceiro quartil, localiza aproximadamente 75% das observações.
+
+No conjunto do exemplo,
+
+$$Q_1=20,\qquad Q_2=25,\qquad Q_3=30.$$
+
+A @tbl-quartis-exemplo resume a interpretação.
+
+| Medida | Valor (min) | Interpretação                                        |
+|:------------|------------:|:--------------------------------------------|
+| $Q_1$  |          20 | aproximadamente 25% dos tempos estão até essa região |
+| $Q_2$  |          25 | aproximadamente 50% dos tempos estão até essa região |
+| $Q_3$  |          30 | aproximadamente 75% dos tempos estão até essa região |
+
+: Quartis do conjunto de tempos utilizado no exemplo. {#tbl-quartis-exemplo}
+
+A @tbl-quartis-exemplo mostra que os quartis não representam quatro grupos de valores, mas sim **três pontos de corte** que ajudam a dividir a distribuição em quatro partes.
+
+#### Decis
+
+Os **decis** dividem a distribuição em dez partes. O $k$-ésimo decil é dado por
+
+$$D_k=q_{k/10},
+\qquad k=1,\ldots,9.$$
+
+Por exemplo,
+
+$$D_1=q_{0,10}, \qquad
+D_5=q_{0,50}, \qquad
+D_9=q_{0,90}.$$
+
+Assim, $D_5$ coincide com a mediana.
+
+Os decis são úteis quando se deseja uma divisão mais detalhada do que aquela proporcionada pelos quartis. O nono decil, por exemplo, pode ser usado para localizar aproximadamente o ponto a partir do qual se encontram os 10% maiores valores.
+
+#### Percentis
+
+Os **percentis** dividem a distribuição em cem partes. O $k$-ésimo percentil é
+
+$$P_k=q_{k/100},
+\qquad k=1,\ldots,99.$$
+
+Algumas equivalências são particularmente úteis:
+
+$$Q_1=P_{25},$$
+
+$$Q_2=P_{50}=D_5,$$
+
+e
+
+$$Q_3=P_{75}.$$
+
+A @tbl-equivalencia-quantis organiza essas relações.
+
+| Medida                 | Quantil correspondente | Percentil correspondente |
+|:-----------------------|:-----------------------|:-------------------------|
+| Primeiro quartil $Q_1$ | $q_{0,25}$             | $P_{25}$                 |
+| Segundo quartil $Q_2$  | $q_{0,50}$             | $P_{50}$                 |
+| Terceiro quartil $Q_3$ | $q_{0,75}$             | $P_{75}$                 |
+| Quinto decil $D_5$     | $q_{0,50}$             | $P_{50}$                 |
+| Nono decil $D_9$       | $q_{0,90}$             | $P_{90}$                 |
+
+: Relações entre quartis, decis, percentis e quantis. {#tbl-equivalencia-quantis}
+
+Como mostra a @tbl-equivalencia-quantis, quartis, decis e percentis não são conceitos independentes: todos são casos particulares de quantis.
+
+::: {.callout-tip title="Laboratório no R — quartis, decis e percentis"}
+No R, a função principal para calcular quantis é `quantile()`.
+
+Começaremos com o conjunto utilizado na teoria:
+
+```{r}
+x <- c(
+  12, 18, 20, 22, 25, 28, 30, 35, 50
+)
+
+x
+```
+
+Os quartis podem ser obtidos com:
+
+```{r}
+quantile(
+  x,
+  probs = c(0.25, 0.50, 0.75)
+)
+```
+
+Também podemos incluir o mínimo e o máximo:
+
+```{r}
+quantile(
+  x,
+  probs = c(0, 0.25, 0.50, 0.75, 1)
+)
+```
+
+Para calcular os decis:
+
+```{r}
+quantile(
+  x,
+  probs = seq(0.10, 0.90, by = 0.10)
+)
+```
+
+E, por exemplo, para obter os percentis 10, 25, 50, 75 e 90:
+
+```{r}
+quantile(
+  x,
+  probs = c(0.10, 0.25, 0.50, 0.75, 0.90)
+)
+```
+
+Observe que a função recebe as proporções na escala de 0 a 1. Assim, para calcular $P_{90}$, usamos `0.90`, e não `90`.
+
+Podemos verificar explicitamente o método padrão:
+
+```{r}
+quantile(
+  x,
+  probs = 0.90,
+  type = 7
+)
+```
+
+Agora aplicaremos o procedimento ao banco dos estudantes. Para o tempo de deslocamento:
+
+```{r}
+quantile(
+  dados$tempo_deslocamento_min,
+  probs = c(0.25, 0.50, 0.75),
+  na.rm = TRUE
+)
+```
+
+A tabela a seguir organiza os quartis obtidos.
+
+```{r}
+#| label: tbl-quartis-tempo-r
+#| tbl-cap: "Quartis do tempo de deslocamento dos estudantes calculados no R."
+
+quartis_tempo <- quantile(
+  dados$tempo_deslocamento_min,
+  probs = c(0.25, 0.50, 0.75),
+  na.rm = TRUE
+)
+
+tibble(
+  medida = c("Q1", "Q2 (mediana)", "Q3"),
+  probabilidade = c(0.25, 0.50, 0.75),
+  valor_min = as.numeric(quartis_tempo)
+) |>
+  knitr::kable(
+    digits = 2,
+    col.names = c(
+      "Medida",
+      "Proporção",
+      "Tempo (min)"
+    )
+  )
+```
+
+A @tbl-quartis-tempo-r permite interpretar a posição dos tempos de deslocamento sem examinar individualmente as 80 observações.
+
+Também podemos calcular os decis do tempo de deslocamento:
+
+```{r}
+quantile(
+  dados$tempo_deslocamento_min,
+  probs = seq(0.10, 0.90, by = 0.10),
+  na.rm = TRUE
+)
+```
+
+E percentis específicos:
+
+```{r}
+quantile(
+  dados$tempo_deslocamento_min,
+  probs = c(0.05, 0.10, 0.90, 0.95),
+  na.rm = TRUE
+)
+```
+
+Ao interpretar um percentil, sempre traduza o resultado para o contexto. Por exemplo, $P_{90}$ fornece um valor abaixo do qual se localiza aproximadamente 90% dos tempos de deslocamento.
+:::
+
+## Resumo de cinco números
+
+Uma forma compacta de descrever a posição e a extensão de uma distribuição é o **resumo de cinco números**.
+
+Ele é formado por:
+
+$$\text{mínimo},\quad
+Q_1,\quad
+\text{mediana},\quad
+Q_3,\quad
+\text{máximo}.$$
+
+Para o conjunto
+
+$$12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50,$$
+
+temos o resumo apresentado na @tbl-cinco-numeros-exemplo.
+
+| Medida                   | Valor (min) |
+|:-------------------------|------------:|
+| Mínimo                   |          12 |
+| Primeiro quartil ($Q_1$) |          20 |
+| Mediana ($Q_2$)          |          25 |
+| Terceiro quartil ($Q_3$) |          30 |
+| Máximo                   |          50 |
+
+: Resumo de cinco números do conjunto utilizado no exemplo. {#tbl-cinco-numeros-exemplo}
+
+A @tbl-cinco-numeros-exemplo permite perceber rapidamente que a metade central dos dados se encontra entre 20 e 30 minutos, enquanto o maior valor, 50 minutos, está consideravelmente afastado do terceiro quartil.
+
+::: {.callout-important title="Resumo de cinco números e boxplot não são exatamente a mesma coisa"}
+O resumo de cinco números utiliza o **mínimo e o máximo observados**. No boxplot, entretanto, as extremidades dos chamados **bigodes** podem não coincidir com o mínimo e o máximo quando existem observações identificadas como potencialmente atípicas.
+:::
+
+### Amplitude interquartílica
+
+A **amplitude interquartílica**, abreviada por AIQ, mede a extensão ocupada pela metade central das observações.
+
+Ela é definida por
+
+$$AIQ=Q_3-Q_1.$$
+
+No exemplo,
+
+$$AIQ=30-20=10.$$
+
+Portanto, os 50% centrais dos dados estão distribuídos em uma faixa de 10 minutos.
+
+A amplitude interquartílica é particularmente útil porque depende dos quartis e, por isso, é menos sensível a valores extremos do que medidas baseadas diretamente no mínimo e no máximo.
+
+::: {.callout-note title="Interpretação"}
+Dizer que $AIQ=10$ não significa que todas as observações estejam em um intervalo de 10 unidades. Significa que a distância entre o primeiro e o terceiro quartis é igual a 10, ou seja, a metade central da distribuição ocupa essa amplitude.
+:::
+
+:::: {.callout-tip title="Laboratório no R — resumo de cinco números e AIQ"}
+O resumo de cinco números pode ser obtido de maneira consistente com os quartis utilizados neste capítulo por meio de `quantile()`:
+
+```{r}
+quantile(
+  dados$tempo_deslocamento_min,
+  probs = c(0, 0.25, 0.50, 0.75, 1),
+  na.rm = TRUE
+)
+```
+
+A amplitude interquartílica é calculada pela função `IQR()`:
+
+```{r}
+IQR(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE
+)
+```
+
+Podemos organizar as cinco medidas em uma tabela.
+
+```{r}
+#| label: tbl-resumo-cinco-tempo-r
+#| tbl-cap: "Resumo de cinco números do tempo de deslocamento dos 80 estudantes."
+
+resumo_cinco <- quantile(
+  dados$tempo_deslocamento_min,
+  probs = c(0, 0.25, 0.50, 0.75, 1),
+  na.rm = TRUE
+)
+
+tibble(
+  medida = c(
+    "Mínimo",
+    "Q1",
+    "Mediana",
+    "Q3",
+    "Máximo"
+  ),
+  tempo_min = as.numeric(resumo_cinco)
+) |>
+  knitr::kable(
+    digits = 2,
+    col.names = c(
+      "Medida",
+      "Tempo (min)"
+    )
+  )
+```
+
+A @tbl-resumo-cinco-tempo-r mostra que os tempos variam de 11,7 a 112,0 minutos, enquanto a metade central das observações está delimitada aproximadamente pelo primeiro e pelo terceiro quartis.
+
+A função `summary()` também é útil:
+
+```{r}
+summary(
+  dados$tempo_deslocamento_min
+)
+```
+
+Entretanto, observe que `summary()` não apresenta apenas os cinco números: ela inclui também a **média**.
+
+Existe ainda a função `fivenum()`:
+
+```{r}
+fivenum(
+  dados$tempo_deslocamento_min
+)
+```
+
+::: {.callout-warning title="quantile() e fivenum() podem diferir"}
+A função `fivenum()` utiliza os chamados **hinges de Tukey**, enquanto `quantile()` oferece diferentes métodos de cálculo e utiliza `type = 7` por padrão. Dependendo do tamanho e da configuração da amostra, os valores de $Q_1$ e $Q_3$ podem apresentar pequenas diferenças.
+
+Para manter consistência com os quartis definidos neste capítulo e com os cálculos de `IQR()`, utilizaremos preferencialmente `quantile(..., type = 7)`.
+:::
+::::
+
+## Construção conceitual do boxplot
+
+O **boxplot**, também chamado de **diagrama de caixa**, é uma representação gráfica construída a partir dos quartis e da amplitude interquartílica.
+
+Sua estrutura básica contém:
+
+1.  uma caixa que se estende de $Q_1$ a $Q_3$;
+2.  uma linha dentro da caixa indicando a mediana;
+3.  bigodes que se estendem até observações consideradas não atípicas;
+4.  pontos individuais para observações que ultrapassam determinados limites.
+
+A largura da caixa, no eixo dos valores, corresponde à amplitude interquartílica:
+
+$$AIQ=Q_3-Q_1.$$
+
+### Limites para identificação de observações potencialmente atípicas
+
+Uma regra muito utilizada estabelece os limites
+
+$$LI=Q_1-1,5(AIQ)$$
+
+e
+
+$$LS=Q_3+1,5(AIQ),$$
+
+em que:
+
+- $LI$ é o limite inferior;
+- $LS$ é o limite superior.
+
+Observações menores que $LI$ ou maiores que $LS$ são sinalizadas como **potencialmente atípicas**.
+
+Retomando o exemplo:
+
+$$Q_1=20,\qquad Q_3=30,\qquad AIQ=10.$$
+
+Logo,
+
+$$LI=20-1,5(10)=5$$
+
+e
+
+$$LS=30+1,5(10)=45.$$
+
+O valor 50 ultrapassa o limite superior de 45 e, portanto, será sinalizado pelo boxplot como potencialmente atípico.
+
+A @tbl-elementos-boxplot-exemplo reúne os valores utilizados na construção.
+
+| Elemento                     | Valor (min) |
+|:-----------------------------|------------:|
+| Mínimo observado             |          12 |
+| $Q_1$                        |          20 |
+| Mediana                      |          25 |
+| $Q_3$                        |          30 |
+| Máximo observado             |          50 |
+| AIQ                          |          10 |
+| Limite inferior              |           5 |
+| Limite superior              |          45 |
+| Menor valor não atípico      |          12 |
+| Maior valor não atípico      |          35 |
+| Valor potencialmente atípico |          50 |
+
+: Elementos utilizados na construção conceitual do boxplot do exemplo. {#tbl-elementos-boxplot-exemplo}
+
+A @tbl-elementos-boxplot-exemplo evidencia uma distinção essencial: embora o limite superior seja 45, o bigode superior termina em 35, pois 35 é a **maior observação efetivamente registrada que ainda está dentro do limite**.
+
+::: {.callout-important title="Os bigodes não terminam necessariamente nos limites"}
+Os valores $LI$ e $LS$ são **limites teóricos para classificação**. Os bigodes do boxplot se estendem até a menor e a maior observações que permanecem dentro desses limites.
+
+Portanto, não se deve desenhar automaticamente um bigode em $LI$ e outro em $LS$.
+:::
+
+O boxplot correspondente é apresentado na @fig-boxplot-conceitual.
+
+```{r}
+#| label: fig-boxplot-conceitual
+#| fig-cap: "Boxplot do conjunto de tempos utilizado no exemplo."
+#| fig-alt: "Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos."
+#| echo: false
+
+tibble(
+  tempo = exemplo_posicao
+) |>
+  ggplot(
+    aes(x = "", y = tempo)
+  ) +
+  geom_boxplot(width = 0.35) +
+  labs(
+    x = NULL,
+    y = "Tempo (min)"
+  ) +
+  theme_minimal()
+```
+
+Na @fig-boxplot-conceitual, a caixa representa os 50% centrais dos dados, a linha interna representa a mediana e o ponto localizado em 50 minutos é destacado por ultrapassar o limite superior calculado.
+
+### O que o boxplot permite observar?
+
+A posição da mediana dentro da caixa, o tamanho dos segmentos entre os quartis, o comprimento dos bigodes e a presença de pontos isolados fornecem pistas sobre a distribuição.
+
+Entretanto, o boxplot é um **resumo**. Ele não mostra diretamente todos os detalhes da forma da distribuição, como picos, lacunas ou multimodalidade. Por esse motivo, sua interpretação pode ser enriquecida quando comparada com histogramas, gráficos de densidade ou gráficos de pontos.
+
+::: {.callout-tip title="Laboratório no R — construindo e interpretando o boxplot"}
+Começaremos calculando os quartis e a amplitude interquartílica do tempo de deslocamento.
+
+```{r}
+q1 <- quantile(
+  dados$tempo_deslocamento_min,
+  probs = 0.25,
+  na.rm = TRUE
+)
+
+q3 <- quantile(
+  dados$tempo_deslocamento_min,
+  probs = 0.75,
+  na.rm = TRUE
+)
+
+aiq <- IQR(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE
+)
+
+q1
+q3
+aiq
+```
+
+Agora calculamos os limites inferior e superior:
+
+```{r}
+limite_inferior <- q1 - 1.5 * aiq
+limite_superior <- q3 + 1.5 * aiq
+
+limite_inferior
+limite_superior
+```
+
+Podemos identificar as observações que ultrapassam esses limites:
+
+```{r}
+#| label: tbl-atipicos-tempo-r
+#| tbl-cap: "Estudantes com tempos de deslocamento sinalizados pela regra de 1,5 vezes a amplitude interquartílica."
+
+atipicos_tempo <- dados |>
+  filter(
+    tempo_deslocamento_min < limite_inferior |
+      tempo_deslocamento_min > limite_superior
+  ) |>
+  select(
+    id_estudante,
+    curso,
+    meio_transporte,
+    satisfacao,
+    idade_anos,
+    faltas,
+    tempo_deslocamento_min
+  ) |>
+  arrange(tempo_deslocamento_min)
+
+atipicos_tempo |>
+  knitr::kable(
+    digits = 1,
+    col.names = c(
+      "Estudante",
+      "Curso",
+      "Transporte",
+      "Satisfação",
+      "Idade",
+      "Faltas",
+      "Tempo (min)"
+    )
+  )
+```
+
+A @tbl-atipicos-tempo-r mostra quais observações merecem investigação segundo a regra adotada. A presença nessa tabela, entretanto, **não autoriza sua exclusão automática**.
+
+O boxplot pode ser construído diretamente com `geom_boxplot()`.
+
+```{r}
+#| label: fig-boxplot-tempo-r
+#| fig-cap: "Boxplot do tempo de deslocamento dos 80 estudantes."
+#| fig-alt: "Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior."
+
+dados |>
+  ggplot(
+    aes(x = "", y = tempo_deslocamento_min)
+  ) +
+  geom_boxplot(width = 0.35) +
+  labs(
+    x = NULL,
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+Na @fig-boxplot-tempo-r, os pontos localizados além do bigode superior correspondem a tempos que ultrapassam o limite determinado pela regra de $1,5\times AIQ$.
+:::
+
+## Boxplot e histograma: representações complementares
+
+O boxplot resume uma distribuição utilizando poucos elementos. Isso o torna compacto e especialmente útil para comparar distribuições. Entretanto, justamente por resumir os dados, ele não revela todos os detalhes da forma.
+
+O **histograma** apresenta como as observações se distribuem ao longo de intervalos e permite visualizar concentrações, caudas, possíveis lacunas e outras características da forma.
+
+A @tbl-boxplot-histograma resume as principais diferenças.
+
+| Aspecto | Boxplot | Histograma |
+|:---------------------|:---------------------|:---------------------------|
+| Centro | mostra explicitamente a mediana | pode sugerir a região de maior concentração |
+| Quartis | mostra $Q_1$ e $Q_3$ | não os mostra diretamente |
+| AIQ | representada pela caixa | não aparece diretamente |
+| Valores potencialmente atípicos | podem ser destacados individualmente | aparecem nas classes das extremidades |
+| Forma da distribuição | visão bastante resumida | mostra mais detalhes da forma |
+| Comparação entre grupos | muito conveniente | pode exigir vários gráficos |
+
+: Comparação entre as informações destacadas por boxplot e histograma. {#tbl-boxplot-histograma}
+
+Como mostra a @tbl-boxplot-histograma, as duas representações cumprem funções diferentes. Não é necessário escolher uma delas como universalmente melhor.
+
+::: {.callout-tip title="Laboratório no R — comparando boxplot e histograma"}
+Já construímos o boxplot do tempo de deslocamento na @fig-boxplot-tempo-r. Agora construiremos um histograma para a mesma variável.
+
+```{r}
+#| label: fig-histograma-comparacao-r
+#| fig-cap: "Histograma do tempo de deslocamento utilizado para comparação com o boxplot."
+#| fig-alt: "Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos."
+
+dados |>
+  ggplot(
+    aes(x = tempo_deslocamento_min)
+  ) +
+  geom_histogram(
+    binwidth = 15,
+    boundary = 10,
+    closed = "left",
+    color = "white",
+    linewidth = 0.8
+  ) +
+  scale_x_continuous(
+    breaks = seq(10, 115, by = 15)
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Frequência"
+  ) +
+  theme_minimal()
+```
+
+Ao comparar a @fig-boxplot-tempo-r com a @fig-histograma-comparacao-r, observe que o boxplot facilita a localização da mediana, dos quartis e das observações sinalizadas como potencialmente atípicas. O histograma, por sua vez, mostra com mais clareza onde os tempos se concentram e como a frequência diminui à medida que os tempos aumentam.
+
+Uma análise exploratória pode utilizar as duas representações de forma complementar.
+:::
+
+## Investigação de observações potencialmente atípicas
+
+Uma observação marcada pelo boxplot não deve ser chamada automaticamente de **erro**.
+
+O termo **observação potencialmente atípica** indica apenas que aquele valor está relativamente distante da região central da distribuição segundo uma regra estatística específica.
+
+Essa sinalização deve ser entendida como um **convite à investigação**.
+
+A @tbl-atipico-erro apresenta algumas possibilidades.
+
+| Situação | Exemplo | Conduta inicial |
+|:-------------------|:-----------------|:---------------------------------|
+| Erro de digitação | altura registrada como 17,5 m em vez de 1,75 m | conferir a fonte e corrigir se houver evidência |
+| Erro de medição | equipamento apresentou falha conhecida | verificar registros e protocolo de coleta |
+| Valor extremo legítimo | estudante realmente leva 112 min para chegar à universidade | manter e interpretar |
+| Subgrupo distinto | estudantes de uma região distante apresentam tempos maiores | investigar a estrutura dos grupos |
+| Unidade inconsistente | parte dos tempos foi registrada em horas e parte em minutos | padronizar após confirmação |
+| Valor raro sem explicação imediata | observação muito distante das demais | investigar antes de decidir |
+
+: Exemplos de situações relacionadas a valores extremos e possíveis condutas iniciais. {#tbl-atipico-erro}
+
+A @tbl-atipico-erro reforça que um valor extremo pode conter informação relevante sobre a população estudada. Excluir observações somente porque aparecem como pontos separados em um boxplot pode produzir uma análise incorreta.
+
+::: {.callout-important title="Atípico não é sinônimo de erro"}
+A regra de $1,5\times AIQ$ é uma regra de **sinalização**, não uma regra automática de exclusão. Para decidir sobre uma observação é necessário considerar a origem do dado, o processo de coleta, a plausibilidade contextual e os objetivos da análise.
+:::
+
+### Um roteiro de investigação
+
+Ao encontrar uma observação potencialmente atípica, é recomendável:
+
+1.  localizar a observação no banco original;
+2.  conferir se houve erro de digitação, codificação ou unidade;
+3.  verificar a fonte ou registro original, quando possível;
+4.  avaliar se o valor é plausível no contexto estudado;
+5.  investigar se ele pertence a algum subgrupo específico;
+6.  comparar análises com e sem o valor apenas quando isso tiver justificativa;
+7.  documentar qualquer decisão de correção ou exclusão.
+
+::: {.callout-tip title="Laboratório no R — investigando os valores extremos"}
+Já identificamos os estudantes sinalizados pela regra da amplitude interquartílica. Agora vamos examinar suas informações completas.
+
+```{r}
+#| label: tbl-investigacao-atipicos-r
+#| tbl-cap: "Registros completos das observações sinalizadas como potencialmente atípicas para o tempo de deslocamento."
+
+dados |>
+  filter(
+    tempo_deslocamento_min < limite_inferior |
+      tempo_deslocamento_min > limite_superior
+  ) |>
+  arrange(tempo_deslocamento_min) |>
+  knitr::kable(
+    digits = 2,
+    col.names = c(
+      "Estudante",
+      "Curso",
+      "Transporte",
+      "Satisfação",
+      "Idade",
+      "Faltas",
+      "Tempo (min)",
+      "Altura (m)"
+    )
+  )
+```
+
+A @tbl-investigacao-atipicos-r permite analisar as observações em seu contexto. No banco utilizado nesta apostila, o fato de alguns tempos serem elevados não é, por si só, evidência de erro de registro.
+
+Podemos também obter o maior valor que ainda permanece dentro do limite superior:
+
+```{r}
+maior_valor_nao_atipico <- dados |>
+  filter(
+    tempo_deslocamento_min <= limite_superior
+  ) |>
+  summarise(
+    valor =
+      max(tempo_deslocamento_min, na.rm = TRUE)
+  ) |>
+  pull(valor)
+
+maior_valor_nao_atipico
+```
+
+Esse valor corresponde à posição do bigode superior do boxplot, e não ao próprio limite superior calculado.
+
+Para localizar os identificadores dos maiores tempos, podemos ordenar o banco:
+
+```{r}
+#| label: tbl-maiores-tempos-r
+#| tbl-cap: "Dez maiores tempos de deslocamento registrados no banco de estudantes."
+
+dados |>
+  arrange(desc(tempo_deslocamento_min)) |>
+  select(
+    id_estudante,
+    tempo_deslocamento_min,
+    meio_transporte,
+    curso
+  ) |>
+  slice_head(n = 10) |>
+  knitr::kable(
+    digits = 1,
+    col.names = c(
+      "Estudante",
+      "Tempo (min)",
+      "Transporte",
+      "Curso"
+    )
+  )
+```
+
+A @tbl-maiores-tempos-r facilita a inspeção dos registros localizados na extremidade superior da distribuição. Esse tipo de verificação é fundamental antes de qualquer decisão sobre os dados.
+:::
+
+## Interpretação dos quartis em contexto
+
+Calcular uma medida de posição é apenas a primeira etapa. O resultado precisa ser traduzido para a variável estudada.
+
+Se, por exemplo, o primeiro quartil do tempo de deslocamento for aproximadamente 24,7 minutos, uma interpretação adequada é:
+
+> aproximadamente 25% dos estudantes apresentam tempos de deslocamento até a região de 24,7 minutos.
+
+Da mesma forma, se o terceiro quartil for aproximadamente 51,8 minutos:
+
+> aproximadamente 75% dos estudantes apresentam tempos de deslocamento até a região de 51,8 minutos, enquanto aproximadamente 25% apresentam tempos superiores a esse ponto.
+
+Não devemos dizer que "25% dos estudantes possuem exatamente 24,7 minutos de deslocamento". O quartil é um **ponto de posição**, e não a frequência de um valor específico.
+
+::: {.callout-note title="Uma linguagem cuidadosa"}
+Em amostras finitas, especialmente quando há valores repetidos ou interpolação, expressões como **aproximadamente 25%** e **aproximadamente 75%** são mais adequadas do que tratar os quartis como divisões perfeitas em todos os conjuntos de dados.
+:::
+
+## Funções principais utilizadas no R
+
+A @tbl-funcoes-posicao-r resume as funções trabalhadas neste capítulo.
+
+| Função | Finalidade principal |
+|:--------------------|:--------------------------------------------------|
+| `quantile()` | calcular quantis, quartis, decis e percentis |
+| `median()` | calcular a mediana |
+| `min()` | obter o menor valor |
+| `max()` | obter o maior valor |
+| `IQR()` | calcular a amplitude interquartílica |
+| `summary()` | obter um resumo numérico que inclui quartis e média |
+| `fivenum()` | obter o resumo de cinco números segundo os hinges de Tukey |
+| `geom_boxplot()` | construir boxplots com `ggplot2` |
+| `geom_histogram()` | construir histogramas para comparação da forma |
+
+: Funções do R utilizadas para medidas de posição, resumo de cinco números e boxplots. {#tbl-funcoes-posicao-r}
+
+A @tbl-funcoes-posicao-r deve ser entendida como uma referência de consulta. O objetivo não é memorizar uma lista de funções, mas saber **qual pergunta estatística cada uma ajuda a responder**.
+
+## Síntese
+
+Neste capítulo, ampliamos a descrição de uma variável quantitativa para além das medidas de tendência central.
+
+Os principais pontos são:
+
+1.  **quantis** localizam posições relativas em uma distribuição ordenada;
+2.  os **quartis** correspondem aos quantis de ordens 0,25, 0,50 e 0,75;
+3.  os **decis** dividem a distribuição em dez partes e os **percentis**, em cem;
+4.  quartis, decis e percentis são casos particulares de quantis;
+5.  diferentes convenções computacionais podem produzir pequenas diferenças nos quantis de amostras finitas;
+6.  o **resumo de cinco números** é formado por mínimo, $Q_1$, mediana, $Q_3$ e máximo;
+7.  a **amplitude interquartílica** é dada por $AIQ=Q_3-Q_1$ e descreve a extensão dos 50% centrais;
+8.  o boxplot utiliza quartis e AIQ para fornecer um resumo gráfico da distribuição;
+9.  os limites $Q_1-1,5(AIQ)$ e $Q_3+1,5(AIQ)$ são usados para sinalizar observações potencialmente atípicas;
+10. os bigodes do boxplot terminam nas observações extremas que ainda permanecem dentro desses limites;
+11. uma observação sinalizada pelo boxplot não é automaticamente um erro;
+12. boxplot e histograma apresentam informações complementares e devem ser interpretados em conjunto quando necessário.
+
+> **Ideia-chave:** medidas de posição e boxplots não servem apenas para calcular pontos de corte. Eles ajudam a compreender onde as observações se localizam, como a metade central dos dados se distribui e quais valores merecem investigação mais cuidadosa.
+
+## Exercícios teóricos
+
+1.  Explique, com suas palavras, o que significa um quantil de ordem $p$.
+
+2.  Qual é a relação entre:
+
+    a.  $Q_1$ e $P_{25}$?\
+    b.  $Q_2$, $D_5$ e $P_{50}$?\
+    c.  $Q_3$ e $P_{75}$?
+
+3.  Considere os dados ordenados
+
+    $$5,\ 7,\ 8,\ 10,\ 11,\ 13,\ 15,\ 18,\ 20.$$
+
+    Determine, utilizando a mesma convenção adotada nos exemplos:
+
+    a.  o mínimo;\
+    b.  $Q_1$;\
+    c.  a mediana;\
+    d.  $Q_3$;\
+    e.  o máximo;\
+    f.  a amplitude interquartílica.
+
+4.  Utilizando os resultados do exercício anterior, calcule:
+
+    a.  o limite inferior;\
+    b.  o limite superior;\
+    c.  verifique se alguma observação seria sinalizada como potencialmente atípica.
+
+5.  Considere agora o conjunto
+
+    $$5,\ 7,\ 8,\ 10,\ 11,\ 13,\ 15,\ 18,\ 50.$$
+
+    Recalcule $Q_1$, $Q_3$, AIQ e os limites. O valor 50 é sinalizado? Justifique.
+
+6.  Explique por que o limite superior de um boxplot não deve ser confundido com a posição do bigode superior.
+
+7.  Um estudante afirmou: "Se um valor aparece como ponto isolado no boxplot, ele deve ser retirado do banco." Explique por que essa afirmação é inadequada.
+
+8.  Em uma prova, $P_{90}=8,7$. Interprete esse resultado no contexto das notas dos estudantes.
+
+9.  Uma variável apresenta $Q_1=18$, mediana igual a 25 e $Q_3=41$. Interprete:
+
+    a.  $Q_1$;\
+    b.  a mediana;\
+    c.  $Q_3$;\
+    d.  a amplitude interquartílica.
+
+10. Dois conjuntos de dados possuem o mesmo resumo de cinco números. Isso garante que tenham exatamente a mesma distribuição? Explique.
+
+11. Compare o boxplot e o histograma. Cite pelo menos duas informações que são particularmente fáceis de observar em cada representação.
+
+12. Por que diferentes programas estatísticos podem apresentar pequenas diferenças nos valores dos quartis de uma mesma amostra?
+
+13. Em que situação o máximo do resumo de cinco números não coincide com a extremidade do bigode superior de um boxplot?
+
+14. Explique a diferença entre:
+
+    a.  valor extremo;\
+    b.  observação potencialmente atípica;\
+    c.  erro de registro.
+
+## Exercícios práticos no R
+
+Utilize o banco `dados` com os 80 estudantes.
+
+1.  Para a variável `idade_anos`:
+
+    a.  calcule $Q_1$, mediana e $Q_3$;\
+    b.  obtenha o resumo de cinco números;\
+    c.  calcule a AIQ;\
+    d.  interprete os quartis no contexto da idade dos estudantes.
+
+2.  Calcule os nove decis da variável `tempo_deslocamento_min`. Interprete $D_1$, $D_5$ e $D_9$.
+
+3.  Calcule $P_5$, $P_{10}$, $P_{25}$, $P_{75}$, $P_{90}$ e $P_{95}$ para `altura_m`. Organize os resultados em uma tabela com título e referência no texto.
+
+4.  Construa um boxplot para `idade_anos`.
+
+    a.  atribua um `label` iniciado por `fig-`;\
+    b.  escreva uma legenda com `fig-cap`;\
+    c.  faça referência à figura em um pequeno parágrafo interpretativo.
+
+5.  Construa um boxplot para `altura_m`. Calcule manualmente no R, antes do gráfico:
+
+    a.  $Q_1$;\
+    b.  $Q_3$;\
+    c.  AIQ;\
+    d.  limite inferior;\
+    e.  limite superior.\
+        Em seguida, identifique os registros que ultrapassam os limites.
+
+6.  Para `tempo_deslocamento_min`, reproduza a identificação das observações potencialmente atípicas sem copiar o código do capítulo. Organize os registros encontrados em uma tabela numerada e escreva uma interpretação.
+
+7.  Construa, para `idade_anos`:
+
+    a.  um histograma;\
+    b.  um boxplot.\
+        Compare as duas representações e descreva quais aspectos da distribuição ficam mais evidentes em cada uma.
+
+8.  Utilize `quantile()` para calcular os quartis de `tempo_deslocamento_min` com `type = 7`. Depois, utilize `fivenum()`.
+
+    a.  compare os resultados;\
+    b.  verifique se existem diferenças;\
+    c.  explique por que elas podem ocorrer.
+
+9.  Escolha uma das variáveis quantitativas do banco e investigue todos os pontos sinalizados pelo boxplot.
+
+    a.  localize os registros originais;\
+    b.  examine as demais variáveis desses estudantes;\
+    c.  discuta se há evidência suficiente para considerar algum valor um erro;\
+    d.  documente sua conclusão.
+
+10. Crie uma tabela contendo, para `idade_anos`, `faltas`, `tempo_deslocamento_min` e `altura_m`:
+
+    a.  mínimo;\
+    b.  $Q_1$;\
+    c.  mediana;\
+    d.  $Q_3$;\
+    e.  máximo;\
+    f.  AIQ.\
+        A tabela deve possuir título, `label` e ser referenciada em um parágrafo interpretativo.
+
+11. Calcule $P_{90}$ do tempo de deslocamento e utilize-o para responder: aproximadamente a partir de qual tempo se encontram os 10% maiores deslocamentos?
+
+12. Escolha uma variável quantitativa e produza um pequeno relatório exploratório contendo:
+
+    a.  resumo de cinco números;\
+    b.  AIQ;\
+    c.  boxplot;\
+    d.  histograma;\
+    e.  identificação das observações potencialmente atípicas;\
+    f.  uma conclusão de um parágrafo distinguindo **valor atípico** de **erro**.

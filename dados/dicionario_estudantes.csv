@@ -1,0 +1,8 @@
+variavel,descricao,natureza,unidade_ou_categorias
+id,Identificador do estudante,Identificador,Código único
+curso,Curso de graduação,Qualitativa nominal,Estatística; Matemática; Física; Química
+satisfacao,Nível de satisfação,Qualitativa ordinal,Baixa < Média < Alta
+idade,Idade informada pelo estudante,Quantitativa,Anos
+faltas,Número de faltas,Quantitativa discreta,Contagem
+aprovado,Situação de aprovação,Lógica,TRUE = Sim; FALSE = Não
+tempo_deslocamento,Tempo de deslocamento até a universidade,Quantitativa contínua,Minutos

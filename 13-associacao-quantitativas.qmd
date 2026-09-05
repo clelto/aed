@@ -1,0 +1,6 @@
+---
+title: "13-associacao-quantitativas"
+format: html
+editor: visual
+---
+

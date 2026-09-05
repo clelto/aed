@@ -1,0 +1,1459 @@
+# Estrutura, organização e qualidade dos dados
+
+::: {.callout-tip title="Objetivo deste capítulo"}
+No capítulo anterior, vimos como o R, o RStudio, as planilhas eletrônicas, a internet e o Quarto podem ser utilizados na organização de um trabalho estatístico. Agora daremos um passo anterior ao cálculo: aprenderemos a **ler criticamente um banco de dados**.
+
+Neste capítulo, estudaremos inicialmente como os dados são estruturados e organizados, o que representam suas linhas e colunas, como classificar as variáveis e quais problemas podem comprometer uma análise. Em seguida, aplicaremos esses conceitos no R, realizando a inspeção e a preparação de um banco de dados.
+
+O objetivo não é simplesmente obter um banco "limpo", mas desenvolver a capacidade de **identificar problemas, decidir como tratá-los, justificar as decisões tomadas e documentar cada alteração realizada**.
+
+Ao final deste capítulo, você deverá ser capaz de compreender a estrutura de um banco de dados, classificar suas variáveis, reconhecer problemas de qualidade e utilizar o R para verificar e preparar os dados para uma análise estatística.
+:::
+
+## Compreendendo a estrutura e a qualidade dos dados
+
+Antes de calcular frequências, medidas resumo ou construir gráficos, é necessário compreender como os dados foram obtidos, organizados e registrados.
+
+Nesta seção, estudaremos a estrutura de um banco de dados, a diferença entre observações e variáveis, os tipos de variáveis, a codificação dos dados e alguns dos principais problemas que podem estar presentes em uma base, como valores ausentes, duplicidades, inconsistências, erros de registro e valores potencialmente atípicos.
+
+Uma análise estatística pode estar tecnicamente correta e, ainda assim, produzir uma conclusão equivocada se os dados forem mal compreendidos. Por isso, antes de calcular médias, construir gráficos ou ajustar modelos, precisamos responder a perguntas aparentemente simples:
+
+- De onde vieram os dados?
+- O que representa cada linha?
+- O que representa cada coluna?
+- Como as variáveis foram registradas?
+- Existem códigos que precisam ser decifrados?
+- Há informações ausentes?
+- Há registros repetidos?
+- Existem valores incompatíveis com o contexto?
+- Algum valor muito diferente dos demais merece investigação?
+
+Essas perguntas fazem parte da **Análise Exploratória de Dados**. Conhecer a estrutura e a qualidade do banco não é uma tarefa burocrática: é parte da própria análise.
+
+### Da coleta ao banco de dados
+
+Os dados podem ser classificados, quanto à sua origem, em **primários** e **secundários**.
+
+**Dados primários** são coletados especificamente para responder à pergunta de uma investigação. Imagine que desejamos estudar o tempo que estudantes da UFAM levam para chegar ao campus. Se elaboramos um questionário e coletamos diretamente de cada estudante o tempo de deslocamento, estamos produzindo dados primários.
+
+**Exemplo.**
+
+Uma pesquisa entrevista 200 estudantes e registra:
+
+- curso;
+- idade;
+- turno;
+- meio de transporte;
+- tempo de deslocamento;
+- nível de satisfação com o transporte público.
+
+Os dados foram produzidos especificamente para essa pesquisa. Portanto, são dados primários.
+
+**Dados secundários**, por sua vez, já existiam antes da análise atual e são reutilizados para uma nova finalidade. Podem vir de sistemas administrativos, pesquisas oficiais, registros hospitalares, repositórios científicos ou bancos públicos.
+
+**Exemplo.**
+
+Um pesquisador utiliza registros acadêmicos já existentes para estudar retenção e evasão universitária. Esses registros foram originalmente produzidos para administrar a vida acadêmica dos estudantes, e não especificamente para a pesquisa. Para o novo estudo, são dados secundários.
+
+Fontes de dados secundários bastante utilizadas incluem, por exemplo:
+
+- [**IBGE — Instituto Brasileiro de Geografia e Estatística**](https://www.ibge.gov.br/) Principal órgão oficial de estatística do Brasil. Para consultas tabulares, destaca-se também o [SIDRA/IBGE](https://sidra.ibge.gov.br/).
+
+- [**DATASUS — Departamento de Informática do SUS**](https://datasus.saude.gov.br/) Reúne sistemas e bases de dados relacionados à saúde pública brasileira.
+
+- [**INEP — Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira**](https://www.gov.br/inep/pt-br) Disponibiliza dados educacionais, censos, avaliações e microdados. Consulte também a seção de [Dados Abertos do INEP](https://www.gov.br/inep/pt-br/acesso-a-informacao/dados-abertos).
+
+- [**Portal Brasileiro de Dados Abertos**](https://dados.gov.br/) Reúne conjuntos de dados disponibilizados por órgãos e entidades da administração pública.
+
+- **Repositórios científicos**, como:
+
+- [SciELO](https://www.scielo.br/);
+
+- [BDTD — Biblioteca Digital Brasileira de Teses e Dissertações](https://bdtd.ibict.br/vufind/);
+
+- [Zenodo](https://zenodo.org/).
+
+Essas fontes podem ser utilizadas para obter dados secundários em diferentes áreas, como população, saúde, educação, gestão pública e pesquisa científica.
+
+::: {.callout-note title="Dados secundários não são dados de segunda categoria"}
+A expressão **secundários** diz respeito à origem dos dados, e não à sua importância ou qualidade. Um banco secundário pode ser excelente. O essencial é conhecer sua finalidade original, sua cobertura, suas definições, seu período de coleta e suas limitações.
+:::
+
+Depois da coleta ou obtenção, os dados podem aparecer em diferentes estados.
+
+Chamamos de **dados brutos** aqueles que ainda estão próximos da forma em que foram registrados originalmente. Eles podem conter categorias com grafias diferentes, campos vazios, códigos, erros de digitação ou registros em ordem de coleta.
+
+Considere o número de faltas de 15 estudantes:
+
+$$ 3, 0, 2, 5, 1, 2, 0, 4, 2, 1, 3, 2, 6, 1, 2. $$
+
+Essa sequência apresenta os valores na ordem em que foram registrados.
+
+Quando uma variável quantitativa é colocada em ordem crescente ou decrescente, temos um **rol**. Para os mesmos dados:
+
+$$0, 0, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 4, 5, 6. $$
+
+O rol torna mais fácil perceber a amplitude dos valores, suas repetições e a existência de observações mais afastadas.
+
+É importante distinguir **ordenar** de **alterar** os dados. Colocar valores em ordem não muda a informação registrada. Já substituir, recodificar, excluir ou agrupar valores modifica a representação do banco e, por isso, precisa de justificativa.
+
+Ao longo de uma análise, é comum termos pelo menos duas versões do banco:
+
+``` text
+dados brutos  →  dados preparados para análise
+```
+
+A versão bruta deve ser preservada. As alterações devem ocorrer em uma cópia ou ser produzidas por código reprodutível.
+
+### A matriz de dados: linhas, colunas, identificadores e variáveis
+
+A forma mais comum de organizar dados estatísticos é uma **matriz de dados**. Em termos gerais:
+
+$$\mathbf{X}=
+\begin{bmatrix}
+x_{11} & x_{12} & \cdots & x_{1p}\\
+x_{21} & x_{22} & \cdots & x_{2p}\\
+\vdots & \vdots & \ddots & \vdots\\
+x_{n1} & x_{n2} & \cdots & x_{np}
+\end{bmatrix}
+. $$
+
+Nessa representação:
+
+- $n$ é o número de unidades observacionais;
+- $p$ é o número de variáveis;
+- $x_{ij}$ é o valor da variável $j$ observado na unidade $i$.
+
+Em um banco bem organizado, uma regra muito útil é:
+
+> **uma linha = uma unidade observacional; uma coluna = uma variável.**
+
+Considere:
+
+|  id | curso       | turno      | idade | faltas | satisfação |
+|----:|:------------|:-----------|------:|-------:|:-----------|
+| 101 | Estatística | Noturno    |    19 |      1 | Alta       |
+| 102 | Matemática  | Vespertino |    21 |      3 | Média      |
+| 103 | Estatística | Noturno    |    20 |      0 | Alta       |
+| 104 | Física      | Vespertino |    22 |      2 | Baixa      |
+
+Nesse banco:
+
+- a **unidade observacional** é o estudante;
+- existem 4 unidades observacionais;
+- cada coluna descreve uma característica;
+- `id` identifica o estudante;
+- `curso`, `turno`, `idade`, `faltas` e `satisfação` são variáveis.
+
+A **unidade observacional** é o elemento sobre o qual as informações são registradas. Ela não precisa ser uma pessoa. Pode ser:
+
+- uma empresa;
+- um município;
+- uma escola;
+- uma internação hospitalar;
+- uma peça fabricada;
+- uma transação;
+- um animal;
+- uma árvore;
+- um evento.
+
+**Exemplo.**
+
+Em um banco sobre acidentes de trânsito, a unidade observacional poderia ser:
+
+- cada acidente;
+- cada veículo envolvido;
+- cada pessoa envolvida;
+- cada município em determinado mês.
+
+Essas quatro possibilidades geram bancos diferentes, ainda que tratem do mesmo fenômeno.
+
+Um **identificador** é uma variável — ou combinação de variáveis — que distingue cada unidade. Matrícula, código da empresa, número do atendimento e código do município são exemplos.
+
+Observe o banco:
+
+| matrícula | nota |
+|----------:|-----:|
+|  20260001 |  8,5 |
+|  20260002 |  6,0 |
+|  20260003 |  9,2 |
+
+Embora `matrícula` seja escrita com números, não faz sentido calcular sua média. Ela é um **código**, e não uma quantidade. A aparência numérica não determina a natureza estatística da variável.
+
+::: {.callout-important title="Uma pergunta que evita muitos erros"}
+Antes de analisar qualquer coluna, pergunte: **o que esse valor representa?** A classificação de uma variável depende de seu significado, e não apenas da forma como ela aparece no computador.
+:::
+
+### Tipos de variáveis e escalas de mensuração
+
+As variáveis podem ser organizadas inicialmente em dois grandes grupos: **qualitativas** e **quantitativas**.
+
+As **variáveis qualitativas** registram categorias ou atributos.
+
+Uma variável qualitativa é **nominal** quando suas categorias não possuem uma ordem natural.
+
+**Exemplos:**
+
+- curso;
+- município;
+- tipo sanguíneo;
+- estado civil;
+- modalidade de transporte.
+
+Se a variável `curso` assume:
+
+$$ \text{Estatística}, \text{Matemática}, \text{Física,} $$
+
+não existe uma relação natural do tipo:
+
+$$ \text{Estatística}<\text{Matemática}<\text{Física.} $$
+
+A ordem usada em uma tabela pode ser alfabética ou definida para facilitar a leitura, mas não é uma propriedade da variável.
+
+Uma variável qualitativa é **ordinal** quando suas categorias possuem uma ordem natural ou convencional.
+
+**Exemplo.**
+
+Considere:
+
+$$ \text{Baixa}<\text{Média}<\text{Alta.} $$
+
+A variável `satisfação` é qualitativa ordinal. Sabemos que "Alta" representa um nível superior a "Média", mas não podemos afirmar, sem uma definição adicional, que a distância entre Baixa e Média é numericamente igual à distância entre Média e Alta.
+
+As **variáveis quantitativas** representam quantidades para as quais operações aritméticas possuem significado.
+
+Uma variável quantitativa é **discreta** quando seus valores surgem, em geral, de um processo de contagem.
+
+**Exemplos:**
+
+- número de filhos;
+- número de faltas;
+- número de disciplinas cursadas;
+- número de defeitos;
+- número de atendimentos.
+
+Para `número de faltas`, podemos observar valores como:
+
+$$ 0, 1, 2, 3,\ldots $$
+
+Uma variável quantitativa é **contínua** quando resulta, em geral, de um processo de medição e pode conceitualmente assumir qualquer valor dentro de um intervalo.
+
+**Exemplos:**
+
+- altura;
+- peso;
+- temperatura;
+- tempo;
+- distância.
+
+Uma altura registrada como `1,72 m` não significa que a variável só possa assumir valores com duas casas decimais. O processo de medição poderia produzir, com maior precisão:
+
+$$ 1{,}7196\text{ m}. $$
+
+::: {.callout-warning title="Inteiro não significa necessariamente discreto"}
+A idade registrada como `20 anos` aparece como número inteiro, mas o tempo de vida é conceitualmente contínuo. Se a pesquisa registra apenas **idade em anos completos**, o banco contém uma versão discretizada da medida. Por isso, contexto e forma de registro devem ser considerados.
+:::
+
+Além dessa classificação, as **escalas de mensuração** ajudam a compreender quais comparações são válidas.
+
+| Escala | Característica principal | Exemplo |
+|:-----------------------|:-----------------------|:-----------------------|
+| Nominal | categorias sem ordem | curso |
+| Ordinal | categorias ordenadas | satisfação |
+| Intervalar | diferenças são interpretáveis, mas o zero não representa ausência | temperatura em °C |
+| Razão | diferenças e razões são interpretáveis; zero representa ausência da quantidade | duração, distância, massa |
+
+**Exemplo — temperatura.**
+
+A diferença entre 20 °C e 30 °C é de 10 °C. Entretanto, não é adequado afirmar que 30 °C representa "uma vez e meia a temperatura" de 20 °C. O zero Celsius não representa ausência de temperatura.
+
+**Exemplo — tempo de deslocamento.**
+
+Um tempo de 40 minutos é duas vezes um tempo de 20 minutos. O zero representa ausência de tempo decorrido. Portanto, estamos diante de uma escala de razão.
+
+Para organizar as ideias, considere:
+
+| Variável              | Natureza      | Classificação/escala            |
+|:----------------------|:--------------|:--------------------------------|
+| curso                 | qualitativa   | nominal                         |
+| satisfação            | qualitativa   | ordinal                         |
+| número de faltas      | quantitativa  | discreta, razão                 |
+| tempo de deslocamento | quantitativa  | contínua, razão                 |
+| temperatura em °C     | quantitativa  | contínua, intervalar            |
+| matrícula             | identificador | código, não medida quantitativa |
+
+A classificação não é um exercício meramente terminológico. Ela orienta as tabelas, os gráficos e as medidas que serão adequados nos próximos Capítulos.
+
+### Dicionário de variáveis e codificação das categorias
+
+Um banco de dados raramente é autoexplicativo. Uma coluna chamada `sit_acad`, por exemplo, pode ser incompreensível para alguém que não participou da coleta. Por isso, todo banco deveria ser acompanhado por um **dicionário de variáveis**.
+
+O dicionário registra o significado das colunas e as regras usadas na codificação.
+
+Um formato simples pode ser:
+
+| Variável | Descrição | Tipo | Unidade/Categorias |
+|:-----------------|:-----------------|:-----------------|:-----------------|
+| `id` | Identificador do estudante | identificador | código único |
+| `curso` | Curso de graduação | qualitativa nominal | Estatística, Matemática, Física |
+| `satisfacao` | Satisfação com o serviço | qualitativa ordinal | Baixa, Média, Alta |
+| `idade` | Idade informada | quantitativa | anos |
+| `faltas` | Número de faltas | quantitativa discreta | contagem |
+| `tempo_desloc` | Tempo de deslocamento | quantitativa contínua | minutos |
+
+O dicionário deve ser suficientemente claro para que outra pessoa — ou você mesmo meses depois — compreenda o banco sem depender da memória.
+
+As categorias podem ser registradas como palavras:
+
+``` text
+Baixa
+Média
+Alta
+```
+
+ou como códigos:
+
+``` text
+1
+2
+3
+```
+
+Se números forem usados, é indispensável documentar:
+
+$$ 1=\text{Baixa},\qquad
+2=\text{Média},\qquad
+3=\text{Alta}. $$
+
+Neste caso, os números representam **rótulos ordenados**, e não quantidades. A média dos códigos `1`, `2` e `3` não deve ser interpretada automaticamente como uma média numérica da satisfação.
+
+**Exemplo — ausência codificada.**
+
+Imagine que a variável `idade` use:
+
+``` text
+99 = não informado
+```
+
+Se o analista desconhecer essa codificação, poderá tratar `99` como idade real. Uma simples falha de documentação pode alterar gráficos, medidas resumo e conclusões.
+
+::: {.callout-tip title="Boa prática"}
+Prefira códigos que não se confundam facilmente com valores possíveis e registre sempre o significado de cada código. Em arquivos destinados à análise, valores ausentes devem ser representados de modo consistente, por exemplo com `NA` no R.
+:::
+
+### Qualidade dos dados: o que pode dar errado?
+
+Vamos acompanhar um banco fictício de estudantes. Ele foi propositalmente construído com alguns problemas:
+
+| id   | curso       | satisfação | idade |    faltas | aprovado | tempo_deslocamento |
+|:----------|:----------|:----------|----------:|----------:|:----------|----------:|
+| E001 | Estatística | Alta       |    19 |         1 | Sim      |                 35 |
+| E002 | estatistica | media      |    20 |         3 | sim      |                 50 |
+| E003 | Matemática  | Baixa      |    21 |         0 | Não      |                 40 |
+| E004 | Física      | Alta       |    22 |         2 | Sim      |                 60 |
+| E005 | Estatística | Média      |    18 |         4 | SIM      |                 25 |
+| E006 | MATEMÁTICA  | alta       |    -3 |         1 | Não      |                 45 |
+| E007 | Física      | Baixa      |    23 |         2 | Sim      |                 30 |
+| E008 | Estatística | Média      |    20 |         2 | sim      |                 35 |
+| E009 | matematica  | *ausente*  |    19 | *ausente* | Não      |                 55 |
+| E010 | Estatística | Alta       |    21 |         2 | Sim      |                 40 |
+| E010 | Estatística | Alta       |    21 |         2 | Sim      |                 40 |
+| E011 | Química     | Média      |    20 |         1 | Não      |                420 |
+
+Observe que o banco não está "inútil". Ele possui informação, mas exige investigação antes da análise.
+
+**Valores ausentes** ocorrem quando uma informação esperada não está disponível. Podem aparecer como:
+
+- campo vazio;
+- `NA`;
+- `N/A`;
+- `-`;
+- `99`, `999` ou outro código definido pelo sistema;
+- "Não informado".
+
+No exemplo, o nível de satisfação e o número de faltas do estudante `E009` estão ausentes.
+
+O primeiro cuidado é distinguir:
+
+> ausência de informação
+
+de
+
+> valor igual a zero.
+
+Um estudante com `0 faltas` tem uma informação válida. Um estudante com faltas `NA` não possui valor observado para essa variável.
+
+**Duplicidade** significa repetição indevida de uma unidade ou registro.
+
+No banco, o identificador `E010` aparece duas vezes com os mesmos valores. Isso sugere duplicação exata. Entretanto, nem toda repetição de identificador é necessariamente erro.
+
+**Exemplo.**
+
+Se cada linha representar uma consulta médica, o mesmo paciente poderá aparecer em diversas linhas. Nesse caso, o identificador do paciente não é identificador único da linha; seria necessário um identificador da consulta.
+
+**Inconsistências** surgem quando valores equivalentes são escritos de formas distintas ou quando algum valor viola as regras definidas para o estudo.
+
+Observe `curso`:
+
+``` text
+Estatística
+estatistica
+Estatística 
+```
+
+Para uma pessoa, essas grafias representam provavelmente a mesma categoria. Para o computador, podem ser três textos diferentes.
+
+A mesma situação aparece em:
+
+``` text
+Matemática
+MATEMÁTICA
+matematica
+```
+
+Também há uma inconsistência evidente em `idade = -3`.
+
+**Erros de registro** podem resultar de digitação, conversão de formatos, leitura de arquivos ou integração entre sistemas.
+
+Exemplos frequentes:
+
+``` text
+1,72 m → digitado como 172 m
+```
+
+``` text
+2026-08-10 → digitado como 202-08-10
+```
+
+``` text
+Estatística → digitado como Esttaística
+```
+
+``` text
+35 minutos → digitado como 350 minutos
+```
+
+Por fim, temos os **valores potencialmente atípicos**: observações muito diferentes das demais.
+
+No banco, quase todos os tempos de deslocamento estão entre 25 e 60 minutos, mas há um valor de `420 minutos`.
+
+Esse valor merece atenção, porém não deve ser eliminado automaticamente. Pode representar:
+
+- um erro de digitação;
+- uma unidade registrada incorretamente;
+- uma situação excepcional, mas real;
+- um estudante que mora muito distante;
+- outra definição de tempo utilizada naquele registro.
+
+Hoaglin, Mosteller e Tukey destacam a importância de investigar observações incomuns como parte da atitude exploratória: elas podem revelar tanto problemas de qualidade quanto características importantes do fenômeno.
+
+::: {.callout-important title="Atípico não significa errado"}
+Um valor extremo é um **sinal para investigar**, não uma autorização para apagar. A exclusão de uma observação deve ter justificativa substantiva ou metodológica e precisa ser documentada.
+:::
+
+### Como ler criticamente um banco antes da análise
+
+Antes de iniciar cálculos, faça uma leitura estruturada do banco.
+
+Para o exemplo anterior, poderíamos registrar:
+
+**Unidade observacional:** estudante.
+
+**Identificador esperado:** `id`.
+
+**Variáveis qualitativas nominais:** `curso`, `aprovado`.
+
+**Variável qualitativa ordinal:** `satisfação`.
+
+**Variável quantitativa discreta:** `faltas`.
+
+**Variáveis quantitativas relacionadas a medição:** `idade` e `tempo_deslocamento`, considerando a forma como foram registradas.
+
+Depois, faça perguntas de qualidade:
+
+1.  O identificador deveria ser único?
+2.  Existem identificadores repetidos?
+3.  As categorias estão padronizadas?
+4.  Há campos ausentes?
+5.  Os valores numéricos respeitam limites plausíveis?
+6.  Os tipos de dados representam corretamente o significado das variáveis?
+7.  Há valores incomuns que precisam de investigação?
+8.  O significado das categorias está documentado?
+9.  A unidade de medida está registrada?
+10. É possível reproduzir as alterações que serão feitas?
+
+Esse procedimento antecipa muitos problemas que, se descobertos apenas no final da análise, podem gerar retrabalho.
+
+**Atividade de interpretação**
+
+Considere o seguinte banco sobre cinco municípios:
+
+| codigo | municipio | populacao | area_km2 | classificacao |
+|:-------|:----------|----------:|---------:|:--------------|
+| 001    | A         |     12500 |    320,5 | Pequeno       |
+| 002    | B         |     87000 |    410,2 | Médio         |
+| 003    | C         |    230000 |    850,7 | Grande        |
+| 004    | D         |        NA |    120,4 | Pequeno       |
+| 004    | D         |        NA |    120,4 | Pequeno       |
+
+Responda:
+
+1.  Qual é a unidade observacional?
+2.  `codigo` é quantitativa ou identificador?
+3.  Como classificar `populacao`?
+4.  Como classificar `area_km2`?
+5.  Como classificar `classificacao`, supondo a ordem Pequeno \< Médio \< Grande?
+6.  Qual problema de qualidade é imediatamente visível?
+7.  O valor ausente de população deve ser substituído por zero? Justifique.
+
+::: {.callout-note collapse="true" title="Discussão sugerida"}
+1.  Unidade observacional: município.
+2.  `codigo` é identificador, apesar de ser escrito com algarismos.
+3.  `populacao` é quantitativa discreta, pois representa contagem de pessoas.
+4.  `area_km2` é quantitativa contínua.
+5.  `classificacao` é qualitativa ordinal.
+6.  O código `004` aparece duplicado.
+7.  Não. Zero significaria população igual a zero; `NA` representa informação não observada ou não disponível.
+:::
+
+### Síntese desta Seção
+
+Ao concluir esta Seção, retenha:
+
+1.  dados primários são produzidos para a investigação atual; dados secundários já existiam;
+2.  dados brutos devem ser preservados;
+3.  uma matriz de dados bem organizada possui unidades observacionais nas linhas e variáveis nas colunas;
+4.  identificadores são rótulos, não medidas;
+5.  variáveis qualitativas podem ser nominais ou ordinais;
+6.  variáveis quantitativas podem ser discretas ou contínuas;
+7.  a escala de mensuração ajuda a determinar quais operações são interpretáveis;
+8.  um dicionário de variáveis registra significado, tipo, unidade e codificação;
+9.  valores ausentes, duplicidades e inconsistências precisam ser investigados;
+10. valores potencialmente atípicos não devem ser confundidos automaticamente com erros.
+
+> **Ideia-chave:** um banco de dados não é apenas uma tabela. Ele é uma representação de unidades, variáveis, decisões de mensuração e regras de registro.
+
+## Verificação e preparação dos dados no R
+
+Nesta seção, retomaremos o banco de dados problemático apresentado anteriormente e realizaremos sua inspeção e preparação no R.
+
+O objetivo não é simplesmente produzir um banco "limpo". Cada possível problema deverá ser **identificado e investigado antes de qualquer alteração**. Quando uma modificação for necessária, será importante compreender o motivo da decisão, executá-la de forma adequada e documentar o procedimento realizado.
+
+Dessa forma, utilizaremos o R não apenas como uma ferramenta para modificar dados, mas como um recurso para tornar o processo de preparação **reprodutível, verificável e transparente**.
+
+Ao final desta seção, você deverá ser capaz de:
+
+- identificar computacionalmente os tipos das variáveis;
+- converter tipos de dados;
+- padronizar e recodificar categorias;
+- ordenar e filtrar observações;
+- localizar valores ausentes;
+- investigar duplicidades;
+- identificar inconsistências;
+- elaborar um dicionário de variáveis;
+- registrar as alterações realizadas.
+
+Nesta prática utilizaremos principalmente `dplyr`, `stringr`, `readr` e `janitor`, todos integrados ao ecossistema utilizado na disciplina.
+
+```{r}
+#| label: cap3-carregar-pacotes
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(janitor)
+```
+
+Se os pacotes ainda não estiverem instalados, a instalação é feita apenas uma vez:
+
+```{r}
+#| label: cap3-instalar-pacotes
+#| eval: false
+
+install.packages(c("tidyverse", "janitor"))
+```
+
+### Um banco com problemas reais de organização
+
+Criaremos no R o mesmo banco discutido na aula teórica. As imperfeições são intencionais.
+
+```{r}
+#| label: cap3-criar-dados-brutos
+
+dados_brutos <- tibble(
+  id = c(
+    "E001", "E002", "E003", "E004", "E005", "E006",
+    "E007", "E008", "E009", "E010", "E010", "E011"
+  ),
+  curso = c(
+    "Estatística", "estatistica", "Matemática", "Física",
+    "Estatística ", "MATEMÁTICA", "Física", "Estatística",
+    "matematica", "Estatística", "Estatística", "Química"
+  ),
+  satisfacao = c(
+    "Alta", "media", "Baixa", "Alta", "Média", "alta",
+    "Baixa", "Média", NA, "Alta", "Alta", "Média"
+  ),
+  idade = c(
+    "19", "20", "21", "22", "18", "-3",
+    "23", "20", "19", "21", "21", "20"
+  ),
+  faltas = c(
+    1, 3, 0, 2, 4, 1,
+    2, 2, NA, 2, 2, 1
+  ),
+  aprovado = c(
+    "Sim", "sim", "Não", "Sim", "SIM", "Não",
+    "Sim", "sim", "Não", "Sim", "Sim", "Não"
+  ),
+  tempo_deslocamento = c(
+    35, 50, 40, 60, 25, 45,
+    30, 35, 55, 40, 40, 420
+  )
+)
+
+dados_brutos
+```
+
+A primeira regra da prática é:
+
+> **não comece corrigindo; comece investigando.**
+
+Antes de alterar qualquer valor, crie um objeto de trabalho e preserve o original:
+
+```{r}
+#| label: cap3-copiar-dados
+
+dados <- dados_brutos
+```
+
+Assim, `dados_brutos` permanece como registro da situação inicial.
+
+### Inspecionando estrutura e tipos computacionais
+
+A função `glimpse()` oferece uma visão compacta:
+
+```{r}
+#| label: cap3-glimpse
+
+glimpse(dados)
+```
+
+Observe atentamente a saída. O R informa:
+
+- número de linhas;
+- número de colunas;
+- nome de cada variável;
+- tipo computacional;
+- alguns valores iniciais.
+
+Podemos consultar os tipos de maneira explícita:
+
+```{r}
+#| label: cap3-classes
+
+sapply(dados, class)
+```
+
+Também é útil verificar dimensão e nomes:
+
+```{r}
+#| label: cap3-dimensoes
+
+nrow(dados)
+ncol(dados)
+names(dados)
+```
+
+Um ponto importante aparece imediatamente: `idade` está armazenada como `character`, isto é, texto, embora represente uma variável numérica.
+
+Isso ocorre porque os valores foram criados entre aspas:
+
+``` text
+"19"  "20"  "21"
+```
+
+O computador precisa receber instrução para convertê-los.
+
+**Conversão de tipos**
+
+Vamos transformar idade em número inteiro:
+
+```{r}
+#| label: cap3-converter-idade
+
+dados <- dados |>
+  mutate(
+    idade = parse_integer(idade)
+  )
+
+class(dados$idade)
+```
+
+A conversão modifica o **tipo computacional**, mas não deve mudar o significado substantivo da variável.
+
+Agora considere `curso`. Ela é qualitativa nominal. Podemos representá-la como `factor`:
+
+```{r}
+#| label: cap3-curso-factor
+
+dados <- dados |>
+  mutate(
+    curso = factor(curso)
+  )
+
+class(dados$curso)
+```
+
+Entretanto, fizemos isso cedo demais: as categorias ainda estão inconsistentes. Veja:
+
+```{r}
+#| label: cap3-niveis-curso-antes
+
+levels(dados$curso)
+```
+
+Provavelmente aparecerão categorias como:
+
+``` text
+"Estatística"
+"estatistica"
+"Estatística "
+"Matemática"
+"MATEMÁTICA"
+"matematica"
+```
+
+Isso mostra por que a inspeção deve anteceder a análise.
+
+Voltaremos `curso` temporariamente para texto, padronizaremos as categorias e só então construiremos o fator:
+
+```{r}
+#| label: cap3-curso-character
+
+dados <- dados |>
+  mutate(curso = as.character(curso))
+```
+
+### Padronizando e recodificando categorias
+
+Uma das primeiras verificações para variáveis categóricas é listar os valores distintos.
+
+```{r}
+#| label: cap3-valores-unicos
+
+unique(dados$curso)
+unique(dados$satisfacao)
+unique(dados$aprovado)
+```
+
+Outra alternativa é contar:
+
+```{r}
+#| label: cap3-contagens-iniciais
+
+dados |>
+  count(curso, sort = TRUE)
+```
+
+A tabela pode denunciar um problema importante: categorias equivalentes estão sendo contadas separadamente.
+
+Vamos primeiro remover espaços extras:
+
+```{r}
+#| label: cap3-remover-espacos
+
+dados <- dados |>
+  mutate(
+    curso = str_squish(curso)
+  )
+
+unique(dados$curso)
+```
+
+Depois, padronizamos maiúsculas e minúsculas e recodificamos as grafias sem acento:
+
+```{r}
+#| label: cap3-padronizar-curso
+
+dados <- dados |>
+  mutate(
+    curso = str_to_lower(curso),
+    curso = case_when(
+      curso == "estatistica" ~ "estatística",
+      curso == "matematica" ~ "matemática",
+      TRUE ~ curso
+    ),
+    curso = str_to_title(curso)
+  )
+
+unique(dados$curso)
+```
+
+Agora esperamos:
+
+``` text
+Estatística
+Matemática
+Física
+Química
+```
+
+Somente depois da padronização definimos `curso` como fator nominal:
+
+```{r}
+#| label: cap3-curso-factor-final
+
+dados <- dados |>
+  mutate(
+    curso = factor(curso)
+  )
+```
+
+**Criando uma variável ordinal corretamente**
+
+A variável `satisfacao` precisa manter a ordem:
+
+$$\text{Baixa}<\text{Média}<\text{Alta}. $$
+
+Primeiro padronizamos:
+
+```{r}
+#| label: cap3-padronizar-satisfacao
+
+dados <- dados |>
+  mutate(
+    satisfacao = str_to_lower(satisfacao),
+    satisfacao = case_when(
+      satisfacao == "media" ~ "média",
+      TRUE ~ satisfacao
+    ),
+    satisfacao = str_to_title(satisfacao)
+  )
+
+unique(dados$satisfacao)
+```
+
+Depois criamos um fator **ordenado**:
+
+```{r}
+#| label: cap3-fator-ordinal
+
+dados <- dados |>
+  mutate(
+    satisfacao = factor(
+      satisfacao,
+      levels = c("Baixa", "Média", "Alta"),
+      ordered = TRUE
+    )
+  )
+
+dados$satisfacao
+```
+
+O R passa a conhecer a ordem entre os níveis.
+
+**Recodificando Sim/Não**
+
+Também podemos transformar `aprovado` em uma variável lógica:
+
+```{r}
+#| label: cap3-recodificar-aprovado
+
+dados <- dados |>
+  mutate(
+    aprovado = str_to_lower(aprovado),
+    aprovado = case_when(
+      aprovado == "sim" ~ TRUE,
+      aprovado %in% c("não", "nao") ~ FALSE,
+      TRUE ~ NA
+    )
+  )
+
+dados$aprovado
+```
+
+Agora:
+
+``` text
+TRUE  = Sim
+FALSE = Não
+```
+
+Essa conversão é adequada porque a variável representa uma condição binária.
+
+::: {.callout-note title="Recodificar exige conhecer o significado"}
+Nunca recodifique uma categoria apenas porque ela "parece" equivalente a outra. Em um banco real, consulte o questionário, o dicionário, o responsável pela coleta ou outra documentação disponível.
+:::
+
+### Valores ausentes, duplicidades e inconsistências
+
+Depois de organizar os tipos e categorias, avaliamos problemas de qualidade.
+
+**Valores ausentes**
+
+No R, a ausência é representada por `NA`.
+
+Para contar ausências em cada coluna:
+
+```{r}
+#| label: cap3-ausentes-colunas
+
+dados |>
+  summarise(
+    across(
+      everything(),
+      ~ sum(is.na(.x))
+    )
+  )
+```
+
+Podemos localizar as observações com algum valor ausente:
+
+```{r}
+#| label: cap3-linhas-com-na
+
+dados |>
+  filter(if_any(everything(), is.na))
+```
+
+Ou investigar uma variável específica:
+
+```{r}
+#| label: cap3-na-satisfacao
+
+dados |>
+  filter(is.na(satisfacao))
+```
+
+**Não devemos substituir `NA` por zero automaticamente.**
+
+Na variável `faltas`:
+
+``` text
+0  = estudante teve zero faltas
+NA = número de faltas não está disponível
+```
+
+São situações completamente diferentes.
+
+**Duplicidades**
+
+Vamos verificar linhas exatamente duplicadas:
+
+```{r}
+#| label: cap3-duplicadas-exatas
+
+dados |>
+  filter(
+    duplicated(pick(everything())) |
+    duplicated(pick(everything()), fromLast = TRUE)
+  )
+```
+
+Também podemos verificar se o identificador aparece mais de uma vez:
+
+```{r}
+#| label: cap3-id-duplicado
+
+dados |>
+  count(id, name = "numero_registros") |>
+  filter(numero_registros > 1)
+```
+
+Com `janitor`:
+
+```{r}
+#| label: cap3-get-dupes
+
+dados |>
+  get_dupes(id)
+```
+
+Encontrar repetição não significa que devemos removê-la imediatamente. Primeiro precisamos perguntar:
+
+- o identificador deveria ser único?
+- as linhas são realmente idênticas?
+- a mesma unidade pode aparecer em vários momentos?
+- o banco registra eventos repetidos?
+
+Neste exemplo didático, definimos que cada estudante deve aparecer uma única vez e que as duas linhas `E010` são uma duplicação acidental. Portanto:
+
+```{r}
+#| label: cap3-remover-duplicacao
+
+dados <- dados |>
+  distinct()
+```
+
+Verificamos novamente:
+
+```{r}
+dados |>
+  count(id) |>
+  filter(n > 1)
+```
+
+**Regras de consistência**
+
+A idade negativa pode ser localizada:
+
+```{r}
+#| label: cap3-idade-inconsistente
+
+dados |>
+  filter(idade < 0)
+```
+
+Também podemos criar uma regra plausível para o contexto da turma:
+
+```{r}
+#| label: cap3-faixa-idade
+
+dados |>
+  filter(idade < 15 | idade > 100)
+```
+
+O importante é compreender que os limites precisam ser definidos pelo **contexto**, e não apenas pelo software.
+
+Como não sabemos qual era a idade correta de `E006`, seria inadequado inventar um valor. Uma decisão possível é marcar o registro como ausente até que a informação seja verificada:
+
+```{r}
+#| label: cap3-corrigir-idade-invalida
+
+dados <- dados |>
+  mutate(
+    idade = if_else(
+      idade < 0,
+      NA_integer_,
+      idade
+    )
+  )
+```
+
+Essa decisão transforma:
+
+``` text
+-3 → NA
+```
+
+mas deve ser registrada no histórico de alterações.
+
+**Valor potencialmente atípico**
+
+Observe o tempo de deslocamento:
+
+```{r}
+#| label: cap3-ordenar-tempo
+
+dados |>
+  arrange(desc(tempo_deslocamento)) |>
+  select(id, tempo_deslocamento)
+```
+
+O valor `420` se destaca.
+
+Nesta etapa do curso ainda não precisamos aplicar uma regra formal de detecção de outliers. Podemos simplesmente **sinalizar** o registro para investigação:
+
+```{r}
+#| label: cap3-sinalizar-tempo
+
+dados |>
+  filter(tempo_deslocamento > 120)
+```
+
+Não corrigiremos esse valor automaticamente. Em um estudo real, consultaríamos a fonte original.
+
+### Ordenando, filtrando e selecionando sem perder o banco
+
+Depois de preparar a estrutura, podemos fazer consultas ao banco.
+
+Ordenar por idade:
+
+```{r}
+#| label: cap3-arrange-idade
+
+dados |>
+  arrange(idade)
+```
+
+Ordenar do maior para o menor tempo de deslocamento:
+
+```{r}
+#| label: cap3-arrange-tempo-desc
+
+dados |>
+  arrange(desc(tempo_deslocamento))
+```
+
+Ordenar primeiro por curso e depois por idade:
+
+```{r}
+#| label: cap3-arrange-curso-idade
+
+dados |>
+  arrange(curso, idade)
+```
+
+**Filtragem**
+
+Estudantes de Estatística:
+
+```{r}
+#| label: cap3-filtrar-estatistica
+
+dados |>
+  filter(curso == "Estatística")
+```
+
+Estudantes com duas ou mais faltas:
+
+```{r}
+#| label: cap3-filtrar-faltas
+
+dados |>
+  filter(faltas >= 2)
+```
+
+Apenas estudantes aprovados:
+
+```{r}
+#| label: cap3-filtrar-aprovados
+
+dados |>
+  filter(aprovado)
+```
+
+Combinação de condições:
+
+```{r}
+#| label: cap3-filtrar-combinado
+
+dados |>
+  filter(
+    curso == "Estatística",
+    faltas >= 2
+  )
+```
+
+**Seleção de colunas**
+
+```{r}
+#| label: cap3-select
+
+dados |>
+  select(id, curso, idade, faltas)
+```
+
+Ou excluir uma coluna:
+
+```{r}
+#| label: cap3-select-excluir
+
+dados |>
+  select(-aprovado)
+```
+
+::: {.callout-tip title="Filtrar não é apagar"}
+Quando utilizamos `filter()` em uma sequência como `dados |> filter(...)`, estamos produzindo uma visão ou um novo resultado. O objeto `dados` só é alterado se atribuirmos explicitamente o resultado a ele.
+:::
+
+Por exemplo:
+
+```{r}
+apenas_estatistica <- dados |>
+  filter(curso == "Estatística")
+```
+
+Agora temos dois objetos:
+
+``` text
+dados
+apenas_estatistica
+```
+
+O banco completo continua preservado.
+
+### Construindo o dicionário de variáveis e documentando decisões
+
+A preparação dos dados não termina quando o banco "parece limpo". Precisamos documentar o que cada variável significa.
+
+Podemos construir um dicionário diretamente no R:
+
+```{r}
+#| label: cap3-dicionario
+
+dicionario <- tribble(
+  ~variavel, ~descricao, ~natureza, ~unidade_ou_categorias,
+  "id",
+  "Identificador do estudante",
+  "Identificador",
+  "Código único",
+
+  "curso",
+  "Curso de graduação",
+  "Qualitativa nominal",
+  "Estatística; Matemática; Física; Química",
+
+  "satisfacao",
+  "Nível de satisfação",
+  "Qualitativa ordinal",
+  "Baixa < Média < Alta",
+
+  "idade",
+  "Idade informada pelo estudante",
+  "Quantitativa",
+  "Anos",
+
+  "faltas",
+  "Número de faltas",
+  "Quantitativa discreta",
+  "Contagem",
+
+  "aprovado",
+  "Situação de aprovação",
+  "Lógica",
+  "TRUE = Sim; FALSE = Não",
+
+  "tempo_deslocamento",
+  "Tempo de deslocamento até a universidade",
+  "Quantitativa contínua",
+  "Minutos"
+)
+
+dicionario
+```
+
+No Quarto:
+
+```{r}
+#| label: cap3-mostrar-dicionario
+
+knitr::kable(
+  dicionario,
+  caption = "Dicionário de variáveis do banco didático"
+)
+```
+
+Além do dicionário, precisamos registrar as **alterações**.
+
+```{r}
+#| label: cap3-log-alteracoes
+
+registro_alteracoes <- tribble(
+  ~etapa, ~alteracao, ~justificativa,
+  1,
+  "Remoção de espaços e padronização dos nomes dos cursos",
+  "Categorias equivalentes possuíam grafias diferentes",
+
+  2,
+  "Padronização das categorias de satisfação",
+  "Havia diferenças de acentuação e capitalização",
+
+  3,
+  "Conversão de satisfação para fator ordinal",
+  "A variável possui a ordem Baixa < Média < Alta",
+
+  4,
+  "Conversão de aprovado para variável lógica",
+  "A variável representa uma condição binária Sim/Não",
+
+  5,
+  "Remoção de uma duplicação exata do registro E010",
+  "Cada estudante deveria aparecer uma única vez no banco",
+
+  6,
+  "Substituição da idade -3 por NA",
+  "O valor é incompatível com a definição da variável; valor correto desconhecido",
+
+  7,
+  "Sinalização do tempo de 420 minutos para investigação",
+  "Valor muito superior aos demais; não alterado sem confirmação"
+)
+
+registro_alteracoes
+```
+
+Esse registro responde a três perguntas fundamentais:
+
+- **o que foi feito?**
+- **por que foi feito?**
+- **o dado original foi preservado?**
+
+Em um projeto real, também poderíamos registrar data, responsável e fonte da decisão.
+
+### Resultado da preparação e atividade prática
+
+Vamos observar a estrutura final:
+
+```{r}
+#| label: cap3-glimpse-final
+
+glimpse(dados)
+```
+
+E as primeiras linhas:
+
+```{r}
+#| label: cap3-head-final
+
+head(dados)
+```
+
+Podemos fazer uma última verificação das categorias:
+
+```{r}
+#| label: cap3-categorias-finais
+
+dados |>
+  count(curso)
+
+dados |>
+  count(satisfacao)
+```
+
+E das ausências:
+
+```{r}
+#| label: cap3-ausentes-finais
+
+dados |>
+  summarise(
+    across(
+      everything(),
+      ~ sum(is.na(.x))
+    )
+  )
+```
+
+Por fim, salvamos uma nova versão, sem sobrescrever os dados brutos:
+
+```{r}
+#| label: cap3-exportar
+
+dir.create("dados", showWarnings = FALSE)
+
+write_csv(
+  dados,
+  "dados/estudantes_preparados.csv"
+)
+
+write_csv(
+  dicionario,
+  "dados/dicionario_estudantes.csv"
+)
+
+write_csv(
+  registro_alteracoes,
+  "dados/registro_alteracoes.csv"
+)
+```
+
+Temos, então, três produtos diferentes:
+
+``` text
+dados_brutos             → preservam o registro original
+estudantes_preparados    → banco organizado para análise
+registro_alteracoes       → documenta o caminho entre os dois
+```
+
+Essa separação é um princípio importante de reprodutibilidade.
+
+**Atividade prática orientada**
+
+Crie uma cópia do objeto `dados_brutos` e, sem consultar diretamente o código de preparação apresentado anteriormente, execute as seguintes tarefas:
+
+1.  identifique os tipos computacionais das variáveis;
+2.  liste as categorias distintas de `curso`, `satisfacao` e `aprovado`;
+3.  padronize as categorias de `curso`;
+4.  transforme `curso` em fator nominal;
+5.  padronize `satisfacao` e transforme-a em fator ordinal;
+6.  recodifique `aprovado` para uma variável lógica;
+7.  conte valores ausentes em cada variável;
+8.  identifique registros duplicados;
+9.  investigue valores incompatíveis de `idade`;
+10. sinalize valores incomuns de `tempo_deslocamento`;
+11. ordene os estudantes do maior para o menor tempo de deslocamento;
+12. filtre apenas estudantes de Estatística;
+13. construa um dicionário de variáveis;
+14. registre todas as alterações;
+15. salve o banco preparado sem substituir o original.
+
+**Questões para interpretação**
+
+Depois da atividade, responda em texto:
+
+1.  Por que `E010` pôde ser removido neste exemplo?
+2.  Por que a idade `-3` não foi simplesmente substituída por 20?
+3.  Por que o tempo de `420 minutos` foi mantido?
+4.  O que aconteceria em uma tabela de frequência se `Estatística`, `estatistica` e `Estatística` não fossem padronizadas?
+5.  Qual é a diferença entre `0 faltas` e `NA` em `faltas`?
+6.  Por que o dicionário de variáveis faz parte da análise?
+
+**Síntese desta Seção**
+
+Ao concluir a prática, retenha:
+
+1.  o tipo computacional deve ser compatível com o significado da variável;
+2.  categorias equivalentes precisam ser padronizadas antes da contagem;
+3.  fatores ordinais devem preservar a ordem das categorias;
+4.  valores ausentes devem ser identificados explicitamente;
+5.  duplicidades precisam ser interpretadas à luz da unidade observacional;
+6.  valores incompatíveis devem ser investigados, não corrigidos por adivinhação;
+7.  valores atípicos podem conter informação importante;
+8.  filtros e ordenações ajudam a explorar o banco sem necessariamente modificá-lo;
+9.  o dicionário explica o banco;
+10. o registro de alterações explica como o banco bruto se transformou no banco preparado.
+
+> **Ideia-chave:** limpar dados não significa "fazer os valores parecerem bons". Significa tornar o processo de preparação **coerente, justificável e reproduzível**.
+
+------------------------------------------------------------------------
+
+### Exercícios de consolidação desta Seção
+
+#### Exercício 1 — Leitura de um banco
+
+Considere:
+
+| paciente_id | sexo | idade | numero_consultas | risco | pressao_sistolica |
+|:------------|:-----|------:|-----------------:|:------|------------------:|
+| P001        | F    |    42 |                3 | Baixo |               118 |
+| P002        | M    |    58 |                7 | Alto  |               151 |
+| P003        | F    |    36 |                1 | Médio |               123 |
+
+Identifique:
+
+1.  a unidade observacional;
+2.  o identificador;
+3.  uma variável qualitativa nominal;
+4.  uma qualitativa ordinal;
+5.  uma quantitativa discreta;
+6.  uma quantitativa contínua ou de medição;
+7.  a escala de mensuração de cada variável.
+
+#### Exercício 2 — Diagnóstico de qualidade
+
+Um arquivo apresenta:
+
+``` text
+sexo: F, Feminino, feminino, M, Masculino
+idade: 22, 25, 31, -7, 29
+renda: 1800, 2500, NA, 3200, 99999
+```
+
+Discuta:
+
+1.  quais problemas são evidentes;
+2.  quais valores precisam apenas de padronização;
+3.  quais precisam de investigação;
+4.  quais não deveriam ser alterados sem informação adicional.
+
+#### Exercício 3 — Reprodutibilidade
+
+Explique por que cada prática pode ser problemática:
+
+1.  apagar manualmente linhas do arquivo original;
+2.  substituir todos os `NA` por zero;
+3.  corrigir um valor extremo sem consultar a fonte;
+4.  utilizar códigos `1`, `2` e `3` sem dicionário;
+5.  não registrar quais linhas foram removidas.

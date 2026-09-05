@@ -1,0 +1,22 @@
+# Apresentação {.unnumbered}
+
+Esta apostila foi elaborada como material de apoio à disciplina
+**IEE056 — Análise Exploratória de Dados**.
+
+O objetivo é introduzir os fundamentos da análise de dados
+univariados e multivariados, articulando conceitos estatísticos,
+interpretação e ferramentas computacionais.
+
+Ao longo dos capítulos, os conteúdos teóricos são acompanhados
+por exemplos, atividades e práticas no R.
+
+## Como utilizar esta apostila
+
+Os capítulos foram organizados de forma progressiva.
+
+As seções **Laboratório no R** apresentam a implementação
+computacional dos conceitos previamente discutidos.
+
+Os exercícios ao final de cada capítulo procuram desenvolver
+tanto o raciocínio estatístico quanto a capacidade de utilizar
+ferramentas computacionais de forma crítica.

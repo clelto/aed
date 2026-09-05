@@ -1,0 +1,1915 @@
+# Forma das distribuições e análise univariada integrada
+
+Nos capítulos anteriores, estudamos diferentes maneiras de descrever uma variável quantitativa. As **medidas de tendência central** indicam onde os dados se concentram; as **medidas de posição** localizam observações em relação à distribuição; e as **medidas de dispersão** quantificam o grau de variabilidade.
+
+Essas informações são fundamentais, mas ainda não respondem completamente a uma pergunta importante:
+
+> **Qual é a forma da distribuição dos dados?**
+
+Duas distribuições podem apresentar médias e desvios padrão semelhantes e, ainda assim, possuir formas bastante diferentes. Uma pode ser aproximadamente simétrica, outra pode apresentar uma longa cauda à direita; uma pode possuir apenas uma região de concentração, enquanto outra pode apresentar dois ou mais agrupamentos.
+
+Neste capítulo, estudaremos **simetria**, **assimetria positiva e negativa**, diferentes **coeficientes de assimetria**, **curtose**, **unimodalidade, bimodalidade e multimodalidade**. Ao final, reuniremos centro, posição, dispersão, forma e representações gráficas em uma **análise exploratória univariada integrada**.
+
+O objetivo não é transformar a análise em uma sequência mecânica de números. Queremos aprender a construir uma descrição estatística coerente, na qual **medidas e gráficos sejam interpretados em conjunto e no contexto da variável estudada**.
+
+```{r}
+#| label: setup-forma-distribuicao
+#| include: false
+
+library(tidyverse)
+
+dados <- read_csv(
+  "dados/estudantes80n.csv",
+  show_col_types = FALSE
+)
+
+assimetria_momento <- function(x, na.rm = FALSE, ajustada = TRUE) {
+  if (na.rm) {
+    x <- x[!is.na(x)]
+  }
+
+  n <- length(x)
+
+  if (n < 3) {
+    stop("São necessárias pelo menos três observações.")
+  }
+
+  media <- mean(x)
+  m2 <- mean((x - media)^2)
+  m3 <- mean((x - media)^3)
+
+  if (m2 == 0) {
+    return(NA_real_)
+  }
+
+  g1 <- m3 / (m2^(3 / 2))
+
+  if (!ajustada) {
+    return(g1)
+  }
+
+  sqrt(n * (n - 1)) / (n - 2) * g1
+}
+
+curtose_excesso <- function(x, na.rm = FALSE, ajustada = TRUE) {
+  if (na.rm) {
+    x <- x[!is.na(x)]
+  }
+
+  n <- length(x)
+
+  if (n < 4) {
+    stop("São necessárias pelo menos quatro observações.")
+  }
+
+  media <- mean(x)
+  m2 <- mean((x - media)^2)
+  m4 <- mean((x - media)^4)
+
+  if (m2 == 0) {
+    return(NA_real_)
+  }
+
+  g2 <- m4 / (m2^2) - 3
+
+  if (!ajustada) {
+    return(g2)
+  }
+
+  ((n - 1) / ((n - 2) * (n - 3))) *
+    ((n + 1) * g2 + 6)
+}
+
+assimetria_bowley <- function(x, na.rm = FALSE) {
+  q <- quantile(
+    x,
+    probs = c(0.25, 0.50, 0.75),
+    na.rm = na.rm,
+    type = 7
+  )
+
+  aiq <- q[3] - q[1]
+
+  if (aiq == 0) {
+    return(NA_real_)
+  }
+
+  as.numeric(
+    (q[3] + q[1] - 2 * q[2]) / aiq
+  )
+}
+
+assimetria_pearson2 <- function(x, na.rm = FALSE) {
+  3 *
+    (
+      mean(x, na.rm = na.rm) -
+        median(x, na.rm = na.rm)
+    ) /
+    sd(x, na.rm = na.rm)
+}
+```
+
+## Forma de uma distribuição
+
+A **forma de uma distribuição** descreve como as observações se organizam ao longo dos valores possíveis da variável.
+
+Ao examinar a forma, podemos perguntar:
+
+- a distribuição é aproximadamente simétrica?
+- existe uma cauda mais longa à direita ou à esquerda?
+- há uma única região de maior concentração?
+- existem dois ou mais agrupamentos?
+- as caudas apresentam valores muito afastados da região central?
+- medidas como média e desvio padrão representam adequadamente os dados?
+
+A forma não deve ser analisada apenas por meio de um número. Histogramas, curvas de densidade, boxplots e medidas resumo fornecem informações complementares.
+
+A @tbl-componentes-analise-univariada apresenta as principais dimensões que estudamos até aqui.
+
+| Dimensão | Pergunta principal | Exemplos de medidas ou gráficos |
+|:---------------|:--------------------|:----------------------------------|
+| Centro | Onde os dados se concentram? | média, mediana, moda |
+| Posição | Onde determinados valores se localizam? | quartis, decis, percentis |
+| Dispersão | Quanto os dados variam? | amplitude, AIQ, desvio padrão, DAM |
+| Forma | Como a distribuição se organiza? | assimetria, curtose, modalidade |
+| Valores extremos | Existem observações que merecem investigação? | boxplot, limites pela AIQ |
+| Representação gráfica | O que a estrutura visual revela? | histograma, densidade, boxplot |
+
+: Componentes de uma análise exploratória univariada. {#tbl-componentes-analise-univariada}
+
+Como mostra a @tbl-componentes-analise-univariada, uma análise univariada completa combina diferentes perspectivas. Nenhuma medida isolada descreve toda a distribuição.
+
+## Simetria e assimetria
+
+Uma distribuição é **simétrica** quando suas duas partes, em torno de uma região central, apresentam comportamento aproximadamente semelhante.
+
+Em uma distribuição perfeitamente simétrica, valores localizados à mesma distância do centro aparecem de forma equilibrada nos dois lados.
+
+Quando esse equilíbrio não ocorre, dizemos que a distribuição apresenta **assimetria**.
+
+### Distribuição simétrica
+
+Em uma distribuição simétrica e unimodal, é comum observar aproximadamente
+
+$$\text{média}
+\approx
+\text{mediana}
+\approx
+\text{moda}.$$
+
+Essa relação é especialmente útil como referência descritiva.
+
+### Assimetria positiva
+
+Uma distribuição apresenta **assimetria positiva**, ou **assimetria à direita**, quando a cauda direita é mais prolongada.
+
+Valores relativamente grandes podem deslocar a média para a direita. Por isso, em distribuições unimodais com esse comportamento, é frequente observar
+
+$$\text{moda}
+<
+\text{mediana}
+<
+\text{média}.$$
+
+### Assimetria negativa
+
+Uma distribuição apresenta **assimetria negativa**, ou **assimetria à esquerda**, quando a cauda esquerda é mais prolongada.
+
+Valores relativamente pequenos podem deslocar a média para a esquerda. Assim, em muitas distribuições unimodais desse tipo,
+
+$$\text{média}
+<
+\text{mediana}
+<
+\text{moda}.$$
+
+A @fig-formas-assimetria apresenta representações esquemáticas dessas três situações.
+
+```{r}
+#| label: fig-formas-assimetria
+#| fig-cap: "Representações esquemáticas de uma distribuição simétrica e de distribuições com assimetria positiva e negativa."
+#| fig-alt: "Três curvas de densidade: uma simétrica, uma com cauda à direita e outra com cauda à esquerda."
+#| echo: false
+
+x_forma <- seq(
+  from = 0.001,
+  to = 0.999,
+  length.out = 500
+)
+
+formas_assimetria <- bind_rows(
+  tibble(
+    x = x_forma,
+    densidade = dbeta(x_forma, 4, 4),
+    forma = "Simétrica"
+  ),
+  tibble(
+    x = x_forma,
+    densidade = dbeta(x_forma, 2, 5),
+    forma = "Assimetria positiva"
+  ),
+  tibble(
+    x = x_forma,
+    densidade = dbeta(x_forma, 5, 2),
+    forma = "Assimetria negativa"
+  )
+)
+
+formas_assimetria |>
+  ggplot(
+    aes(x = x, y = densidade)
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(
+    ~ forma,
+    nrow = 1,
+    scales = "free_y"
+  ) +
+  labs(
+    x = NULL,
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+Na @fig-formas-assimetria, a direção da assimetria é nomeada de acordo com a **cauda mais prolongada**, e não com a região onde se concentra a maior parte das observações.
+
+::: {.callout-important title="A relação entre média, mediana e moda é uma orientação, não uma regra universal"}
+As relações
+
+$$\text{moda}<\text{mediana}<\text{média}$$
+
+e
+
+$$\text{média}<\text{mediana}<\text{moda}$$
+
+são padrões frequentemente observados em distribuições unimodais assimétricas, mas não constituem identidades matemáticas válidas para qualquer conjunto de dados.
+
+A forma deve ser verificada também por representações gráficas e, quando apropriado, por medidas de assimetria.
+:::
+
+### Propriedades relacionadas à simetria
+
+Algumas ideias importantes devem ser guardadas:
+
+- toda distribuição perfeitamente simétrica, quando os momentos necessários existem, possui coeficiente de assimetria por momentos igual a zero;
+- o contrário não é necessariamente verdadeiro: **assimetria igual a zero não garante simetria perfeita**;
+- a média é mais sensível a valores extremos do que a mediana;
+- por isso, a diferença entre média e mediana pode fornecer uma pista sobre assimetria, mas não deve ser usada isoladamente como diagnóstico definitivo.
+
+::: {.callout-tip title="Laboratório no R — primeiras pistas sobre a forma"}
+Vamos examinar o tempo de deslocamento dos 80 estudantes.
+
+Primeiro, compare média e mediana:
+
+```{r}
+mean(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE
+)
+
+median(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE
+)
+```
+
+A média é superior à mediana. Isso é compatível com uma possível assimetria positiva, mas ainda precisamos observar a distribuição.
+
+```{r}
+#| label: fig-histograma-densidade-forma-r
+#| fig-cap: "Histograma e curva de densidade do tempo de deslocamento dos 80 estudantes."
+#| fig-alt: "Histograma do tempo de deslocamento com curva de densidade sobreposta, mostrando uma cauda mais longa à direita."
+
+dados |>
+  ggplot(
+    aes(x = tempo_deslocamento_min)
+  ) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    binwidth = 15,
+    boundary = 10,
+    closed = "left",
+    color = "white",
+    linewidth = 0.8
+  ) +
+  geom_density(
+    linewidth = 1
+  ) +
+  scale_x_continuous(
+    breaks = seq(10, 115, by = 15)
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+A @fig-histograma-densidade-forma-r permite observar concentração nos tempos menores e intermediários e uma extensão da distribuição em direção aos valores mais altos. Essa evidência gráfica deve ser combinada com medidas numéricas de assimetria.
+:::
+
+## Coeficientes de assimetria
+
+A inspeção visual é essencial, mas podemos complementar a análise utilizando **coeficientes de assimetria**.
+
+Existem diferentes maneiras de quantificar assimetria. Elas não são equivalentes, pois utilizam aspectos distintos dos dados.
+
+Neste capítulo, estudaremos:
+
+1.  coeficientes de Pearson;
+2.  coeficiente quartílico de Bowley;
+3.  coeficiente de assimetria baseado em momentos.
+
+### Primeiro coeficiente de Pearson
+
+Uma forma clássica é comparar média e moda:
+
+$$A_{P1}
+=
+\frac{
+\bar{x}-Mo
+}{
+s
+},$$
+
+em que $Mo$ representa a moda e $s$ o desvio padrão amostral.
+
+A ideia é simples: quanto maior a diferença entre média e moda em relação ao desvio padrão, maior a indicação de assimetria.
+
+Entretanto, esse coeficiente possui uma limitação importante: a moda pode ser pouco estável ou difícil de definir, especialmente para variáveis quantitativas contínuas.
+
+### Segundo coeficiente de Pearson
+
+Uma alternativa utiliza média e mediana:
+
+$$A_{P2}
+=
+\frac{
+3(\bar{x}-Md)
+}{
+s
+}.$$
+
+Sua interpretação básica é:
+
+- $A_{P2}>0$: indicação de assimetria positiva;
+- $A_{P2}\approx0$: pouca assimetria segundo esse critério;
+- $A_{P2}<0$: indicação de assimetria negativa.
+
+O segundo coeficiente de Pearson é simples e útil didaticamente, mas depende da média e do desvio padrão e, portanto, é sensível a valores extremos.
+
+### Coeficiente quartílico de Bowley
+
+Uma alternativa baseada em medidas resistentes é o **coeficiente de Bowley**:
+
+$$A_B
+=
+\frac{
+Q_3+Q_1-2Q_2
+}{
+Q_3-Q_1
+},$$
+
+em que $Q_2$ é a mediana.
+
+Também podemos escrevê-lo como
+
+$$A_B
+=
+\frac{
+(Q_3-Q_2)-(Q_2-Q_1)
+}{
+Q_3-Q_1
+}.$$
+
+Essa forma evidencia que o coeficiente compara o espalhamento acima e abaixo da mediana dentro da metade central da distribuição.
+
+Quando $Q_3>Q_1$,
+
+$$-1\leq A_B\leq1.$$
+
+De modo geral:
+
+- $A_B>0$: a metade central tende a se estender mais para a direita;
+- $A_B=0$: os quartis são simétricos em torno da mediana;
+- $A_B<0$: a metade central tende a se estender mais para a esquerda.
+
+Como depende de quartis e mediana, o coeficiente de Bowley é **mais resistente a valores extremos**.
+
+### Coeficiente de assimetria por momentos
+
+Para uma população finita, o terceiro momento central é
+
+$$\mu_3
+=
+\frac{1}{N}
+\sum_{i=1}^{N}
+(x_i-\mu)^3.$$
+
+O coeficiente populacional de assimetria é
+
+$$\gamma_1
+=
+\frac{
+\mu_3
+}{
+\sigma^3
+}.$$
+
+O cubo preserva o sinal dos desvios:
+
+- desvios positivos contribuem positivamente;
+- desvios negativos contribuem negativamente.
+
+Consequentemente,
+
+- $\gamma_1>0$ indica assimetria positiva;
+- $\gamma_1=0$ indica terceiro momento central nulo;
+- $\gamma_1<0$ indica assimetria negativa.
+
+Para uma amostra, podemos definir
+
+$$m_r
+=
+\frac{1}{n}
+\sum_{i=1}^{n}
+(x_i-\bar{x})^r.$$
+
+O coeficiente amostral não ajustado é
+
+$$g_1
+=
+\frac{
+m_3
+}{
+m_2^{3/2}
+}.$$
+
+Uma versão ajustada, frequentemente denominada **coeficiente ajustado de Fisher-Pearson**, é
+
+$$G_1
+=
+\frac{
+\sqrt{n(n-1)}
+}{
+n-2
+}
+g_1,
+\qquad n>2.$$
+
+::: {.callout-note title="Por que existem vários coeficientes?"}
+Assimetria é uma característica da forma que pode ser resumida de maneiras diferentes.
+
+Pearson compara medidas de centro; Bowley utiliza quartis; o coeficiente por momentos utiliza todos os valores e dá peso elevado a observações afastadas do centro.
+
+Por isso, resultados de diferentes coeficientes não precisam coincidir numericamente.
+:::
+
+### Exemplo
+
+Considere
+
+$$2,\ 3,\ 3,\ 4,\ 5,\ 6,\ 12.$$
+
+Temos:
+
+$$\bar{x}=5,
+\qquad
+Md=4,
+\qquad
+Mo=3.$$
+
+A presença do valor 12 prolonga a distribuição para a direita. Assim,
+
+$$Mo<Md<\bar{x},$$
+
+o que é compatível com assimetria positiva.
+
+A @tbl-coeficientes-assimetria compara as principais características dos coeficientes apresentados.
+
+| Coeficiente | Informação utilizada | Sensibilidade a extremos | Observação |
+|:---------------|:-------------------|:--------------------:|:---------------|
+| Pearson 1 | média, moda e desvio padrão | alta | depende de uma moda bem definida |
+| Pearson 2 | média, mediana e desvio padrão | alta | simples e fácil de interpretar |
+| Bowley | $Q_1$, mediana e $Q_3$ | baixa | descreve a assimetria da metade central |
+| Momentos | todos os valores | alta | considera fortemente as caudas |
+
+: Comparação entre coeficientes de assimetria. {#tbl-coeficientes-assimetria}
+
+Como mostra a @tbl-coeficientes-assimetria, a escolha do coeficiente depende do aspecto da distribuição que se deseja enfatizar.
+
+### Propriedades dos coeficientes de assimetria
+
+Os coeficientes padronizados de assimetria são **adimensionais**.
+
+Se
+
+$$Y=a+bX,$$
+
+então, para o coeficiente por momentos:
+
+- se $b>0$, a assimetria não se altera;
+- se $b<0$, o sinal da assimetria é invertido.
+
+Ou seja,
+
+$$\gamma_1(Y)
+=
+\operatorname{sgn}(b)\gamma_1(X).$$
+
+Adicionar uma constante desloca a distribuição, mas não muda sua forma. Multiplicar por uma constante positiva apenas modifica a escala.
+
+::: {.callout-important title="Valor zero não garante simetria"}
+Uma distribuição simétrica possui assimetria por momentos igual a zero, mas uma distribuição assimétrica também pode, em situações particulares, apresentar terceiro momento central igual a zero.
+
+Portanto, o coeficiente deve ser interpretado em conjunto com gráficos e outras medidas.
+:::
+
+::: {.callout-tip title="Laboratório no R — coeficientes de assimetria"}
+Começaremos com o conjunto utilizado no exemplo.
+
+```{r}
+x <- c(2, 3, 3, 4, 5, 6, 12)
+
+mean(x)
+median(x)
+```
+
+A moda é 3. Assim, o primeiro coeficiente de Pearson pode ser calculado por:
+
+```{r}
+moda_x <- 3
+
+(
+  mean(x) - moda_x
+) / sd(x)
+```
+
+O segundo coeficiente de Pearson é:
+
+```{r}
+3 *
+  (
+    mean(x) - median(x)
+  ) /
+  sd(x)
+```
+
+Podemos utilizar a função definida no início do capítulo:
+
+```{r}
+assimetria_pearson2(x)
+```
+
+Agora calcularemos o coeficiente de Bowley:
+
+```{r}
+assimetria_bowley(x)
+```
+
+Para o coeficiente por momentos, calcularemos inicialmente $g_1$:
+
+```{r}
+assimetria_momento(
+  x,
+  ajustada = FALSE
+)
+```
+
+E a versão ajustada $G_1$:
+
+```{r}
+assimetria_momento(
+  x,
+  ajustada = TRUE
+)
+```
+
+Os coeficientes são positivos, embora apresentem magnitudes diferentes porque são construídos de maneiras diferentes.
+
+Agora aplique-os ao tempo de deslocamento:
+
+```{r}
+assimetria_pearson2(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE
+)
+
+assimetria_bowley(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE
+)
+
+assimetria_momento(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE,
+  ajustada = TRUE
+)
+```
+
+O coeficiente ajustado por momentos é positivo, reforçando a evidência de uma distribuição com cauda à direita observada na @fig-histograma-densidade-forma-r.
+
+Podemos organizar os resultados em uma tabela.
+
+```{r}
+#| label: tbl-assimetria-tempo-r
+#| results: asis
+
+tab_assimetria_tempo <- tibble(
+  coeficiente = c(
+    "Pearson 2",
+    "Bowley",
+    "Fisher-Pearson ajustado"
+  ),
+  valor = c(
+    assimetria_pearson2(
+      dados$tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    assimetria_bowley(
+      dados$tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    assimetria_momento(
+      dados$tempo_deslocamento_min,
+      na.rm = TRUE,
+      ajustada = TRUE
+    )
+  )
+)
+
+cat(
+  knitr::kable(
+    tab_assimetria_tempo,
+    format = "pipe",
+    digits = 3,
+    col.names = c(
+      "Coeficiente",
+      "Valor"
+    )
+  ),
+  sep = "\n"
+)
+
+cat(
+  "\n\n: Coeficientes de assimetria para o tempo de deslocamento dos estudantes. \n\n"
+)
+```
+
+A @tbl-assimetria-tempo-r mostra que diferentes critérios podem produzir magnitudes distintas. O sinal e a interpretação devem ser combinados com a forma observada nos gráficos.
+:::
+
+## Curtose
+
+A **curtose** é outra característica relacionada à forma da distribuição.
+
+Ela é construída a partir do quarto momento central e é particularmente sensível ao comportamento das **caudas** e à presença de observações afastadas do centro.
+
+Para uma população finita,
+
+$$\mu_4
+=
+\frac{1}{N}
+\sum_{i=1}^{N}
+(x_i-\mu)^4.$$
+
+O coeficiente populacional de curtose é
+
+$$\beta_2
+=
+\frac{
+\mu_4
+}{
+\sigma^4
+}.$$
+
+Para a distribuição normal,
+
+$$\beta_2=3.$$
+
+Por isso, é comum trabalhar com o **excesso de curtose**:
+
+$$\gamma_2
+=
+\beta_2-3.$$
+
+Assim, a distribuição normal possui
+
+$$\gamma_2=0.$$
+
+### Classificação tradicional
+
+Utilizando o excesso de curtose como referência:
+
+- $\gamma_2=0$: distribuição **mesocúrtica** em relação à normal;
+- $\gamma_2>0$: distribuição **leptocúrtica**;
+- $\gamma_2<0$: distribuição **platicúrtica**.
+
+A @tbl-classificacao-curtose resume essa nomenclatura.
+
+| Excesso de curtose | Classificação tradicional | Interpretação geral em relação à normal |
+|:-----------------|:---------------------|:--------------------------------|
+| $\gamma_2<0$ | platicúrtica | caudas relativamente mais leves |
+| $\gamma_2=0$ | mesocúrtica | referência da distribuição normal |
+| $\gamma_2>0$ | leptocúrtica | maior contribuição das caudas e de valores extremos |
+
+: Classificação tradicional pelo excesso de curtose. {#tbl-classificacao-curtose,}
+
+Como mostra a @tbl-classificacao-curtose, a referência é a distribuição normal.
+
+::: {.callout-important title="Curtose não deve ser interpretada apenas como altura do pico"}
+É comum encontrar a curtose descrita simplesmente como uma medida de "achatamento" ou "pontiagudez" da distribuição. Essa interpretação é incompleta.
+
+Como o coeficiente utiliza a **quarta potência dos desvios**, valores afastados da média exercem grande influência. Assim, a curtose está fortemente relacionada ao comportamento das **caudas** e à ocorrência de observações extremas.
+
+A altura do pico, isoladamente, não determina a curtose.
+:::
+
+### Curtose amostral
+
+Para uma amostra, utilizando
+
+$$m_r
+=
+\frac{1}{n}
+\sum_{i=1}^{n}
+(x_i-\bar{x})^r,$$
+
+podemos definir o excesso de curtose não ajustado por
+
+$$g_2
+=
+\frac{
+m_4
+}{
+m_2^2
+}
+-3.$$
+
+Uma versão ajustada é
+
+$$G_2
+=
+\frac{n-1}{(n-2)(n-3)}
+\left[
+(n+1)g_2+6
+\right],
+\qquad n>3.$$
+
+Neste capítulo, utilizaremos $G_2$ no laboratório quando desejarmos um coeficiente amostral ajustado.
+
+### Propriedades da curtose
+
+O coeficiente padronizado de curtose:
+
+- é adimensional;
+- não se altera com a adição de uma constante;
+- não se altera com uma mudança de escala não nula;
+- é fortemente sensível a valores extremos, pois utiliza a quarta potência dos desvios.
+
+Se
+
+$$Y=a+bX,
+\qquad b\neq0,$$
+
+então
+
+$$\beta_2(Y)=\beta_2(X)$$
+
+e, consequentemente,
+
+$$\gamma_2(Y)=\gamma_2(X).$$
+
+Diferentemente da assimetria, multiplicar os dados por uma constante negativa **não inverte o sinal da curtose**, pois a quarta potência elimina o sinal.
+
+::: {.callout-tip title="Laboratório no R — excesso de curtose"}
+Utilizaremos a função `curtose_excesso()` definida no início do capítulo.
+
+Considere novamente:
+
+```{r}
+x <- c(2, 3, 3, 4, 5, 6, 12)
+```
+
+O excesso de curtose não ajustado é:
+
+```{r}
+curtose_excesso(
+  x,
+  ajustada = FALSE
+)
+```
+
+A versão ajustada é:
+
+```{r}
+curtose_excesso(
+  x,
+  ajustada = TRUE
+)
+```
+
+Agora calcule para o tempo de deslocamento:
+
+```{r}
+curtose_excesso(
+  dados$tempo_deslocamento_min,
+  na.rm = TRUE,
+  ajustada = TRUE
+)
+```
+
+Um valor positivo indica que, segundo esse coeficiente, a distribuição apresenta excesso de curtose positivo em relação à normal. Essa informação é coerente com a presença de observações relativamente afastadas na cauda direita, mas não deve ser interpretada sem examinar os dados.
+
+Para verificar a sensibilidade do coeficiente, compare:
+
+```{r}
+x1 <- c(
+  10, 11, 12, 13, 14,
+  15, 16, 17, 18
+)
+
+x2 <- c(
+  10, 11, 12, 13, 14,
+  15, 16, 17, 50
+)
+
+curtose_excesso(
+  x1,
+  ajustada = TRUE
+)
+
+curtose_excesso(
+  x2,
+  ajustada = TRUE
+)
+```
+
+A introdução de um único valor muito afastado pode alterar substancialmente a curtose.
+:::
+
+## Modalidade: uma ou várias regiões de concentração
+
+A **modalidade** descreve quantas regiões principais de concentração aparecem em uma distribuição.
+
+Uma distribuição pode ser:
+
+- **unimodal**: apresenta uma região principal de maior concentração;
+- **bimodal**: apresenta duas regiões principais;
+- **multimodal**: apresenta mais de duas regiões principais.
+
+A @fig-modalidade-conceitual apresenta representações esquemáticas.
+
+```{r}
+#| label: fig-modalidade-conceitual
+#| fig-cap: "Representações esquemáticas de distribuições unimodal, bimodal e multimodal."
+#| fig-alt: "Três curvas mostrando respectivamente um, dois e três picos."
+#| echo: false
+
+x_modal <- seq(
+  -5,
+  5,
+  length.out = 600
+)
+
+modalidades <- bind_rows(
+  tibble(
+    x = x_modal,
+    densidade = dnorm(
+      x_modal,
+      mean = 0,
+      sd = 1
+    ),
+    modalidade = "Unimodal"
+  ),
+  tibble(
+    x = x_modal,
+    densidade =
+      0.5 * dnorm(
+        x_modal,
+        mean = -1.6,
+        sd = 0.7
+      ) +
+      0.5 * dnorm(
+        x_modal,
+        mean = 1.6,
+        sd = 0.7
+      ),
+    modalidade = "Bimodal"
+  ),
+  tibble(
+    x = x_modal,
+    densidade =
+      0.34 * dnorm(
+        x_modal,
+        mean = -2.3,
+        sd = 0.45
+      ) +
+      0.32 * dnorm(
+        x_modal,
+        mean = 0,
+        sd = 0.45
+      ) +
+      0.34 * dnorm(
+        x_modal,
+        mean = 2.3,
+        sd = 0.45
+      ),
+    modalidade = "Multimodal"
+  )
+)
+
+modalidades |>
+  ggplot(
+    aes(x = x, y = densidade)
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(
+    ~ modalidade,
+    nrow = 1,
+    scales = "free_y"
+  ) +
+  labs(
+    x = NULL,
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+Na @fig-modalidade-conceitual, cada pico representa uma região de maior concentração.
+
+### Por que a bimodalidade é importante?
+
+Uma distribuição bimodal ou multimodal pode indicar que os dados reúnem **subgrupos com comportamentos diferentes**.
+
+Por exemplo, uma distribuição de tempos de deslocamento poderia apresentar um grupo de estudantes que mora próximo à universidade e outro grupo que mora muito distante.
+
+A presença de dois picos não prova a existência de dois grupos, mas é uma pista que merece investigação.
+
+### Moda observada e moda de uma distribuição contínua
+
+Em dados quantitativos contínuos, valores exatamente repetidos podem ser raros. Por isso, procurar apenas o valor que mais se repete pode não revelar adequadamente a estrutura modal.
+
+Histogramas e curvas de densidade ajudam a identificar **regiões modais**, isto é, regiões onde as observações se concentram.
+
+::: {.callout-warning title="A modalidade depende da representação"}
+O número de picos percebidos em um histograma pode mudar quando alteramos a largura das classes.
+
+Da mesma forma, em uma curva de densidade, o grau de suavização influencia a quantidade de detalhes visíveis.
+
+Por isso, um pequeno pico não deve ser automaticamente interpretado como evidência de um novo subgrupo.
+:::
+
+::: {.callout-tip title="Laboratório no R — investigando modalidade"}
+Vamos examinar a curva de densidade do tempo de deslocamento.
+
+```{r}
+#| label: fig-densidade-modalidade-r
+#| fig-cap: "Curva de densidade do tempo de deslocamento dos estudantes."
+#| fig-alt: "Curva de densidade do tempo de deslocamento, utilizada para examinar regiões de maior concentração."
+
+dados |>
+  ggplot(
+    aes(x = tempo_deslocamento_min)
+  ) +
+  geom_density(
+    linewidth = 1
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+A @fig-densidade-modalidade-r ajuda a identificar as principais regiões de concentração, mas sua interpretação depende do grau de suavização utilizado pelo estimador de densidade.
+
+Podemos alterar esse grau por meio do argumento `adjust`.
+
+```{r}
+#| label: fig-densidade-suavizacao-r
+#| fig-cap: "Efeito do grau de suavização sobre a curva de densidade do tempo de deslocamento."
+#| fig-alt: "Curvas de densidade do mesmo conjunto de dados com três níveis de suavização."
+
+x_tempo <- dados$tempo_deslocamento_min
+x_tempo <- x_tempo[!is.na(x_tempo)]
+
+dens_06 <- density(
+  x_tempo,
+  adjust = 0.6
+)
+
+dens_10 <- density(
+  x_tempo,
+  adjust = 1
+)
+
+dens_16 <- density(
+  x_tempo,
+  adjust = 1.6
+)
+
+bind_rows(
+  tibble(
+    x = dens_06$x,
+    densidade = dens_06$y,
+    ajuste = "adjust = 0,6"
+  ),
+  tibble(
+    x = dens_10$x,
+    densidade = dens_10$y,
+    ajuste = "adjust = 1,0"
+  ),
+  tibble(
+    x = dens_16$x,
+    densidade = dens_16$y,
+    ajuste = "adjust = 1,6"
+  )
+) |>
+  ggplot(
+    aes(x = x, y = densidade)
+  ) +
+  geom_line(linewidth = 1) +
+  facet_wrap(
+    ~ ajuste,
+    nrow = 1
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+A @fig-densidade-suavizacao-r mostra que valores menores de `adjust` revelam mais irregularidades locais, enquanto valores maiores produzem uma curva mais suavizada. A identificação de modalidade deve, portanto, considerar se os picos são estruturas consistentes ou apenas pequenas oscilações da representação.
+:::
+
+## Relações entre centro, posição, dispersão e forma
+
+Os capítulos desta parte da apostila estudaram medidas separadamente para facilitar a aprendizagem. Na análise de dados, entretanto, elas devem ser interpretadas em conjunto.
+
+A @tbl-integracao-medidas apresenta algumas relações úteis.
+
+| Característica observada | Medidas ou gráficos que ajudam | Possível interpretação |
+|:----------------------|:---------------------------|:--------------------|
+| média próxima da mediana | média, mediana, histograma | compatível com pouca assimetria, mas não suficiente para garanti-la |
+| média muito maior que mediana | média, mediana, assimetria, histograma | possível cauda à direita |
+| média muito menor que mediana | média, mediana, assimetria, histograma | possível cauda à esquerda |
+| grande distância entre $Q_1$ e $Q_3$ | AIQ, boxplot | maior dispersão da metade central |
+| pontos além dos bigodes | boxplot, registros originais | observações potencialmente atípicas |
+| desvio padrão muito afetado por extremos | desvio padrão, AIQ, DAM | considerar medidas resistentes |
+| dois ou mais picos | histograma, densidade | possível heterogeneidade ou subgrupos |
+| excesso de curtose elevado | curtose, boxplot, histograma | forte contribuição das caudas e/ou extremos |
+
+: Exemplos de integração entre medidas resumo e representações gráficas. {#tbl-integracao-medidas}
+
+Como mostra a @tbl-integracao-medidas, uma conclusão deve ser sustentada por **conjunto de evidências**, e não por uma única medida.
+
+## Medidas sensíveis e resistentes na análise da forma
+
+A escolha das medidas deve considerar a presença de assimetria e de valores extremos.
+
+A @tbl-sensiveis-resistentes-forma reúne medidas estudadas nos capítulos anteriores e neste capítulo.
+
+| Aspecto | Medidas mais sensíveis | Medidas mais resistentes |
+|:---------------|:--------------------------|:----------------------------|
+| Centro | média | mediana |
+| Posição | — | quartis |
+| Dispersão | amplitude, variância, desvio padrão, CV | AIQ, DAM |
+| Assimetria | Pearson, coeficiente por momentos | Bowley |
+| Caudas | curtose por momentos | deve ser complementada por medidas resistentes e gráficos |
+
+: Medidas sensíveis e resistentes úteis na análise univariada. {#tbl-sensiveis-resistentes-forma}
+
+A @tbl-sensiveis-resistentes-forma sugere uma estratégia importante: quando uma distribuição apresenta forte assimetria ou valores extremos, é recomendável não depender apenas de média, desvio padrão, assimetria por momentos e curtose.
+
+Nessas situações, mediana, quartis, AIQ, DAM e boxplots oferecem uma perspectiva mais resistente.
+
+### Escolha de combinações de medidas
+
+Para uma distribuição aproximadamente simétrica, unimodal e sem extremos relevantes, uma combinação como
+
+$$\text{média} + \text{desvio padrão}$$
+
+pode fornecer uma descrição bastante informativa.
+
+Para uma distribuição assimétrica ou com extremos, frequentemente é mais útil apresentar
+
+$$\text{mediana} + \text{AIQ}$$
+
+ou
+
+$$\text{mediana} + \text{DAM}.$$
+
+Isso não significa que a média e o desvio padrão devam ser ocultados. Em uma análise exploratória, comparar medidas sensíveis e resistentes pode revelar justamente o efeito da assimetria e dos valores extremos.
+
+## Histogramas, boxplots e medidas resumo: funções complementares
+
+O histograma mostra detalhes da distribuição por intervalos. A curva de densidade apresenta uma versão suavizada da forma. O boxplot resume posição, dispersão e valores potencialmente atípicos.
+
+A @tbl-graficos-integrados compara essas representações.
+
+| Representação | Evidencia especialmente | Limitação importante |
+|:-----------------|:----------------------------|:------------------------|
+| Histograma | concentração, caudas, lacunas e possíveis modos | depende da escolha das classes |
+| Densidade | forma suavizada e regiões de concentração | depende do grau de suavização |
+| Boxplot | mediana, quartis, AIQ e valores potencialmente atípicos | oculta muitos detalhes da forma |
+
+: Informações destacadas por histograma, densidade e boxplot. {#tbl-graficos-integrados}
+ 
+Como mostra a @tbl-graficos-integrados, nenhuma das três representações substitui completamente as demais.
+
+::: {.callout-note title="Um boxplot não revela multimodalidade"}
+Duas distribuições muito diferentes podem apresentar boxplots semelhantes. Em particular, um boxplot não mostra diretamente se uma distribuição possui um, dois ou vários picos.
+
+Por isso, análises de forma devem incluir pelo menos uma representação que preserve mais detalhes da distribuição, como histograma ou curva de densidade.
+:::
+
+## Análise exploratória univariada integrada
+
+Chegamos agora ao objetivo central deste capítulo: reunir os conteúdos estudados em um fluxo coerente de análise.
+
+Uma análise univariada integrada pode seguir a lógica apresentada na @tbl-roteiro-univariado.
+
+| Etapa | Pergunta | Exemplos de procedimentos |
+|:---------------|:---------------|:----------------------------------------|
+| 1\. Contextualização | O que a variável representa? | unidade, tipo, população/amostra |
+| 2\. Qualidade | Há ausências ou valores implausíveis? | `is.na()`, inspeção, limites plausíveis |
+| 3\. Centro | Onde os dados se concentram? | média, mediana, moda |
+| 4\. Posição | Como os valores se distribuem por quantis? | $Q_1$, mediana, $Q_3$, percentis |
+| 5\. Dispersão | Quanto os dados variam? | amplitude, AIQ, DP, CV, DAM |
+| 6\. Forma | Há simetria, caudas ou vários picos? | assimetria, curtose, histograma, densidade |
+| 7\. Extremos | Existem observações a investigar? | boxplot, regra de $1,5\times AIQ$ |
+| 8\. Síntese | O que o conjunto de evidências indica? | interpretação contextual integrada |
+
+: Roteiro para uma análise exploratória univariada integrada. {#tbl-roteiro-univariado}
+
+A @tbl-roteiro-univariado apresenta uma sequência útil, mas não rígida. A análise exploratória é iterativa: uma descoberta gráfica pode exigir que retornemos ao banco original, recalculemos medidas ou investiguemos subgrupos.
+
+::: {.callout-tip title="Laboratório no R — análise completa do tempo de deslocamento"}
+Vamos realizar uma análise exploratória integrada de `tempo_deslocamento_min`.
+
+### 1. Conhecendo a variável
+
+```{r}
+dados |>
+  select(
+    id_estudante,
+    tempo_deslocamento_min
+  ) |>
+  slice_head(n = 10)
+```
+
+O tempo de deslocamento é uma variável quantitativa contínua medida em minutos.
+
+Vamos verificar o número de observações e valores ausentes:
+
+```{r}
+dados |>
+  summarise(
+    n_total = n(),
+    n_validos =
+      sum(
+        !is.na(
+          tempo_deslocamento_min
+        )
+      ),
+    n_ausentes =
+      sum(
+        is.na(
+          tempo_deslocamento_min
+        )
+      )
+  )
+```
+
+### 2. Construindo um resumo numérico integrado
+
+Primeiro, criaremos um vetor sem valores ausentes:
+
+```{r}
+x_tempo <- dados$tempo_deslocamento_min
+x_tempo <- x_tempo[!is.na(x_tempo)]
+```
+
+Agora reuniremos medidas de centro, posição, dispersão e forma.
+
+```{r}
+#| label: tbl-resumo-integrado-tempo-r 
+#| results: asis
+
+resumo_integrado <- tibble(
+  medida = c(
+    "n",
+    "Mínimo",
+    "Q1",
+    "Mediana",
+    "Média",
+    "Q3",
+    "Máximo",
+    "Amplitude",
+    "AIQ",
+    "Variância amostral",
+    "Desvio padrão amostral",
+    "CV (%)",
+    "DAM",
+    "Assimetria de Pearson 2",
+    "Assimetria de Bowley",
+    "Assimetria ajustada de Fisher-Pearson",
+    "Excesso de curtose ajustado"
+  ),
+  valor = c(
+    length(x_tempo),
+    min(x_tempo),
+    quantile(
+      x_tempo,
+      0.25,
+      type = 7
+    ),
+    median(x_tempo),
+    mean(x_tempo),
+    quantile(
+      x_tempo,
+      0.75,
+      type = 7
+    ),
+    max(x_tempo),
+    diff(range(x_tempo)),
+    IQR(x_tempo),
+    var(x_tempo),
+    sd(x_tempo),
+    100 *
+      sd(x_tempo) /
+      mean(x_tempo),
+    mad(
+      x_tempo,
+      constant = 1
+    ),
+    assimetria_pearson2(
+      x_tempo
+    ),
+    assimetria_bowley(
+      x_tempo
+    ),
+    assimetria_momento(
+      x_tempo,
+      ajustada = TRUE
+    ),
+    curtose_excesso(
+      x_tempo,
+      ajustada = TRUE
+    )
+  )
+)
+
+cat(
+  knitr::kable(
+    resumo_integrado,
+    format = "pipe",
+    digits = 3,
+    col.names = c(
+      "Medida",
+      "Valor"
+    )
+  ),
+  sep = "\n"
+)
+
+cat(
+  "\n\n: Resumo numérico integrado do tempo de deslocamento dos estudantes. \n\n"
+)
+```
+
+A @tbl-resumo-integrado-tempo-r reúne informações que devem ser interpretadas em conjunto. A média superior à mediana, associada aos coeficientes positivos de assimetria, sugere cauda à direita. O desvio padrão relativamente elevado e a diferença entre medidas sensíveis e resistentes também merecem atenção.
+
+### 3. Histograma e densidade
+
+```{r}
+#| label: fig-histograma-integrado-tempo-r
+#| fig-cap: "Histograma com curva de densidade do tempo de deslocamento."
+#| fig-alt: "Histograma e curva de densidade mostrando concentração em tempos menores e cauda à direita."
+
+dados |>
+  ggplot(
+    aes(x = tempo_deslocamento_min)
+  ) +
+  geom_histogram(
+    aes(y = after_stat(density)),
+    binwidth = 15,
+    boundary = 10,
+    closed = "left",
+    color = "white",
+    linewidth = 0.8
+  ) +
+  geom_density(
+    linewidth = 1
+  ) +
+  scale_x_continuous(
+    breaks = seq(10, 115, by = 15)
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+A @fig-histograma-integrado-tempo-r evidencia uma distribuição concentrada principalmente nos menores e intermediários tempos de deslocamento, acompanhada por uma cauda que se prolonga para valores maiores.
+
+### 4. Boxplot
+
+```{r}
+#| label: fig-boxplot-integrado-tempo-r
+#| fig-cap: "Boxplot do tempo de deslocamento dos estudantes."
+#| fig-alt: "Boxplot do tempo de deslocamento com pontos acima do bigode superior."
+
+dados |>
+  ggplot(
+    aes(
+      x = "",
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_boxplot(
+    width = 0.35
+  ) +
+  labs(
+    x = NULL,
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+A @fig-boxplot-integrado-tempo-r complementa o histograma ao destacar mediana, quartis, amplitude interquartílica e observações que ultrapassam os limites usuais do boxplot.
+
+### 5. Investigando valores potencialmente atípicos
+
+Vamos calcular os limites pela regra de $1,5\times AIQ$.
+
+```{r}
+q1_tempo <- quantile(
+  x_tempo,
+  0.25,
+  type = 7
+)
+
+q3_tempo <- quantile(
+  x_tempo,
+  0.75,
+  type = 7
+)
+
+aiq_tempo <- IQR(x_tempo)
+
+limite_inferior <-
+  q1_tempo - 1.5 * aiq_tempo
+
+limite_superior <-
+  q3_tempo + 1.5 * aiq_tempo
+
+limite_inferior
+limite_superior
+```
+
+Agora identificaremos os registros que ultrapassam esses limites.
+
+```{r}
+#| label: tbl-atipicos-integrado-tempo-r
+#| results: asis
+
+atipicos_tempo <- dados |>
+  filter(
+    tempo_deslocamento_min <
+      limite_inferior |
+      tempo_deslocamento_min >
+        limite_superior
+  ) |>
+  arrange(
+    tempo_deslocamento_min
+  ) |>
+  select(
+    id_estudante,
+    curso,
+    meio_transporte,
+    satisfacao,
+    idade_anos,
+    faltas,
+    tempo_deslocamento_min
+  )
+
+cat(
+  knitr::kable(
+    atipicos_tempo,
+    format = "pipe",
+    digits = 1,
+    col.names = c(
+      "Estudante",
+      "Curso",
+      "Transporte",
+      "Satisfação",
+      "Idade",
+      "Faltas",
+      "Tempo (min)"
+    )
+  ),
+  sep = "\n"
+)
+
+cat(
+  "\n\n: Observações potencialmente atípicas para o tempo de deslocamento segundo a regra de 1,5 vezes a AIQ. \n\n"
+)
+```
+
+A @tbl-atipicos-integrado-tempo-r identifica os registros que merecem investigação. Como discutido anteriormente, a classificação estatística não significa que esses tempos estejam errados.
+
+### 6. Comparando medidas sensíveis e resistentes
+
+```{r}
+#| label: tbl-sensiveis-resistentes-tempo-r
+#| results: asis
+
+comparacao_resistencia <- tibble(
+  perspectiva = c(
+    "Centro sensível",
+    "Centro resistente",
+    "Dispersão sensível",
+    "Dispersão resistente",
+    "Dispersão resistente",
+    "Forma sensível",
+    "Forma mais resistente"
+  ),
+  medida = c(
+    "Média",
+    "Mediana",
+    "Desvio padrão",
+    "AIQ",
+    "DAM",
+    "Assimetria por momentos",
+    "Assimetria de Bowley"
+  ),
+  valor = c(
+    mean(x_tempo),
+    median(x_tempo),
+    sd(x_tempo),
+    IQR(x_tempo),
+    mad(
+      x_tempo,
+      constant = 1
+    ),
+    assimetria_momento(
+      x_tempo,
+      ajustada = TRUE
+    ),
+    assimetria_bowley(
+      x_tempo
+    )
+  )
+)
+
+cat(
+  knitr::kable(
+    comparacao_resistencia,
+    format = "pipe",
+    digits = 3,
+    col.names = c(
+      "Perspectiva",
+      "Medida",
+      "Valor"
+    )
+  ),
+  sep = "\n"
+)
+
+cat(
+  "\n\n: Comparação entre medidas sensíveis e resistentes para o tempo de deslocamento. \n\n"
+)
+```
+
+A @tbl-sensiveis-resistentes-tempo-r mostra por que uma análise integrada é mais informativa do que a apresentação de uma única estatística.
+
+### 7. Escrevendo uma interpretação integrada
+
+Com base nas medidas e nos gráficos, uma interpretação poderia seguir a seguinte estrutura:
+
+> Os tempos de deslocamento apresentam concentração principal nos valores menores e intermediários, mas a distribuição se prolonga para tempos maiores. A média é superior à mediana e os coeficientes de assimetria indicam assimetria positiva. O boxplot identifica algumas observações na extremidade superior que devem ser investigadas, mas não excluídas automaticamente. A comparação entre desvio padrão, AIQ e DAM mostra que medidas sensíveis e resistentes oferecem perspectivas complementares sobre a variabilidade. Assim, para descrever o centro e a dispersão dessa variável, é recomendável apresentar tanto medidas usuais, como média e desvio padrão, quanto medidas resistentes, como mediana e AIQ, acompanhadas do histograma e do boxplot.
+
+Observe que o parágrafo não apenas repete números: ele transforma resultados estatísticos em uma **descrição coerente da distribuição**.
+:::
+
+## Comparação entre grupos como extensão da análise univariada
+
+Mesmo quando o objetivo principal é analisar uma variável, podemos investigar se sua forma muda entre grupos definidos por outra variável.
+
+Por exemplo, os tempos de deslocamento podem apresentar comportamentos diferentes segundo o meio de transporte.
+
+::: {.callout-tip title="Laboratório no R — forma da distribuição por grupos"}
+Podemos calcular medidas por meio de transporte.
+
+```{r}
+#| label: tbl-forma-transporte-r
+#| results: asis
+
+forma_transporte <- dados |>
+  group_by(
+    meio_transporte
+  ) |>
+  summarise(
+    n =
+      sum(
+        !is.na(
+          tempo_deslocamento_min
+        )
+      ),
+    media =
+      mean(
+        tempo_deslocamento_min,
+        na.rm = TRUE
+      ),
+    mediana =
+      median(
+        tempo_deslocamento_min,
+        na.rm = TRUE
+      ),
+    dp =
+      sd(
+        tempo_deslocamento_min,
+        na.rm = TRUE
+      ),
+    AIQ =
+      IQR(
+        tempo_deslocamento_min,
+        na.rm = TRUE
+      ),
+    assimetria =
+      assimetria_momento(
+        tempo_deslocamento_min,
+        na.rm = TRUE,
+        ajustada = TRUE
+      ),
+    .groups = "drop"
+  )
+
+cat(
+  knitr::kable(
+    forma_transporte,
+    format = "pipe",
+    digits = 2,
+    col.names = c(
+      "Meio de transporte",
+      "n",
+      "Média",
+      "Mediana",
+      "DP",
+      "AIQ",
+      "Assimetria"
+    )
+  ),
+  sep = "\n"
+)
+
+cat(
+  "\n\n: Medidas de centro, dispersão e assimetria do tempo de deslocamento segundo o meio de transporte. \n\n"
+)
+```
+
+A @tbl-forma-transporte-r permite verificar se a relação entre média e mediana e o grau de assimetria são semelhantes entre os grupos. Como alguns grupos possuem poucas observações, os coeficientes de forma devem ser interpretados com cautela.
+
+Também podemos comparar graficamente.
+
+```{r}
+#| label: fig-boxplot-transporte-forma-r
+#| fig-cap: "Boxplots do tempo de deslocamento segundo o meio de transporte."
+#| fig-alt: "Conjunto de boxplots comparando os tempos de deslocamento entre meios de transporte."
+
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_boxplot() +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(
+      angle = 35,
+      hjust = 1
+    )
+  )
+```
+
+A @fig-boxplot-transporte-forma-r evidencia diferenças de posição e dispersão entre os meios de transporte. Entretanto, como o boxplot não mostra detalhes de modalidade, uma investigação mais aprofundada pode exigir histogramas ou densidades por grupo.
+:::
+
+## Cuidados na interpretação de assimetria e curtose
+
+Coeficientes de forma são úteis, mas podem ser facilmente utilizados de maneira mecânica.
+
+A @tbl-cuidados-forma reúne alguns cuidados importantes.
+
+| Situação | Interpretação inadequada | Abordagem recomendada |
+|:----------------|:-----------------------------|:-------------------------|
+| Assimetria próxima de zero | “a distribuição é normal” | verificar simetria, modalidade e gráficos |
+| Assimetria positiva | “todos os valores altos são erros” | investigar a cauda e o contexto |
+| Curtose positiva | “o gráfico obrigatoriamente tem pico alto” | examinar principalmente caudas e extremos |
+| Dois pequenos picos na densidade | “existem dois grupos” | verificar estabilidade do padrão e contexto |
+| Média diferente da mediana | “a distribuição é certamente assimétrica” | usar como pista e combinar com gráficos |
+| Boxplot com pontos isolados | “os valores devem ser removidos” | investigar os registros antes de decidir |
+
+: Cuidados na interpretação da forma de uma distribuição. {#tbl-cuidados-forma}
+
+A @tbl-cuidados-forma reforça uma ideia central da AED: **medidas e gráficos são ferramentas de investigação, e não mecanismos automáticos de decisão**.
+
+## Propriedades resumidas das medidas de forma
+
+A @tbl-propriedades-forma apresenta algumas propriedades dos coeficientes estudados.
+
+| Medida | Unidade | Efeito de adicionar constante | Efeito de multiplicar por $b>0$ | Sensibilidade a extremos |
+|:------------|:------------|:---------------|:----------------|:------------|
+| Pearson 2 | adimensional | não altera | não altera | alta |
+| Bowley | adimensional | não altera | não altera | baixa |
+| Assimetria por momentos | adimensional | não altera | não altera | alta |
+| Curtose/excesso | adimensional | não altera | não altera | muito alta |
+
+: Propriedades de medidas de forma estudadas no capítulo. {#tbl-propriedades-forma}
+
+Como mostra a @tbl-propriedades-forma, esses coeficientes são invariantes a mudanças positivas de localização e escala. No caso da assimetria por momentos, uma multiplicação por constante negativa inverte o sinal; a curtose permanece inalterada.
+
+## Como apresentar uma análise univariada
+
+Uma boa análise não deve se limitar a uma sequência de comandos do R.
+
+Uma estrutura possível é:
+
+1.  apresentar a variável e sua unidade;
+2.  informar o número de observações válidas e ausentes;
+3.  apresentar medidas de centro e posição;
+4.  descrever a dispersão;
+5.  examinar assimetria, curtose e modalidade;
+6.  apresentar histograma ou densidade;
+7.  apresentar boxplot quando apropriado;
+8.  investigar valores potencialmente atípicos;
+9.  comparar medidas sensíveis e resistentes;
+10. escrever uma conclusão contextual.
+
+::: {.callout-important title="Evite transformar a análise em inventário"}
+Uma análise estatística não melhora simplesmente porque contém muitas medidas.
+
+O objetivo é selecionar resultados que ajudem a responder perguntas sobre os dados e estabelecer relações entre eles. Se duas medidas contam praticamente a mesma história, não é necessário comentar ambas com a mesma intensidade.
+
+**Calcular é diferente de interpretar.**
+:::
+
+## Síntese
+
+Neste capítulo, integramos as principais ideias da análise exploratória univariada.
+
+Os pontos fundamentais são:
+
+1.  a **forma** complementa as informações fornecidas por centro, posição e dispersão;
+2.  distribuições simétricas apresentam comportamento semelhante nos dois lados da região central;
+3.  a **assimetria positiva** está associada a uma cauda mais prolongada à direita;
+4.  a **assimetria negativa** está associada a uma cauda mais prolongada à esquerda;
+5.  relações entre média, mediana e moda são pistas úteis, mas não regras universais;
+6.  existem diferentes coeficientes de assimetria, construídos a partir de diferentes aspectos dos dados;
+7.  Pearson e o coeficiente por momentos são sensíveis a valores extremos;
+8.  o coeficiente de Bowley utiliza quartis e é mais resistente;
+9.  uma distribuição simétrica possui assimetria por momentos igual a zero, mas assimetria zero não garante simetria;
+10. a curtose é baseada no quarto momento central e é fortemente influenciada pelas caudas e por valores extremos;
+11. o excesso de curtose da distribuição normal é igual a zero;
+12. interpretar curtose apenas como “altura do pico” é inadequado;
+13. distribuições podem ser unimodais, bimodais ou multimodais;
+14. a aparência de modalidade pode depender da largura das classes do histograma ou da suavização da densidade;
+15. média e desvio padrão são medidas sensíveis, enquanto mediana, AIQ e DAM são resistentes;
+16. histograma, densidade e boxplot oferecem perspectivas complementares;
+17. observações potencialmente atípicas devem ser investigadas, e não removidas automaticamente;
+18. uma análise univariada completa integra contexto, qualidade dos dados, centro, posição, dispersão, forma, gráficos e investigação de extremos.
+
+> **Ideia-chave:** uma distribuição não deve ser descrita por uma única medida nem por um único gráfico. A análise exploratória integrada procura construir uma narrativa coerente a partir de diferentes evidências estatísticas.
+
+## Exercícios teóricos
+
+1.  Explique, com suas palavras, o que significa dizer que uma distribuição é aproximadamente simétrica.
+
+2.  Diferencie:
+
+    a.  assimetria positiva;\
+    b.  assimetria negativa.
+
+3.  Em uma distribuição unimodal com forte assimetria positiva, qual relação entre média, mediana e moda é frequentemente esperada? Por que essa relação não deve ser tratada como uma regra universal?
+
+4.  Em uma distribuição unimodal com assimetria negativa, explique por que a média pode ser menor que a mediana.
+
+5.  Uma distribuição apresenta média igual a 20 e mediana igual a 20. Podemos concluir que ela é simétrica? Justifique.
+
+6.  Explique por que uma distribuição pode apresentar coeficiente de assimetria por momentos igual a zero e, ainda assim, não ser perfeitamente simétrica.
+
+7.  Considere uma amostra com:
+
+    $$\bar{x}=42,\qquad Md=38,\qquad s=12.$$
+
+    Calcule o segundo coeficiente de Pearson e interprete seu sinal.
+
+8.  Uma distribuição apresenta
+
+    $$Q_1=18,\qquad Q_2=25,\qquad Q_3=40.$$
+
+    Calcule o coeficiente de Bowley e interprete o resultado.
+
+9.  Compare os coeficientes de Pearson e Bowley quanto:
+
+    a.  às medidas utilizadas;\
+    b.  à sensibilidade a valores extremos.
+
+10. Defina o terceiro momento central e explique por que ele permite identificar a direção da assimetria.
+
+11. Mostre conceitualmente por que adicionar uma constante a todas as observações não altera a assimetria.
+
+12. O que acontece com o coeficiente de assimetria por momentos quando todos os valores são multiplicados por $-1$?
+
+13. Defina:
+
+    a.  coeficiente de curtose $\beta_2$;\
+    b.  excesso de curtose $\gamma_2$.
+
+14. Qual é o excesso de curtose da distribuição normal e por que ele é utilizado como referência?
+
+15. Diferencie as classificações:
+
+    a.  platicúrtica;\
+    b.  mesocúrtica;\
+    c.  leptocúrtica.
+
+16. Explique por que é inadequado definir curtose apenas como “achatamento” ou “altura do pico”.
+
+17. Por que a curtose é muito sensível a observações extremas?
+
+18. Explique por que a curtose não muda quando todos os valores são multiplicados por uma constante negativa.
+
+19. Diferencie:
+
+    a.  distribuição unimodal;\
+    b.  distribuição bimodal;\
+    c.  distribuição multimodal.
+
+20. Uma curva de densidade apresenta dois picos. Podemos concluir imediatamente que existem duas populações distintas? Justifique.
+
+21. Explique como a largura das classes de um histograma pode influenciar a percepção da modalidade.
+
+22. Explique como o parâmetro de suavização de uma curva de densidade pode alterar a percepção da forma.
+
+23. Para uma distribuição fortemente assimétrica e com valores extremos, indique uma combinação adequada de:
+
+    a.  medida de centro;\
+    b.  medida de dispersão;\
+    c.  medida de assimetria mais resistente.
+
+24. Compare média + desvio padrão com mediana + AIQ. Em quais situações cada combinação tende a ser mais informativa?
+
+25. Explique por que um boxplot não é suficiente para identificar bimodalidade.
+
+26. Um conjunto possui alguns pontos isolados no boxplot e curtose elevada. Que etapas você realizaria antes de concluir que há erros no banco?
+
+27. Elabore uma explicação para a seguinte afirmação:
+
+> “Uma boa análise exploratória utiliza números e gráficos como evidências complementares.”
+
+28. Considere duas distribuições com a mesma média e o mesmo desvio padrão. Cite pelo menos três aspectos pelos quais elas ainda podem diferir.
+
+## Exercícios práticos no R
+
+Utilize o banco `dados` com os 80 estudantes.
+
+1.  Para `idade_anos`, calcule:
+
+    a.  média;\
+    b.  mediana;\
+    c.  segundo coeficiente de Pearson;\
+    d.  coeficiente de Bowley;\
+    e.  coeficiente ajustado de Fisher-Pearson.
+
+    Compare os sinais e escreva uma interpretação.
+
+2.  Repita o exercício anterior para `faltas`.
+
+3.  Para `altura_m`, calcule o excesso de curtose ajustado. Em seguida, construa um histograma e um boxplot e discuta se o coeficiente isoladamente seria suficiente para descrever a forma.
+
+4.  Para `tempo_deslocamento_min`, construa uma tabela contendo:
+
+    a.  média;\
+    b.  mediana;\
+    c.  $Q_1$;\
+    d.  $Q_3$;\
+    e.  desvio padrão;\
+    f.  AIQ;\
+    g.  DAM;\
+    h.  assimetria ajustada;\
+    i.  excesso de curtose ajustado.
+
+    A tabela deve possuir título, label no formato `{#tbl-...}` e ser referenciada no texto.
+
+5.  Construa um histograma para `idade_anos` com título, `fig-cap`, label `fig-...` e referência no texto. Comente a forma da distribuição.
+
+6.  Construa uma curva de densidade para `idade_anos`. Compare-a com o histograma do exercício anterior.
+
+7.  Construa um boxplot para `idade_anos` e compare as informações fornecidas pelo boxplot, histograma e densidade.
+
+8.  Para `faltas`, teste diferentes larguras de classe no histograma. Explique como a escolha pode modificar a percepção da forma.
+
+9.  Para `tempo_deslocamento_min`, construa curvas de densidade utilizando:
+
+    a.  `adjust = 0.5`;\
+    b.  `adjust = 1`;\
+    c.  `adjust = 2`.
+
+    Compare os resultados e discuta a percepção de modalidade.
+
+10. Verifique empiricamente que adicionar 100 a `tempo_deslocamento_min` não altera:
+
+    a.  o segundo coeficiente de Pearson;\
+    b.  o coeficiente de Bowley;\
+    c.  a assimetria por momentos;\
+    d.  a curtose.
+
+11. Multiplique `tempo_deslocamento_min` por 2 e verifique se os coeficientes de assimetria e curtose permanecem inalterados.
+
+12. Multiplique `tempo_deslocamento_min` por $-1$ e verifique:
+
+    a.  o que acontece com a assimetria por momentos;\
+    b.  o que acontece com a curtose.
+
+13. Crie uma cópia de `idade_anos` e substitua o maior valor por um valor artificialmente muito elevado. Compare antes e depois:
+
+    a.  média;\
+    b.  mediana;\
+    c.  desvio padrão;\
+    d.  AIQ;\
+    e.  Bowley;\
+    f.  assimetria por momentos;\
+    g.  curtose.
+
+    Identifique quais medidas foram mais afetadas.
+
+14. Calcule média, mediana, desvio padrão, AIQ, assimetria e curtose do tempo de deslocamento separadamente por `curso`.
+
+15. Organize os resultados do exercício anterior em uma tabela com título, label e referência. Discuta quais cursos apresentam indícios de maior assimetria.
+
+16. Construa boxplots do tempo de deslocamento por curso e compare-os com os coeficientes de assimetria calculados.
+
+17. Calcule as medidas de forma de `tempo_deslocamento_min` por `meio_transporte`. Verifique se os grupos com maior assimetria também apresentam maior diferença entre média e mediana.
+
+18. Escolha uma variável quantitativa do banco e realize uma **análise exploratória univariada completa**, contendo:
+
+    a.  descrição da variável e unidade;\
+    b.  número de observações válidas e ausentes;\
+    c.  medidas de tendência central;\
+    d.  quartis;\
+    e.  medidas de dispersão sensíveis e resistentes;\
+    f.  coeficientes de assimetria;\
+    g.  curtose;\
+    h.  histograma;\
+    i.  curva de densidade;\
+    j.  boxplot;\
+    k.  investigação dos valores potencialmente atípicos;\
+    l.  conclusão contextual.
+
+19. Crie dois conjuntos artificiais com a mesma média e desvio padrão, mas formas visivelmente diferentes. Construa histogramas e explique por que centro e dispersão não são suficientes para caracterizar a distribuição.
+
+20. Crie um conjunto artificial bimodal utilizando dois grupos de valores. Construa:
+
+    a.  histograma;\
+    b.  densidade;\
+    c.  boxplot.
+
+    Discuta qual representação evidencia melhor a bimodalidade.
+
+21. Crie uma função chamada `resumo_univariado()` que receba um vetor numérico e retorne:
+
+    a.  $n$;\
+    b.  média;\
+    c.  mediana;\
+    d.  $Q_1$ e $Q_3$;\
+    e.  amplitude;\
+    f.  AIQ;\
+    g.  variância;\
+    h.  desvio padrão;\
+    i.  CV;\
+    j.  DAM;\
+    k.  assimetria ajustada;\
+    l.  excesso de curtose ajustado.
+
+22. Utilize sua função `resumo_univariado()` nas quatro variáveis quantitativas do banco: `idade_anos`, `faltas`, `tempo_deslocamento_min` e `altura_m`.
+
+23. Escolha uma das quatro variáveis e escreva uma análise de **um a dois parágrafos**, evitando simplesmente listar números. O texto deve relacionar centro, dispersão, forma e gráficos.
+
+24. Elabore um pequeno relatório em Quarto sobre uma variável quantitativa de sua escolha. O relatório deve conter pelo menos:
+
+    a.  uma tabela numerada e referenciada;\
+    b.  um histograma numerado e referenciado;\
+    c.  um boxplot numerado e referenciado;\
+    d.  uma interpretação integrada dos resultados.

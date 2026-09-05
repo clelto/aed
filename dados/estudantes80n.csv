@@ -1,0 +1,81 @@
+﻿id_estudante,curso,meio_transporte,satisfacao,idade_anos,faltas,tempo_deslocamento_min,altura_m
+E001,Química,Ônibus,Alta,25,1,96.5,1.75
+E002,Física,Aplicativo,Muito alta,21,1,37.7,1.71
+E003,Física,Carro,Alta,26,2,45.1,1.63
+E004,Física,Aplicativo,Alta,23,2,51.0,1.59
+E005,Física,Ônibus,Alta,19,5,112.0,1.61
+E006,Física,A pé,Alta,19,4,14.0,1.64
+E007,Estatística,Carro,Alta,22,2,35.7,1.65
+E008,Matemática,Motocicleta,Alta,23,3,27.9,1.69
+E009,Química,Ônibus,Média,21,4,58.2,1.6
+E010,Química,Motocicleta,Alta,17,1,20.0,1.69
+E011,Matemática,Motocicleta,Média,17,2,24.7,1.64
+E012,Matemática,Aplicativo,Média,19,5,44.5,1.65
+E013,Estatística,Bicicleta,Média,17,3,26.7,1.75
+E014,Física,Ônibus,Muito alta,21,1,46.8,1.7
+E015,Química,Aplicativo,Alta,24,1,22.3,1.57
+E016,Química,Ônibus,Alta,26,3,31.1,1.92
+E017,Estatística,Motocicleta,Muito alta,18,1,29.8,1.71
+E018,Química,Ônibus,Média,22,4,45.5,1.59
+E019,Matemática,Carro,Média,19,1,17.6,1.88
+E020,Matemática,Carro,Muito alta,24,1,40.7,1.6
+E021,Física,Aplicativo,Alta,19,2,14.3,1.69
+E022,Estatística,Ônibus,Alta,21,3,72.7,1.68
+E023,Matemática,Motocicleta,Alta,21,1,17.9,1.69
+E024,Estatística,Ônibus,Média,18,3,38.1,1.71
+E025,Física,Aplicativo,Alta,22,1,38.6,1.67
+E026,Estatística,Aplicativo,Muito baixa,24,2,38.6,1.62
+E027,Química,Ônibus,Muito alta,22,3,51.6,1.75
+E028,Matemática,Carro,Alta,20,1,24.6,1.52
+E029,Matemática,A pé,Muito alta,19,6,15.0,1.63
+E030,Matemática,A pé,Alta,19,2,15.3,1.87
+E031,Estatística,Ônibus,Muito alta,17,4,68.9,1.65
+E032,Química,Carro,Alta,24,2,36.3,1.76
+E033,Física,Motocicleta,Média,17,2,20.1,1.59
+E034,Química,Ônibus,Média,17,0,34.2,1.87
+E035,Física,Ônibus,Média,17,2,40.9,1.74
+E036,Estatística,Aplicativo,Baixa,24,3,46.8,1.74
+E037,Estatística,A pé,Média,19,1,25.5,1.7
+E038,Química,Ônibus,Alta,26,3,76.3,1.71
+E039,Estatística,Carro,Alta,22,2,29.6,1.77
+E040,Matemática,Motocicleta,Muito baixa,22,3,51.3,1.74
+E041,Matemática,Ônibus,Média,17,3,68.5,1.62
+E042,Estatística,Ônibus,Média,20,3,32.0,1.63
+E043,Estatística,Ônibus,Baixa,23,2,56.5,1.58
+E044,Física,Bicicleta,Muito alta,24,3,22.0,1.51
+E045,Estatística,Ônibus,Baixa,25,5,85.9,1.66
+E046,Química,Ônibus,Baixa,26,3,66.8,1.59
+E047,Física,Carro,Alta,25,0,38.8,1.63
+E048,Estatística,A pé,Muito baixa,19,2,21.9,1.75
+E049,Estatística,Aplicativo,Alta,19,1,56.8,1.66
+E050,Estatística,Motocicleta,Média,21,2,27.5,1.69
+E051,Matemática,Carro,Alta,19,0,34.3,1.56
+E052,Estatística,A pé,Alta,17,1,34.3,1.63
+E053,Estatística,Bicicleta,Média,20,4,26.3,1.75
+E054,Matemática,Ônibus,Alta,30,3,99.2,1.65
+E055,Química,Aplicativo,Média,25,2,21.6,1.61
+E056,Estatística,Ônibus,Baixa,22,1,61.1,1.48
+E057,Estatística,Motocicleta,Baixa,25,2,28.3,1.6
+E058,Estatística,Ônibus,Muito alta,26,1,52.5,1.81
+E059,Estatística,Ônibus,Alta,26,1,51.7,1.61
+E060,Química,Aplicativo,Muito alta,20,3,38.1,1.5
+E061,Estatística,Carro,Alta,19,3,31.6,1.6
+E062,Química,Ônibus,Média,23,3,52.8,1.65
+E063,Estatística,Carro,Alta,25,2,24.1,1.75
+E064,Química,Ônibus,Baixa,22,2,52.0,1.66
+E065,Estatística,Ônibus,Alta,23,1,63.3,1.66
+E066,Matemática,Ônibus,Muito alta,20,2,66.7,1.82
+E067,Física,A pé,Média,28,3,13.4,1.71
+E068,Estatística,Carro,Média,21,1,15.4,1.62
+E069,Estatística,Aplicativo,Alta,21,0,32.0,1.53
+E070,Estatística,Aplicativo,Média,26,2,49.9,1.62
+E071,Física,Ônibus,Muito alta,17,1,77.8,1.84
+E072,Física,Ônibus,Média,17,2,68.6,1.78
+E073,Matemática,Ônibus,Média,19,1,33.2,1.73
+E074,Estatística,Aplicativo,Média,19,3,24.4,1.69
+E075,Matemática,Carro,Alta,27,1,31.4,1.73
+E076,Matemática,Bicicleta,Baixa,17,2,11.7,1.69
+E077,Matemática,Carro,Média,24,1,46.6,1.83
+E078,Estatística,Bicicleta,Muito baixa,19,2,27.5,1.63
+E079,Estatística,Ônibus,Baixa,20,2,12.9,1.66
+E080,Estatística,Carro,Muito alta,25,1,17.1,1.73
