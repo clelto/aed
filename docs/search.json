@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Análise Exploratória de Dados",
     "section": "",
-    "text": "Apresentação\nEsta apostila foi elaborada como material de apoio à disciplina IEE056 — Análise Exploratória de Dados.\nO objetivo é introduzir os fundamentos da análise de dados univariados e multivariados, articulando conceitos estatísticos, interpretação e ferramentas computacionais.\nAo longo dos capítulos, os conteúdos teóricos são acompanhados por exemplos, atividades e práticas no R.",
+    "text": "Apresentação\nEsta apostila foi elaborada como material de apoio à disciplina IEE056 — Análise Exploratória de Dados.\nO objetivo é introduzir os fundamentos da análise de dados univariados e multivariados, articulando conceitos estatísticos, interpretação e ferramentas computacionais.\nAo longo dos capítulos, os conteúdos teóricos são acompanhados por exemplos, atividades e práticas realizadas no RStudio, que utiliza o R para executar os códigos e produzir os resultados.",
     "crumbs": [
       "Apresentação"
     ]
