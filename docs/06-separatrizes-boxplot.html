@@ -360,7 +360,7 @@ Tabela&nbsp;6.1: Alguns quantis para o conjunto de tempos utilizado no exemplo.
 <col style="width: 24%">
 <col style="width: 24%">
 <col style="width: 24%">
-<col style="width: 27%">
+<col style="width: 26%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -425,6 +425,11 @@ Como o R calcula por padrão
 <section id="quartis" class="level4">
 <h4 class="anchored" data-anchor-id="quartis">Quartis</h4>
 <p>Os <strong>quartis</strong> dividem a distribuição ordenada em quatro partes.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/FigQuartis.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
 <p>São definidos três pontos principais:</p>
 <p><span class="math display">\[Q_1=q_{0,25},\]</span></p>
 <p><span class="math display">\[Q_2=q_{0,50},\]</span></p>
@@ -447,8 +452,8 @@ Tabela&nbsp;6.2: Quartis do conjunto de tempos utilizado no exemplo.
 <div aria-describedby="tbl-quartis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 24%">
+<col style="width: 25%">
+<col style="width: 25%">
 <col style="width: 50%">
 </colgroup>
 <thead>
@@ -486,6 +491,11 @@ Tabela&nbsp;6.2: Quartis do conjunto de tempos utilizado no exemplo.
 <p>Os <strong>decis</strong> dividem a distribuição em dez partes. O <span class="math inline">\(k\)</span>-ésimo decil é dado por</p>
 <p><span class="math display">\[D_k=q_{k/10},
 \qquad k=1,\ldots,9.\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/FigDecis.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
 <p>Por exemplo,</p>
 <p><span class="math display">\[D_1=q_{0,10}, \qquad
 D_5=q_{0,50}, \qquad
@@ -498,6 +508,11 @@ D_9=q_{0,90}.\]</span></p>
 <p>Os <strong>percentis</strong> dividem a distribuição em cem partes. O <span class="math inline">\(k\)</span>-ésimo percentil é</p>
 <p><span class="math display">\[P_k=q_{k/100},
 \qquad k=1,\ldots,99.\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/FigPercentis.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
 <p>Algumas equivalências são particularmente úteis:</p>
 <p><span class="math display">\[Q_1=P_{25},\]</span></p>
 <p><span class="math display">\[Q_2=P_{50}=D_5,\]</span></p>
@@ -1816,8 +1831,8 @@ Tabela&nbsp;6.13: Funções do R utilizadas para separatrizes, resumo de cinco n
 <div aria-describedby="tbl-funcoes-posicao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 32%">
-<col style="width: 67%">
+<col style="width: 33%">
+<col style="width: 66%">
 </colgroup>
 <thead>
 <tr class="header">

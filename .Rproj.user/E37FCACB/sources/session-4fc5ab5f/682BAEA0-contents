@@ -66,7 +66,7 @@ $$12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50.$$
 A @tbl-quantis-exemplo apresenta alguns quantis calculados por interpolação linear, conforme a convenção padrão utilizada pela função `quantile()` do R.
 
 | Quantil | Proporção | Valor (min) | Interpretação aproximada |
-|:-----------------|-----------------:|-----------------:|:-------------------|
+|:-----------------|-----------------:|-----------------:|:------------------|
 | $q_{0,10}$ | 10% | 16,8 | cerca de 10% dos valores estão até essa região |
 | $q_{0,25}$ | 25% | 20,0 | cerca de 25% dos valores estão até essa região |
 | $q_{0,50}$ | 50% | 25,0 | metade dos valores está até essa região |
@@ -88,6 +88,8 @@ Se $h$ não for inteiro, o quantil é obtido por interpolação entre as observa
 #### Quartis
 
 Os **quartis** dividem a distribuição ordenada em quatro partes.
+
+![](images/FigQuartis.png){fig-align="center"}
 
 São definidos três pontos principais:
 
@@ -112,7 +114,7 @@ $$Q_1=20,\qquad Q_2=25,\qquad Q_3=30.$$
 A @tbl-quartis-exemplo resume a interpretação.
 
 | Medida | Valor (min) | Interpretação                                        |
-|:-----------------|-----------------:|:------------------------------------|
+|:-----------------|-----------------:|:-----------------------------------|
 | $Q_1$  |          20 | aproximadamente 25% dos tempos estão até essa região |
 | $Q_2$  |          25 | aproximadamente 50% dos tempos estão até essa região |
 | $Q_3$  |          30 | aproximadamente 75% dos tempos estão até essa região |
@@ -127,6 +129,8 @@ Os **decis** dividem a distribuição em dez partes. O $k$-ésimo decil é dado 
 
 $$D_k=q_{k/10},
 \qquad k=1,\ldots,9.$$
+
+![](images/FigDecis.png){fig-align="center"}
 
 Por exemplo,
 
@@ -144,6 +148,8 @@ Os **percentis** dividem a distribuição em cem partes. O $k$-ésimo percentil 
 
 $$P_k=q_{k/100},
 \qquad k=1,\ldots,99.$$
+
+![](images/FigPercentis.png){fig-align="center"}
 
 Algumas equivalências são particularmente úteis:
 
@@ -817,7 +823,7 @@ Em amostras finitas, especialmente quando há valores repetidos ou interpolaçã
 A @tbl-funcoes-posicao-r resume as funções trabalhadas neste capítulo.
 
 | Função | Finalidade principal |
-|:----------------------|:-----------------------------------------------|
+|:-----------------------|:-----------------------------------------------|
 | `quantile()` | calcular quantis, quartis, decis e percentis |
 | `median()` | calcular a mediana |
 | `min()` | obter o menor valor |
