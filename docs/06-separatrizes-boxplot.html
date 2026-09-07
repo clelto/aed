@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Análise Exploratória de Dados – 6&nbsp; Medidas de posição, resumo de cinco números e boxplot</title>
+<title>Análise Exploratória de Dados – 6&nbsp; Separatrizes, resumo de cinco números e boxplot</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-medidas-posicao-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-separatrizes-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -229,8 +229,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-medidas-posicao-boxplot.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></span></a>
+  <a href="./06-separatrizes-boxplot.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -257,7 +257,7 @@ window.Quarto = {
     <h2 id="toc-title">Neste capítulo</h2>
    
   <ul>
-  <li><a href="#medidas-de-posição" id="toc-medidas-de-posição" class="nav-link active" data-scroll-target="#medidas-de-posição"><span class="header-section-number">6.1</span> Medidas de posição</a>
+  <li><a href="#separatrizes" id="toc-separatrizes" class="nav-link active" data-scroll-target="#separatrizes"><span class="header-section-number">6.1</span> Separatrizes</a>
   <ul class="collapse">
   <li><a href="#quantis-empíricos" id="toc-quantis-empíricos" class="nav-link" data-scroll-target="#quantis-empíricos"><span class="header-section-number">6.1.1</span> Quantis empíricos</a></li>
   </ul></li>
@@ -286,9 +286,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-medidas-posicao-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-separatrizes-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></h1>
 </div>
 
 
@@ -306,15 +306,15 @@ window.Quarto = {
 
 
 <p>No capítulo anterior, estudamos medidas de tendência central e vimos que média, mediana e moda procuram representar o centro de uma distribuição. Agora ampliaremos essa ideia. Em vez de perguntar apenas <strong>onde está o centro</strong>, queremos saber também <strong>como as observações se posicionam ao longo da distribuição</strong>.</p>
-<p>As medidas de posição permitem localizar valores que dividem um conjunto ordenado de dados em determinadas proporções. Entre elas estão os <strong>quartis</strong>, <strong>decis</strong> e <strong>percentis</strong>. A partir dos quartis, construiremos o <strong>resumo de cinco números</strong>, a <strong>amplitude interquartílica</strong> e o <strong>boxplot</strong>, uma representação gráfica compacta que permite examinar posição, dispersão, assimetria e observações potencialmente atípicas.</p>
-<p>Ao final deste capítulo, você deverá ser capaz de calcular e interpretar medidas de posição, obter o resumo de cinco números, construir e interpretar boxplots e investigar valores extremos sem confundir automaticamente uma observação atípica com um erro.</p>
-<section id="medidas-de-posição" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="medidas-de-posição"><span class="header-section-number">6.1</span> Medidas de posição</h2>
-<p>Uma <strong>medida de posição</strong> indica a localização de um valor em relação às demais observações de um conjunto ordenado.</p>
+<p>As separatrizes permitem localizar valores que dividem um conjunto ordenado de dados em determinadas proporções. Entre elas estão os <strong>quartis</strong>, <strong>decis</strong> e <strong>percentis</strong>. A partir dos quartis, construiremos o <strong>resumo de cinco números</strong>, a <strong>amplitude interquartílica</strong> e o <strong>boxplot</strong>, uma representação gráfica compacta que permite examinar posição, dispersão, assimetria e observações potencialmente atípicas.</p>
+<p>Ao final deste capítulo, você deverá ser capaz de calcular e interpretar separatrizes, obter o resumo de cinco números, construir e interpretar boxplots e investigar valores extremos sem confundir automaticamente uma observação atípica com um erro.</p>
+<section id="separatrizes" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="separatrizes"><span class="header-section-number">6.1</span> Separatrizes</h2>
+<p>Uma <strong>separatriz</strong> indica a localização de um valor em relação às demais observações de um conjunto ordenado.</p>
 <p>Considere uma amostra com <span class="math inline">\(n\)</span> observações. Depois de colocá-las em ordem crescente, escrevemos</p>
 <p><span class="math display">\[x_{(1)} \leq x_{(2)} \leq \cdots \leq x_{(n)},\]</span></p>
 <p>em que <span class="math inline">\(x_{(1)}\)</span> representa o menor valor observado e <span class="math inline">\(x_{(n)}\)</span> representa o maior.</p>
-<p>As medidas de posição são particularmente úteis para responder perguntas como:</p>
+<p>As separatrizes são particularmente úteis para responder perguntas como:</p>
 <ul>
 <li>Qual valor deixa aproximadamente 25% das observações abaixo dele?</li>
 <li>Qual é o ponto que divide os dados em duas partes?</li>
@@ -357,10 +357,10 @@ Tabela&nbsp;6.1: Alguns quantis para o conjunto de tempos utilizado no exemplo.
 <div aria-describedby="tbl-quantis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 21%">
-<col style="width: 34%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 27%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -447,9 +447,9 @@ Tabela&nbsp;6.2: Quartis do conjunto de tempos utilizado no exemplo.
 <div aria-describedby="tbl-quartis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 63%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1122,7 +1122,7 @@ Os bigodes não terminam necessariamente nos limites
 <div id="fig-boxplot-conceitual" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-conceitual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-medidas-posicao-boxplot_files/figure-html/fig-boxplot-conceitual-1.png" class="img-fluid figure-img" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos." width="672">
+<img src="06-separatrizes-boxplot_files/figure-html/fig-boxplot-conceitual-1.png" class="img-fluid figure-img" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos." width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-conceitual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;6.1: Boxplot do conjunto de tempos utilizado no exemplo.
@@ -1329,7 +1329,7 @@ Tabela&nbsp;6.8: Estudantes com tempos de deslocamento sinalizados pela regra de
 <div id="fig-boxplot-tempo-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-medidas-posicao-boxplot_files/figure-html/fig-boxplot-tempo-r-1.png" class="img-fluid figure-img" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior." width="672">
+<img src="06-separatrizes-boxplot_files/figure-html/fig-boxplot-tempo-r-1.png" class="img-fluid figure-img" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior." width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;6.2: Boxplot do tempo de deslocamento dos 80 estudantes.
@@ -1442,7 +1442,7 @@ Laboratório no R — comparando boxplot e histograma
 <div id="fig-histograma-comparacao-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-histograma-comparacao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-medidas-posicao-boxplot_files/figure-html/fig-histograma-comparacao-r-1.png" class="img-fluid figure-img" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos." width="672">
+<img src="06-separatrizes-boxplot_files/figure-html/fig-histograma-comparacao-r-1.png" class="img-fluid figure-img" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos." width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histograma-comparacao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;6.3: Histograma do tempo de deslocamento utilizado para comparação com o boxplot.
@@ -1781,7 +1781,7 @@ Tabela&nbsp;6.12: Dez maiores tempos de deslocamento registrados no banco de est
 </section>
 <section id="interpretação-dos-quartis-em-contexto" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="interpretação-dos-quartis-em-contexto"><span class="header-section-number">6.6</span> Interpretação dos quartis em contexto</h2>
-<p>Calcular uma medida de posição é apenas a primeira etapa. O resultado precisa ser traduzido para a variável estudada.</p>
+<p>Calcular uma separatriz é apenas a primeira etapa. O resultado precisa ser traduzido para a variável estudada.</p>
 <p>Se, por exemplo, o primeiro quartil do tempo de deslocamento for aproximadamente 24,7 minutos, uma interpretação adequada é:</p>
 <blockquote class="blockquote">
 <p>aproximadamente 25% dos estudantes apresentam tempos de deslocamento até a região de 24,7 minutos.</p>
@@ -1811,13 +1811,13 @@ Uma linguagem cuidadosa
 <div id="tbl-funcoes-posicao-r" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-funcoes-posicao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.13: Funções do R utilizadas para medidas de posição, resumo de cinco números e boxplots.
+Tabela&nbsp;6.13: Funções do R utilizadas para separatrizes, resumo de cinco números e boxplots.
 </figcaption>
 <div aria-describedby="tbl-funcoes-posicao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 29%">
-<col style="width: 70%">
+<col style="width: 32%">
+<col style="width: 67%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1888,7 +1888,7 @@ Tabela&nbsp;6.13: Funções do R utilizadas para medidas de posição, resumo de
 <li>boxplot e histograma apresentam informações complementares e devem ser interpretados em conjunto quando necessário.</li>
 </ol>
 <blockquote class="blockquote">
-<p><strong>Ideia-chave:</strong> medidas de posição e boxplots não servem apenas para calcular pontos de corte. Eles ajudam a compreender onde as observações se localizam, como a metade central dos dados se distribui e quais valores merecem investigação mais cuidadosa.</p>
+<p><strong>Ideia-chave:</strong> separatrizes e boxplots não servem apenas para calcular pontos de corte. Eles ajudam a compreender onde as observações se localizam, como a metade central dos dados se distribui e quais valores merecem investigação mais cuidadosa.</p>
 </blockquote>
 </section>
 <section id="exercícios-teóricos" class="level2" data-number="6.9">

@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./06-medidas-posicao-boxplot.html" rel="next">
+<link href="./06-separatrizes-boxplot.html" rel="next">
 <link href="./04-distribuicoes-frequencias-representacoes-graficas-v2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -229,8 +229,8 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-medidas-posicao-boxplot.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></span></a>
+  <a href="./06-separatrizes-boxplot.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -523,89 +523,57 @@ Laboratório no R
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="propriedades-da-média-aritmética"><span class="header-section-number">5.3.2</span> Propriedades da média aritmética</h3>
 <p>Além de representar o centro de um conjunto de valores, a média aritmética possui propriedades matemáticas importantes. Elas ajudam a compreender seu comportamento e explicam por que essa medida aparece com tanta frequência em Estatística.</p>
 <p>Considere uma amostra formada pelos valores</p>
-<p><span class="math display">\[
-x_1,x_2,\ldots,x_n,
-\]</span></p>
+<p><span class="math display">\[x_1,x_2,\ldots,x_n,\]</span></p>
 <p>cuja média aritmética é</p>
-<p><span class="math display">\[
-\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i.
-\]</span></p>
+<p><span class="math display">\[\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i.\]</span></p>
 <section id="a-média-é-única" class="level4">
 <h4 class="anchored" data-anchor-id="a-média-é-única">A média é única</h4>
 <p>Para um conjunto de valores numéricos, a média aritmética é determinada de forma única.</p>
 <p>Por exemplo, para os valores</p>
-<p><span class="math display">\[
-4,\ 6,\ 8,\ 10,
-\]</span></p>
+<p><span class="math display">\[4,\ 6,\ 8,\ 10,\]</span></p>
 <p>temos</p>
-<p><span class="math display">\[
-\bar{x}
+<p><span class="math display">\[\bar{x}
 =
 \frac{4+6+8+10}{4}
 =
-7.
-\]</span></p>
+7.\]</span></p>
 <p>Portanto, a média desse conjunto é unicamente igual a <strong>7</strong>.</p>
 </section>
 <section id="a-média-está-entre-o-menor-e-o-maior-valor" class="level4">
 <h4 class="anchored" data-anchor-id="a-média-está-entre-o-menor-e-o-maior-valor">A média está entre o menor e o maior valor</h4>
 <p>A média aritmética não pode ser menor que a menor observação nem maior que a maior observação:</p>
-<p><span class="math display">\[
-\min(x_i)\leq \bar{x}\leq \max(x_i).
-\]</span></p>
+<p><span class="math display">\[\min(x_i)\leq \bar{x}\leq \max(x_i).\]</span></p>
 <p>No exemplo anterior,</p>
-<p><span class="math display">\[
-4\leq 7\leq 10.
-\]</span></p>
+<p><span class="math display">\[4\leq 7\leq 10.\]</span></p>
 <p>Essa propriedade também pode ser utilizada como uma verificação simples de um cálculo. Se a média calculada estiver fora do intervalo dos dados, certamente ocorreu algum erro.</p>
 </section>
 <section id="a-soma-dos-valores-pode-ser-recuperada-a-partir-da-média" class="level4">
 <h4 class="anchored" data-anchor-id="a-soma-dos-valores-pode-ser-recuperada-a-partir-da-média">A soma dos valores pode ser recuperada a partir da média</h4>
 <p>Da definição da média,</p>
-<p><span class="math display">\[
-\bar{x}
+<p><span class="math display">\[\bar{x}
 =
-\frac{\sum_{i=1}^{n}x_i}{n},
-\]</span></p>
+\frac{\sum_{i=1}^{n}x_i}{n},\]</span></p>
 <p>segue que</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n}x_i=n\bar{x}.
-\]</span></p>
+<p><span class="math display">\[\sum_{i=1}^{n}x_i=n\bar{x}.\]</span></p>
 <p>Assim, conhecendo a média e o número de observações, podemos determinar a soma dos valores.</p>
 <p>Por exemplo, se 30 estudantes apresentaram média de 7,2 pontos, então a soma das notas é</p>
-<p><span class="math display">\[
-30\times7,2=216.
-\]</span></p>
+<p><span class="math display">\[30\times7,2=216.\]</span></p>
 </section>
 <section id="a-soma-dos-desvios-em-relação-à-média-é-igual-a-zero" class="level4">
 <h4 class="anchored" data-anchor-id="a-soma-dos-desvios-em-relação-à-média-é-igual-a-zero">A soma dos desvios em relação à média é igual a zero</h4>
 <p>Uma das propriedades mais importantes da média é</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n}(x_i-\bar{x})=0.
-\]</span></p>
+<p><span class="math display">\[\sum_{i=1}^{n}(x_i-\bar{x})=0.\]</span></p>
 <p>Isso significa que os desvios positivos e negativos em relação à média se compensam.</p>
 <p>Considere novamente</p>
-<p><span class="math display">\[
-4,\ 6,\ 8,\ 10,
-\]</span></p>
+<p><span class="math display">\[4,\ 6,\ 8,\ 10,\]</span></p>
 <p>cuja média é 7. Os desvios em relação à média são</p>
-<p><span class="math display">\[
-4-7=-3,
-\]</span></p>
-<p><span class="math display">\[
-6-7=-1,
-\]</span></p>
-<p><span class="math display">\[
-8-7=1,
-\]</span></p>
+<p><span class="math display">\[4-7=-3,\]</span></p>
+<p><span class="math display">\[6-7=-1,\]</span></p>
+<p><span class="math display">\[8-7=1,\]</span></p>
 <p>e</p>
-<p><span class="math display">\[
-10-7=3.
-\]</span></p>
+<p><span class="math display">\[10-7=3.\]</span></p>
 <p>Portanto,</p>
-<p><span class="math display">\[
-(-3)+(-1)+1+3=0.
-\]</span></p>
+<p><span class="math display">\[(-3)+(-1)+1+3=0.\]</span></p>
 <div class="callout callout-style-default callout-note callout-titled" title="Interpretação">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -624,93 +592,61 @@ Interpretação
 <h4 class="anchored" data-anchor-id="a-média-minimiza-a-soma-dos-quadrados-dos-desvios">A média minimiza a soma dos quadrados dos desvios</h4>
 <p>Entre todos os possíveis valores utilizados como referência, a média aritmética é aquele que produz a menor soma dos quadrados das distâncias em relação às observações.</p>
 <p>Em outras palavras,</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n}(x_i-\bar{x})^2
+<p><span class="math display">\[\sum_{i=1}^{n}(x_i-\bar{x})^2
 \leq
-\sum_{i=1}^{n}(x_i-c)^2,
-\]</span></p>
+\sum_{i=1}^{n}(x_i-c)^2,\]</span></p>
 <p>para qualquer constante <span class="math inline">\(c\)</span>.</p>
 <p>Essa propriedade será importante posteriormente em diversos métodos estatísticos.</p>
 <p>Considere novamente os valores</p>
-<p><span class="math display">\[
-4,\ 6,\ 8,\ 10.
-\]</span></p>
+<p><span class="math display">\[4,\ 6,\ 8,\ 10.\]</span></p>
 <p>Utilizando a média <span class="math inline">\(\bar{x}=7\)</span> como referência,</p>
-<p><span class="math display">\[
-(4-7)^2+(6-7)^2+(8-7)^2+(10-7)^2
+<p><span class="math display">\[(4-7)^2+(6-7)^2+(8-7)^2+(10-7)^2
 =
 9+1+1+9
 =
-20.
-\]</span></p>
+20.\]</span></p>
 <p>Se utilizarmos, por exemplo, <span class="math inline">\(c=6\)</span>,</p>
-<p><span class="math display">\[
-(4-6)^2+(6-6)^2+(8-6)^2+(10-6)^2
+<p><span class="math display">\[(4-6)^2+(6-6)^2+(8-6)^2+(10-6)^2
 =
 4+0+4+16
 =
-24.
-\]</span></p>
+24.\]</span></p>
 <p>A soma dos quadrados é menor quando utilizamos a média.</p>
 </section>
 <section id="efeito-da-adição-de-uma-constante" class="level4">
 <h4 class="anchored" data-anchor-id="efeito-da-adição-de-uma-constante">Efeito da adição de uma constante</h4>
 <p>Se adicionarmos uma mesma constante <span class="math inline">\(a\)</span> a todas as observações,</p>
-<p><span class="math display">\[
-y_i=x_i+a,
-\]</span></p>
+<p><span class="math display">\[y_i=x_i+a,\]</span></p>
 <p>a nova média será</p>
-<p><span class="math display">\[
-\bar{y}=\bar{x}+a.
-\]</span></p>
+<p><span class="math display">\[\bar{y}=\bar{x}+a.\]</span></p>
 <p>Por exemplo, considere as notas</p>
-<p><span class="math display">\[
-5,\ 6,\ 7,\ 8.
-\]</span></p>
+<p><span class="math display">\[5,\ 6,\ 7,\ 8.\]</span></p>
 <p>A média é</p>
-<p><span class="math display">\[
-\bar{x}=6,5.
-\]</span></p>
+<p><span class="math display">\[\bar{x}=6,5.\]</span></p>
 <p>Se acrescentarmos 1 ponto a todas as notas, teremos</p>
-<p><span class="math display">\[
-6,\ 7,\ 8,\ 9,
-\]</span></p>
+<p><span class="math display">\[6,\ 7,\ 8,\ 9,\]</span></p>
 <p>e a nova média será</p>
-<p><span class="math display">\[
-\bar{y}=7,5.
-\]</span></p>
+<p><span class="math display">\[\bar{y}=7,5.\]</span></p>
 <p>Portanto, acrescentar 1 a cada observação também acrescenta 1 à média.</p>
 </section>
 <section id="efeito-da-multiplicação-por-uma-constante" class="level4">
 <h4 class="anchored" data-anchor-id="efeito-da-multiplicação-por-uma-constante">Efeito da multiplicação por uma constante</h4>
 <p>Se todos os valores forem multiplicados por uma constante <span class="math inline">\(b\)</span>,</p>
-<p><span class="math display">\[
-y_i=bx_i,
-\]</span></p>
+<p><span class="math display">\[y_i=bx_i,\]</span></p>
 <p>a média também será multiplicada por essa constante:</p>
-<p><span class="math display">\[
-\bar{y}=b\bar{x}.
-\]</span></p>
+<p><span class="math display">\[\bar{y}=b\bar{x}.\]</span></p>
 <p>Essa propriedade aparece frequentemente em mudanças de unidade.</p>
 <p>Por exemplo, se a altura média de um grupo for</p>
-<p><span class="math display">\[
-1,72\text{ m},
-\]</span></p>
+<p><span class="math display">\[1,72\text{ m},\]</span></p>
 <p>ao converter as alturas para centímetros teremos</p>
-<p><span class="math display">\[
-100\times1,72=172\text{ cm}.
-\]</span></p>
+<p><span class="math display">\[100\times1,72=172\text{ cm}.\]</span></p>
 </section>
 <section id="transformação-linear" class="level4">
 <h4 class="anchored" data-anchor-id="transformação-linear">Transformação linear</h4>
 <p>As duas propriedades anteriores podem ser reunidas. Se</p>
-<p><span class="math display">\[
-y_i=a+bx_i,
-\]</span></p>
+<p><span class="math display">\[y_i=a+bx_i,\]</span></p>
 <p>então</p>
-<p><span class="math display">\[
-\bar{y}=a+b\bar{x}.
-\]</span></p>
+<p><span class="math display">\[\bar{y}=a+b\bar{x}.\]</span></p>
 <p>Assim, não é necessário recalcular toda a média quando todos os dados sofrem a mesma transformação linear.</p>
 </section>
 <section id="média-de-grupos" class="level4">
@@ -748,29 +684,23 @@ Tabela&nbsp;5.1: Número de estudantes e média das notas em duas turmas.
 </figure>
 </div>
 <p>Como mostra a <a href="#tbl-media-grupos" class="quarto-xref">Tabela&nbsp;<span>5.1</span></a>, as turmas apresentam tamanhos diferentes. Portanto, não seria correto calcular simplesmente</p>
-<p><span class="math display">\[
-\frac{8+6}{2}=7.
-\]</span></p>
+<p><span class="math display">\[\frac{8+6}{2}=7.\]</span></p>
 <p>A média geral deve considerar o número de estudantes de cada grupo:</p>
-<p><span class="math display">\[
-\bar{x}
+<p><span class="math display">\[\bar{x}
 =
 \frac{10(8)+40(6)}{10+40}
 =
 \frac{320}{50}
 =
-6,4.
-\]</span></p>
+6,4.\]</span></p>
 <p>De modo geral, se existem <span class="math inline">\(k\)</span> grupos com tamanhos <span class="math inline">\(n_1,n_2,\ldots,n_k\)</span> e médias <span class="math inline">\(\bar{x}_1,\bar{x}_2,\ldots,\bar{x}_k\)</span>, então</p>
-<p><span class="math display">\[
-\bar{x}
+<p><span class="math display">\[\bar{x}
 =
 \frac{
 n_1\bar{x}_1+n_2\bar{x}_2+\cdots+n_k\bar{x}_k
 }{
 n_1+n_2+\cdots+n_k
-}.
-\]</span></p>
+}.\]</span></p>
 <p>Observe que essa expressão corresponde a uma <strong>média ponderada</strong>, em que os tamanhos dos grupos funcionam como pesos.</p>
 </section>
 <section id="influência-de-valores-extremos" class="level4">
@@ -778,21 +708,13 @@ n_1+n_2+\cdots+n_k
 <p>A média utiliza todas as observações em seu cálculo. Por isso, alterações em qualquer valor provocam alterações na média.</p>
 <p>Essa característica faz com que a média seja particularmente sensível a observações muito afastadas das demais.</p>
 <p>Por exemplo, considere</p>
-<p><span class="math display">\[
-10,\ 11,\ 12,\ 13,\ 14.
-\]</span></p>
+<p><span class="math display">\[10,\ 11,\ 12,\ 13,\ 14.\]</span></p>
 <p>A média é</p>
-<p><span class="math display">\[
-\bar{x}=12.
-\]</span></p>
+<p><span class="math display">\[\bar{x}=12.\]</span></p>
 <p>Agora substitua o maior valor por 50:</p>
-<p><span class="math display">\[
-10,\ 11,\ 12,\ 13,\ 50.
-\]</span></p>
+<p><span class="math display">\[10,\ 11,\ 12,\ 13,\ 50.\]</span></p>
 <p>A nova média será</p>
-<p><span class="math display">\[
-\bar{x}=19,2.
-\]</span></p>
+<p><span class="math display">\[\bar{x}=19,2.\]</span></p>
 <p>Apesar de quatro das cinco observações continuarem entre 10 e 13, a média aumentou consideravelmente devido à presença do valor 50.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Para guardar">
 <div class="callout-header d-flex align-content-center">
@@ -848,9 +770,7 @@ Laboratório no R
 </div>
 </div>
 <p>O resultado é zero, confirmando que</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n}(x_i-\bar{x})=0.
-\]</span></p>
+<p><span class="math display">\[\sum_{i=1}^{n}(x_i-\bar{x})=0.\]</span></p>
 <p>Também podemos verificar a propriedade da soma:</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -869,9 +789,7 @@ Laboratório no R
 </div>
 </div>
 <p>Os dois comandos produzem o mesmo resultado, pois</p>
-<p><span class="math display">\[
-\sum_{i=1}^{n}x_i=n\bar{x}.
-\]</span></p>
+<p><span class="math display">\[\sum_{i=1}^{n}x_i=n\bar{x}.\]</span></p>
 <p>Agora, adicionaremos 5 a cada observação:</p>
 <div class="cell">
 <details open="" class="code-fold">
@@ -1101,20 +1019,14 @@ Laboratório no R
 <p>Uma possibilidade é utilizar a <strong>média aparada</strong> (<em>trimmed mean</em>).</p>
 <p>Na média aparada, uma mesma proporção de observações é retirada de <strong>cada extremidade</strong> do conjunto de dados ordenado e, em seguida, calcula-se a média aritmética dos valores restantes.</p>
 <p>Considere as observações ordenadas</p>
-<p><span class="math display">\[
-x_{(1)} \leq x_{(2)} \leq \cdots \leq x_{(n)}.
-\]</span></p>
+<p><span class="math display">\[x_{(1)} \leq x_{(2)} \leq \cdots \leq x_{(n)}.\]</span></p>
 <p>Seja <span class="math inline">\(\alpha\)</span> a proporção que será retirada de cada extremidade e</p>
-<p><span class="math display">\[
-r = \lfloor n\alpha \rfloor
-\]</span></p>
+<p><span class="math display">\[r = \lfloor n\alpha \rfloor\]</span></p>
 <p>o número de observações retiradas de cada lado. A média aparada é dada por</p>
-<p><span class="math display">\[
-\bar{x}_{\alpha}
+<p><span class="math display">\[\bar{x}_{\alpha}
 =
 \frac{1}{n-2r}
-\sum_{i=r+1}^{n-r}x_{(i)}.
-\]</span></p>
+\sum_{i=r+1}^{n-r}x_{(i)}.\]</span></p>
 <p>Assim, uma média aparada em 10%, por exemplo, retira aproximadamente <strong>10% das menores observações e 10% das maiores observações</strong>, conservando aproximadamente 80% dos valores centrais.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Atenção">
 <div class="callout-header d-flex align-content-center">
@@ -1138,43 +1050,31 @@ Atenção
 <section id="exemplo-2" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="exemplo-2"><span class="header-section-number">5.5.1</span> Exemplo</h3>
 <p>Considere os salários, em reais, de dez trabalhadores:</p>
-<p><span class="math display">\[
-2500,\ 2600,\ 2700,\ 2800,\ 2900,\ 3000,\ 3100,\ 3200,\ 3300,\ 15000.
-\]</span></p>
+<p><span class="math display">\[2500,\ 2600,\ 2700,\ 2800,\ 2900,\ 3000,\ 3100,\ 3200,\ 3300,\ 15000.\]</span></p>
 <p>O salário de R$ 15.000 é muito superior aos demais e exerce forte influência sobre a média aritmética.</p>
 <p>A média simples é</p>
-<p><span class="math display">\[
-\bar{x}
+<p><span class="math display">\[\bar{x}
 =
 \frac{2500+2600+\cdots+3300+15000}{10}
 =
-4110.
-\]</span></p>
+4110.\]</span></p>
 <p>Portanto,</p>
-<p><span class="math display">\[
-\bar{x}=\text{R\$ }4.110,00.
-\]</span></p>
+<p><span class="math display">\[\bar{x}=\text{R\$ }4.110,00.\]</span></p>
 <p>Agora considere uma <strong>média aparada em 10%</strong>. Como temos <span class="math inline">\(n=10\)</span> observações,</p>
-<p><span class="math display">\[
-r=\lfloor 10(0,10)\rfloor=1.
-\]</span></p>
+<p><span class="math display">\[r=\lfloor 10(0,10)\rfloor=1.\]</span></p>
 <p>Retiramos, portanto, uma observação de cada extremidade:</p>
 <ul>
 <li>menor valor: R$ 2.500;</li>
 <li>maior valor: R$ 15.000.</li>
 </ul>
 <p>Permanecem os valores</p>
-<p><span class="math display">\[
-2600,\ 2700,\ 2800,\ 2900,\ 3000,\ 3100,\ 3200,\ 3300.
-\]</span></p>
+<p><span class="math display">\[2600,\ 2700,\ 2800,\ 2900,\ 3000,\ 3100,\ 3200,\ 3300.\]</span></p>
 <p>A média desses oito valores é</p>
-<p><span class="math display">\[
-\bar{x}_{0,10}
+<p><span class="math display">\[\bar{x}_{0,10}
 =
 \frac{2600+2700+\cdots+3300}{8}
 =
-2950.
-\]</span></p>
+2950.\]</span></p>
 <p>A <a href="#tbl-media-aparada-salarios" class="quarto-xref">Tabela&nbsp;<span>5.3</span></a> compara as três medidas.</p>
 <div id="tbl-media-aparada-salarios" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -1342,9 +1242,7 @@ Laboratório no R
 </div>
 </div>
 <p>Como existem 80 estudantes,</p>
-<p><span class="math display">\[
-80\times 0,10=8.
-\]</span></p>
+<p><span class="math display">\[80\times 0,10=8.\]</span></p>
 <p>Assim, o cálculo desconsidera os <strong>8 menores e os 8 maiores tempos de deslocamento</strong> e calcula a média utilizando as 64 observações centrais.</p>
 <p>Podemos reunir as três medidas:</p>
 <div class="cell">
@@ -3708,8 +3606,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./06-medidas-posicao-boxplot.html" class="pagination-link" aria-label="Medidas de posição, resumo de cinco números e boxplot">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Medidas de posição, resumo de cinco números e boxplot</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./06-separatrizes-boxplot.html" class="pagination-link" aria-label="Separatrizes, resumo de cinco números e boxplot">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,10 +1,10 @@
-# Medidas de posição, resumo de cinco números e boxplot
+# Separatrizes, resumo de cinco números e boxplot
 
 No capítulo anterior, estudamos medidas de tendência central e vimos que média, mediana e moda procuram representar o centro de uma distribuição. Agora ampliaremos essa ideia. Em vez de perguntar apenas **onde está o centro**, queremos saber também **como as observações se posicionam ao longo da distribuição**.
 
-As medidas de posição permitem localizar valores que dividem um conjunto ordenado de dados em determinadas proporções. Entre elas estão os **quartis**, **decis** e **percentis**. A partir dos quartis, construiremos o **resumo de cinco números**, a **amplitude interquartílica** e o **boxplot**, uma representação gráfica compacta que permite examinar posição, dispersão, assimetria e observações potencialmente atípicas.
+As separatrizes permitem localizar valores que dividem um conjunto ordenado de dados em determinadas proporções. Entre elas estão os **quartis**, **decis** e **percentis**. A partir dos quartis, construiremos o **resumo de cinco números**, a **amplitude interquartílica** e o **boxplot**, uma representação gráfica compacta que permite examinar posição, dispersão, assimetria e observações potencialmente atípicas.
 
-Ao final deste capítulo, você deverá ser capaz de calcular e interpretar medidas de posição, obter o resumo de cinco números, construir e interpretar boxplots e investigar valores extremos sem confundir automaticamente uma observação atípica com um erro.
+Ao final deste capítulo, você deverá ser capaz de calcular e interpretar separatrizes, obter o resumo de cinco números, construir e interpretar boxplots e investigar valores extremos sem confundir automaticamente uma observação atípica com um erro.
 
 ```{r}
 #| label: setup-medidas-posicao
@@ -22,9 +22,9 @@ exemplo_posicao <- c(
 )
 ```
 
-## Medidas de posição
+## Separatrizes
 
-Uma **medida de posição** indica a localização de um valor em relação às demais observações de um conjunto ordenado.
+Uma **separatriz** indica a localização de um valor em relação às demais observações de um conjunto ordenado.
 
 Considere uma amostra com $n$ observações. Depois de colocá-las em ordem crescente, escrevemos
 
@@ -32,7 +32,7 @@ $$x_{(1)} \leq x_{(2)} \leq \cdots \leq x_{(n)},$$
 
 em que $x_{(1)}$ representa o menor valor observado e $x_{(n)}$ representa o maior.
 
-As medidas de posição são particularmente úteis para responder perguntas como:
+As separatrizes são particularmente úteis para responder perguntas como:
 
 - Qual valor deixa aproximadamente 25% das observações abaixo dele?
 - Qual é o ponto que divide os dados em duas partes?
@@ -66,7 +66,7 @@ $$12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50.$$
 A @tbl-quantis-exemplo apresenta alguns quantis calculados por interpolação linear, conforme a convenção padrão utilizada pela função `quantile()` do R.
 
 | Quantil | Proporção | Valor (min) | Interpretação aproximada |
-|:---------------|---------------:|---------------:|:------------------------|
+|:-----------------|-----------------:|-----------------:|:-------------------|
 | $q_{0,10}$ | 10% | 16,8 | cerca de 10% dos valores estão até essa região |
 | $q_{0,25}$ | 25% | 20,0 | cerca de 25% dos valores estão até essa região |
 | $q_{0,50}$ | 50% | 25,0 | metade dos valores está até essa região |
@@ -112,7 +112,7 @@ $$Q_1=20,\qquad Q_2=25,\qquad Q_3=30.$$
 A @tbl-quartis-exemplo resume a interpretação.
 
 | Medida | Valor (min) | Interpretação                                        |
-|:------------|------------:|:--------------------------------------------|
+|:-----------------|-----------------:|:------------------------------------|
 | $Q_1$  |          20 | aproximadamente 25% dos tempos estão até essa região |
 | $Q_2$  |          25 | aproximadamente 50% dos tempos estão até essa região |
 | $Q_3$  |          30 | aproximadamente 75% dos tempos estão até essa região |
@@ -796,7 +796,7 @@ A @tbl-maiores-tempos-r facilita a inspeção dos registros localizados na extre
 
 ## Interpretação dos quartis em contexto
 
-Calcular uma medida de posição é apenas a primeira etapa. O resultado precisa ser traduzido para a variável estudada.
+Calcular uma separatriz é apenas a primeira etapa. O resultado precisa ser traduzido para a variável estudada.
 
 Se, por exemplo, o primeiro quartil do tempo de deslocamento for aproximadamente 24,7 minutos, uma interpretação adequada é:
 
@@ -817,7 +817,7 @@ Em amostras finitas, especialmente quando há valores repetidos ou interpolaçã
 A @tbl-funcoes-posicao-r resume as funções trabalhadas neste capítulo.
 
 | Função | Finalidade principal |
-|:--------------------|:--------------------------------------------------|
+|:----------------------|:-----------------------------------------------|
 | `quantile()` | calcular quantis, quartis, decis e percentis |
 | `median()` | calcular a mediana |
 | `min()` | obter o menor valor |
@@ -828,7 +828,7 @@ A @tbl-funcoes-posicao-r resume as funções trabalhadas neste capítulo.
 | `geom_boxplot()` | construir boxplots com `ggplot2` |
 | `geom_histogram()` | construir histogramas para comparação da forma |
 
-: Funções do R utilizadas para medidas de posição, resumo de cinco números e boxplots. {#tbl-funcoes-posicao-r}
+: Funções do R utilizadas para separatrizes, resumo de cinco números e boxplots. {#tbl-funcoes-posicao-r}
 
 A @tbl-funcoes-posicao-r deve ser entendida como uma referência de consulta. O objetivo não é memorizar uma lista de funções, mas saber **qual pergunta estatística cada uma ajuda a responder**.
 
@@ -851,7 +851,7 @@ Os principais pontos são:
 11. uma observação sinalizada pelo boxplot não é automaticamente um erro;
 12. boxplot e histograma apresentam informações complementares e devem ser interpretados em conjunto quando necessário.
 
-> **Ideia-chave:** medidas de posição e boxplots não servem apenas para calcular pontos de corte. Eles ajudam a compreender onde as observações se localizam, como a metade central dos dados se distribui e quais valores merecem investigação mais cuidadosa.
+> **Ideia-chave:** separatrizes e boxplots não servem apenas para calcular pontos de corte. Eles ajudam a compreender onde as observações se localizam, como a metade central dos dados se distribui e quais valores merecem investigação mais cuidadosa.
 
 ## Exercícios teóricos
 
