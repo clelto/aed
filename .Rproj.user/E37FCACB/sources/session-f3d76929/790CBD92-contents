@@ -1170,7 +1170,7 @@ Quando uma variável contínua é agrupada em classes, os valores individuais de
 
 Considere novamente a distribuição do tempo de deslocamento dos 80 estudantes:
 
-| Classe (min) | Ponto médio ($m_i$) |  $f_i$ | $F_i$ |
+| Classe (min) | Ponto médio ($x_i$) |  $f_i$ | $F_i$ |
 |:-------------|--------------------:|-------:|------:|
 | $[10;25)$    |                17,5 |     21 |    21 |
 | $[25;40)$    |                32,5 |     26 |    47 |
@@ -1187,11 +1187,11 @@ A @tbl-tempo-centro-classes será utilizada para aproximar a média, a mediana e
 
 #### Média aproximada para dados em classes
 
-Como não conhecemos os valores individuais dentro de cada classe, representamos cada classe por seu ponto médio $m_i$:
+Como não conhecemos os valores individuais dentro de cada classe, representamos cada classe por seu ponto médio $x_i$:
 
 $$\bar{x}_{g}
 \approx
-\frac{\sum m_i f_i}
+\frac{\sum x_i f_i}
 {\sum f_i}.$$
 
 Aplicando à @tbl-tempo-centro-classes,
@@ -1945,7 +1945,7 @@ A escolha de uma medida central não deve ser feita apenas porque uma função e
 
 10. Considere a distribuição agrupada:
 
-    | Classe    | $m_i$ | $f_i$ | $F_i$ |
+    | Classe    | $x_i$ | $f_i$ | $F_i$ |
     |:----------|------:|------:|------:|
     | $[0;10)$  |     5 |     4 |     4 |
     | $[10;20)$ |    15 |     8 |    12 |
@@ -1967,7 +1967,7 @@ A escolha de uma medida central não deve ser feita apenas porque uma função e
 
 ### Exercícios no R
 
-1.  Utilize a variável `idade_anos` do banco `dados` e calcule:
+1.  Utilize a variável `idade_anos` do banco de dados `estudantes80n` e calcule:
 
     a.  média;\
     b.  mediana;\
