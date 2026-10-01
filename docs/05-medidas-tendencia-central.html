@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./06-separatrizes-boxplot.html" rel="next">
+<link href="./06-separatrizes-boxplot-revisado.html" rel="next">
 <link href="./04-distribuicoes-frequencias-representacoes-graficas-v2.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -229,7 +229,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-separatrizes-boxplot.html" class="sidebar-item-text sidebar-link">
+  <a href="./06-separatrizes-boxplot-revisado.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span></a>
   </div>
 </li>
@@ -273,11 +273,7 @@ window.Quarto = {
   <li><a href="#exemplo-2" id="toc-exemplo-2" class="nav-link" data-scroll-target="#exemplo-2"><span class="header-section-number">5.5.1</span> Exemplo</a></li>
   <li><a href="#quando-considerar-a-média-aparada" id="toc-quando-considerar-a-média-aparada" class="nav-link" data-scroll-target="#quando-considerar-a-média-aparada"><span class="header-section-number">5.5.2</span> Quando considerar a média aparada?</a></li>
   </ul></li>
-  <li><a href="#mediana" id="toc-mediana" class="nav-link" data-scroll-target="#mediana"><span class="header-section-number">5.6</span> Mediana</a>
-  <ul class="collapse">
-  <li><a href="#número-ímpar-de-observações" id="toc-número-ímpar-de-observações" class="nav-link" data-scroll-target="#número-ímpar-de-observações"><span class="header-section-number">5.6.1</span> Número ímpar de observações</a></li>
-  <li><a href="#número-par-de-observações" id="toc-número-par-de-observações" class="nav-link" data-scroll-target="#número-par-de-observações"><span class="header-section-number">5.6.2</span> Número par de observações</a></li>
-  </ul></li>
+  <li><a href="#mediana" id="toc-mediana" class="nav-link" data-scroll-target="#mediana"><span class="header-section-number">5.6</span> Mediana</a></li>
   <li><a href="#moda" id="toc-moda" class="nav-link" data-scroll-target="#moda"><span class="header-section-number">5.7</span> Moda</a></li>
   <li><a href="#medidas-de-tendência-central-para-dados-agrupados" id="toc-medidas-de-tendência-central-para-dados-agrupados" class="nav-link" data-scroll-target="#medidas-de-tendência-central-para-dados-agrupados"><span class="header-section-number">5.8</span> Medidas de tendência central para dados agrupados</a>
   <ul class="collapse">
@@ -1299,8 +1295,7 @@ Para guardar
 <p>A <strong>mediana</strong> é o valor que ocupa a posição central de um conjunto de dados depois que as observações são ordenadas.</p>
 <p>Sua interpretação é posicional: aproximadamente metade das observações fica abaixo da mediana e metade fica acima dela.</p>
 <p>Para calcular a mediana, é indispensável construir mental ou explicitamente o <strong>rol</strong>.</p>
-<section id="número-ímpar-de-observações" class="level3" data-number="5.6.1">
-<h3 data-number="5.6.1" class="anchored" data-anchor-id="número-ímpar-de-observações"><span class="header-section-number">5.6.1</span> Número ímpar de observações</h3>
+<p><strong>Número ímpar de observações</strong></p>
 <p>Considere</p>
 <p><span class="math display">\[2,\ 4,\ 5,\ 7,\ 9.\]</span></p>
 <p>Como <span class="math inline">\(n=5\)</span>, existe uma única posição central:</p>
@@ -1311,9 +1306,7 @@ Para guardar
 3.\]</span></p>
 <p>O terceiro valor é 5. Portanto,</p>
 <p><span class="math display">\[Md=5.\]</span></p>
-</section>
-<section id="número-par-de-observações" class="level3" data-number="5.6.2">
-<h3 data-number="5.6.2" class="anchored" data-anchor-id="número-par-de-observações"><span class="header-section-number">5.6.2</span> Número par de observações</h3>
+<p><strong>Número par de observações</strong></p>
 <p>Considere agora</p>
 <p><span class="math display">\[2,\ 4,\ 5,\ 7,\ 9,\ 12.\]</span></p>
 <p>Como <span class="math inline">\(n=6\)</span>, existem duas posições centrais: a terceira e a quarta. A mediana é a média desses dois valores:</p>
@@ -1323,6 +1316,21 @@ Para guardar
 =
 6.\]</span></p>
 <p>Observe novamente que a mediana não precisa ser um valor observado no conjunto.</p>
+<p>De modo geral, as duas observações centrais são localizadas nas posições <span class="math display">\[\frac{n}{2} \ \ \text{e} \ \ \frac{n}{2}+1.\]</span></p>
+<p>Assim, para os dados ordenados <span class="math inline">\(x_{(1)},x_{(2)},\ldots,x_{(n)}\)</span>, a mediana é dada por</p>
+<p><span class="math display">\[
+\operatorname{Md}(x)=
+\begin{cases}
+x_{\left(\frac{n+1}{2}\right)},
+&amp; \text{se } n \text{ é ímpar}, \\[6pt]
+\dfrac{
+x_{\left(\frac{n}{2}\right)}
++
+x_{\left(\frac{n}{2}+1\right)}
+}{2},
+&amp; \text{se } n \text{ é par}.
+\end{cases}
+\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1397,7 +1405,6 @@ Laboratório no R
 </div>
 </div>
 </div>
-</section>
 </section>
 <section id="moda" class="level2" data-number="5.7">
 <h2 data-number="5.7" class="anchored" data-anchor-id="moda"><span class="header-section-number">5.7</span> Moda</h2>
@@ -2134,6 +2141,32 @@ h=15.\]</span></p>
 \approx
 35{,}96\text{ minutos}.\]</span></p>
 <p>A mediana dos dados originais é 36 minutos, mostrando que a aproximação foi bastante próxima.</p>
+<section id="mas-por-que-a-fórmula-da-mediana-para-dados-agrupados-em-classes-funciona" class="level5">
+<h5 class="anchored" data-anchor-id="mas-por-que-a-fórmula-da-mediana-para-dados-agrupados-em-classes-funciona">Mas por que a fórmula da mediana para dados agrupados em classes funciona?</h5>
+<p>Quando os dados são agrupados em classes, deixamos de conhecer os valores individuais das observações. Sabemos apenas <strong>quantas observações pertencem a cada intervalo</strong>. Por isso, depois de identificar a classe que contém a mediana, precisamos estimar sua posição dentro dessa classe.</p>
+<p>A ideia por trás da fórmula é bastante simples: <strong>começamos no limite inferior da classe mediana e avançamos, dentro dela, apenas a fração necessária para atingir a posição correspondente à metade das observações</strong>.</p>
+<p>Primeiramente, procuramos a posição</p>
+<p><span class="math display">\[
+\frac{n}{2}.
+\]</span></p>
+<p>A frequência acumulada até a classe anterior, denotada por <span class="math inline">\(F_{\text{ant}}\)</span>, indica quantas observações já foram contabilizadas antes de entrarmos na classe mediana. Assim, a quantidade de observações que ainda precisamos percorrer dentro dessa classe é</p>
+<p><span class="math display">\[
+\frac{n}{2}-F_{\text{ant}}.
+\]</span></p>
+<p>Como a classe mediana contém <span class="math inline">\(f_{\text{med}}\)</span> observações, a razão</p>
+<p><span class="math display">\[
+\frac{\frac{n}{2}-F_{\text{ant}}}{f_{\text{med}}}
+\]</span></p>
+<p>indica <strong>qual fração da classe mediana precisamos percorrer</strong> para alcançar a mediana.</p>
+<p>Multiplicando essa proporção pela amplitude <span class="math inline">\(h\)</span> da classe, obtemos a distância que deve ser percorrida a partir do limite inferior <span class="math inline">\(L\)</span>. Portanto,</p>
+<p><span class="math display">\[
+\operatorname{Md}_g
+\approx
+L+
+\left(
+\frac{\frac{n}{2}-F_{\text{ant}}}{f_{\text{med}}}
+\right)h.
+\]</span></p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -2179,6 +2212,7 @@ Laboratório no R
 </div>
 </div>
 </div>
+</section>
 </section>
 <section id="moda-e-classe-modal" class="level4">
 <h4 class="anchored" data-anchor-id="moda-e-classe-modal">Moda e classe modal</h4>
@@ -3606,7 +3640,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./06-separatrizes-boxplot.html" class="pagination-link" aria-label="Separatrizes, resumo de cinco números e boxplot">
+      <a href="./06-separatrizes-boxplot-revisado.html" class="pagination-link" aria-label="Separatrizes, resumo de cinco números e boxplot">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

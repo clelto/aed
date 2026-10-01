@@ -1,0 +1,364 @@
+/* =========================================================
+   ANÁLISE EXPLORATÓRIA DE DADOS
+   Identidade visual da apostila
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   1. PALETA E CONFIGURAÇÕES GERAIS
+   --------------------------------------------------------- */
+
+:root {
+  --cor-principal: #264653;
+  --cor-secundaria: #2A9D8F;
+  --cor-destaque: #E9C46A;
+  --cor-alerta: #E76F51;
+
+  --cor-texto: #263238;
+  --cor-texto-suave: #5F6B70;
+
+  --fundo-pagina: #FFFFFF;
+  --fundo-suave: #F7F9F9;
+  --fundo-codigo: #F4F7F7;
+  --fundo-inline: #EDF5F3;
+
+  --borda-suave: #DDE7E5;
+}
+
+
+/* ---------------------------------------------------------
+   2. TEXTO GERAL
+   --------------------------------------------------------- */
+
+body {
+  color: var(--cor-texto);
+  background-color: var(--fundo-pagina);
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+
+/* parágrafos */
+
+p {
+  margin-bottom: 1.05rem;
+}
+
+
+/* ---------------------------------------------------------
+   3. TÍTULOS
+   --------------------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--cor-principal);
+  font-weight: 650;
+}
+
+h1 {
+  margin-top: 2.8rem;
+  margin-bottom: 1.4rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 3px solid var(--cor-secundaria);
+}
+
+h2 {
+  margin-top: 2.4rem;
+  margin-bottom: 1rem;
+  padding-left: 0.75rem;
+  border-left: 5px solid var(--cor-secundaria);
+}
+
+h3 {
+  margin-top: 1.8rem;
+  color: #356572;
+}
+
+h4 {
+  margin-top: 1.5rem;
+  color: var(--cor-texto);
+}
+
+
+/* ---------------------------------------------------------
+   4. LINKS
+   --------------------------------------------------------- */
+
+a {
+  color: #19796F;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--cor-principal);
+  text-decoration: underline;
+}
+
+
+/* ---------------------------------------------------------
+   5. CÓDIGO EM BLOCO
+   --------------------------------------------------------- */
+
+div.sourceCode {
+  margin-top: 1.2rem;
+  margin-bottom: 1.4rem;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 1px solid var(--borda-suave);
+  border-left: 4px solid var(--cor-secundaria);
+  background-color: var(--fundo-codigo);
+}
+
+pre.sourceCode,
+pre {
+  background-color: var(--fundo-codigo);
+  color: #263238;
+  padding: 1rem 1.15rem;
+  border: none;
+  border-radius: 8px;
+  line-height: 1.5;
+  font-size: 0.92rem;
+  overflow-x: auto;
+  margin-bottom: 1.2rem;
+}
+
+
+/* evita que o <code> dentro do <pre>
+   ganhe um segundo fundo */
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+}
+
+
+/* ---------------------------------------------------------
+   6. CÓDIGO INLINE
+   --------------------------------------------------------- */
+
+p code,
+li code,
+td code {
+  background-color: var(--fundo-inline);
+  color: #176B62;
+  padding: 0.15rem 0.38rem;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+
+/* ---------------------------------------------------------
+   7. RESULTADOS / SAÍDAS DO R
+   --------------------------------------------------------- */
+
+.cell-output {
+  margin-top: 0.5rem;
+  margin-bottom: 1.3rem;
+  padding-left: 0.9rem;
+  border-left: 3px solid #CBD7D5;
+}
+
+.cell-output pre {
+  background-color: #FAFBFB;
+  border-left: none;
+  color: #37474F;
+}
+
+
+/* ---------------------------------------------------------
+   8. TABELAS
+   --------------------------------------------------------- */
+
+table {
+  width: 100%;
+  margin-top: 1.3rem;
+  margin-bottom: 1.8rem;
+  border-collapse: collapse;
+  font-size: 0.96rem;
+}
+
+thead {
+  background-color: var(--cor-principal);
+  color: #FFFFFF;
+}
+
+thead th {
+  padding: 0.7rem 0.8rem;
+  border-bottom: none;
+}
+
+tbody td {
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid #E4EAEA;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #F8FAFA;
+}
+
+tbody tr:hover {
+  background-color: #EEF6F4;
+}
+
+
+/* ---------------------------------------------------------
+   9. LEGENDAS
+   --------------------------------------------------------- */
+
+.figure-caption,
+.table-caption,
+figcaption {
+  color: var(--cor-texto-suave);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 0.6rem;
+}
+
+
+/* ---------------------------------------------------------
+   10. CALLOUTS DO QUARTO
+   --------------------------------------------------------- */
+
+.callout {
+  border-radius: 8px;
+  margin-top: 1.4rem;
+  margin-bottom: 1.4rem;
+  box-shadow: 0 2px 8px rgba(38, 70, 83, 0.06);
+}
+
+.callout-title-container {
+  font-weight: 600;
+}
+
+
+/* caixas informativas */
+
+.callout-note {
+  border-left-color: #457B9D !important;
+}
+
+
+/* dicas */
+
+.callout-tip {
+  border-left-color: var(--cor-secundaria) !important;
+}
+
+
+/* atenção */
+
+.callout-warning {
+  border-left-color: var(--cor-destaque) !important;
+}
+
+
+/* informação importante */
+
+.callout-important {
+  border-left-color: var(--cor-alerta) !important;
+}
+
+
+/* ---------------------------------------------------------
+   11. CITAÇÕES EM BLOCO
+   --------------------------------------------------------- */
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.8rem 1.2rem;
+  background-color: #F5F9F8;
+  border-left: 4px solid var(--cor-secundaria);
+  color: #455A64;
+  border-radius: 0 6px 6px 0;
+}
+
+
+/* ---------------------------------------------------------
+   12. SUMÁRIO
+   --------------------------------------------------------- */
+
+#TOC {
+  font-size: 0.92rem;
+}
+
+#TOC .active {
+  color: var(--cor-secundaria) !important;
+  font-weight: 600;
+}
+
+#TOC a {
+  color: #526166;
+}
+
+#TOC a:hover {
+  color: var(--cor-secundaria);
+}
+
+
+/* ---------------------------------------------------------
+   13. LISTAS
+   --------------------------------------------------------- */
+
+ul,
+ol {
+  margin-bottom: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.3rem;
+}
+
+
+/* ---------------------------------------------------------
+   14. LINHA HORIZONTAL
+   --------------------------------------------------------- */
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #DDE6E5;
+  margin: 2.5rem 0;
+}
+
+
+/* ---------------------------------------------------------
+   15. SELEÇÃO DE TEXTO
+   --------------------------------------------------------- */
+
+::selection {
+  background-color: #BFE3DC;
+  color: #17373E;
+}
+
+
+/* ---------------------------------------------------------
+   16. AJUSTES PARA TELAS PEQUENAS
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+  body {
+    font-size: 0.98rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.45rem;
+  }
+
+  pre.sourceCode,
+  pre {
+    font-size: 0.85rem;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+}

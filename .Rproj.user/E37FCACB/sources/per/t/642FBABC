@@ -1,0 +1,32 @@
+{
+    "id": "642FBABC",
+    "path": "~/GitHub/aed/05-medidas-tendencia-central.qmd",
+    "project_path": "05-medidas-tendencia-central.qmd",
+    "type": "quarto_markdown",
+    "hash": "2523314777",
+    "contents": "",
+    "dirty": false,
+    "created": 1789699722405.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "rmdVisualCollapsedChunks": "",
+        "rmdVisualModeLocation": "30032:82871.1171875",
+        "docOutlineVisible": "1",
+        "cursorPosition": "2015,54",
+        "scrollLine": "0",
+        "docOutlineSize": "186"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1789704184,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1789704184039,
+    "read_only": false,
+    "read_only_alternatives": []
+}

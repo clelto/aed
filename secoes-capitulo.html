@@ -1,0 +1,40 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  /* TOC gerado pelo Quarto para o capítulo atual */
+  const toc = document.querySelector("#TOC");
+
+  if (!toc) return;
+
+  /* Capítulo atualmente aberto na barra esquerda */
+  let capituloAtual =
+    document.querySelector("#quarto-sidebar a.sidebar-link.active");
+
+  if (!capituloAtual) return;
+
+  const itemCapitulo =
+    capituloAtual.closest("li.sidebar-item");
+
+  if (!itemCapitulo) return;
+
+  /* Pega apenas a lista de seções do TOC */
+  const listaToc = toc.querySelector("ul");
+
+  if (!listaToc) return;
+
+  /* Cria uma cópia para colocar abaixo do capítulo */
+  const listaSecoes = listaToc.cloneNode(true);
+
+  listaSecoes.classList.add("secoes-capitulo-atual");
+
+  /* Remove comportamentos de recolhimento herdados */
+  listaSecoes.querySelectorAll(".collapse").forEach(function(el) {
+    el.classList.remove("collapse");
+    el.classList.add("show");
+  });
+
+  /* Coloca as seções abaixo do capítulo atual */
+  itemCapitulo.appendChild(listaSecoes);
+
+});
+</script>

@@ -1,0 +1,1 @@
+{"frames":[],"message":"Error in select(mutate(tabela_classes, intervalo = paste0(\"[\", limite_inferior,  : \n  não foi possível encontrar a função \"select\"\n"}

@@ -1,0 +1,74 @@
+x<-c(3,5,6,6,8,12)
+
+#média
+media<-mean(x);media
+
+#mediana
+med<-median(x);med
+
+#moda
+table(x)
+
+moda <- function(x, na.rm = TRUE) {
+  if (na.rm) {
+    x <- x[!is.na(x)]
+  }
+  
+  frequencias <- table(x)
+  maior_frequencia <- max(frequencias)
+  
+  if (maior_frequencia == 1) {
+    return(NA)
+  }
+  
+  valores_modais <- names(frequencias)[
+    frequencias == maior_frequencia
+  ]
+  
+  if (is.numeric(x)) {
+    as.numeric(valores_modais)
+  } else {
+    valores_modais
+  }
+}
+
+moda(x)
+
+library(dplyr)
+
+tab_exerc9_20 <- tibble(
+  xi = 1:5,
+  fi = c(2,5,7,4,2)
+) |>
+  mutate(
+    produto = xi * fi,
+    Fi = cumsum(fi)
+  )
+
+with(
+  tab_exerc9_20,
+  sum(xi * fi) / sum(fi)
+)
+
+
+x<-c(5,15,25,35)
+fi<-c(4,8,12,6)
+
+media<-sum(x*fi)/sum(fi);media
+
+cbind(x,fi,Fi=cumsum(fi))
+
+L<-20
+n<-30
+Fant<-12
+fmd<-24
+h<-10
+md<-L+((n/2-Fant)/fmd)*h;md
+
+#Moda
+L<-20
+d1<-12-8
+d2<-12-6
+h<-10
+
+Mo<-L+(d1/(d1+d2))*10;Mo

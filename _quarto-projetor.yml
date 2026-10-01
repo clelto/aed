@@ -1,0 +1,13 @@
+project:
+  output-dir: docs-projetor
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    page-layout: full
+    css:
+      - styles.css
+      - projetor.css
+    include-after-body: secoes-capitulo.html

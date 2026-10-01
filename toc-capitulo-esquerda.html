@@ -1,0 +1,28 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const toc = document.querySelector("#TOC");
+
+  const capituloAtual = document.querySelector(
+    "#quarto-sidebar .sidebar-link.active"
+  );
+
+  if (!toc || !capituloAtual) return;
+
+  const itemCapitulo = capituloAtual.closest("li.sidebar-item");
+
+  if (!itemCapitulo) return;
+
+  /* Remove o título "On this page" / "Nesta página" */
+  const tituloToc = toc.querySelector(".toc-title");
+
+  if (tituloToc) {
+    tituloToc.remove();
+  }
+
+  toc.classList.add("toc-capitulo-atual");
+
+  /* Coloca o sumário dentro do item do capítulo atual */
+  itemCapitulo.appendChild(toc);
+});
+</script>
