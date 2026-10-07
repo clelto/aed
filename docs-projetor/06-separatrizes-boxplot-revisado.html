@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-separatrizes-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-separatrizes-boxplot-revisado.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -231,7 +231,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./06-separatrizes-boxplot.html" class="sidebar-item-text sidebar-link active">
+  <a href="./06-separatrizes-boxplot-revisado.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span></a>
   </div>
 </li>
@@ -262,6 +262,7 @@ window.Quarto = {
   <li><a href="#separatrizes" id="toc-separatrizes" class="nav-link active" data-scroll-target="#separatrizes"><span class="header-section-number">6.1</span> Separatrizes</a>
   <ul class="collapse">
   <li><a href="#quantis-empíricos" id="toc-quantis-empíricos" class="nav-link" data-scroll-target="#quantis-empíricos"><span class="header-section-number">6.1.1</span> Quantis empíricos</a></li>
+  <li><a href="#sec-calculo-separatrizes" id="toc-sec-calculo-separatrizes" class="nav-link" data-scroll-target="#sec-calculo-separatrizes"><span class="header-section-number">6.1.2</span> Cálculo das separatrizes</a></li>
   </ul></li>
   <li><a href="#resumo-de-cinco-números" id="toc-resumo-de-cinco-números" class="nav-link" data-scroll-target="#resumo-de-cinco-números"><span class="header-section-number">6.2</span> Resumo de cinco números</a>
   <ul class="collapse">
@@ -288,7 +289,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-separatrizes-boxplot.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-medidas-tendencia-central.html">Parte II — Medidas resumo</a></li><li class="breadcrumb-item"><a href="./06-separatrizes-boxplot-revisado.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></h1>
 </div>
@@ -359,10 +360,10 @@ Tabela&nbsp;6.1: Alguns quantis para o conjunto de tempos utilizado no exemplo.
 <div aria-describedby="tbl-quantis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 26%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -454,9 +455,9 @@ Tabela&nbsp;6.2: Quartis do conjunto de tempos utilizado no exemplo.
 <div aria-describedby="tbl-quartis-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 50%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 63%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -487,6 +488,7 @@ Tabela&nbsp;6.2: Quartis do conjunto de tempos utilizado no exemplo.
 </figure>
 </div>
 <p>A <a href="#tbl-quartis-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.2</span></a> mostra que os quartis não representam quatro grupos de valores, mas sim <strong>três pontos de corte</strong> que ajudam a dividir a distribuição em quatro partes.</p>
+<p>Como <span class="math inline">\(Q_1=P_{25}\)</span>, <span class="math inline">\(Q_2=P_{50}\)</span> e <span class="math inline">\(Q_3=P_{75}\)</span>, os quartis podem ser calculados pelo mesmo procedimento geral utilizado para os percentis. Esse procedimento será sistematizado em <a href="#sec-calculo-separatrizes" class="quarto-xref"><span>Seção 6.1.2</span></a> para dados não agrupados, dados agrupados sem classes e dados agrupados em classes.</p>
 </section>
 <section id="decis" class="level4">
 <h4 class="anchored" data-anchor-id="decis">Decis</h4>
@@ -504,6 +506,7 @@ D_5=q_{0,50}, \qquad
 D_9=q_{0,90}.\]</span></p>
 <p>Assim, <span class="math inline">\(D_5\)</span> coincide com a mediana.</p>
 <p>Os decis são úteis quando se deseja uma divisão mais detalhada do que aquela proporcionada pelos quartis. O nono decil, por exemplo, pode ser usado para localizar aproximadamente o ponto a partir do qual se encontram os 10% maiores valores.</p>
+<p>Como <span class="math inline">\(D_j=P_{10j}\)</span>, os decis também podem ser obtidos pelo mesmo procedimento geral dos percentis, conforme veremos em <a href="#sec-calculo-separatrizes" class="quarto-xref"><span>Seção 6.1.2</span></a>.</p>
 </section>
 <section id="percentis" class="level4">
 <h4 class="anchored" data-anchor-id="percentis">Percentis</h4>
@@ -572,6 +575,408 @@ Tabela&nbsp;6.3: Relações entre quartis, decis, percentis e quantis.
 </figure>
 </div>
 <p>Como mostra a <a href="#tbl-equivalencia-quantis" class="quarto-xref">Tabela&nbsp;<span>6.3</span></a>, quartis, decis e percentis não são conceitos independentes: todos são casos particulares de quantis.</p>
+<p>Essa equivalência permite utilizar os percentis como uma <strong>formulação geral para o cálculo das separatrizes</strong>. A seguir, apresentamos o procedimento de cálculo para diferentes formas de organização dos dados.</p>
+</section>
+</section>
+<section id="sec-calculo-separatrizes" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="sec-calculo-separatrizes"><span class="header-section-number">6.1.2</span> Cálculo das separatrizes</h3>
+<p>Quartis, decis e percentis representam a mesma ideia de posição relativa, mudando apenas o número de partes em que se deseja dividir a distribuição. Por isso, é possível organizar o cálculo das separatrizes a partir de uma única referência: os <strong>percentis</strong>.</p>
+<p>As equivalências</p>
+<p><span class="math display">\[
+Q_j=P_{25j},
+\qquad j=1,2,3,
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+D_j=P_{10j},
+\qquad j=1,\ldots,9,
+\]</span></p>
+<p>mostram que não é necessário memorizar procedimentos independentes para quartis, decis e percentis. Uma vez compreendido o cálculo de <span class="math inline">\(P_p\)</span>, os quartis e os decis podem ser obtidos escolhendo o percentil correspondente.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Uma única ideia para três tipos de separatrizes">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Uma única ideia para três tipos de separatrizes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para calcular uma separatriz, primeiro identificamos <strong>qual posição da distribuição queremos localizar</strong>.</p>
+<ul>
+<li>Para <span class="math inline">\(Q_1\)</span>, procuramos 25% dos dados: <span class="math inline">\(Q_1=P_{25}\)</span>.</li>
+<li>Para <span class="math inline">\(Q_2\)</span>, procuramos 50% dos dados: <span class="math inline">\(Q_2=P_{50}\)</span>.</li>
+<li>Para <span class="math inline">\(Q_3\)</span>, procuramos 75% dos dados: <span class="math inline">\(Q_3=P_{75}\)</span>.</li>
+<li>Para <span class="math inline">\(D_j\)</span>, procuramos <span class="math inline">\(10j\%\)</span> dos dados: <span class="math inline">\(D_j=P_{10j}\)</span>.</li>
+<li>Para <span class="math inline">\(P_p\)</span>, procuramos diretamente <span class="math inline">\(p\%\)</span> dos dados.</li>
+</ul>
+<p>O princípio é o mesmo; o que muda é apenas a proporção procurada.</p>
+</div>
+</div>
+<section id="dados-não-agrupados" class="level4">
+<h4 class="anchored" data-anchor-id="dados-não-agrupados">Dados não agrupados</h4>
+<p>Considere os dados ordenados</p>
+<p><span class="math display">\[
+x_{(1)}\leq x_{(2)}\leq\cdots\leq x_{(n)}.
+\]</span></p>
+<p>Para determinar o percentil <span class="math inline">\(P_p\)</span>, com <span class="math inline">\(p=1,\ldots,99\)</span>, calculamos inicialmente a posição</p>
+<p><span class="math display">\[
+r_p=\frac{p}{100}n.
+\]</span></p>
+<p>Adotaremos, para os cálculos manuais, a seguinte convenção:</p>
+<p><span class="math display">\[
+P_p=
+\begin{cases}
+x_{\left(\lceil r_p\rceil\right)},
+&amp; \text{se } r_p \text{ não é inteiro},\\[8pt]
+\dfrac{x_{(r_p)}+x_{(r_p+1)}}{2},
+&amp; \text{se } r_p \text{ é inteiro},
+\end{cases}
+\]</span></p>
+<p>em que <span class="math inline">\(\lceil r_p\rceil\)</span> representa o menor número inteiro maior ou igual a <span class="math inline">\(r_p\)</span>.</p>
+<p>Em palavras:</p>
+<ol type="1">
+<li>organize os dados em ordem crescente;</li>
+<li>calcule <span class="math inline">\(r_p=(p/100)n\)</span>;</li>
+<li>se <span class="math inline">\(r_p\)</span> não for inteiro, arredonde a posição para cima;</li>
+<li>se <span class="math inline">\(r_p\)</span> for inteiro, calcule a média entre os valores que ocupam as posições <span class="math inline">\(r_p\)</span> e <span class="math inline">\(r_p+1\)</span>.</li>
+</ol>
+<p>Como quartis e decis são percentis particulares, <strong>essa mesma regra é utilizada para calcular</strong> <span class="math inline">\(Q_j\)</span>, <span class="math inline">\(D_j\)</span> e <span class="math inline">\(P_p\)</span>. Basta substituir <span class="math inline">\(p\)</span> pelo percentual correspondente.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Convenções para o cálculo de quantis">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Convenções para o cálculo de quantis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Existem diferentes convenções para determinar quantis em amostras finitas. O procedimento acima será utilizado nos <strong>cálculos manuais</strong> deste capítulo. Ele pode ser reproduzido no R por meio de <code>quantile(..., type = 2)</code>.</p>
+<p>A função <code>quantile()</code> utiliza <code>type = 7</code> por padrão, procedimento baseado em interpolação linear. Por isso, para alguns conjuntos de dados, os resultados obtidos manualmente pela convenção acima podem diferir dos resultados fornecidos pelo R quando <code>type</code> não é especificado.</p>
+</div>
+</div>
+<section id="exemplo" class="level5">
+<h5 class="anchored" data-anchor-id="exemplo">Exemplo</h5>
+<p>Considere os dados ordenados</p>
+<p><span class="math display">\[
+2,\ 3,\ 5,\ 7,\ 8,\ 10,\ 11,\ 12,\ 15.
+\]</span></p>
+<p>Temos <span class="math inline">\(n=9\)</span>.</p>
+<p><strong>Primeiro quartil.</strong> Como <span class="math inline">\(Q_1=P_{25}\)</span>,</p>
+<p><span class="math display">\[
+r_{25}=\frac{25}{100}\times 9=2{,}25.
+\]</span></p>
+<p>Como a posição não é inteira, arredondamos para cima. Assim,</p>
+<p><span class="math display">\[
+Q_1=P_{25}=x_{(3)}=5.
+\]</span></p>
+<p><strong>Segundo quartil.</strong> Como <span class="math inline">\(Q_2=P_{50}\)</span>,</p>
+<p><span class="math display">\[
+r_{50}=\frac{50}{100}\times9=4{,}5,
+\]</span></p>
+<p>e, portanto,</p>
+<p><span class="math display">\[
+Q_2=P_{50}=x_{(5)}=8.
+\]</span></p>
+<p><strong>Terceiro quartil.</strong> Como <span class="math inline">\(Q_3=P_{75}\)</span>,</p>
+<p><span class="math display">\[
+r_{75}=\frac{75}{100}\times9=6{,}75,
+\]</span></p>
+<p>logo,</p>
+<p><span class="math display">\[
+Q_3=P_{75}=x_{(7)}=11.
+\]</span></p>
+<p><strong>Segundo decil.</strong> Como <span class="math inline">\(D_2=P_{20}\)</span>,</p>
+<p><span class="math display">\[
+r_{20}=\frac{20}{100}\times9=1{,}8,
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+D_2=P_{20}=x_{(2)}=3.
+\]</span></p>
+<p><strong>Percentil 62.</strong></p>
+<p><span class="math display">\[
+r_{62}=\frac{62}{100}\times9=5{,}58,
+\]</span></p>
+<p>portanto,</p>
+<p><span class="math display">\[
+P_{62}=x_{(6)}=10.
+\]</span></p>
+<p>Esse exemplo mostra que o mesmo procedimento permite obter quartis, decis ou qualquer percentil desejado.</p>
+</section>
+</section>
+<section id="dados-agrupados-sem-classes" class="level4">
+<h4 class="anchored" data-anchor-id="dados-agrupados-sem-classes">Dados agrupados sem classes</h4>
+<p>Quando os valores são apresentados em uma distribuição de frequências, mas <strong>não estão agrupados em intervalos de classe</strong>, o princípio permanece o mesmo. A diferença é que as posições são localizadas por meio da <strong>frequência acumulada</strong>.</p>
+<p>Depois de calcular</p>
+<p><span class="math display">\[
+r_p=\frac{p}{100}n,
+\]</span></p>
+<p>utilizamos a coluna de frequência acumulada <span class="math inline">\(F_i\)</span> para identificar qual valor <span class="math inline">\(x_i\)</span> ocupa a posição procurada.</p>
+<p>Se <span class="math inline">\(r_p\)</span> não for inteiro, localizamos a observação de posição <span class="math inline">\(\lceil r_p\rceil\)</span>. Se <span class="math inline">\(r_p\)</span> for inteiro, localizamos as observações que ocupam as posições <span class="math inline">\(r_p\)</span> e <span class="math inline">\(r_p+1\)</span> e calculamos a média entre elas.</p>
+<p>Assim, agrupar valores repetidos em uma tabela de frequências <strong>não altera a lógica do cálculo</strong>; a frequência acumulada apenas permite localizar as posições sem precisar reconstruir toda a sequência de dados.</p>
+</section>
+<section id="dados-agrupados-em-classes" class="level4">
+<h4 class="anchored" data-anchor-id="dados-agrupados-em-classes">Dados agrupados em classes</h4>
+<p>Quando os dados são agrupados em classes, deixamos de conhecer os valores individuais das observações dentro de cada intervalo. Nesse caso, após identificar a classe que contém a separatriz, estimamos sua localização por <strong>interpolação linear dentro da classe</strong>.</p>
+<p>Para o percentil <span class="math inline">\(P_p\)</span>, calculamos inicialmente</p>
+<p><span class="math display">\[
+r_p=\frac{p}{100}n.
+\]</span></p>
+<p>Depois, identificamos pela frequência acumulada a classe que contém essa posição. A estimativa é dada por</p>
+<p><span class="math display">\[
+P_p
+\approx
+L_{P_p}
++
+\left(
+\frac{
+\frac{p}{100}n-F_{\text{ant}}
+}{
+f_{P_p}
+}
+\right)h,
+\]</span></p>
+<p>em que:</p>
+<ul>
+<li><span class="math inline">\(L_{P_p}\)</span> é o limite inferior da classe que contém <span class="math inline">\(P_p\)</span>;</li>
+<li><span class="math inline">\(F_{\text{ant}}\)</span> é a frequência acumulada até a classe anterior;</li>
+<li><span class="math inline">\(f_{P_p}\)</span> é a frequência da classe que contém <span class="math inline">\(P_p\)</span>;</li>
+<li><span class="math inline">\(h\)</span> é a amplitude da classe.</li>
+</ul>
+<p>A razão</p>
+<p><span class="math display">\[
+\frac{
+\frac{p}{100}n-F_{\text{ant}}
+}{
+f_{P_p}
+}
+\]</span></p>
+<p>indica <strong>qual fração da classe precisamos percorrer</strong> para atingir a posição correspondente ao percentil. Multiplicando essa fração pela amplitude <span class="math inline">\(h\)</span>, obtemos quanto avançamos a partir do limite inferior da classe.</p>
+<p>Como quartis e decis são casos particulares dos percentis, a mesma fórmula pode ser escrita diretamente para cada tipo de separatriz.</p>
+<p>Para os <strong>quartis</strong>,</p>
+<p><span class="math display">\[
+Q_j
+\approx
+L_{Q_j}
++
+\left(
+\frac{
+\frac{jn}{4}-F_{\text{ant}}
+}{
+f_{Q_j}
+}
+\right)h,
+\qquad j=1,2,3.
+\]</span></p>
+<p>Para os <strong>decis</strong>,</p>
+<p><span class="math display">\[
+D_j
+\approx
+L_{D_j}
++
+\left(
+\frac{
+\frac{jn}{10}-F_{\text{ant}}
+}{
+f_{D_j}
+}
+\right)h,
+\qquad j=1,\ldots,9.
+\]</span></p>
+<p>E, para os <strong>percentis</strong>,</p>
+<p><span class="math display">\[
+P_j
+\approx
+L_{P_j}
++
+\left(
+\frac{
+\frac{jn}{100}-F_{\text{ant}}
+}{
+f_{P_j}
+}
+\right)h,
+\qquad j=1,\ldots,99.
+\]</span></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="O que realmente muda?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O que realmente muda?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As três expressões têm exatamente a mesma estrutura. O que muda é somente a posição procurada:</p>
+<p><span class="math display">\[
+\frac{jn}{4},
+\qquad
+\frac{jn}{10}
+\qquad\text{ou}\qquad
+\frac{jn}{100}.
+\]</span></p>
+<p>Portanto, em dados agrupados em classes, quartis, decis e percentis são obtidos pelo <strong>mesmo procedimento de interpolação</strong>.</p>
+</div>
+</div>
+<section id="exemplo-índice-pluviométrico" class="level5">
+<h5 class="anchored" data-anchor-id="exemplo-índice-pluviométrico">Exemplo: índice pluviométrico</h5>
+<p>Considere a distribuição do índice pluviométrico apresentada na <a href="#tbl-chuva-separatrizes" class="quarto-xref">Tabela&nbsp;<span>6.4</span></a>.</p>
+<div id="tbl-chuva-separatrizes" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-chuva-separatrizes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;6.4: Distribuição de frequências do índice pluviométrico utilizada no cálculo das separatrizes.
+</figcaption>
+<div aria-describedby="tbl-chuva-separatrizes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classe (mm de chuva)</th>
+<th style="text-align: right;"><span class="math inline">\(f_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(f_{r_i}\)</span> (%)</th>
+<th style="text-align: right;"><span class="math inline">\(F_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(F_{r_i}\)</span> (%)</th>
+<th style="text-align: right;">Ponto médio (<span class="math inline">\(x_i\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([140,144)\)</span></td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">142</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([144,148)\)</span></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">146</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([148,152)\)</span></td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: right;">150</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([152,156)\)</span></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">75</td>
+<td style="text-align: right;">154</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([156,160)\)</span></td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">158</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>20</strong></td>
+<td style="text-align: right;"><strong>100</strong></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Temos <span class="math inline">\(n=20\)</span> e amplitude de classe <span class="math inline">\(h=4\)</span>.</p>
+<p><strong>Primeiro quartil.</strong> A posição procurada é</p>
+<p><span class="math display">\[
+\frac{n}{4}=\frac{20}{4}=5.
+\]</span></p>
+<p>A quinta observação encontra-se na classe <span class="math inline">\([140,144)\)</span>, pois sua frequência acumulada é 6. Assim,</p>
+<p><span class="math display">\[
+Q_1
+=
+140+
+\left(
+\frac{5-0}{6}
+\right)4
+=
+143{,}33\text{ mm}.
+\]</span></p>
+<p><strong>Terceiro quartil.</strong> A posição procurada é</p>
+<p><span class="math display">\[
+\frac{3n}{4}
+=
+\frac{3\times20}{4}
+=
+15.
+\]</span></p>
+<p>A posição 15 encontra-se na classe <span class="math inline">\([152,156)\)</span>, cuja frequência acumulada anterior é 13. Logo,</p>
+<p><span class="math display">\[
+Q_3
+=
+152+
+\left(
+\frac{15-13}{2}
+\right)4
+=
+156\text{ mm}.
+\]</span></p>
+<p><strong>Quarto decil.</strong> Como <span class="math inline">\(D_4=P_{40}\)</span>, procuramos a posição</p>
+<p><span class="math display">\[
+\frac{4n}{10}
+=
+\frac{4\times20}{10}
+=
+8.
+\]</span></p>
+<p>A oitava observação encontra-se na classe <span class="math inline">\([144,148)\)</span>. Portanto,</p>
+<p><span class="math display">\[
+D_4
+=
+144+
+\left(
+\frac{8-6}{4}
+\right)4
+=
+146\text{ mm}.
+\]</span></p>
+<p><strong>Percentil 72.</strong> A posição procurada é</p>
+<p><span class="math display">\[
+\frac{72n}{100}
+=
+\frac{72\times20}{100}
+=
+14{,}4.
+\]</span></p>
+<p>Essa posição encontra-se na classe <span class="math inline">\([152,156)\)</span>. Assim,</p>
+<p><span class="math display">\[
+P_{72}
+=
+152+
+\left(
+\frac{14{,}4-13}{2}
+\right)4
+=
+154{,}8\text{ mm}.
+\]</span></p>
+<p>Observe que, para as quatro separatrizes, o raciocínio foi o mesmo: determinar a posição desejada, localizar a classe pela frequência acumulada e interpolar dentro do intervalo.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R — quartis, decis e percentis">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -582,16 +987,37 @@ Laboratório no R — quartis, decis e percentis
 </div>
 </div>
 <div class="callout-body-container callout-body">
+<p>No cálculo manual apresentado em <a href="#sec-calculo-separatrizes" class="quarto-xref"><span>Seção 6.1.2</span></a>, adotamos uma convenção que pode ser reproduzida no R com <code>type = 2</code>. Já a função <code>quantile()</code> utiliza <code>type = 7</code> por padrão. Assim, quando quisermos reproduzir exatamente o procedimento manual, devemos informar explicitamente o tipo.</p>
+<p>Por exemplo:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x_manual <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">15</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  x_manual,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.20</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.62</span>, <span class="fl">0.75</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="dv">2</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>20% 25% 50% 62% 75% 
+  3   5   8  10  11 </code></pre>
+</div>
+</div>
+<p>A seguir, também exploraremos a convenção padrão do R (<code>type = 7</code>), já apresentada anteriormente. Comparar os métodos ajuda a compreender por que programas ou livros podem fornecer valores ligeiramente diferentes para alguns quantis de amostras finitas.</p>
 <p>No R, a função principal para calcular quantis é <code>quantile()</code>.</p>
 <p>Começaremos com o conjunto utilizado na teoria:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">50</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">12</span>, <span class="dv">18</span>, <span class="dv">20</span>, <span class="dv">22</span>, <span class="dv">25</span>, <span class="dv">28</span>, <span class="dv">30</span>, <span class="dv">35</span>, <span class="dv">50</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12 18 20 22 25 28 30 35 50</code></pre>
@@ -601,10 +1027,10 @@ Laboratório no R — quartis, decis e percentis
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>25% 50% 75% 
@@ -615,10 +1041,10 @@ Laboratório no R — quartis, decis e percentis
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  0%  25%  50%  75% 100% 
@@ -629,10 +1055,10 @@ Laboratório no R — quartis, decis e percentis
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="at">by =</span> <span class="fl">0.10</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="at">by =</span> <span class="fl">0.10</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> 10%  20%  30%  40%  50%  60%  70%  80%  90% 
@@ -643,10 +1069,10 @@ Laboratório no R — quartis, decis e percentis
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">0.90</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.10</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="fl">0.90</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code> 10%  25%  50%  75%  90% 
@@ -658,11 +1084,11 @@ Laboratório no R — quartis, decis e percentis
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.90</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="dv">7</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  x,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.90</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="dv">7</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>90% 
@@ -673,11 +1099,11 @@ Laboratório no R — quartis, decis e percentis
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   25%    50%    75% 
@@ -688,30 +1114,30 @@ Laboratório no R — quartis, decis e percentis
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>quartis_tempo <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">medida =</span> <span class="fu">c</span>(<span class="st">"Q1"</span>, <span class="st">"Q2 (mediana)"</span>, <span class="st">"Q3"</span>),</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probabilidade =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">valor_min =</span> <span class="fu">as.numeric</span>(quartis_tempo)</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Medida"</span>,</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Proporção"</span>,</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>quartis_tempo <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">medida =</span> <span class="fu">c</span>(<span class="st">"Q1"</span>, <span class="st">"Q2 (mediana)"</span>, <span class="st">"Q3"</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probabilidade =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">valor_min =</span> <span class="fu">as.numeric</span>(quartis_tempo)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Medida"</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Proporção"</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="tbl-quartis-tempo-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-quartis-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.4: Quartis do tempo de deslocamento dos estudantes calculados no R.
+Tabela&nbsp;6.5: Quartis do tempo de deslocamento dos estudantes calculados no R.
 </figcaption>
 <div aria-describedby="tbl-quartis-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -746,16 +1172,16 @@ Tabela&nbsp;6.4: Quartis do tempo de deslocamento dos estudantes calculados no R
 </figure>
 </div>
 </div>
-<p>A <a href="#tbl-quartis-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.4</span></a> permite interpretar a posição dos tempos de deslocamento sem examinar individualmente as 80 observações.</p>
+<p>A <a href="#tbl-quartis-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.5</span></a> permite interpretar a posição dos tempos de deslocamento sem examinar individualmente as 80 observações.</p>
 <p>Também podemos calcular os decis do tempo de deslocamento:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="at">by =</span> <span class="fl">0.10</span>),</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">seq</span>(<span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="at">by =</span> <span class="fl">0.10</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  10%   20%   30%   40%   50%   60%   70%   80%   90% 
@@ -766,11 +1192,11 @@ Tabela&nbsp;6.4: Quartis do tempo de deslocamento dos estudantes calculados no R
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>),</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.10</span>, <span class="fl">0.90</span>, <span class="fl">0.95</span>),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    5%    10%    90%    95% 
@@ -780,6 +1206,7 @@ Tabela&nbsp;6.4: Quartis do tempo de deslocamento dos estudantes calculados no R
 <p>Ao interpretar um percentil, sempre traduza o resultado para o contexto. Por exemplo, <span class="math inline">\(P_{90}\)</span> fornece um valor abaixo do qual se localiza aproximadamente 90% dos tempos de deslocamento.</p>
 </div>
 </div>
+</section>
 </section>
 </section>
 </section>
@@ -794,11 +1221,11 @@ Q_3,\quad
 \text{máximo}.\]</span></p>
 <p>Para o conjunto</p>
 <p><span class="math display">\[12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50,\]</span></p>
-<p>temos o resumo apresentado na <a href="#tbl-cinco-numeros-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.5</span></a>.</p>
+<p>temos o resumo apresentado na <a href="#tbl-cinco-numeros-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.6</span></a>.</p>
 <div id="tbl-cinco-numeros-exemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cinco-numeros-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.5: Resumo de cinco números do conjunto utilizado no exemplo.
+Tabela&nbsp;6.6: Resumo de cinco números do conjunto utilizado no exemplo.
 </figcaption>
 <div aria-describedby="tbl-cinco-numeros-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -834,7 +1261,7 @@ Tabela&nbsp;6.5: Resumo de cinco números do conjunto utilizado no exemplo.
 </div>
 </figure>
 </div>
-<p>A <a href="#tbl-cinco-numeros-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.5</span></a> permite perceber rapidamente que a metade central dos dados se encontra entre 20 e 30 minutos, enquanto o maior valor, 50 minutos, está consideravelmente afastado do terceiro quartil.</p>
+<p>A <a href="#tbl-cinco-numeros-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.6</span></a> permite perceber rapidamente que a metade central dos dados se encontra entre 20 e 30 minutos, enquanto o maior valor, 50 minutos, está consideravelmente afastado do terceiro quartil.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Resumo de cinco números e boxplot não são exatamente a mesma coisa">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -884,11 +1311,11 @@ Laboratório no R — resumo de cinco números e AIQ
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>     0%     25%     50%     75%    100% 
@@ -899,10 +1326,10 @@ Laboratório no R — resumo de cinco números e AIQ
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 27.1</code></pre>
@@ -912,34 +1339,34 @@ Laboratório no R — resumo de cinco números e AIQ
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>resumo_cinco <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">medida =</span> <span class="fu">c</span>(</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mínimo"</span>,</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Q1"</span>,</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mediana"</span>,</span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Q3"</span>,</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Máximo"</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">tempo_min =</span> <span class="fu">as.numeric</span>(resumo_cinco)</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Medida"</span>,</span>
-<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
-<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>resumo_cinco <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.50</span>, <span class="fl">0.75</span>, <span class="dv">1</span>),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">medida =</span> <span class="fu">c</span>(</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mínimo"</span>,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Q1"</span>,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mediana"</span>,</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Q3"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Máximo"</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">tempo_min =</span> <span class="fu">as.numeric</span>(resumo_cinco)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Medida"</span>,</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="tbl-resumo-cinco-tempo-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-resumo-cinco-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.6: Resumo de cinco números do tempo de deslocamento dos 80 estudantes.
+Tabela&nbsp;6.7: Resumo de cinco números do tempo de deslocamento dos 80 estudantes.
 </figcaption>
 <div aria-describedby="tbl-resumo-cinco-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -978,14 +1405,14 @@ Tabela&nbsp;6.6: Resumo de cinco números do tempo de deslocamento dos 80 estuda
 </figure>
 </div>
 </div>
-<p>A <a href="#tbl-resumo-cinco-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.6</span></a> mostra que os tempos variam de 11,7 a 112,0 minutos, enquanto a metade central das observações está delimitada aproximadamente pelo primeiro e pelo terceiro quartis.</p>
+<p>A <a href="#tbl-resumo-cinco-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.7</span></a> mostra que os tempos variam de 11,7 a 112,0 minutos, enquanto a metade central das observações está delimitada aproximadamente pelo primeiro e pelo terceiro quartis.</p>
 <p>A função <code>summary()</code> também é útil:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -997,9 +1424,9 @@ Tabela&nbsp;6.6: Resumo de cinco números do tempo de deslocamento dos 80 estuda
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fivenum</span>(</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fivenum</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  11.70  24.65  36.00  51.85 112.00</code></pre>
@@ -1054,11 +1481,11 @@ quantile() e fivenum() podem diferir
 <p>e</p>
 <p><span class="math display">\[LS=30+1,5(10)=45.\]</span></p>
 <p>O valor 50 ultrapassa o limite superior de 45 e, portanto, será sinalizado pelo boxplot como potencialmente atípico.</p>
-<p>A <a href="#tbl-elementos-boxplot-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.7</span></a> reúne os valores utilizados na construção.</p>
+<p>A <a href="#tbl-elementos-boxplot-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.8</span></a> reúne os valores utilizados na construção.</p>
 <div id="tbl-elementos-boxplot-exemplo" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-elementos-boxplot-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.7: Elementos utilizados na construção conceitual do boxplot do exemplo.
+Tabela&nbsp;6.8: Elementos utilizados na construção conceitual do boxplot do exemplo.
 </figcaption>
 <div aria-describedby="tbl-elementos-boxplot-exemplo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
@@ -1118,7 +1545,7 @@ Tabela&nbsp;6.7: Elementos utilizados na construção conceitual do boxplot do e
 </div>
 </figure>
 </div>
-<p>A <a href="#tbl-elementos-boxplot-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.7</span></a> evidencia uma distinção essencial: embora o limite superior seja 45, o bigode superior termina em 35, pois 35 é a <strong>maior observação efetivamente registrada que ainda está dentro do limite</strong>.</p>
+<p>A <a href="#tbl-elementos-boxplot-exemplo" class="quarto-xref">Tabela&nbsp;<span>6.8</span></a> evidencia uma distinção essencial: embora o limite superior seja 45, o bigode superior termina em 35, pois 35 é a <strong>maior observação efetivamente registrada que ainda está dentro do limite</strong>.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Os bigodes não terminam necessariamente nos limites">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1139,7 +1566,7 @@ Os bigodes não terminam necessariamente nos limites
 <div id="fig-boxplot-conceitual" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-conceitual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-separatrizes-boxplot_files/figure-html/fig-boxplot-conceitual-1.png" class="img-fluid figure-img" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos." width="672">
+<img src="06-separatrizes-boxplot-revisado_files/figure-html/fig-boxplot-conceitual-1.png" class="img-fluid figure-img" alt="Diagrama de caixa com mediana em 25 minutos, caixa entre 20 e 30 minutos, bigodes até 12 e 35 minutos e um ponto isolado em 50 minutos." width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-conceitual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;6.1: Boxplot do conjunto de tempos utilizado no exemplo.
@@ -1168,24 +1595,24 @@ Laboratório no R — construindo e interpretando o boxplot
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.25</span>,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.75</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>aiq <span class="ot">&lt;-</span> <span class="fu">IQR</span>(</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>q1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>q1 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.25</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probs =</span> <span class="fl">0.75</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>aiq <span class="ot">&lt;-</span> <span class="fu">IQR</span>(</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>q1</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   25% 
@@ -1193,7 +1620,7 @@ Laboratório no R — construindo e interpretando o boxplot
 </div>
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>q3</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>q3</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   75% 
@@ -1201,7 +1628,7 @@ Laboratório no R — construindo e interpretando o boxplot
 </div>
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>aiq</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>aiq</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 27.1</code></pre>
@@ -1211,10 +1638,10 @@ Laboratório no R — construindo e interpretando o boxplot
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>limite_inferior <span class="ot">&lt;-</span> q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> aiq</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>limite_superior <span class="ot">&lt;-</span> q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> aiq</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>limite_inferior</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>limite_inferior <span class="ot">&lt;-</span> q1 <span class="sc">-</span> <span class="fl">1.5</span> <span class="sc">*</span> aiq</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>limite_superior <span class="ot">&lt;-</span> q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> aiq</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>limite_inferior</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>    25% 
@@ -1222,7 +1649,7 @@ Laboratório no R — construindo e interpretando o boxplot
 </div>
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>limite_superior</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>limite_superior</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>   75% 
@@ -1233,40 +1660,40 @@ Laboratório no R — construindo e interpretando o boxplot
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>atipicos_tempo <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;</span> limite_inferior <span class="sc">|</span></span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min <span class="sc">&gt;</span> limite_superior</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    curso,</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    satisfacao,</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>    idade_anos,</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    faltas,</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(tempo_deslocamento_min)</span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>atipicos_tempo <span class="sc">|&gt;</span></span>
-<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
-<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
-<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span>,</span>
-<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
-<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Satisfação"</span>,</span>
-<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Idade"</span>,</span>
-<span id="cb39-26"><a href="#cb39-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Faltas"</span>,</span>
-<span id="cb39-27"><a href="#cb39-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
-<span id="cb39-28"><a href="#cb39-28" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb39-29"><a href="#cb39-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>atipicos_tempo <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;</span> limite_inferior <span class="sc">|</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min <span class="sc">&gt;</span> limite_superior</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    curso,</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    satisfacao,</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    idade_anos,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    faltas,</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(tempo_deslocamento_min)</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>atipicos_tempo <span class="sc">|&gt;</span></span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span>,</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
+<span id="cb41-24"><a href="#cb41-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Satisfação"</span>,</span>
+<span id="cb41-25"><a href="#cb41-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Idade"</span>,</span>
+<span id="cb41-26"><a href="#cb41-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Faltas"</span>,</span>
+<span id="cb41-27"><a href="#cb41-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span></span>
+<span id="cb41-28"><a href="#cb41-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb41-29"><a href="#cb41-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="tbl-atipicos-tempo-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atipicos-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.8: Estudantes com tempos de deslocamento sinalizados pela regra de 1,5 vezes a amplitude interquartílica.
+Tabela&nbsp;6.9: Estudantes com tempos de deslocamento sinalizados pela regra de 1,5 vezes a amplitude interquartílica.
 </figcaption>
 <div aria-describedby="tbl-atipicos-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1326,27 +1753,27 @@ Tabela&nbsp;6.8: Estudantes com tempos de deslocamento sinalizados pela regra de
 </figure>
 </div>
 </div>
-<p>A <a href="#tbl-atipicos-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.8</span></a> mostra quais observações merecem investigação segundo a regra adotada. A presença nessa tabela, entretanto, <strong>não autoriza sua exclusão automática</strong>.</p>
+<p>A <a href="#tbl-atipicos-tempo-r" class="quarto-xref">Tabela&nbsp;<span>6.9</span></a> mostra quais observações merecem investigação segundo a regra adotada. A presença nessa tabela, entretanto, <strong>não autoriza sua exclusão automática</strong>.</p>
 <p>O boxplot pode ser construído diretamente com <code>geom_boxplot()</code>.</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> tempo_deslocamento_min)</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> tempo_deslocamento_min)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.35</span>) <span class="sc">+</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-boxplot-tempo-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-boxplot-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-separatrizes-boxplot_files/figure-html/fig-boxplot-tempo-r-1.png" class="img-fluid figure-img" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior." width="672">
+<img src="06-separatrizes-boxplot-revisado_files/figure-html/fig-boxplot-tempo-r-1.png" class="img-fluid figure-img" alt="Diagrama de caixa do tempo de deslocamento em minutos, com pontos destacados acima do bigode superior." width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-tempo-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;6.2: Boxplot do tempo de deslocamento dos 80 estudantes.
@@ -1364,18 +1791,18 @@ Figura&nbsp;6.2: Boxplot do tempo de deslocamento dos 80 estudantes.
 <h2 data-number="6.4" class="anchored" data-anchor-id="boxplot-e-histograma-representações-complementares"><span class="header-section-number">6.4</span> Boxplot e histograma: representações complementares</h2>
 <p>O boxplot resume uma distribuição utilizando poucos elementos. Isso o torna compacto e especialmente útil para comparar distribuições. Entretanto, justamente por resumir os dados, ele não revela todos os detalhes da forma.</p>
 <p>O <strong>histograma</strong> apresenta como as observações se distribuem ao longo de intervalos e permite visualizar concentrações, caudas, possíveis lacunas e outras características da forma.</p>
-<p>A <a href="#tbl-boxplot-histograma" class="quarto-xref">Tabela&nbsp;<span>6.9</span></a> resume as principais diferenças.</p>
+<p>A <a href="#tbl-boxplot-histograma" class="quarto-xref">Tabela&nbsp;<span>6.10</span></a> resume as principais diferenças.</p>
 <div id="tbl-boxplot-histograma" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-boxplot-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.9: Comparação entre as informações destacadas por boxplot e histograma.
+Tabela&nbsp;6.10: Comparação entre as informações destacadas por boxplot e histograma.
 </figcaption>
 <div aria-describedby="tbl-boxplot-histograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 30%">
-<col style="width: 30%">
-<col style="width: 38%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1420,7 +1847,7 @@ Tabela&nbsp;6.9: Comparação entre as informações destacadas por boxplot e hi
 </div>
 </figure>
 </div>
-<p>Como mostra a <a href="#tbl-boxplot-histograma" class="quarto-xref">Tabela&nbsp;<span>6.9</span></a>, as duas representações cumprem funções diferentes. Não é necessário escolher uma delas como universalmente melhor.</p>
+<p>Como mostra a <a href="#tbl-boxplot-histograma" class="quarto-xref">Tabela&nbsp;<span>6.10</span></a>, as duas representações cumprem funções diferentes. Não é necessário escolher uma delas como universalmente melhor.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Laboratório no R — comparando boxplot e histograma">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1435,31 +1862,31 @@ Laboratório no R — comparando boxplot e histograma
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> tempo_deslocamento_min)</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">15</span>,</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">boundary =</span> <span class="dv">10</span>,</span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">closed =</span> <span class="st">"left"</span>,</span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.8</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">115</span>, <span class="at">by =</span> <span class="dv">15</span>)</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Tempo de deslocamento (min)"</span>,</span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequência"</span></span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> tempo_deslocamento_min)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">15</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">boundary =</span> <span class="dv">10</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">closed =</span> <span class="st">"left"</span>,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"white"</span>,</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="fl">0.8</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="dv">115</span>, <span class="at">by =</span> <span class="dv">15</span>)</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Tempo de deslocamento (min)"</span>,</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequência"</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div id="fig-histograma-comparacao-r" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-histograma-comparacao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="06-separatrizes-boxplot_files/figure-html/fig-histograma-comparacao-r-1.png" class="img-fluid figure-img" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos." width="672">
+<img src="06-separatrizes-boxplot-revisado_files/figure-html/fig-histograma-comparacao-r-1.png" class="img-fluid figure-img" alt="Histograma dos tempos de deslocamento dos estudantes em intervalos de 15 minutos." width="672">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histograma-comparacao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;6.3: Histograma do tempo de deslocamento utilizado para comparação com o boxplot.
@@ -1478,18 +1905,18 @@ Figura&nbsp;6.3: Histograma do tempo de deslocamento utilizado para comparação
 <p>Uma observação marcada pelo boxplot não deve ser chamada automaticamente de <strong>erro</strong>.</p>
 <p>O termo <strong>observação potencialmente atípica</strong> indica apenas que aquele valor está relativamente distante da região central da distribuição segundo uma regra estatística específica.</p>
 <p>Essa sinalização deve ser entendida como um <strong>convite à investigação</strong>.</p>
-<p>A <a href="#tbl-atipico-erro" class="quarto-xref">Tabela&nbsp;<span>6.10</span></a> apresenta algumas possibilidades.</p>
+<p>A <a href="#tbl-atipico-erro" class="quarto-xref">Tabela&nbsp;<span>6.11</span></a> apresenta algumas possibilidades.</p>
 <div id="tbl-atipico-erro" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-atipico-erro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.10: Exemplos de situações relacionadas a valores extremos e possíveis condutas iniciais.
+Tabela&nbsp;6.11: Exemplos de situações relacionadas a valores extremos e possíveis condutas iniciais.
 </figcaption>
 <div aria-describedby="tbl-atipico-erro-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 27%">
-<col style="width: 25%">
-<col style="width: 47%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1534,7 +1961,7 @@ Tabela&nbsp;6.10: Exemplos de situações relacionadas a valores extremos e poss
 </div>
 </figure>
 </div>
-<p>A <a href="#tbl-atipico-erro" class="quarto-xref">Tabela&nbsp;<span>6.10</span></a> reforça que um valor extremo pode conter informação relevante sobre a população estudada. Excluir observações somente porque aparecem como pontos separados em um boxplot pode produzir uma análise incorreta.</p>
+<p>A <a href="#tbl-atipico-erro" class="quarto-xref">Tabela&nbsp;<span>6.11</span></a> reforça que um valor extremo pode conter informação relevante sobre a população estudada. Excluir observações somente porque aparecem como pontos separados em um boxplot pode produzir uma análise incorreta.</p>
 <div class="callout callout-style-default callout-important callout-titled" title="Atípico não é sinônimo de erro">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1574,30 +2001,30 @@ Laboratório no R — investigando os valores extremos
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;</span> limite_inferior <span class="sc">|</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min <span class="sc">&gt;</span> limite_superior</span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(tempo_deslocamento_min) <span class="sc">|&gt;</span></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span>,</span>
-<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
-<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Satisfação"</span>,</span>
-<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Idade"</span>,</span>
-<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Faltas"</span>,</span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span>,</span>
-<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Altura (m)"</span></span>
-<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;</span> limite_inferior <span class="sc">|</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min <span class="sc">&gt;</span> limite_superior</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(tempo_deslocamento_min) <span class="sc">|&gt;</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span>,</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Satisfação"</span>,</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Idade"</span>,</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Faltas"</span>,</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span>,</span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Altura (m)"</span></span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="tbl-investigacao-atipicos-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-investigacao-atipicos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.11: Registros completos das observações sinalizadas como potencialmente atípicas para o tempo de deslocamento.
+Tabela&nbsp;6.12: Registros completos das observações sinalizadas como potencialmente atípicas para o tempo de deslocamento.
 </figcaption>
 <div aria-describedby="tbl-investigacao-atipicos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1662,22 +2089,22 @@ Tabela&nbsp;6.11: Registros completos das observações sinalizadas como potenci
 </figure>
 </div>
 </div>
-<p>A <a href="#tbl-investigacao-atipicos-r" class="quarto-xref">Tabela&nbsp;<span>6.11</span></a> permite analisar as observações em seu contexto. No banco utilizado nesta apostila, o fato de alguns tempos serem elevados não é, por si só, evidência de erro de registro.</p>
+<p>A <a href="#tbl-investigacao-atipicos-r" class="quarto-xref">Tabela&nbsp;<span>6.12</span></a> permite analisar as observações em seu contexto. No banco utilizado nesta apostila, o fato de alguns tempos serem elevados não é, por si só, evidência de erro de registro.</p>
 <p>Podemos também obter o maior valor que ainda permanece dentro do limite superior:</p>
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>maior_valor_nao_atipico <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;=</span> limite_superior</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">valor =</span></span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(tempo_deslocamento_min, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(valor)</span>
-<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>maior_valor_nao_atipico</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>maior_valor_nao_atipico <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min <span class="sc">&lt;=</span> limite_superior</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">valor =</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">max</span>(tempo_deslocamento_min, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(valor)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>maior_valor_nao_atipico</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 85.9</code></pre>
@@ -1688,29 +2115,29 @@ Tabela&nbsp;6.11: Registros completos das observações sinalizadas como potenci
 <div class="cell">
 <details open="" class="code-fold">
 <summary>Código</summary>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tempo_deslocamento_min)) <span class="sc">|&gt;</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min,</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    curso</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span>,</span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span></span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(tempo_deslocamento_min)) <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min,</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    curso</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">digits =</span> <span class="dv">1</span>,</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">col.names =</span> <span class="fu">c</span>(</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Estudante"</span>,</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Tempo (min)"</span>,</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Transporte"</span>,</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Curso"</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div id="tbl-maiores-tempos-r" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-maiores-tempos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.12: Dez maiores tempos de deslocamento registrados no banco de estudantes.
+Tabela&nbsp;6.13: Dez maiores tempos de deslocamento registrados no banco de estudantes.
 </figcaption>
 <div aria-describedby="tbl-maiores-tempos-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1791,7 +2218,7 @@ Tabela&nbsp;6.12: Dez maiores tempos de deslocamento registrados no banco de est
 </figure>
 </div>
 </div>
-<p>A <a href="#tbl-maiores-tempos-r" class="quarto-xref">Tabela&nbsp;<span>6.12</span></a> facilita a inspeção dos registros localizados na extremidade superior da distribuição. Esse tipo de verificação é fundamental antes de qualquer decisão sobre os dados.</p>
+<p>A <a href="#tbl-maiores-tempos-r" class="quarto-xref">Tabela&nbsp;<span>6.13</span></a> facilita a inspeção dos registros localizados na extremidade superior da distribuição. Esse tipo de verificação é fundamental antes de qualquer decisão sobre os dados.</p>
 </div>
 </div>
 </section>
@@ -1824,17 +2251,17 @@ Uma linguagem cuidadosa
 </section>
 <section id="funções-principais-utilizadas-no-r" class="level2" data-number="6.7">
 <h2 data-number="6.7" class="anchored" data-anchor-id="funções-principais-utilizadas-no-r"><span class="header-section-number">6.7</span> Funções principais utilizadas no R</h2>
-<p>A <a href="#tbl-funcoes-posicao-r" class="quarto-xref">Tabela&nbsp;<span>6.13</span></a> resume as funções trabalhadas neste capítulo.</p>
+<p>A <a href="#tbl-funcoes-posicao-r" class="quarto-xref">Tabela&nbsp;<span>6.14</span></a> resume as funções trabalhadas neste capítulo.</p>
 <div id="tbl-funcoes-posicao-r" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-funcoes-posicao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Tabela&nbsp;6.13: Funções do R utilizadas para separatrizes, resumo de cinco números e boxplots.
+Tabela&nbsp;6.14: Funções do R utilizadas para separatrizes, resumo de cinco números e boxplots.
 </figcaption>
 <div aria-describedby="tbl-funcoes-posicao-r-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 66%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1884,7 +2311,7 @@ Tabela&nbsp;6.13: Funções do R utilizadas para separatrizes, resumo de cinco n
 </div>
 </figure>
 </div>
-<p>A <a href="#tbl-funcoes-posicao-r" class="quarto-xref">Tabela&nbsp;<span>6.13</span></a> deve ser entendida como uma referência de consulta. O objetivo não é memorizar uma lista de funções, mas saber <strong>qual pergunta estatística cada uma ajuda a responder</strong>.</p>
+<p>A <a href="#tbl-funcoes-posicao-r" class="quarto-xref">Tabela&nbsp;<span>6.14</span></a> deve ser entendida como uma referência de consulta. O objetivo não é memorizar uma lista de funções, mas saber <strong>qual pergunta estatística cada uma ajuda a responder</strong>.</p>
 </section>
 <section id="síntese" class="level2" data-number="6.8">
 <h2 data-number="6.8" class="anchored" data-anchor-id="síntese"><span class="header-section-number">6.8</span> Síntese</h2>
@@ -1895,6 +2322,9 @@ Tabela&nbsp;6.13: Funções do R utilizadas para separatrizes, resumo de cinco n
 <li>os <strong>quartis</strong> correspondem aos quantis de ordens 0,25, 0,50 e 0,75;</li>
 <li>os <strong>decis</strong> dividem a distribuição em dez partes e os <strong>percentis</strong>, em cem;</li>
 <li>quartis, decis e percentis são casos particulares de quantis;</li>
+<li>para dados não agrupados, quartis e decis podem ser calculados a partir do mesmo procedimento utilizado para percentis, usando as equivalências <span class="math inline">\(Q_j=P_{25j}\)</span> e <span class="math inline">\(D_j=P_{10j}\)</span>;</li>
+<li>para dados agrupados sem classes, a frequência acumulada permite localizar as posições das separatrizes;</li>
+<li>para dados agrupados em classes, as separatrizes são estimadas por interpolação linear dentro da classe correspondente;</li>
 <li>diferentes convenções computacionais podem produzir pequenas diferenças nos quantis de amostras finitas;</li>
 <li>o <strong>resumo de cinco números</strong> é formado por mínimo, <span class="math inline">\(Q_1\)</span>, mediana, <span class="math inline">\(Q_3\)</span> e máximo;</li>
 <li>a <strong>amplitude interquartílica</strong> é dada por <span class="math inline">\(AIQ=Q_3-Q_1\)</span> e descreve a extensão dos 50% centrais;</li>
@@ -1922,7 +2352,7 @@ Tabela&nbsp;6.13: Funções do R utilizadas para separatrizes, resumo de cinco n
 </ol></li>
 <li><p>Considere os dados ordenados</p>
 <p><span class="math display">\[5,\ 7,\ 8,\ 10,\ 11,\ 13,\ 15,\ 18,\ 20.\]</span></p>
-<p>Determine, utilizando a mesma convenção adotada nos exemplos:</p>
+<p>Determine, utilizando a convenção de cálculo manual apresentada em <a href="#sec-calculo-separatrizes" class="quarto-xref"><span>Seção 6.1.2</span></a>:</p>
 <ol type="a">
 <li>o mínimo;<br>
 </li>
@@ -1972,6 +2402,96 @@ Tabela&nbsp;6.13: Funções do R utilizadas para separatrizes, resumo de cinco n
 </li>
 <li>erro de registro.</li>
 </ol></li>
+<li><p>Considere a distribuição de frequências:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><span class="math inline">\(x_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(f_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(F_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+<p>Determine, utilizando a frequência acumulada:</p>
+<ol type="a">
+<li><span class="math inline">\(Q_1\)</span>;<br>
+</li>
+<li>a mediana;<br>
+</li>
+<li><span class="math inline">\(D_8\)</span>;<br>
+</li>
+<li><span class="math inline">\(P_{20}\)</span>.</li>
+</ol></li>
+<li><p>Considere a seguinte distribuição de uma variável quantitativa contínua:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Classe</th>
+<th style="text-align: right;"><span class="math inline">\(f_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(F_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([10,20)\)</span></td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([20,30)\)</span></td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([30,40)\)</span></td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">26</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\([40,50)\)</span></td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\([50,60)\)</span></td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">40</td>
+</tr>
+</tbody>
+</table>
+<p>Calcule, por interpolação dentro da classe:</p>
+<ol type="a">
+<li><span class="math inline">\(Q_1\)</span>;<br>
+</li>
+<li><span class="math inline">\(Q_3\)</span>;<br>
+</li>
+<li><span class="math inline">\(D_6\)</span>;<br>
+</li>
+<li><span class="math inline">\(P_{90}\)</span>.</li>
+</ol>
+<p>Em cada item, indique primeiro a posição procurada e a classe que contém a separatriz.</p></li>
 </ol>
 </section>
 <section id="exercícios-práticos-no-r" class="level2" data-number="6.10">

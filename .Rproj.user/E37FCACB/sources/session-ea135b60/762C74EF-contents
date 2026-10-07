@@ -66,14 +66,14 @@ $$12,\ 18,\ 20,\ 22,\ 25,\ 28,\ 30,\ 35,\ 50.$$
 A @tbl-quantis-exemplo apresenta alguns quantis calculados por interpolação linear, conforme a convenção padrão utilizada pela função `quantile()` do R.
 
 | Quantil | Proporção | Valor (min) | Interpretação aproximada |
-|:-----------------|-----------------:|-----------------:|:------------------|
+|:-----------------|-----------------:|-----------------:|:-----------------|
 | $q_{0,10}$ | 10% | 16,8 | cerca de 10% dos valores estão até essa região |
 | $q_{0,25}$ | 25% | 20,0 | cerca de 25% dos valores estão até essa região |
 | $q_{0,50}$ | 50% | 25,0 | metade dos valores está até essa região |
 | $q_{0,75}$ | 75% | 30,0 | cerca de 75% dos valores estão até essa região |
 | $q_{0,90}$ | 90% | 38,0 | cerca de 90% dos valores estão até essa região |
 
-: Alguns quantis para o conjunto de tempos utilizado no exemplo.
+: Alguns quantis para o conjunto de tempos utilizado no exemplo. {#tbl-quantis-exemplo}
 
 Observe, na @tbl-quantis-exemplo, que alguns quantis coincidem com valores observados, enquanto outros, como 16,8 e 38,0, não aparecem no conjunto original. Isso ocorre porque o procedimento adotado interpola valores quando a posição desejada se encontra entre duas observações.
 
@@ -114,12 +114,12 @@ $$Q_1=20,\qquad Q_2=25,\qquad Q_3=30.$$
 A @tbl-quartis-exemplo resume a interpretação.
 
 | Medida | Valor (min) | Interpretação                                        |
-|:-----------------|-----------------:|:----------------------------------|
+|:------------|------------:|:--------------------------------------------|
 | $Q_1$  |          20 | aproximadamente 25% dos tempos estão até essa região |
 | $Q_2$  |          25 | aproximadamente 50% dos tempos estão até essa região |
 | $Q_3$  |          30 | aproximadamente 75% dos tempos estão até essa região |
 
-: Quartis do conjunto de tempos utilizado no exemplo.
+: Quartis do conjunto de tempos utilizado no exemplo. {#tbl-quartis-exemplo}
 
 A @tbl-quartis-exemplo mostra que os quartis não representam quatro grupos de valores, mas sim **três pontos de corte** que ajudam a dividir a distribuição em quatro partes.
 
@@ -175,7 +175,7 @@ A @tbl-equivalencia-quantis organiza essas relações.
 | Quinto decil $D_5$     | $q_{0,50}$             | $P_{50}$                 |
 | Nono decil $D_9$       | $q_{0,90}$             | $P_{90}$                 |
 
-: Relações entre quartis, decis, percentis e quantis.
+: Relações entre quartis, decis, percentis e quantis. {#tbl-equivalencia-quantis}
 
 Como mostra a @tbl-equivalencia-quantis, quartis, decis e percentis não são conceitos independentes: todos são casos particulares de quantis.
 
@@ -469,7 +469,7 @@ Considere a distribuição do índice pluviométrico apresentada na @tbl-chuva-s
 | $[156,160)$ | 5 | 25 | 20 | 100 | 158 |
 | **Total** | **20** | **100** |  |  |  |
 
-: Distribuição de frequências do índice pluviométrico utilizada no cálculo das separatrizes.
+: Distribuição de frequências do índice pluviométrico utilizada no cálculo das separatrizes. {#tbl-chuva-separatrizes}
 
 Temos $n=20$ e amplitude de classe $h=4$.
 
@@ -730,7 +730,7 @@ temos o resumo apresentado na @tbl-cinco-numeros-exemplo.
 | Terceiro quartil ($Q_3$) |          30 |
 | Máximo                   |          50 |
 
-: Resumo de cinco números do conjunto utilizado no exemplo.
+: Resumo de cinco números do conjunto utilizado no exemplo. {#tbl-cinco-numeros-exemplo}
 
 A @tbl-cinco-numeros-exemplo permite perceber rapidamente que a metade central dos dados se encontra entre 20 e 30 minutos, enquanto o maior valor, 50 minutos, está consideravelmente afastado do terceiro quartil.
 
@@ -898,7 +898,7 @@ A @tbl-elementos-boxplot-exemplo reúne os valores utilizados na construção.
 | Maior valor não atípico      |          35 |
 | Valor potencialmente atípico |          50 |
 
-: Elementos utilizados na construção conceitual do boxplot do exemplo.
+: Elementos utilizados na construção conceitual do boxplot do exemplo. {#tbl-elementos-boxplot-exemplo}
 
 A @tbl-elementos-boxplot-exemplo evidencia uma distinção essencial: embora o limite superior seja 45, o bigode superior termina em 35, pois 35 é a **maior observação efetivamente registrada que ainda está dentro do limite**.
 
@@ -1044,7 +1044,7 @@ O **histograma** apresenta como as observações se distribuem ao longo de inter
 A @tbl-boxplot-histograma resume as principais diferenças.
 
 | Aspecto | Boxplot | Histograma |
-|:---------------------|:---------------------|:---------------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | Centro | mostra explicitamente a mediana | pode sugerir a região de maior concentração |
 | Quartis | mostra $Q_1$ e $Q_3$ | não os mostra diretamente |
 | AIQ | representada pela caixa | não aparece diretamente |
@@ -1052,7 +1052,7 @@ A @tbl-boxplot-histograma resume as principais diferenças.
 | Forma da distribuição | visão bastante resumida | mostra mais detalhes da forma |
 | Comparação entre grupos | muito conveniente | pode exigir vários gráficos |
 
-: Comparação entre as informações destacadas por boxplot e histograma.
+: Comparação entre as informações destacadas por boxplot e histograma. {#tbl-boxplot-histograma}
 
 Como mostra a @tbl-boxplot-histograma, as duas representações cumprem funções diferentes. Não é necessário escolher uma delas como universalmente melhor.
 
@@ -1101,7 +1101,7 @@ Essa sinalização deve ser entendida como um **convite à investigação**.
 A @tbl-atipico-erro apresenta algumas possibilidades.
 
 | Situação | Exemplo | Conduta inicial |
-|:-------------------|:-----------------|:---------------------------------|
+|:-----------------------|:-----------------------|:-----------------------|
 | Erro de digitação | altura registrada como 17,5 m em vez de 1,75 m | conferir a fonte e corrigir se houver evidência |
 | Erro de medição | equipamento apresentou falha conhecida | verificar registros e protocolo de coleta |
 | Valor extremo legítimo | estudante realmente leva 112 min para chegar à universidade | manter e interpretar |
@@ -1109,7 +1109,7 @@ A @tbl-atipico-erro apresenta algumas possibilidades.
 | Unidade inconsistente | parte dos tempos foi registrada em horas e parte em minutos | padronizar após confirmação |
 | Valor raro sem explicação imediata | observação muito distante das demais | investigar antes de decidir |
 
-: Exemplos de situações relacionadas a valores extremos e possíveis condutas iniciais.
+: Exemplos de situações relacionadas a valores extremos e possíveis condutas iniciais. {#tbl-atipico-erro}
 
 A @tbl-atipico-erro reforça que um valor extremo pode conter informação relevante sobre a população estudada. Excluir observações somente porque aparecem como pontos separados em um boxplot pode produzir uma análise incorreta.
 
@@ -1229,7 +1229,7 @@ Em amostras finitas, especialmente quando há valores repetidos ou interpolaçã
 A @tbl-funcoes-posicao-r resume as funções trabalhadas neste capítulo.
 
 | Função | Finalidade principal |
-|:-----------------------|:----------------------------------------------|
+|:-----------------------------------|:-----------------------------------|
 | `quantile()` | calcular quantis, quartis, decis e percentis |
 | `median()` | calcular a mediana |
 | `min()` | obter o menor valor |
@@ -1240,7 +1240,7 @@ A @tbl-funcoes-posicao-r resume as funções trabalhadas neste capítulo.
 | `geom_boxplot()` | construir boxplots com `ggplot2` |
 | `geom_histogram()` | construir histogramas para comparação da forma |
 
-: Funções do R utilizadas para separatrizes, resumo de cinco números e boxplots.
+: Funções do R utilizadas para separatrizes, resumo de cinco números e boxplots. {#tbl-funcoes-posicao-r}
 
 A @tbl-funcoes-posicao-r deve ser entendida como uma referência de consulta. O objetivo não é memorizar uma lista de funções, mas saber **qual pergunta estatística cada uma ajuda a responder**.
 

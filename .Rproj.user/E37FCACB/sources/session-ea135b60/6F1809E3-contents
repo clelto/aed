@@ -1,0 +1,131 @@
+library(tidyverse)
+
+dados_box <- tibble(
+  grupo = rep(
+    c(
+      "Caixa grande e simétrica",
+      "Caixa pequena e simétrica",
+      "Q3 próximo de Q2",
+      "Bigode superior mais longo",
+      "Assimétrica com outlier"
+    ),
+    times = c(11, 9, 12, 9, 10)
+  ),
+  
+  valor = c(
+    # 1. Caixa grande e simétrica
+    10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
+    
+    # 2. Caixa pequena e simétrica
+    18, 19, 19, 20, 20, 20, 21, 21, 22,
+    
+    # 3. Q3 próximo de Q2
+    2, 4, 5, 7, 8, 9, 9, 10, 10, 10, 11, 11,
+    
+    # 4. Bigode superior mais longo
+    5, 6, 7, 8, 9, 10, 11, 12, 16,
+    
+    # 5. Assimétrica com outlier
+    3, 4, 5, 6, 7, 8, 9, 10, 11, 30
+  )
+)
+
+dados_box <- dados_box |>
+  mutate(
+    grupo = factor(
+      grupo,
+      levels = rev(c(
+        "Caixa grande e simétrica",
+        "Caixa pequena e simétrica",
+        "Q3 próximo de Q2",
+        "Bigode superior mais longo",
+        "Assimétrica com outlier"
+      ))
+    )
+  )
+
+ggplot(
+  dados_box,
+  aes(x = valor, y = grupo)
+) +
+  geom_boxplot(
+    width = 0.45,
+    outlier.shape = NA
+  ) +
+  geom_jitter(
+    height = 0.10,
+    width = 0,
+    size = 2.8,
+    alpha = 0.85
+  ) +
+  labs(
+    title = "Comparação de diferentes formatos de boxplot",
+    x = "Valores observados",
+    y = NULL
+  ) +
+  theme_minimal(base_size = 15)+ 
+  annotate(
+  "text",
+  x = 15,
+  y = 5.35,
+  label = "Q1",
+  size = 4
+) +
+  annotate(
+    "text",
+    x = 20,
+    y = 5.35,
+    label = "Mediana",
+    size = 4
+  ) +
+  annotate(
+    "text",
+    x = 25,
+    y = 5.35,
+    label = "Q3",
+    size = 4
+  ) +
+  annotate(
+    "segment",
+    x = 15, xend = 15,
+    y = 5.25, yend = 5.05,
+    arrow = arrow(length = unit(0.15, "cm"))
+  ) +
+  annotate(
+    "segment",
+    x = 20, xend = 20,
+    y = 5.25, yend = 5.05,
+    arrow = arrow(length = unit(0.15, "cm"))
+  ) +
+  annotate(
+    "segment",
+    x = 25, xend = 25,
+    y = 5.25, yend = 5.05,
+    arrow = arrow(length = unit(0.15, "cm"))
+  ) +
+  annotate(
+    "text",
+    x = 19,
+    y = 2.35,
+    label = "Bigode superior",
+    size = 4
+  ) +
+  annotate(
+    "segment",
+    x = 18.5, xend = 16,
+    y = 2.25, yend = 2,
+    arrow = arrow(length = unit(0.15, "cm"))
+  ) +
+  annotate(
+    "text",
+    x = 25,
+    y = 1.35,
+    label = "Outlier",
+    size = 4
+  ) +
+  annotate(
+    "segment",
+    x = 25.5, xend = 30,
+    y = 1.25, yend = 1,
+    arrow = arrow(length = unit(0.15, "cm"))
+  )
