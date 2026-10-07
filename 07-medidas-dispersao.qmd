@@ -925,8 +925,10 @@ No primeiro caso, os cálculos produzem exatamente os mesmos resultados que seri
 
 Considere novamente a distribuição de faltas dos 20 estudantes:
 
+::: {.tabela-centralizada}
+
 | Número de faltas ($x_i$) | $f_i$ |
-|-------------------------:|------:|
+|--------------------------:|------:|
 | 0 | 4 |
 | 1 | 4 |
 | 2 | 6 |
@@ -936,6 +938,8 @@ Considere novamente a distribuição de faltas dos 20 estudantes:
 | **Total** | **20** |
 
 : Distribuição de frequências do número de faltas. {#tbl-dispersao-faltas-agrupadas}
+
+:::
 
 A média dessa distribuição, calculada anteriormente, é
 
