@@ -3,7 +3,7 @@
     "path": "~/GitHub/aed/07-medidas-dispersao.qmd",
     "project_path": "07-medidas-dispersao.qmd",
     "type": "quarto_markdown",
-    "hash": "1131654612",
+    "hash": "192074922",
     "contents": "",
     "dirty": false,
     "created": 1791341651898.0,
@@ -15,18 +15,18 @@
         "source_window_id": "",
         "Source": "Source",
         "docOutlineVisible": "1",
-        "cursorPosition": "943,0",
-        "scrollLine": "938",
+        "cursorPosition": "1129,0",
+        "scrollLine": "1129",
         "rmdVisualModeLocation": "20013:58065.55859375",
         "rmdVisualCollapsedChunks": "",
-        "docOutlineSize": "49"
+        "docOutlineSize": "173"
     },
     "folds": "",
-    "lastKnownWriteTime": 1791344095,
+    "lastKnownWriteTime": 1791694124,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1791344095723,
+    "last_content_update": 1791694124204,
     "read_only": false,
     "read_only_alternatives": []
 }

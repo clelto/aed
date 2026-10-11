@@ -1,0 +1,510 @@
+## Desvio padrão
+
+A variância mede a dispersão dos dados a partir dos **quadrados dos desvios em relação à média**. Essa construção possui várias vantagens matemáticas, mas apresenta uma dificuldade de interpretação: sua unidade também fica elevada ao quadrado.
+
+Por exemplo, se uma variável é medida em minutos, a variância é expressa em
+
+$$
+  \text{minutos}^2.
+$$
+  
+  Se a variável é medida em metros, a variância é expressa em
+
+$$
+  \text{metros}^2.
+$$
+  
+  Para retornar à unidade original dos dados, tomamos a raiz quadrada da variância. Surge, assim, o **desvio padrão**.
+
+O desvio padrão pode ser entendido como uma medida da **magnitude da dispersão dos valores em torno da média**.
+
+Em outras palavras:
+  
+  > **O desvio padrão fornece uma escala para avaliar quão afastados os valores estão da média.**
+  
+  ### Desvio padrão populacional
+  
+  Para uma população,
+
+$$
+  \sigma=
+  \sqrt{
+    \frac{1}{N}
+    \sum_{i=1}^{N}
+    (x_i-\mu)^2
+  }.
+$$
+  
+  O procedimento envolvido nessa expressão pode ser entendido em etapas:
+  
+  1. calculamos o afastamento de cada valor em relação à média;
+2. elevamos esses afastamentos ao quadrado;
+3. calculamos a média desses quadrados;
+4. extraímos a raiz quadrada.
+
+Assim, o desvio padrão populacional é literalmente a **raiz da média dos quadrados dos desvios em relação à média**.
+
+### Desvio padrão amostral
+
+Para uma amostra,
+
+$$
+  s=
+  \sqrt{
+    \frac{1}{n-1}
+    \sum_{i=1}^{n}
+    (x_i-\bar{x})^2
+  }.
+$$
+  
+  Nesse caso, o desvio padrão amostral é a raiz quadrada da variância amostral.
+
+No exemplo anterior, se os dados forem considerados uma população,
+
+$$
+  \sigma
+=
+  \sqrt{8}
+\approx
+2{,}83.
+$$
+  
+  Se forem considerados uma amostra,
+
+$$
+  s
+=
+  \sqrt{10}
+\approx
+3{,}16.
+$$
+  
+  A principal vantagem interpretativa do desvio padrão é que ele possui a **mesma unidade de medida da variável original**.
+
+Se estamos analisando minutos, o desvio padrão é expresso em minutos. Se estamos analisando metros, é expresso em metros.
+
+### Como interpretar o desvio padrão?
+
+Um desvio padrão pequeno indica que os valores tendem a estar mais concentrados em torno da média.
+
+Um desvio padrão grande indica que os valores estão mais espalhados em torno da média.
+
+Portanto,
+
+$$
+  \boxed{\text{média}
+    \longrightarrow
+    \text{centro da distribuição}}
+$$
+  
+  e
+
+$$
+  \boxed{\text{desvio padrão}
+    \longrightarrow
+    \text{dispersão em torno desse centro}}.
+$$
+  
+  Considere, por exemplo, duas situações em que o tempo médio de deslocamento seja de 40 minutos.
+
+Na primeira,
+
+$$
+  \bar{x}=40
+\qquad\text{e}\qquad
+s=5.
+$$
+  
+  Na segunda,
+
+$$
+  \bar{x}=40
+\qquad\text{e}\qquad
+s=25.
+$$
+  
+  Embora as duas distribuições possuam a mesma média, elas têm comportamentos muito diferentes.
+
+Na primeira, os tempos tendem a estar relativamente concentrados em torno de 40 minutos. Na segunda, existe muito mais variabilidade nos tempos observados.
+
+::: {.callout-note title="Uma interpretação importante"}
+É comum dizer, de maneira intuitiva, que o desvio padrão representa um **afastamento típico em relação à média**.
+
+Essa interpretação é útil, mas deve ser entendida com cuidado.
+
+O desvio padrão **não é a média das distâncias dos valores até a média**. Seu cálculo é baseado nos **quadrados dos desvios**.
+
+Por isso, é mais preciso dizer que o desvio padrão fornece uma **escala para medir os afastamentos em relação à média**.
+:::
+  
+  ### O que significa $\bar{x}-s$ e $\bar{x}+s$?
+  
+  Uma das maneiras mais úteis de interpretar o desvio padrão é utilizá-lo como uma espécie de **régua para medir afastamentos em relação à média**.
+
+Suponha que
+
+$$
+  \bar{x}=40\text{ minutos}
+$$
+  
+  e
+
+$$
+  s=5\text{ minutos}.
+$$
+  
+  Então,
+
+$$
+  \bar{x}-s
+=
+  40-5
+=
+  35
+$$
+  
+  e
+
+$$
+  \bar{x}+s
+=
+  40+5
+=
+  45.
+$$
+  
+  O intervalo
+
+$$
+  [35;45]
+$$
+  
+  corresponde aos valores que se encontram entre **um desvio padrão abaixo da média e um desvio padrão acima da média**.
+
+Podemos representar essa ideia por
+
+$$
+  \bar{x}-s
+\qquad
+\bar{x}
+\qquad
+\bar{x}+s,
+$$
+  
+  ou, neste exemplo,
+
+$$
+  35
+\qquad
+40
+\qquad
+45.
+$$
+  
+  Um valor igual a 43 minutos está a
+
+$$
+  43-40=3
+$$
+  
+  minutos da média.
+
+Como
+
+$$
+  3<5,
+$$
+  
+  esse valor encontra-se a **menos de um desvio padrão da média**.
+
+Agora considere um valor de 52 minutos. Seu afastamento em relação à média é
+
+$$
+  52-40=12.
+$$
+  
+  Como
+
+$$
+  \frac{12}{5}=2{,}4,
+$$
+  
+  esse valor encontra-se a **2,4 desvios padrão acima da média**.
+
+É nesse sentido que o desvio padrão funciona como uma unidade para avaliar a distância de uma observação em relação à média.
+
+::: {.callout-important title="O intervalo média ± desvio padrão"}
+O intervalo
+
+$$
+  [\bar{x}-s;\bar{x}+s]
+$$
+  
+  não é um intervalo de confiança.
+
+Ele apenas delimita a região compreendida entre **um desvio padrão abaixo e um desvio padrão acima da média**.
+
+Da mesma forma,
+
+$$
+  [\bar{x}-2s;\bar{x}+2s]
+$$
+  
+  corresponde à região situada a até dois desvios padrão da média.
+:::
+  
+  ### Quantos valores ficam entre $\bar{x}-s$ e $\bar{x}+s$?
+  
+  O desvio padrão, por si só, **não determina a porcentagem de observações** que estará entre
+
+$$
+  \bar{x}-s
+$$
+  
+  e
+
+$$
+  \bar{x}+s.
+$$
+  
+  Essa proporção depende da forma da distribuição.
+
+Quando a distribuição é aproximadamente normal, temos a conhecida regra aproximada:
+  
+  $$
+  \mu-\sigma
+\quad\text{a}\quad
+\mu+\sigma
+$$
+  
+  contém cerca de
+
+$$
+  68\%
+$$
+  
+  dos valores;
+
+$$
+  \mu-2\sigma
+\quad\text{a}\quad
+\mu+2\sigma
+$$
+  
+  contém cerca de
+
+$$
+  95\%
+$$
+  
+  dos valores; e
+
+$$
+  \mu-3\sigma
+\quad\text{a}\quad
+\mu+3\sigma
+$$
+  
+  contém aproximadamente
+
+$$
+  99{,}7\%
+$$
+  
+  dos valores.
+
+::: {.callout-warning title="A regra 68–95–99,7 não é universal"}
+Os valores 68%, 95% e 99,7% estão associados à **distribuição normal**.
+
+Não devemos afirmar automaticamente que 68% de qualquer conjunto de dados está entre a média menos um desvio padrão e a média mais um desvio padrão.
+
+Em distribuições muito assimétricas, multimodais ou com valores extremos, essa porcentagem pode ser bastante diferente.
+:::
+  
+  ### Um exemplo com a mesma média e dispersões diferentes
+  
+  Considere os dois conjuntos:
+  
+  $$
+  A:\quad9,\;10,\;10,\;10,\;11
+$$
+  
+  e
+
+$$
+  B:\quad2,\;6,\;10,\;14,\;18.
+$$
+  
+  Nos dois casos,
+
+$$
+  \bar{x}=10.
+$$
+  
+  Entretanto, os valores do conjunto A estão fortemente concentrados em torno de 10, enquanto os valores do conjunto B estão muito mais espalhados.
+
+Os desvios padrão populacionais são aproximadamente
+
+$$
+  \sigma_A=0{,}63
+$$
+  
+  e
+
+$$
+  \sigma_B=5{,}66.
+$$
+  
+  | Conjunto | Média | Desvio padrão |
+  |:--------:|------:|--------------:|
+  | A | 10 | 0,63 |
+  | B | 10 | 5,66 |
+  
+  : Dois conjuntos com a mesma média e diferentes dispersões. {#tbl-dp-mesma-media}
+    
+    A @tbl-dp-mesma-media evidencia que conhecer apenas a média não é suficiente para descrever uma distribuição.
+    
+    A média informa onde se encontra o centro, enquanto o desvio padrão fornece informação sobre o **grau de espalhamento dos valores em torno desse centro**.
+    
+    ### Propriedades do desvio padrão
+    
+    O desvio padrão:
+      
+      - é sempre não negativo;
+    - é igual a zero somente quando todos os valores são iguais;
+    - possui a mesma unidade de medida da variável;
+    - utiliza todas as observações no seu cálculo;
+    - é sensível a valores extremos;
+    - não se altera quando adicionamos uma mesma constante a todos os valores;
+    - é multiplicado por $|b|$ quando todos os valores são multiplicados por $b$.
+    
+    Se
+    
+    $$
+      Y=a+bX,
+    $$
+      
+      então
+    
+    $$
+      SD(Y)
+    =
+      |b|SD(X).
+    $$
+      
+      Por exemplo, adicionar 10 a todas as observações desloca os dados e altera a média, mas não modifica a dispersão entre os valores.
+    
+    Por outro lado, multiplicar todos os valores por 2 também duplica todos os afastamentos em relação à média. Consequentemente, o desvio padrão também é multiplicado por 2.
+    
+    ::: {.callout-tip title="Laboratório no R — desvio padrão"}
+    
+    A função `sd()` calcula o desvio padrão **amostral**.
+    
+    ```{r}
+    x <- c(2, 4, 6, 8, 10)
+    
+    sd(x)
+    ```
+    
+    Podemos verificar a relação
+    
+    $$
+      s=\sqrt{s^2}
+    $$
+      
+      por meio de:
+      
+      ```{r}
+    sqrt(
+      var(x)
+    )
+    ```
+    
+    Para calcular o desvio padrão populacional:
+      
+      ```{r}
+    sqrt(
+      mean(
+        (x - mean(x))^2
+      )
+    )
+    ```
+    
+    Aplicando aos tempos de deslocamento dos estudantes:
+      
+      ```{r}
+    media_tempo <- mean(
+      dados$tempo_deslocamento_min,
+      na.rm = TRUE
+    )
+    
+    desvio_tempo <- sd(
+      dados$tempo_deslocamento_min,
+      na.rm = TRUE
+    )
+    
+    media_tempo
+    desvio_tempo
+    ```
+    
+    Podemos também obter os valores correspondentes a um desvio padrão abaixo e acima da média:
+      
+      ```{r}
+    media_tempo - desvio_tempo
+    media_tempo + desvio_tempo
+    ```
+    
+    Assim, o intervalo
+    
+    ```{r}
+    c(
+      media_tempo - desvio_tempo,
+      media_tempo + desvio_tempo
+    )
+    ```
+    
+    representa a região compreendida entre **um desvio padrão abaixo e um desvio padrão acima da média**.
+    
+    Podemos ainda verificar qual proporção dos estudantes apresenta tempo de deslocamento dentro desse intervalo:
+      
+      ```{r}
+    mean(
+      dados$tempo_deslocamento_min >=
+        media_tempo - desvio_tempo &
+        dados$tempo_deslocamento_min <=
+        media_tempo + desvio_tempo,
+      na.rm = TRUE
+    )
+    ```
+    
+    Multiplicando por 100, obtemos a porcentagem:
+      
+      ```{r}
+    100 *
+      mean(
+        dados$tempo_deslocamento_min >=
+          media_tempo - desvio_tempo &
+          dados$tempo_deslocamento_min <=
+          media_tempo + desvio_tempo,
+        na.rm = TRUE
+      )
+    ```
+    
+    Observe que essa porcentagem é determinada pelos **dados observados** e não precisa ser igual a 68%, pois os tempos de deslocamento não precisam seguir uma distribuição normal.
+    
+    Para comparar os conjuntos apresentados anteriormente:
+      
+      ```{r}
+    conjunto_a <- c(9, 10, 10, 10, 11)
+    conjunto_b <- c(2, 6, 10, 14, 18)
+    
+    mean(conjunto_a)
+    mean(conjunto_b)
+    
+    sd(conjunto_a)
+    sd(conjunto_b)
+    ```
+    
+    Embora as médias sejam iguais, o conjunto B apresenta maior desvio padrão, confirmando sua maior dispersão em torno da média.
+    
+    :::

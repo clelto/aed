@@ -799,69 +799,404 @@ A distinção não depende do tamanho absoluto do banco, mas de **como os dados 
 
 ## Desvio padrão
 
-A variância tem uma limitação interpretativa: sua unidade está elevada ao quadrado.
+A variância mede a dispersão dos dados a partir dos **quadrados dos desvios em relação à média**. Essa construção possui várias vantagens matemáticas, mas apresenta uma dificuldade de interpretação: sua unidade também fica elevada ao quadrado.
 
-O **desvio padrão** resolve essa dificuldade tomando a raiz quadrada da variância.
+Por exemplo, se uma variável é medida em minutos, a variância é expressa em
+
+$$
+\text{minutos}^2.
+$$
+
+Se a variável é medida em metros, a variância é expressa em
+
+$$
+\text{metros}^2.
+$$
+
+Para retornar à unidade original dos dados, tomamos a raiz quadrada da variância. Surge, assim, o **desvio padrão**.
+
+O desvio padrão pode ser entendido como uma medida da **magnitude da dispersão dos valores em torno da média**.
+
+Em outras palavras:
+
+> **O desvio padrão fornece uma escala para avaliar quão afastados os valores estão da média.**
 
 ### Desvio padrão populacional
 
-$$\sigma=
+Para uma população,
+
+$$
+\sigma=
 \sqrt{
 \frac{1}{N}
 \sum_{i=1}^{N}
 (x_i-\mu)^2
-}.$$
+}.
+$$
+
+O procedimento envolvido nessa expressão pode ser entendido em etapas:
+
+1. calculamos o afastamento de cada valor em relação à média;
+2. elevamos esses afastamentos ao quadrado;
+3. calculamos a média desses quadrados;
+4. extraímos a raiz quadrada.
+
+Assim, o desvio padrão populacional é literalmente a **raiz da média dos quadrados dos desvios em relação à média**.
 
 ### Desvio padrão amostral
 
-$$s=
+Para uma amostra,
+
+$$
+s=
 \sqrt{
 \frac{1}{n-1}
 \sum_{i=1}^{n}
 (x_i-\bar{x})^2
-}.$$
+}.
+$$
 
-No exemplo anterior, se os dados forem uma população,
+Nesse caso, o desvio padrão amostral é a raiz quadrada da variância amostral.
 
-$$\sigma=\sqrt{8}\approx2,83.$$
+No exemplo anterior, se os dados forem considerados uma população,
 
-Se forem uma amostra,
+$$
+\sigma
+=
+\sqrt{8}
+\approx
+2{,}83.
+$$
 
-$$s=\sqrt{10}\approx3,16.$$
+Se forem considerados uma amostra,
 
-A vantagem interpretativa é que o desvio padrão é expresso **na mesma unidade dos dados**.
+$$
+s
+=
+\sqrt{10}
+\approx
+3{,}16.
+$$
 
-Se estamos analisando minutos, o desvio padrão é dado em minutos; se estamos analisando metros, ele é dado em metros.
+A principal vantagem interpretativa do desvio padrão é que ele possui a **mesma unidade de medida da variável original**.
+
+Se estamos analisando minutos, o desvio padrão é expresso em minutos. Se estamos analisando metros, é expresso em metros.
+
+### Como interpretar o desvio padrão?
+
+Um desvio padrão pequeno indica que os valores tendem a estar mais concentrados em torno da média.
+
+Um desvio padrão grande indica que os valores estão mais espalhados em torno da média.
+
+Portanto,
+
+$$
+\boxed{\text{média}
+\longrightarrow
+\text{centro da distribuição}}
+$$
+
+e
+
+$$
+\boxed{\text{desvio padrão}
+\longrightarrow
+\text{dispersão em torno desse centro}}.
+$$
+
+Considere, por exemplo, duas situações em que o tempo médio de deslocamento seja de 40 minutos.
+
+Na primeira,
+
+$$
+\bar{x}=40
+\qquad\text{e}\qquad
+s=5.
+$$
+
+Na segunda,
+
+$$
+\bar{x}=40
+\qquad\text{e}\qquad
+s=25.
+$$
+
+Embora as duas distribuições possuam a mesma média, elas têm comportamentos muito diferentes.
+
+Na primeira, os tempos tendem a estar relativamente concentrados em torno de 40 minutos. Na segunda, existe muito mais variabilidade nos tempos observados.
+
+::: {.callout-note title="Uma interpretação importante"}
+É comum dizer, de maneira intuitiva, que o desvio padrão representa um **afastamento típico em relação à média**.
+
+Essa interpretação é útil, mas deve ser entendida com cuidado.
+
+O desvio padrão **não é a média das distâncias dos valores até a média**. Seu cálculo é baseado nos **quadrados dos desvios**.
+
+Por isso, é mais preciso dizer que o desvio padrão fornece uma **escala para medir os afastamentos em relação à média**.
+:::
+
+### O que significa $\bar{x}-s$ e $\bar{x}+s$?
+
+Uma das maneiras mais úteis de interpretar o desvio padrão é utilizá-lo como uma espécie de **régua para medir afastamentos em relação à média**.
+
+Suponha que
+
+$$
+\bar{x}=40\text{ minutos}
+$$
+
+e
+
+$$
+s=5\text{ minutos}.
+$$
+
+Então,
+
+$$
+\bar{x}-s
+=
+40-5
+=
+35
+$$
+
+e
+
+$$
+\bar{x}+s
+=
+40+5
+=
+45.
+$$
+
+O intervalo
+
+$$
+[35;45]
+$$
+
+corresponde aos valores que se encontram entre **um desvio padrão abaixo da média e um desvio padrão acima da média**.
+
+Podemos representar essa ideia por
+
+$$
+\bar{x}-s
+\qquad
+\bar{x}
+\qquad
+\bar{x}+s,
+$$
+
+ou, neste exemplo,
+
+$$
+35
+\qquad
+40
+\qquad
+45.
+$$
+
+Um valor igual a 43 minutos está a
+
+$$
+43-40=3
+$$
+
+minutos da média.
+
+Como
+
+$$
+3<5,
+$$
+
+esse valor encontra-se a **menos de um desvio padrão da média**.
+
+Agora considere um valor de 52 minutos. Seu afastamento em relação à média é
+
+$$
+52-40=12.
+$$
+
+Como
+
+$$
+\frac{12}{5}=2{,}4,
+$$
+
+esse valor encontra-se a **2,4 desvios padrão acima da média**.
+
+É nesse sentido que o desvio padrão funciona como uma unidade para avaliar a distância de uma observação em relação à média.
+
+::: {.callout-important title="O intervalo média ± desvio padrão"}
+O intervalo
+
+$$
+[\bar{x}-s;\bar{x}+s]
+$$
+
+não é um intervalo de confiança.
+
+Ele apenas delimita a região compreendida entre **um desvio padrão abaixo e um desvio padrão acima da média**.
+
+Da mesma forma,
+
+$$
+[\bar{x}-2s;\bar{x}+2s]
+$$
+
+corresponde à região situada a até dois desvios padrão da média.
+:::
+
+### Quantos valores ficam entre $\bar{x}-s$ e $\bar{x}+s$?
+
+O desvio padrão, por si só, **não determina a porcentagem de observações** que estará entre
+
+$$
+\bar{x}-s
+$$
+
+e
+
+$$
+\bar{x}+s.
+$$
+
+Essa proporção depende da forma da distribuição.
+
+Quando a distribuição é aproximadamente normal, temos a conhecida regra aproximada:
+
+$$
+\mu-\sigma
+\quad\text{a}\quad
+\mu+\sigma
+$$
+
+contém cerca de
+
+$$
+68\%
+$$
+
+dos valores;
+
+$$
+\mu-2\sigma
+\quad\text{a}\quad
+\mu+2\sigma
+$$
+
+contém cerca de
+
+$$
+95\%
+$$
+
+dos valores; e
+
+$$
+\mu-3\sigma
+\quad\text{a}\quad
+\mu+3\sigma
+$$
+
+contém aproximadamente
+
+$$
+99{,}7\%
+$$
+
+dos valores.
+
+::: {.callout-warning title="A regra 68–95–99,7 não é universal"}
+Os valores 68%, 95% e 99,7% estão associados à **distribuição normal**.
+
+Não devemos afirmar automaticamente que 68% de qualquer conjunto de dados está entre a média menos um desvio padrão e a média mais um desvio padrão.
+
+Em distribuições muito assimétricas, multimodais ou com valores extremos, essa porcentagem pode ser bastante diferente.
+:::
+
+### Um exemplo com a mesma média e dispersões diferentes
+
+Considere os dois conjuntos:
+
+$$
+A:\quad9,\;10,\;10,\;10,\;11
+$$
+
+e
+
+$$
+B:\quad2,\;6,\;10,\;14,\;18.
+$$
+
+Nos dois casos,
+
+$$
+\bar{x}=10.
+$$
+
+Entretanto, os valores do conjunto A estão fortemente concentrados em torno de 10, enquanto os valores do conjunto B estão muito mais espalhados.
+
+Os desvios padrão populacionais são aproximadamente
+
+$$
+\sigma_A=0{,}63
+$$
+
+e
+
+$$
+\sigma_B=5{,}66.
+$$
+
+| Conjunto | Média | Desvio padrão |
+|:--------:|------:|--------------:|
+| A | 10 | 0,63 |
+| B | 10 | 5,66 |
+
+: Dois conjuntos com a mesma média e diferentes dispersões. {#tbl-dp-mesma-media}
+
+A @tbl-dp-mesma-media evidencia que conhecer apenas a média não é suficiente para descrever uma distribuição.
+
+A média informa onde se encontra o centro, enquanto o desvio padrão fornece informação sobre o **grau de espalhamento dos valores em torno desse centro**.
 
 ### Propriedades do desvio padrão
 
 O desvio padrão:
 
 - é sempre não negativo;
-- é zero somente quando todos os valores são iguais;
-- possui a mesma unidade da variável;
-- não se altera quando adicionamos uma constante a todos os valores;
-- é multiplicado por $|b|$ quando os dados são multiplicados por $b$;
-- utiliza todas as observações;
-- é sensível a valores extremos.
+- é igual a zero somente quando todos os valores são iguais;
+- possui a mesma unidade de medida da variável;
+- utiliza todas as observações no seu cálculo;
+- é sensível a valores extremos;
+- não se altera quando adicionamos uma mesma constante a todos os valores;
+- é multiplicado por $|b|$ quando todos os valores são multiplicados por $b$.
 
 Se
 
-$$Y=a+bX,$$
+$$
+Y=a+bX,
+$$
 
 então
 
-$$SD(Y)=|b|SD(X).$$
+$$
+SD(Y)
+=
+|b|SD(X).
+$$
 
-### Interpretação
+Por exemplo, adicionar 10 a todas as observações desloca os dados e altera a média, mas não modifica a dispersão entre os valores.
 
-Um desvio padrão pequeno indica que, em geral, os valores estão relativamente próximos da média. Um desvio padrão maior indica maior espalhamento em torno da média.
-
-Entretanto, o desvio padrão **não é uma distância máxima**, nem significa que todas as observações estejam exatamente a um desvio padrão da média.
-
-Sua interpretação deve considerar a forma da distribuição, a unidade da variável e o contexto.
+Por outro lado, multiplicar todos os valores por 2 também duplica todos os afastamentos em relação à média. Consequentemente, o desvio padrão também é multiplicado por 2.
 
 ::: {.callout-tip title="Laboratório no R — desvio padrão"}
+
 A função `sd()` calcula o desvio padrão **amostral**.
 
 ```{r}
@@ -872,43 +1207,106 @@ sd(x)
 
 Podemos verificar a relação
 
-$$s=\sqrt{s^2}$$
+$$
+s=\sqrt{s^2}
+$$
 
-com:
-
-```{r}
-sqrt(var(x))
-```
-
-Para obter o desvio padrão populacional:
+por meio de:
 
 ```{r}
 sqrt(
-  mean(
-    (x - mean(x))^2
-  )
+var(x)
 )
 ```
 
-Aplicando ao tempo de deslocamento:
+Para calcular o desvio padrão populacional:
 
 ```{r}
-sd(
-  dados$tempo_deslocamento_min,
+sqrt(
+mean(
+  (x - mean(x))^2
+)
+)
+```
+
+Aplicando aos tempos de deslocamento dos estudantes:
+
+```{r}
+media_tempo <- mean(
+dados$tempo_deslocamento_min,
+na.rm = TRUE
+)
+
+desvio_tempo <- sd(
+dados$tempo_deslocamento_min,
+na.rm = TRUE
+)
+
+media_tempo
+desvio_tempo
+```
+
+Podemos também obter os valores correspondentes a um desvio padrão abaixo e acima da média:
+
+```{r}
+media_tempo - desvio_tempo
+media_tempo + desvio_tempo
+```
+
+Assim, o intervalo
+
+```{r}
+c(
+media_tempo - desvio_tempo,
+media_tempo + desvio_tempo
+)
+```
+
+representa a região compreendida entre **um desvio padrão abaixo e um desvio padrão acima da média**.
+
+Podemos ainda verificar qual proporção dos estudantes apresenta tempo de deslocamento dentro desse intervalo:
+
+```{r}
+mean(
+dados$tempo_deslocamento_min >=
+  media_tempo - desvio_tempo &
+  dados$tempo_deslocamento_min <=
+  media_tempo + desvio_tempo,
+na.rm = TRUE
+)
+```
+
+Multiplicando por 100, obtemos a porcentagem:
+
+```{r}
+100 *
+mean(
+  dados$tempo_deslocamento_min >=
+    media_tempo - desvio_tempo &
+    dados$tempo_deslocamento_min <=
+    media_tempo + desvio_tempo,
   na.rm = TRUE
 )
 ```
 
-Podemos comparar os conjuntos $A$ e $B$:
+Observe que essa porcentagem é determinada pelos **dados observados** e não precisa ser igual a 68%, pois os tempos de deslocamento não precisam seguir uma distribuição normal.
+
+Para comparar os conjuntos apresentados anteriormente:
 
 ```{r}
+conjunto_a <- c(9, 10, 10, 10, 11)
+conjunto_b <- c(2, 6, 10, 14, 18)
+
+mean(conjunto_a)
+mean(conjunto_b)
+
 sd(conjunto_a)
 sd(conjunto_b)
 ```
 
-O conjunto $B$ possui maior desvio padrão, confirmando a maior dispersão visual observada anteriormente.
-:::
+Embora as médias sejam iguais, o conjunto B apresenta maior desvio padrão, confirmando sua maior dispersão em torno da média.
 
+:::
 
 ## Variância e desvio padrão para dados agrupados
 
@@ -1333,57 +1731,424 @@ $$
 
 ## Coeficiente de variação
 
-O desvio padrão é uma medida **absoluta** de dispersão. Quando desejamos expressar a variabilidade em relação ao tamanho da média, podemos utilizar o **coeficiente de variação**.
+O desvio padrão é uma medida **absoluta de dispersão**, pois mede a magnitude da variabilidade dos dados na mesma unidade da variável.
+
+Entretanto, o tamanho do desvio padrão deve ser interpretado levando em consideração também o tamanho da média. Um desvio padrão de 5 unidades pode representar pouca variabilidade para uma variável cuja média é 500, mas uma variabilidade considerável para uma variável cuja média é 10.
+
+Quando desejamos avaliar o tamanho da dispersão **em relação à própria média**, podemos utilizar o **coeficiente de variação de Pearson**, geralmente representado por $CV$.
+
+O coeficiente de variação é, portanto, uma medida **relativa de dispersão**.
+
+> O coeficiente de variação informa quanto o desvio padrão representa em relação ao tamanho da média.
+
+Enquanto o desvio padrão responde à pergunta
+
+> **Qual é o tamanho da dispersão na unidade original da variável?**
+
+o coeficiente de variação procura responder
+
+> **Quão grande é essa dispersão quando comparada com o nível médio da variável?**
 
 ### Coeficiente de variação populacional
 
-Quando $\mu>0$,
+Para uma população com média positiva, o coeficiente de variação é definido por
 
-$$CV=
-\frac{\sigma}{\mu}\times100\%.$$
+$$
+CV
+=
+\frac{\sigma}{\mu}\times100\%,
+$$
+
+em que $\mu$ representa a média populacional e $\sigma$ o desvio padrão populacional.
 
 ### Coeficiente de variação amostral
 
-Quando $\bar{x}>0$,
+Para uma amostra com média positiva,
 
-$$CV=
-\frac{s}{\bar{x}}\times100\%.$$
+$$
+CV
+=
+\frac{s}{\bar{x}}\times100\%,
+$$
 
-O coeficiente de variação é uma medida **adimensional**: a unidade do numerador é cancelada pela unidade do denominador.
+em que $\bar{x}$ representa a média amostral e $s$ o desvio padrão amostral.
 
-### Exemplo
+Como a média e o desvio padrão possuem a mesma unidade de medida, essas unidades se cancelam. O coeficiente de variação é, portanto, uma medida **adimensional**, normalmente expressa em porcentagem.
+
+Por exemplo, se uma variável é medida em quilogramas,
+
+$$
+\frac{\text{kg}}{\text{kg}}=1.
+$$
+
+Se
+
+$$
+CV=20\%,
+$$
+
+isso significa que o desvio padrão corresponde a aproximadamente **20% do valor da média**.
+
+Isso não significa que cada observação esteja exatamente 20% afastada da média. O CV é uma medida global da **dispersão relativa** do conjunto de dados.
+
+### Dispersão absoluta e dispersão relativa
 
 Considere duas variáveis hipotéticas:
 
-| Variável | Média | Desvio padrão |  CV |
-|:---------|------:|--------------:|----:|
-| A        |   100 |            10 | 10% |
-| B        |    20 |             5 | 25% |
+| Variável | Média | Desvio padrão | CV |
+|:---------|------:|--------------:|---:|
+| A | 100 | 10 | 10% |
+| B | 20 | 5 | 25% |
 
-: Exemplo de comparação entre dispersão absoluta e relativa. {#@tbl-exemplo-cv}
+: Comparação entre dispersão absoluta e relativa. {#tbl-exemplo-cv}
 
-Na @tbl-exemplo-cv, a variável A apresenta maior desvio padrão absoluto, pois $10>5$. Entretanto, relativamente à própria média, a variável B apresenta maior variabilidade, pois seu CV é 25%, contra 10% da variável A.
+Na @tbl-exemplo-cv, a variável A apresenta maior dispersão absoluta, pois
+
+$$
+10>5.
+$$
+
+Entretanto, para a variável A,
+
+$$
+\frac{10}{100}=0{,}10,
+$$
+
+enquanto, para a variável B,
+
+$$
+\frac{5}{20}=0{,}25.
+$$
+
+Portanto, embora o desvio padrão da variável B seja menor, ele representa uma parcela maior da respectiva média.
+
+Assim,
+
+$$
+CV_A=10\%
+$$
+
+e
+
+$$
+CV_B=25\%.
+$$
+
+A variável B apresenta, portanto, **maior variabilidade relativa**.
+
+Podemos resumir a diferença da seguinte forma:
+
+$$
+\boxed{\text{desvio padrão}
+\longrightarrow
+\text{dispersão absoluta}}
+$$
+
+e
+
+$$
+\boxed{\text{coeficiente de variação}
+\longrightarrow
+\text{dispersão relativa}}.
+$$
+
+### O coeficiente de variação e a ordem de grandeza
+
+Uma das utilidades do coeficiente de variação é permitir que a dispersão seja analisada levando em consideração a **ordem de grandeza dos valores**.
+
+Isso ocorre porque o CV relaciona o desvio padrão com a própria média, permitindo avaliar a dispersão em termos proporcionais.
+
+Em outras palavras,
+
+> **o coeficiente de variação relativiza o desvio padrão pela média, reduzindo a influência da ordem de grandeza dos valores na comparação da dispersão.**
+
+Considere, por exemplo, duas unidades industriais que produzem o mesmo tipo de componente, mas possuem capacidades de produção muito diferentes.
+
+| Unidade | Produção média diária | Desvio padrão | CV |
+|:--------|---------------------:|--------------:|---:|
+| A | 100 unidades | 10 unidades | 10% |
+| B | 5.000 unidades | 500 unidades | 10% |
+
+: Comparação da variabilidade de produções com diferentes ordens de grandeza. {#tbl-cv-ordem-grandeza}
+
+Observando apenas o desvio padrão, poderíamos concluir que a Unidade B apresenta uma variabilidade muito maior, pois
+
+$$
+500>10.
+$$
+
+Entretanto, também existe uma grande diferença entre suas médias:
+
+$$
+100
+\qquad\text{e}\qquad
+5.000.
+$$
+
+Para a Unidade A,
+
+$$
+CV_A
+=
+\frac{10}{100}\times100
+=
+10\%.
+$$
+
+Para a Unidade B,
+
+$$
+CV_B
+=
+\frac{500}{5.000}\times100
+=
+10\%.
+$$
+
+Portanto, embora a dispersão absoluta da Unidade B seja muito maior, **as duas unidades apresentam a mesma dispersão relativa**.
+
+Em ambas, o desvio padrão corresponde a 10% da respectiva média.
+
+Esse exemplo mostra por que comparar somente os desvios padrão pode ser inadequado quando os conjuntos de dados possuem médias de ordens de grandeza muito diferentes.
+
+### Mesmo desvio padrão, diferentes dispersões relativas
+
+Outra forma de compreender o CV é considerar dois grupos com o mesmo desvio padrão, mas médias muito diferentes.
+
+Considere:
+
+$$
+A:\quad1,\;3,\;5
+$$
+
+e
+
+$$
+B:\quad53,\;55,\;57.
+$$
+
+Nos dois grupos,
+
+$$
+s=2\text{ anos}.
+$$
+
+Entretanto,
+
+$$
+\bar{x}_A=3
+\qquad\text{e}\qquad
+\bar{x}_B=55.
+$$
+
+Assim,
+
+$$
+CV_A
+=
+\frac{2}{3}\times100
+\approx
+66{,}67\%
+$$
+
+e
+
+$$
+CV_B
+=
+\frac{2}{55}\times100
+\approx
+3{,}64\%.
+$$
+
+| Grupo | Média (anos) | Desvio padrão (anos) | CV |
+|:-----:|-------------:|----------------------:|---:|
+| A | 3 | 2 | 66,67% |
+| B | 55 | 2 | 3,64% |
+
+: Mesmo desvio padrão e diferentes dispersões relativas. {#tbl-cv-mesmo-desvio}
+
+Embora os dois grupos possuam o mesmo desvio padrão, uma diferença de 2 anos é muito grande quando comparada com uma média de apenas 3 anos e relativamente pequena quando comparada com uma média de 55 anos.
+
+No primeiro grupo, o desvio padrão corresponde a aproximadamente 66,7% da média. No segundo, corresponde a apenas 3,6%.
+
+Esse é exatamente o significado de avaliar a dispersão **relativamente à média**.
+
+### Exemplo: comparação da variabilidade das rendas
+
+Um pesquisador deseja comparar a variabilidade relativa da renda mensal dos moradores de duas cidades.
+
+As amostras observadas foram:
+
+$$
+\text{Cidade A: }
+1500,\;1600,\;1700,\;1800,\;1900
+$$
+
+e
+
+$$
+\text{Cidade B: }
+1000,\;1500,\;2000,\;2500,\;3000.
+$$
+
+Para a Cidade A,
+
+$$
+\bar{x}_A=1700
+$$
+
+e
+
+$$
+s_A\approx158{,}11.
+$$
+
+Logo,
+
+$$
+CV_A
+=
+\frac{158{,}11}{1700}\times100
+\approx
+9{,}30\%.
+$$
+
+Para a Cidade B,
+
+$$
+\bar{x}_B=2000
+$$
+
+e
+
+$$
+s_B\approx790{,}57.
+$$
+
+Assim,
+
+$$
+CV_B
+=
+\frac{790{,}57}{2000}\times100
+\approx
+39{,}53\%.
+$$
+
+| Cidade | Média (R\$) | Desvio padrão (R\$) | CV |
+|:-------|-----------:|--------------------:|---:|
+| A | 1.700,00 | 158,11 | 9,30% |
+| B | 2.000,00 | 790,57 | 39,53% |
+
+: Comparação da dispersão relativa das rendas em duas cidades. {#tbl-cv-rendas}
+
+Na Cidade A, o desvio padrão corresponde a aproximadamente 9,3% da renda média. Na Cidade B, corresponde a aproximadamente 39,5%.
+
+Portanto, as rendas observadas na Cidade B apresentam **maior variabilidade relativa em torno da média**.
+
+Observe que essa conclusão se refere à dispersão das rendas. O coeficiente de variação, isoladamente, não deve ser interpretado como uma medida completa de desigualdade econômica.
+
+### Comparação entre variáveis com unidades diferentes
+
+Como o coeficiente de variação é adimensional, ele também pode ser útil para comparar a dispersão relativa de variáveis expressas em unidades diferentes, desde que essa comparação tenha significado no contexto do problema.
+
+Considere as seguintes características de um grupo de estudantes:
+
+| Variável | Média | Desvio padrão | CV |
+|:---------|------:|--------------:|---:|
+| Massa corporal | 70 kg | 10,5 kg | 15% |
+| Altura | 170 cm | 8,5 cm | 5% |
+
+: Comparação da dispersão relativa entre variáveis com unidades diferentes. {#tbl-cv-unidades}
+
+Não faria sentido comparar diretamente
+
+$$
+10{,}5\text{ kg}
+\qquad\text{e}\qquad
+8{,}5\text{ cm},
+$$
+
+pois os desvios padrão estão expressos em unidades diferentes.
+
+Entretanto,
+
+$$
+CV_{\text{massa}}
+=
+\frac{10{,}5}{70}\times100
+=
+15\%
+$$
+
+e
+
+$$
+CV_{\text{altura}}
+=
+\frac{8{,}5}{170}\times100
+=
+5\%.
+$$
+
+Nesse grupo, a massa corporal apresenta maior **variabilidade relativa** que a altura.
+
+O desvio padrão da massa corresponde a 15% de sua média, enquanto o desvio padrão da altura corresponde a apenas 5% da respectiva média.
+
+### O CV permite classificar a dispersão como baixa ou alta?
+
+Em alguns materiais são apresentadas classificações como:
+
+| Coeficiente de variação | Classificação |
+|:------------------------|:--------------|
+| $CV\leq15\%$ | baixa dispersão |
+| $15\%<CV<30\%$ | dispersão moderada |
+| $CV\geq30\%$ | alta dispersão |
+
+Essas faixas podem ser utilizadas como **referências convencionais em determinadas áreas**, mas não constituem uma regra estatística universal.
+
+Um CV de 20%, por exemplo, pode ser considerado elevado em um processo industrial que exige grande precisão e perfeitamente aceitável em um fenômeno que naturalmente apresenta grande heterogeneidade.
+
+Portanto, a interpretação do CV deve considerar o **contexto da aplicação**, a natureza da variável e o conhecimento sobre o fenômeno estudado.
+
+::: {.callout-warning title="Cuidado com classificações automáticas"}
+Não existe uma regra universal segundo a qual determinado valor de CV seja sempre baixo, moderado ou alto.
+
+Os limites utilizados para essa classificação dependem da área de aplicação e do fenômeno estudado.
+:::
 
 ### Propriedades e cuidados no uso do CV
 
 O coeficiente de variação:
 
-- é independente da unidade de medida quando a mudança de unidade corresponde apenas a uma multiplicação;
-- permite comparar dispersões relativas de variáveis em escalas diferentes, quando essa comparação é substantivamente válida;
-- não se altera quando todos os valores são multiplicados por uma constante positiva;
+- é uma medida **relativa de dispersão**;
+- é adimensional;
+- expressa o desvio padrão em relação ao tamanho da média;
+- reduz a influência da ordem de grandeza dos valores na comparação da dispersão;
+- permite comparar conjuntos com médias bastante diferentes;
+- pode permitir a comparação de variáveis com unidades diferentes, quando essa comparação possui significado;
+- não se altera quando todos os valores são multiplicados por uma mesma constante positiva;
 - **não é invariável à adição de uma constante**;
 - torna-se instável quando a média está muito próxima de zero;
 - não deve ser interpretado mecanicamente quando a média é zero ou negativa;
-- é mais apropriado para variáveis em **escala de razão**, isto é, quando o zero possui significado substantivo.
+- é particularmente adequado para variáveis em **escala de razão**, nas quais o zero possui significado substantivo.
 
 ::: {.callout-warning title="Cuidado com o coeficiente de variação"}
-Não é adequado utilizar o CV indiscriminadamente.
+O coeficiente de variação não deve ser utilizado indiscriminadamente.
 
-Por exemplo, comparar variabilidade de temperaturas em graus Celsius por CV pode ser problemático, pois o zero dessa escala é arbitrário. Além disso, quando a média se aproxima de zero, pequenas alterações na média podem produzir valores de CV extremamente grandes.
+Considere, por exemplo, temperaturas medidas em graus Celsius. O valor $0^\circ$C não representa ausência de temperatura. Além disso, a transformação de Celsius para Fahrenheit envolve uma multiplicação e a adição de uma constante.
+
+Consequentemente, o CV seria alterado simplesmente pela mudança da escala utilizada.
+
+Por essa razão, o coeficiente de variação não é apropriado para comparar a dispersão relativa de temperaturas medidas em graus Celsius ou Fahrenheit.
+
+Também é necessário cuidado quando a média está muito próxima de zero. Nesse caso, o denominador torna-se muito pequeno e o CV pode assumir valores extremamente elevados e instáveis.
 :::
 
 ::: {.callout-tip title="Laboratório no R — coeficiente de variação"}
-O R não possui, na base, uma função única chamada `cv()` para esse cálculo. Podemos escrevê-lo diretamente.
+
+O R não possui, na base, uma função específica `cv()` para calcular o coeficiente de variação. Podemos obtê-lo diretamente.
 
 ```{r}
 x <- c(2, 4, 6, 8, 10)
@@ -1391,42 +2156,43 @@ x <- c(2, 4, 6, 8, 10)
 100 * sd(x) / mean(x)
 ```
 
-Para o tempo de deslocamento:
-
-```{r}
-100 *
-  sd(
-    dados$tempo_deslocamento_min,
-    na.rm = TRUE
-  ) /
-  mean(
-    dados$tempo_deslocamento_min,
-    na.rm = TRUE
-  )
-```
-
-Podemos criar uma função:
+Também podemos criar uma função:
 
 ```{r}
 coef_variacao <- function(x, na.rm = FALSE) {
-  100 *
-    sd(x, na.rm = na.rm) /
-    mean(x, na.rm = na.rm)
-}
 
+  media <- mean(
+    x,
+    na.rm = na.rm
+  )
+
+  desvio <- sd(
+    x,
+    na.rm = na.rm
+  )
+
+  100 * desvio / media
+}
+```
+
+Para o tempo de deslocamento dos estudantes:
+
+```{r}
 coef_variacao(
   dados$tempo_deslocamento_min,
   na.rm = TRUE
 )
 ```
 
-Agora compare a variabilidade relativa do tempo de deslocamento entre os meios de transporte:
+Podemos ainda comparar a variabilidade relativa do tempo de deslocamento entre os diferentes meios de transporte:
 
 ```{r}
 comparacao_transporte <- dados |>
   group_by(meio_transporte) |>
   summarise(
-    n = n(),
+    n = sum(
+      !is.na(tempo_deslocamento_min)
+    ),
     media = mean(
       tempo_deslocamento_min,
       na.rm = TRUE
@@ -1445,7 +2211,10 @@ comparacao_transporte <- dados |>
 comparacao_transporte
 ```
 
-Nesse caso, o CV acrescenta uma perspectiva **relativa** à comparação. Um grupo pode ter desvio padrão menor, mas CV relativamente elevado porque sua média também é menor.
+O desvio padrão permite comparar o tamanho **absoluto** da dispersão entre os grupos. O coeficiente de variação acrescenta outra perspectiva: mostra o tamanho dessa dispersão **em relação ao tempo médio de deslocamento de cada grupo**.
+
+Assim, um grupo pode apresentar desvio padrão numericamente menor e, ainda assim, possuir maior variabilidade relativa se sua média também for consideravelmente menor.
+
 :::
 
 ## Desvio absoluto mediano
@@ -2064,7 +2833,7 @@ A escolha de uma medida deve considerar o contexto e as características da dist
 A @tbl-escolha-dispersao apresenta orientações práticas.
 
 | Situação | Medidas particularmente úteis | Observação |
-|:-----------------|:-----------------------------------|:-----------------|
+|:-----------------|:--------------------------------|:-----------------|
 | Descrição rápida da extensão total | amplitude | muito sensível aos extremos |
 | Interesse na metade central dos dados | AIQ | resistente |
 | Distribuição aproximadamente simétrica, sem extremos relevantes | variância e desvio padrão | utilizam todas as observações |
