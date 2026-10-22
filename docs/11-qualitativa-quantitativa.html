@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análise Exploratória de Dados – 11&nbsp; Associação entre uma variável qualitativa e uma quantitativa</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./12-extensoes-analise-multivariada.html" rel="next">
+<link href="./10-associacao-quantitativas.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles2.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html">Parte III — Análise Bivariada</a></li><li class="breadcrumb-item"><a href="./11-qualitativa-quantitativa.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Associação entre uma variável qualitativa e uma quantitativa</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise Exploratória de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apresentação</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos e análise univariada</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-fundamentos-aed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-r-rstudio-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-dados-organizacao-qualidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estrutura, organização e qualidade dos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distribuicoes-frequencias-representacoes-graficas-v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuições de frequências e representações gráficas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Medidas resumo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-medidas-tendencia-central.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Medidas de tendência central</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-separatrizes-boxplot-revisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-medidas-dispersao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Medidas de dispersão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-forma-distribuicao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma das distribuições e análise univariada integrada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte III — Análise Bivariada</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-associacao-qualitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-associacao-quantitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-qualitativa-quantitativa.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Associação entre uma variável qualitativa e uma quantitativa</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV - Extensões para dados multivariados</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-extensoes-analise-multivariada.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">15-analise-multivariada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Neste capítulo</h2>
+   
+  <ul>
+  <li><a href="#uma-variável-qualitativa-define-grupos" id="toc-uma-variável-qualitativa-define-grupos" class="nav-link active" data-scroll-target="#uma-variável-qualitativa-define-grupos"><span class="header-section-number">11.1</span> Uma variável qualitativa define grupos</a>
+  <ul class="collapse">
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">11.1.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#medidas-resumo-por-categoria" id="toc-medidas-resumo-por-categoria" class="nav-link" data-scroll-target="#medidas-resumo-por-categoria"><span class="header-section-number">11.2</span> Medidas resumo por categoria</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-1" id="toc-exemplo-1" class="nav-link" data-scroll-target="#exemplo-1"><span class="header-section-number">11.2.1</span> Exemplo</a></li>
+  <li><a href="#comparação-de-médias-e-medianas" id="toc-comparação-de-médias-e-medianas" class="nav-link" data-scroll-target="#comparação-de-médias-e-medianas"><span class="header-section-number">11.2.2</span> Comparação de médias e medianas</a></li>
+  </ul></li>
+  <li><a href="#diferença-absoluta-entre-grupos" id="toc-diferença-absoluta-entre-grupos" class="nav-link" data-scroll-target="#diferença-absoluta-entre-grupos"><span class="header-section-number">11.3</span> Diferença absoluta entre grupos</a></li>
+  <li><a href="#diferença-relativa-entre-grupos" id="toc-diferença-relativa-entre-grupos" class="nav-link" data-scroll-target="#diferença-relativa-entre-grupos"><span class="header-section-number">11.4</span> Diferença relativa entre grupos</a></li>
+  <li><a href="#comparação-da-dispersão-entre-grupos" id="toc-comparação-da-dispersão-entre-grupos" class="nav-link" data-scroll-target="#comparação-da-dispersão-entre-grupos"><span class="header-section-number">11.5</span> Comparação da dispersão entre grupos</a>
+  <ul class="collapse">
+  <li><a href="#mesmo-centro-dispersões-diferentes" id="toc-mesmo-centro-dispersões-diferentes" class="nav-link" data-scroll-target="#mesmo-centro-dispersões-diferentes"><span class="header-section-number">11.5.1</span> Mesmo centro, dispersões diferentes</a></li>
+  </ul></li>
+  <li><a href="#comparação-da-forma-das-distribuições" id="toc-comparação-da-forma-das-distribuições" class="nav-link" data-scroll-target="#comparação-da-forma-das-distribuições"><span class="header-section-number">11.6</span> Comparação da forma das distribuições</a></li>
+  <li><a href="#boxplots-lado-a-lado" id="toc-boxplots-lado-a-lado" class="nav-link" data-scroll-target="#boxplots-lado-a-lado"><span class="header-section-number">11.7</span> Boxplots lado a lado</a></li>
+  <li><a href="#histogramas-por-grupo" id="toc-histogramas-por-grupo" class="nav-link" data-scroll-target="#histogramas-por-grupo"><span class="header-section-number">11.8</span> Histogramas por grupo</a></li>
+  <li><a href="#curvas-de-densidade-por-grupo" id="toc-curvas-de-densidade-por-grupo" class="nav-link" data-scroll-target="#curvas-de-densidade-por-grupo"><span class="header-section-number">11.9</span> Curvas de densidade por grupo</a></li>
+  <li><a href="#gráfico-de-pontos-por-grupo" id="toc-gráfico-de-pontos-por-grupo" class="nav-link" data-scroll-target="#gráfico-de-pontos-por-grupo"><span class="header-section-number">11.10</span> Gráfico de pontos por grupo</a></li>
+  <li><a href="#gráfico-de-violino" id="toc-gráfico-de-violino" class="nav-link" data-scroll-target="#gráfico-de-violino"><span class="header-section-number">11.11</span> Gráfico de violino</a></li>
+  <li><a href="#heterogeneidade-entre-grupos" id="toc-heterogeneidade-entre-grupos" class="nav-link" data-scroll-target="#heterogeneidade-entre-grupos"><span class="header-section-number">11.12</span> Heterogeneidade entre grupos</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-2" id="toc-exemplo-2" class="nav-link" data-scroll-target="#exemplo-2"><span class="header-section-number">11.12.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#tamanhos-de-grupo-diferentes" id="toc-tamanhos-de-grupo-diferentes" class="nav-link" data-scroll-target="#tamanhos-de-grupo-diferentes"><span class="header-section-number">11.13</span> Tamanhos de grupo diferentes</a></li>
+  <li><a href="#comparação-descritiva-e-inferência-estatística" id="toc-comparação-descritiva-e-inferência-estatística" class="nav-link" data-scroll-target="#comparação-descritiva-e-inferência-estatística"><span class="header-section-number">11.14</span> Comparação descritiva e inferência estatística</a></li>
+  <li><a href="#exemplo-integrado-meio-de-transporte-e-tempo-de-deslocamento" id="toc-exemplo-integrado-meio-de-transporte-e-tempo-de-deslocamento" class="nav-link" data-scroll-target="#exemplo-integrado-meio-de-transporte-e-tempo-de-deslocamento"><span class="header-section-number">11.15</span> Exemplo integrado: meio de transporte e tempo de deslocamento</a></li>
+  <li><a href="#laboratório-no-r" id="toc-laboratório-no-r" class="nav-link" data-scroll-target="#laboratório-no-r"><span class="header-section-number">11.16</span> Laboratório no R</a>
+  <ul class="collapse">
+  <li><a href="#preparando-os-dados" id="toc-preparando-os-dados" class="nav-link" data-scroll-target="#preparando-os-dados"><span class="header-section-number">11.16.1</span> Preparando os dados</a></li>
+  <li><a href="#número-de-observações-por-grupo" id="toc-número-de-observações-por-grupo" class="nav-link" data-scroll-target="#número-de-observações-por-grupo"><span class="header-section-number">11.16.2</span> Número de observações por grupo</a></li>
+  <li><a href="#tabela-de-medidas-resumo-por-grupo" id="toc-tabela-de-medidas-resumo-por-grupo" class="nav-link" data-scroll-target="#tabela-de-medidas-resumo-por-grupo"><span class="header-section-number">11.16.3</span> Tabela de medidas resumo por grupo</a></li>
+  <li><a href="#diferença-absoluta-entre-dois-grupos" id="toc-diferença-absoluta-entre-dois-grupos" class="nav-link" data-scroll-target="#diferença-absoluta-entre-dois-grupos"><span class="header-section-number">11.16.4</span> Diferença absoluta entre dois grupos</a></li>
+  <li><a href="#diferença-relativa" id="toc-diferença-relativa" class="nav-link" data-scroll-target="#diferença-relativa"><span class="header-section-number">11.16.5</span> Diferença relativa</a></li>
+  <li><a href="#boxplots-lado-a-lado-1" id="toc-boxplots-lado-a-lado-1" class="nav-link" data-scroll-target="#boxplots-lado-a-lado-1"><span class="header-section-number">11.16.6</span> Boxplots lado a lado</a></li>
+  <li><a href="#boxplot-com-os-dados-individuais" id="toc-boxplot-com-os-dados-individuais" class="nav-link" data-scroll-target="#boxplot-com-os-dados-individuais"><span class="header-section-number">11.16.7</span> Boxplot com os dados individuais</a></li>
+  <li><a href="#histogramas-por-grupo-1" id="toc-histogramas-por-grupo-1" class="nav-link" data-scroll-target="#histogramas-por-grupo-1"><span class="header-section-number">11.16.8</span> Histogramas por grupo</a></li>
+  <li><a href="#histogramas-em-densidade" id="toc-histogramas-em-densidade" class="nav-link" data-scroll-target="#histogramas-em-densidade"><span class="header-section-number">11.16.9</span> Histogramas em densidade</a></li>
+  <li><a href="#curvas-de-densidade" id="toc-curvas-de-densidade" class="nav-link" data-scroll-target="#curvas-de-densidade"><span class="header-section-number">11.16.10</span> Curvas de densidade</a></li>
+  <li><a href="#gráfico-de-pontos" id="toc-gráfico-de-pontos" class="nav-link" data-scroll-target="#gráfico-de-pontos"><span class="header-section-number">11.16.11</span> Gráfico de pontos</a></li>
+  <li><a href="#gráfico-de-violino-1" id="toc-gráfico-de-violino-1" class="nav-link" data-scroll-target="#gráfico-de-violino-1"><span class="header-section-number">11.16.12</span> Gráfico de violino</a></li>
+  <li><a href="#comparação-por-outra-variável-qualitativa" id="toc-comparação-por-outra-variável-qualitativa" class="nav-link" data-scroll-target="#comparação-por-outra-variável-qualitativa"><span class="header-section-number">11.16.13</span> Comparação por outra variável qualitativa</a></li>
+  <li><a href="#roteiro-para-uma-análise-exploratória-completa" id="toc-roteiro-para-uma-análise-exploratória-completa" class="nav-link" data-scroll-target="#roteiro-para-uma-análise-exploratória-completa"><span class="header-section-number">11.16.14</span> Roteiro para uma análise exploratória completa</a></li>
+  <li><a href="#exemplo-de-conclusão-exploratória" id="toc-exemplo-de-conclusão-exploratória" class="nav-link" data-scroll-target="#exemplo-de-conclusão-exploratória"><span class="header-section-number">11.16.15</span> Exemplo de conclusão exploratória</a></li>
+  </ul></li>
+  <li><a href="#síntese" id="toc-síntese" class="nav-link" data-scroll-target="#síntese"><span class="header-section-number">11.17</span> Síntese</a></li>
+  <li><a href="#exercícios-teóricos" id="toc-exercícios-teóricos" class="nav-link" data-scroll-target="#exercícios-teóricos"><span class="header-section-number">11.18</span> Exercícios teóricos</a></li>
+  <li><a href="#exercícios-no-r" id="toc-exercícios-no-r" class="nav-link" data-scroll-target="#exercícios-no-r"><span class="header-section-number">11.19</span> Exercícios no R</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html">Parte III — Análise Bivariada</a></li><li class="breadcrumb-item"><a href="./11-qualitativa-quantitativa.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Associação entre uma variável qualitativa e uma quantitativa</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Associação entre uma variável qualitativa e uma quantitativa</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Até aqui, estudamos três situações importantes:</p>
+<ul>
+<li>uma variável por vez, na análise univariada;</li>
+<li>duas variáveis qualitativas, por meio de tabelas de contingência e distribuições condicionais;</li>
+<li>duas variáveis quantitativas, por meio de diagramas de dispersão, covariância, correlação e reta de tendência.</li>
+</ul>
+<p>Agora consideraremos um terceiro tipo de problema bivariado: a análise conjunta de <strong>uma variável qualitativa e uma variável quantitativa</strong>.</p>
+<p>Exemplos:</p>
+<ul>
+<li>meio de transporte e tempo de deslocamento;</li>
+<li>curso e altura;</li>
+<li>turno de estudo e nota;</li>
+<li>tipo de tratamento e tempo de recuperação;</li>
+<li>setor de uma empresa e salário;</li>
+<li>modalidade de ensino e número de horas de estudo.</li>
+</ul>
+<p>Nessas situações, a variável qualitativa define <strong>grupos</strong>, enquanto a variável quantitativa é observada dentro de cada grupo.</p>
+<p>A pergunta central passa a ser:</p>
+<blockquote class="blockquote">
+<p><strong>A distribuição da variável quantitativa é semelhante ou diferente entre as categorias da variável qualitativa?</strong></p>
+</blockquote>
+<p>Essa comparação pode envolver posição, dispersão e forma. Por isso, médias ou medianas isoladas raramente são suficientes.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, espera-se que o estudante seja capaz de:</p>
+<ul>
+<li>reconhecer uma análise envolvendo uma variável qualitativa e uma quantitativa;</li>
+<li>interpretar a distribuição quantitativa condicionada às categorias de uma variável qualitativa;</li>
+<li>calcular e comparar medidas de posição e dispersão por grupo;</li>
+<li>interpretar diferenças absolutas e relativas entre grupos;</li>
+<li>utilizar boxplots lado a lado, histogramas, curvas de densidade, gráficos de pontos e gráficos de violino;</li>
+<li>comparar posição, dispersão e forma das distribuições;</li>
+<li>reconhecer situações de maior ou menor heterogeneidade entre grupos;</li>
+<li>escrever conclusões exploratórias contextualizadas;</li>
+<li>distinguir comparação descritiva de inferência estatística.</li>
+</ul>
+<p>Toda a abordagem deste capítulo permanece <strong>descritiva e exploratória</strong>. Não utilizaremos testes de hipóteses, valores-<span class="math inline">\(p\)</span>, intervalos de confiança ou afirmações sobre diferenças populacionais.</p>
+</div>
+</div>
+<section id="uma-variável-qualitativa-define-grupos" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="uma-variável-qualitativa-define-grupos"><span class="header-section-number">11.1</span> Uma variável qualitativa define grupos</h2>
+<p>Considere:</p>
+<ul>
+<li><span class="math inline">\(G\)</span>: variável qualitativa, que define os grupos;</li>
+<li><span class="math inline">\(Y\)</span>: variável quantitativa, observada em cada indivíduo.</li>
+</ul>
+<p>Se <span class="math inline">\(G\)</span> possui categorias</p>
+<p><span class="math display">\[
+g_1,g_2,\ldots,g_k,
+\]</span></p>
+<p>podemos estudar separadamente as distribuições</p>
+<p><span class="math display">\[
+Y\mid G=g_1,
+\qquad
+Y\mid G=g_2,
+\qquad
+\ldots,
+\qquad
+Y\mid G=g_k.
+\]</span></p>
+<p>A notação</p>
+<p><span class="math display">\[
+Y\mid G=g_j
+\]</span></p>
+<p>pode ser lida como:</p>
+<blockquote class="blockquote">
+<p>distribuição de <span class="math inline">\(Y\)</span> <strong>dentro do grupo</strong> <span class="math inline">\(g_j\)</span>.</p>
+</blockquote>
+<p>Não é necessário, neste momento, interpretar o símbolo condicional em termos de probabilidade. Aqui ele indica apenas que estamos observando a variável quantitativa <strong>separadamente em cada categoria</strong> da variável qualitativa.</p>
+<section id="exemplo" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">11.1.1</span> Exemplo</h3>
+<p>Considere notas de estudantes de dois turnos:</p>
+<table class="caption-top table">
+<caption>Notas observadas em dois turnos.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: left;">Notas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: left;">62, 65, 67, 70, 72, 74, 76, 78</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: left;">55, 58, 60, 62, 65, 68, 72, 80</td>
+</tr>
+</tbody>
+</table>
+<p>Podemos estudar:</p>
+<p><span class="math display">\[
+\text{Nota}\mid\text{Turno = Manhã}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\text{Nota}\mid\text{Turno = Noite}.
+\]</span></p>
+<p>A variável <code>turno</code> não é resumida por média ou desvio padrão. Ela serve para <strong>separar as observações em grupos</strong>, dentro dos quais analisamos a distribuição das notas.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="O objeto da comparação é a distribuição">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O objeto da comparação é a distribuição
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao comparar uma variável quantitativa entre grupos, não devemos perguntar apenas:</p>
+<blockquote class="blockquote">
+<p>“Qual grupo tem maior média?”</p>
+</blockquote>
+<p>A comparação pode envolver:</p>
+<ul>
+<li>centro;</li>
+<li>dispersão;</li>
+<li>assimetria;</li>
+<li>amplitude;</li>
+<li>concentração;</li>
+<li>valores potencialmente atípicos;</li>
+<li>formato geral da distribuição.</li>
+</ul>
+<p>Duas categorias podem ter a mesma média e distribuições muito diferentes.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="medidas-resumo-por-categoria" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="medidas-resumo-por-categoria"><span class="header-section-number">11.2</span> Medidas resumo por categoria</h2>
+<p>Uma forma inicial de comparar os grupos é calcular medidas resumo da variável quantitativa dentro de cada categoria.</p>
+<p>Entre as medidas mais úteis estão:</p>
+<ul>
+<li>número de observações;</li>
+<li>média;</li>
+<li>mediana;</li>
+<li>primeiro e terceiro quartis;</li>
+<li>amplitude interquartílica;</li>
+<li>desvio padrão;</li>
+<li>mínimo e máximo.</li>
+</ul>
+<section id="exemplo-1" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">11.2.1</span> Exemplo</h3>
+<p>Para os dados da <span class="quarto-unresolved-ref">?tbl-exemplo-turno-notas</span>:</p>
+<table class="caption-top table">
+<caption>Medidas resumo das notas por turno.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;"><span class="math inline">\(n\)</span></th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Mediana</th>
+<th style="text-align: right;">Desvio padrão</th>
+<th style="text-align: right;"><span class="math inline">\(Q_1\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Q_3\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">70,5</td>
+<td style="text-align: right;">71,0</td>
+<td style="text-align: right;">5,61</td>
+<td style="text-align: right;">66,5</td>
+<td style="text-align: right;">74,5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">65,0</td>
+<td style="text-align: right;">63,5</td>
+<td style="text-align: right;">8,23</td>
+<td style="text-align: right;">59,5</td>
+<td style="text-align: right;">69,0</td>
+</tr>
+</tbody>
+</table>
+<p>A <span class="quarto-unresolved-ref">?tbl-resumo-turno-notas</span> sugere duas diferenças:</p>
+<ol type="1">
+<li>as notas do turno da manhã estão, em geral, em uma posição mais elevada;</li>
+<li>o turno da noite apresenta maior dispersão.</li>
+</ol>
+<p>Portanto, dizer apenas que a média da manhã é maior não descreve toda a diferença entre os grupos.</p>
+</section>
+<section id="comparação-de-médias-e-medianas" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="comparação-de-médias-e-medianas"><span class="header-section-number">11.2.2</span> Comparação de médias e medianas</h3>
+<p>A média compara o centro aritmético das distribuições.</p>
+<p>A mediana compara a posição central de maneira mais resistente a valores extremos.</p>
+<p>Quando média e mediana fornecem conclusões semelhantes, temos maior segurança de que a diferença de posição não depende apenas de poucos valores extremos.</p>
+<p>Quando produzem conclusões muito diferentes, devemos investigar a forma das distribuições.</p>
+<p>No exemplo,</p>
+<p><span class="math display">\[
+\bar{x}_{\text{Manhã}}=70{,}5
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\bar{x}_{\text{Noite}}=65{,}0.
+\]</span></p>
+<p>As medianas são</p>
+<p><span class="math display">\[
+Md_{\text{Manhã}}=71{,}0
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+Md_{\text{Noite}}=63{,}5.
+\]</span></p>
+<p>As duas medidas indicam posição central mais elevada no turno da manhã.</p>
+</section>
+</section>
+<section id="diferença-absoluta-entre-grupos" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="diferença-absoluta-entre-grupos"><span class="header-section-number">11.3</span> Diferença absoluta entre grupos</h2>
+<p>Quando queremos quantificar a diferença entre duas medidas, podemos calcular uma <strong>diferença absoluta</strong>.</p>
+<p>Para as médias,</p>
+<p><span class="math display">\[
+D_{\text{abs}}
+=
+\bar{x}_A-\bar{x}_B.
+\]</span></p>
+<p>No exemplo,</p>
+<p><span class="math display">\[
+D_{\text{abs}}
+=
+70{,}5-65{,}0
+=
+5{,}5.
+\]</span></p>
+<p>Podemos dizer:</p>
+<blockquote class="blockquote">
+<p>A média das notas do turno da manhã é 5,5 pontos maior que a média do turno da noite.</p>
+</blockquote>
+<p>A interpretação mantém a unidade da variável.</p>
+<p>Da mesma forma, para as medianas,</p>
+<p><span class="math display">\[
+71{,}0-63{,}5
+=
+7{,}5.
+\]</span></p>
+<p>A mediana do turno da manhã é 7,5 pontos maior.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="A ordem da subtração importa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A ordem da subtração importa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A diferença</p>
+<p><span class="math display">\[
+\bar{x}_A-\bar{x}_B
+\]</span></p>
+<p>não é a mesma expressão interpretativa de</p>
+<p><span class="math display">\[
+\bar{x}_B-\bar{x}_A.
+\]</span></p>
+<p>Antes de calcular, defina claramente qual grupo será tomado como referência.</p>
+</div>
+</div>
+</section>
+<section id="diferença-relativa-entre-grupos" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="diferença-relativa-entre-grupos"><span class="header-section-number">11.4</span> Diferença relativa entre grupos</h2>
+<p>Em alguns contextos, a diferença absoluta pode ser complementada por uma comparação relativa.</p>
+<p>Tomando o grupo <span class="math inline">\(B\)</span> como referência,</p>
+<p><span class="math display">\[
+D_{\text{rel}}
+=
+\frac{
+\bar{x}_A-\bar{x}_B
+}{
+\bar{x}_B
+}
+\times100\%.
+\]</span></p>
+<p>No exemplo,</p>
+<p><span class="math display">\[
+D_{\text{rel}}
+=
+\frac{
+70{,}5-65{,}0
+}{
+65{,}0
+}
+\times100\%
+\approx
+8{,}46\%.
+\]</span></p>
+<p>Assim, a média do turno da manhã é aproximadamente 8,5% maior que a média do turno da noite, tomando o turno da noite como referência.</p>
+<p>A diferença relativa pode ser útil quando o tamanho da diferença precisa ser interpretado em relação ao nível do grupo de referência.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Diferença relativa exige um denominador com significado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Diferença relativa exige um denominador com significado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A comparação relativa deve ser utilizada com cuidado.</p>
+<p>Ela pode ser inadequada quando:</p>
+<ul>
+<li>o valor de referência é zero ou muito próximo de zero;</li>
+<li>a variável não possui uma escala em que razões sejam substantivamente interpretáveis;</li>
+<li>a escolha do grupo de referência é arbitrária e pode induzir interpretações diferentes.</li>
+</ul>
+<p>Sempre explicite qual grupo foi utilizado como referência.</p>
+</div>
+</div>
+</section>
+<section id="comparação-da-dispersão-entre-grupos" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="comparação-da-dispersão-entre-grupos"><span class="header-section-number">11.5</span> Comparação da dispersão entre grupos</h2>
+<p>Duas categorias podem apresentar centros semelhantes, mas graus de variabilidade muito diferentes.</p>
+<p>Podemos comparar, por exemplo:</p>
+<ul>
+<li>amplitude;</li>
+<li>amplitude interquartílica;</li>
+<li>desvio padrão;</li>
+<li>desvio absoluto mediano;</li>
+<li>coeficiente de variação, quando apropriado.</li>
+</ul>
+<p>No exemplo dos turnos, o desvio padrão é aproximadamente</p>
+<p><span class="math display">\[
+s_{\text{Manhã}}=5{,}61
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+s_{\text{Noite}}=8{,}23.
+\]</span></p>
+<p>Assim, as notas do turno da noite estão mais dispersas em torno de seu centro.</p>
+<p>É importante observar que diferenças na dispersão podem ser tão relevantes quanto diferenças nas médias.</p>
+<section id="mesmo-centro-dispersões-diferentes" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="mesmo-centro-dispersões-diferentes"><span class="header-section-number">11.5.1</span> Mesmo centro, dispersões diferentes</h3>
+<p>Considere:</p>
+<p><span class="math display">\[
+A:\quad
+8,\;9,\;10,\;11,\;12
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+B:\quad
+2,\;6,\;10,\;14,\;18.
+\]</span></p>
+<p>Nos dois grupos,</p>
+<p><span class="math display">\[
+\bar{x}=10
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+Md=10.
+\]</span></p>
+<p>Entretanto, o grupo <span class="math inline">\(B\)</span> apresenta muito maior dispersão.</p>
+<p>Esse exemplo mostra que:</p>
+<blockquote class="blockquote">
+<p><strong>igualdade de médias não significa igualdade de distribuições.</strong></p>
+</blockquote>
+</section>
+</section>
+<section id="comparação-da-forma-das-distribuições" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="comparação-da-forma-das-distribuições"><span class="header-section-number">11.6</span> Comparação da forma das distribuições</h2>
+<p>Além de posição e dispersão, a forma também pode variar entre os grupos.</p>
+<p>Uma categoria pode apresentar:</p>
+<ul>
+<li>distribuição aproximadamente simétrica;</li>
+<li>assimetria à direita;</li>
+<li>assimetria à esquerda;</li>
+<li>maior concentração central;</li>
+<li>caudas mais longas;</li>
+<li>mais de uma região de concentração;</li>
+<li>observações potencialmente atípicas.</li>
+</ul>
+<p>Por isso, tabelas de medidas resumo devem ser combinadas com representações gráficas.</p>
+</section>
+<section id="boxplots-lado-a-lado" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="boxplots-lado-a-lado"><span class="header-section-number">11.7</span> Boxplots lado a lado</h2>
+<p>O boxplot é especialmente útil para comparar grupos porque resume, no mesmo gráfico:</p>
+<ul>
+<li>mediana;</li>
+<li>primeiro e terceiro quartis;</li>
+<li>amplitude interquartílica;</li>
+<li>extensão dos bigodes;</li>
+<li>observações sinalizadas como potencialmente atípicas.</li>
+</ul>
+<p>Considere o tempo de deslocamento dos estudantes segundo o meio de transporte.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-boxplot-transporte-tempo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Boxplots lado a lado do tempo de deslocamento para seis meios de transporte.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-qualitativa-quantitativa_files/figure-html/fig-boxplot-transporte-tempo-1.png" class="img-fluid figure-img" alt="Boxplots lado a lado do tempo de deslocamento para seis meios de transporte." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11.1: Tempo de deslocamento dos estudantes segundo o meio de transporte.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-boxplot-transporte-tempo" class="quarto-xref">Figura&nbsp;<span>11.1</span></a> permite observar que os estudantes que utilizam ônibus apresentam tempos geralmente mais elevados e também maior dispersão que vários dos demais grupos.</p>
+<p>A comparação, entretanto, não deve se limitar à mediana. Devemos observar a caixa inteira, os bigodes e possíveis pontos extremos.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Boxplots lado a lado favorecem comparações">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Boxplots lado a lado favorecem comparações
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O boxplot é particularmente útil quando a variável qualitativa possui várias categorias.</p>
+<p>Como todos os grupos aparecem na mesma escala vertical, diferenças de posição e dispersão tornam-se mais fáceis de perceber.</p>
+</div>
+</div>
+</section>
+<section id="histogramas-por-grupo" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="histogramas-por-grupo"><span class="header-section-number">11.8</span> Histogramas por grupo</h2>
+<p>O histograma mostra detalhes da forma que podem ser ocultados pelo boxplot.</p>
+<p>Quando o número de grupos é pequeno, podemos comparar histogramas utilizando painéis separados.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-histogramas-transporte-tempo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Histogramas em painéis separados mostrando a distribuição do tempo para cada meio de transporte.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-histogramas-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-qualitativa-quantitativa_files/figure-html/fig-histogramas-transporte-tempo-1.png" class="img-fluid figure-img" alt="Histogramas em painéis separados mostrando a distribuição do tempo para cada meio de transporte." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-histogramas-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11.2: Distribuições do tempo de deslocamento por meio de transporte.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Na <a href="#fig-histogramas-transporte-tempo" class="quarto-xref">Figura&nbsp;<span>11.2</span></a>, cada painel representa a distribuição condicionada a uma categoria de transporte.</p>
+<p>Para comparar corretamente os grupos, é recomendável manter:</p>
+<ul>
+<li>a mesma largura de classe;</li>
+<li>os mesmos limites do eixo;</li>
+<li>a mesma definição das classes.</li>
+</ul>
+<p>Alterar a construção do histograma entre grupos pode produzir diferenças visuais artificiais.</p>
+</section>
+<section id="curvas-de-densidade-por-grupo" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="curvas-de-densidade-por-grupo"><span class="header-section-number">11.9</span> Curvas de densidade por grupo</h2>
+<p>Curvas de densidade podem ser úteis para comparar a forma de distribuições contínuas, especialmente quando os grupos possuem tamanho razoável.</p>
+<p>Como o banco possui grupos pequenos para alguns meios de transporte, é prudente interpretar a densidade com cautela.</p>
+<p>Para evitar excesso de sobreposição, podemos selecionar três meios com perfis distintos.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-densidade-transporte-tempo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Curvas de densidade comparando A pé, Carro e Ônibus.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-densidade-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-qualitativa-quantitativa_files/figure-html/fig-densidade-transporte-tempo-1.png" class="img-fluid figure-img" alt="Curvas de densidade comparando A pé, Carro e Ônibus." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-densidade-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11.3: Curvas de densidade do tempo de deslocamento para três meios de transporte.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-densidade-transporte-tempo" class="quarto-xref">Figura&nbsp;<span>11.3</span></a> enfatiza diferenças de posição e forma.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="A curva de densidade é uma suavização">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A curva de densidade é uma suavização
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A forma de uma curva de densidade depende do grau de suavização.</p>
+<p>Com poucos dados, pequenas alterações no parâmetro de suavização podem mudar substancialmente a aparência da curva.</p>
+<p>Por isso, a densidade deve complementar — e não substituir — a inspeção dos dados e de outras representações.</p>
+</div>
+</div>
+</section>
+<section id="gráfico-de-pontos-por-grupo" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="gráfico-de-pontos-por-grupo"><span class="header-section-number">11.10</span> Gráfico de pontos por grupo</h2>
+<p>Quando o tamanho da amostra não é muito grande, mostrar os próprios valores observados pode ser muito informativo.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-pontos-transporte-tempo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Pontos individuais dos tempos de deslocamento distribuídos por categorias de transporte.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pontos-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-qualitativa-quantitativa_files/figure-html/fig-pontos-transporte-tempo-1.png" class="img-fluid figure-img" alt="Pontos individuais dos tempos de deslocamento distribuídos por categorias de transporte." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pontos-transporte-tempo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11.4: Valores individuais do tempo de deslocamento por meio de transporte.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-pontos-transporte-tempo" class="quarto-xref">Figura&nbsp;<span>11.4</span></a> preserva os valores individuais e permite perceber o tamanho de cada grupo.</p>
+<p>Isso é especialmente importante quando alguns grupos possuem poucas observações.</p>
+</section>
+<section id="gráfico-de-violino" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="gráfico-de-violino"><span class="header-section-number">11.11</span> Gráfico de violino</h2>
+<p>O gráfico de violino combina uma representação da densidade com uma disposição semelhante à do boxplot.</p>
+<p>A largura do violino em determinada região indica onde a densidade estimada é maior.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-violino-transporte-tempo-cap11" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Violinos mostrando a forma estimada das distribuições do tempo em cada meio de transporte.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-violino-transporte-tempo-cap11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="11-qualitativa-quantitativa_files/figure-html/fig-violino-transporte-tempo-cap11-1.png" class="img-fluid figure-img" alt="Violinos mostrando a forma estimada das distribuições do tempo em cada meio de transporte." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-violino-transporte-tempo-cap11-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;11.5: Gráficos de violino do tempo de deslocamento segundo o meio de transporte.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-violino-transporte-tempo-cap11" class="quarto-xref">Figura&nbsp;<span>11.5</span></a> combina duas informações:</p>
+<ul>
+<li>o boxplot resume posição e dispersão;</li>
+<li>o violino destaca a forma estimada da distribuição.</li>
+</ul>
+<p>Com grupos pequenos, entretanto, o formato do violino deve ser interpretado com cautela.</p>
+</section>
+<section id="heterogeneidade-entre-grupos" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="heterogeneidade-entre-grupos"><span class="header-section-number">11.12</span> Heterogeneidade entre grupos</h2>
+<p>Dizemos, em sentido descritivo, que existe <strong>heterogeneidade entre grupos</strong> quando as distribuições da variável quantitativa apresentam diferenças relevantes entre as categorias da variável qualitativa.</p>
+<p>Essas diferenças podem ocorrer em:</p>
+<ul>
+<li>posição;</li>
+<li>dispersão;</li>
+<li>forma;</li>
+<li>frequência de valores extremos;</li>
+<li>presença de agrupamentos internos.</li>
+</ul>
+<p>A associação entre uma variável qualitativa e uma quantitativa não precisa aparecer apenas como diferença de médias.</p>
+<section id="exemplo-2" class="level3" data-number="11.12.1">
+<h3 data-number="11.12.1" class="anchored" data-anchor-id="exemplo-2"><span class="header-section-number">11.12.1</span> Exemplo</h3>
+<p>Suponha três grupos com a mesma média igual a 50:</p>
+<ul>
+<li>grupo A: valores fortemente concentrados em torno de 50;</li>
+<li>grupo B: valores muito dispersos;</li>
+<li>grupo C: distribuição assimétrica à direita.</li>
+</ul>
+<p>As médias são iguais, mas as distribuições não são.</p>
+<p>Portanto, uma análise baseada apenas na comparação de médias deixaria de perceber a heterogeneidade existente.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Associação em perspectiva descritiva">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Associação em perspectiva descritiva
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neste contexto, podemos dizer que a variável qualitativa está associada à quantitativa quando a distribuição da variável quantitativa <strong>muda entre as categorias</strong>.</p>
+<p>A mudança pode envolver centro, dispersão, forma ou uma combinação desses aspectos.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="tamanhos-de-grupo-diferentes" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="tamanhos-de-grupo-diferentes"><span class="header-section-number">11.13</span> Tamanhos de grupo diferentes</h2>
+<p>Na prática, as categorias frequentemente possuem números diferentes de observações.</p>
+<p>No banco dos estudantes, por exemplo, os tamanhos dos grupos de transporte não são iguais.</p>
+<p>Isso exige cuidado na interpretação:</p>
+<ul>
+<li>histogramas de frequência absoluta podem parecer maiores apenas porque um grupo possui mais indivíduos;</li>
+<li>curvas de densidade normalizam a área, favorecendo comparações de forma;</li>
+<li>boxplots não mostram diretamente o tamanho de cada grupo;</li>
+<li>gráficos de pontos revelam quantas observações existem em cada categoria.</li>
+</ul>
+<p>Por isso, é útil apresentar também o valor de</p>
+<p><span class="math display">\[
+n
+\]</span></p>
+<p>de cada grupo nas tabelas de medidas resumo.</p>
+</section>
+<section id="comparação-descritiva-e-inferência-estatística" class="level2" data-number="11.14">
+<h2 data-number="11.14" class="anchored" data-anchor-id="comparação-descritiva-e-inferência-estatística"><span class="header-section-number">11.14</span> Comparação descritiva e inferência estatística</h2>
+<p>Até este ponto, fazemos afirmações sobre <strong>os dados observados</strong>.</p>
+<p>Se a média do tempo de deslocamento for maior entre usuários de ônibus que entre usuários de carro, podemos afirmar:</p>
+<blockquote class="blockquote">
+<p>No conjunto observado, o tempo médio de deslocamento dos usuários de ônibus foi maior que o dos usuários de carro.</p>
+</blockquote>
+<p>Não podemos, apenas com essa comparação descritiva, concluir:</p>
+<blockquote class="blockquote">
+<p>Na população, usuários de ônibus possuem maior tempo médio de deslocamento.</p>
+</blockquote>
+<p>Essa segunda afirmação é inferencial e exige métodos que ainda não foram estudados.</p>
+<p>Também não devemos interpretar uma diferença observada como causal.</p>
+<p>Por exemplo:</p>
+<blockquote class="blockquote">
+<p>usuários de ônibus apresentaram maior tempo de deslocamento</p>
+</blockquote>
+<p>não implica que</p>
+<blockquote class="blockquote">
+<p>usar ônibus, por si só, cause todo o aumento observado no tempo.</p>
+</blockquote>
+<p>Outras características podem diferir entre os grupos, como distância da residência, horário, localização do curso e condições de trânsito.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Descrever não é testar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Descrever não é testar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma diferença observada entre médias, medianas ou distribuições pode ser importante para a exploração dos dados.</p>
+<p>Entretanto, neste capítulo não responderemos se essa diferença é “estatisticamente significativa” ou se pode ser generalizada para uma população.</p>
+<p>Essas são perguntas de inferência estatística.</p>
+</div>
+</div>
+</section>
+<section id="exemplo-integrado-meio-de-transporte-e-tempo-de-deslocamento" class="level2" data-number="11.15">
+<h2 data-number="11.15" class="anchored" data-anchor-id="exemplo-integrado-meio-de-transporte-e-tempo-de-deslocamento"><span class="header-section-number">11.15</span> Exemplo integrado: meio de transporte e tempo de deslocamento</h2>
+<p>No banco dos 80 estudantes, podemos resumir o tempo de deslocamento por meio de transporte:</p>
+<table class="caption-top table">
+<caption>Medidas resumo do tempo de deslocamento por meio de transporte.</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Meio de transporte</th>
+<th style="text-align: right;"><span class="math inline">\(n\)</span></th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Mediana</th>
+<th style="text-align: right;">Desvio padrão</th>
+<th style="text-align: right;"><span class="math inline">\(Q_1\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Q_3\)</span></th>
+<th style="text-align: right;">AIQ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A pé</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">19,91</td>
+<td style="text-align: right;">15,30</td>
+<td style="text-align: right;">7,80</td>
+<td style="text-align: right;">14,50</td>
+<td style="text-align: right;">23,70</td>
+<td style="text-align: right;">9,20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Aplicativo</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">36,90</td>
+<td style="text-align: right;">38,35</td>
+<td style="text-align: right;">12,61</td>
+<td style="text-align: right;">26,30</td>
+<td style="text-align: right;">46,22</td>
+<td style="text-align: right;">19,92</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bicicleta</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">22,84</td>
+<td style="text-align: right;">26,30</td>
+<td style="text-align: right;">6,58</td>
+<td style="text-align: right;">22,00</td>
+<td style="text-align: right;">26,70</td>
+<td style="text-align: right;">4,70</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Carro</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">31,26</td>
+<td style="text-align: right;">31,60</td>
+<td style="text-align: right;">9,87</td>
+<td style="text-align: right;">24,35</td>
+<td style="text-align: right;">37,55</td>
+<td style="text-align: right;">13,20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Motocicleta</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">27,50</td>
+<td style="text-align: right;">27,50</td>
+<td style="text-align: right;">9,90</td>
+<td style="text-align: right;">20,10</td>
+<td style="text-align: right;">28,30</td>
+<td style="text-align: right;">8,20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ônibus</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">59,14</td>
+<td style="text-align: right;">57,35</td>
+<td style="text-align: right;">22,03</td>
+<td style="text-align: right;">45,82</td>
+<td style="text-align: right;">68,82</td>
+<td style="text-align: right;">23,00</td>
+</tr>
+</tbody>
+</table>
+<p>A <span class="quarto-unresolved-ref">?tbl-resumo-transporte-tempo</span> mostra diferenças importantes.</p>
+<p>Os usuários de ônibus possuem a maior média e a maior mediana de tempo de deslocamento:</p>
+<p><span class="math display">\[
+\bar{x}_{\text{Ônibus}}
+\approx
+59{,}14
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+Md_{\text{Ônibus}}
+=
+57{,}35.
+\]</span></p>
+<p>Os estudantes que vão a pé apresentam:</p>
+<p><span class="math display">\[
+\bar{x}_{\text{A pé}}
+\approx
+19{,}91
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+Md_{\text{A pé}}
+=
+15{,}30.
+\]</span></p>
+<p>A diferença absoluta entre as médias é</p>
+<p><span class="math display">\[
+59{,}14-19{,}91
+=
+39{,}23\text{ minutos}.
+\]</span></p>
+<p>Tomando o grupo “A pé” como referência, a diferença relativa é aproximadamente</p>
+<p><span class="math display">\[
+\frac{
+59{,}14-19{,}91
+}{
+19{,}91
+}
+\times100
+\approx
+197\%.
+\]</span></p>
+<p>Isso significa que, no conjunto observado, o tempo médio dos usuários de ônibus é aproximadamente 197% maior que o dos estudantes que vão a pé.</p>
+<p>A comparação da dispersão também é relevante:</p>
+<p><span class="math display">\[
+s_{\text{Ônibus}}
+\approx
+22{,}03
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+s_{\text{A pé}}
+\approx
+7{,}80.
+\]</span></p>
+<p>Logo, além de apresentarem tempos maiores, os usuários de ônibus também exibem maior variabilidade absoluta.</p>
+<p>Essa conclusão deve ser interpretada juntamente com os tamanhos dos grupos:</p>
+<p><span class="math display">\[
+n_{\text{Ônibus}}=30
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+n_{\text{A pé}}=7.
+\]</span></p>
+<p>O conjunto observado, portanto, apresenta clara heterogeneidade entre os meios de transporte quanto à posição e à dispersão dos tempos de deslocamento.</p>
+</section>
+<section id="laboratório-no-r" class="level2" data-number="11.16">
+<h2 data-number="11.16" class="anchored" data-anchor-id="laboratório-no-r"><span class="header-section-number">11.16</span> Laboratório no R</h2>
+<p>Nesta aula prática, utilizaremos principalmente:</p>
+<ul>
+<li><code>meio_transporte</code>, variável qualitativa;</li>
+<li><code>tempo_deslocamento_min</code>, variável quantitativa.</li>
+</ul>
+<section id="preparando-os-dados" class="level3" data-number="11.16.1">
+<h3 data-number="11.16.1" class="anchored" data-anchor-id="preparando-os-dados"><span class="header-section-number">11.16.1</span> Preparando os dados</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dados/estudantes80n.csv"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Verifique as duas variáveis:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 80
+Columns: 2
+$ meio_transporte        &lt;chr&gt; "Ônibus", "Aplicativo", "Carro", "Aplicativo", …
+$ tempo_deslocamento_min &lt;dbl&gt; 96.5, 37.7, 45.1, 51.0, 112.0, 14.0, 35.7, 27.9…</code></pre>
+</div>
+</div>
+</section>
+<section id="número-de-observações-por-grupo" class="level3" data-number="11.16.2">
+<h3 data-number="11.16.2" class="anchored" data-anchor-id="número-de-observações-por-grupo"><span class="header-section-number">11.16.2</span> Número de observações por grupo</h3>
+<p>Antes de comparar medidas, verifique os tamanhos dos grupos:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"n"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">desc</span>(n)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  meio_transporte     n
+  &lt;chr&gt;           &lt;int&gt;
+1 Ônibus             30
+2 Carro              15
+3 Aplicativo         14
+4 Motocicleta         9
+5 A pé                7
+6 Bicicleta           5</code></pre>
+</div>
+</div>
+<p>Tamanhos muito diferentes devem ser considerados na interpretação dos gráficos.</p>
+</section>
+<section id="tabela-de-medidas-resumo-por-grupo" class="level3" data-number="11.16.3">
+<h3 data-number="11.16.3" class="anchored" data-anchor-id="tabela-de-medidas-resumo-por-grupo"><span class="header-section-number">11.16.3</span> Tabela de medidas resumo por grupo</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>resumo_transporte <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    meio_transporte</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">sum</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        tempo_deslocamento_min</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">media =</span> <span class="fu">mean</span>(</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">mediana =</span> <span class="fu">median</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">q1 =</span> <span class="fu">quantile</span>(</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.25</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">q3 =</span> <span class="fu">quantile</span>(</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.75</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">aiq =</span> <span class="fu">IQR</span>(</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">desvio_padrao =</span> <span class="fu">sd</span>(</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">minimo =</span> <span class="fu">min</span>(</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">maximo =</span> <span class="fu">max</span>(</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>resumo_transporte</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  meio_transporte     n media mediana    q1    q3   aiq desvio_padrao minimo
+  &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;
+1 A pé                7  19.9    15.3  14.5  23.7   9.2          7.80   13.4
+2 Aplicativo         14  36.9    38.4  26.3  46.2  19.9         12.6    14.3
+3 Bicicleta           5  22.8    26.3  22    26.7   4.7          6.58   11.7
+4 Carro              15  31.3    31.6  24.4  37.6  13.2          9.87   15.4
+5 Motocicleta         9  27.5    27.5  20.1  28.3   8.2          9.90   17.9
+6 Ônibus             30  59.1    57.4  45.8  68.8  23           22.0    12.9
+# ℹ 1 more variable: maximo &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Uma versão mais compacta:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>resumo_transporte <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    n,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    media,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    mediana,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    desvio_padrao,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    aiq</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  meio_transporte     n media mediana desvio_padrao   aiq
+  &lt;chr&gt;           &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;
+1 A pé                7  19.9    15.3          7.80   9.2
+2 Aplicativo         14  36.9    38.4         12.6   19.9
+3 Bicicleta           5  22.8    26.3          6.58   4.7
+4 Carro              15  31.3    31.6          9.87  13.2
+5 Motocicleta         9  27.5    27.5          9.90   8.2
+6 Ônibus             30  59.1    57.4         22.0   23  </code></pre>
+</div>
+</div>
+<p>Ao interpretar, procure responder:</p>
+<ul>
+<li>quais grupos apresentam maior e menor posição central?</li>
+<li>média e mediana contam histórias semelhantes?</li>
+<li>quais grupos apresentam maior dispersão?</li>
+<li>os tamanhos das amostras são semelhantes?</li>
+</ul>
+</section>
+<section id="diferença-absoluta-entre-dois-grupos" class="level3" data-number="11.16.4">
+<h3 data-number="11.16.4" class="anchored" data-anchor-id="diferença-absoluta-entre-dois-grupos"><span class="header-section-number">11.16.4</span> Diferença absoluta entre dois grupos</h3>
+<p>Vamos comparar ônibus e carro.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>medias_veiculos <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    meio_transporte <span class="sc">%in%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(<span class="st">"Ônibus"</span>, <span class="st">"Carro"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    meio_transporte</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">media =</span> <span class="fu">mean</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      tempo_deslocamento_min,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>medias_veiculos</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  meio_transporte media
+  &lt;chr&gt;           &lt;dbl&gt;
+1 Carro            31.3
+2 Ônibus           59.1</code></pre>
+</div>
+</div>
+<p>Podemos extrair as duas médias:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>media_onibus <span class="ot">&lt;-</span> medias_veiculos <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    meio_transporte <span class="sc">==</span> <span class="st">"Ônibus"</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(media)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>media_carro <span class="ot">&lt;-</span> medias_veiculos <span class="sc">|&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    meio_transporte <span class="sc">==</span> <span class="st">"Carro"</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(media)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>A diferença absoluta é:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>media_onibus <span class="sc">-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  media_carro</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27.88333</code></pre>
+</div>
+</div>
+<p>Interprete o resultado em minutos.</p>
+</section>
+<section id="diferença-relativa" class="level3" data-number="11.16.5">
+<h3 data-number="11.16.5" class="anchored" data-anchor-id="diferença-relativa"><span class="header-section-number">11.16.5</span> Diferença relativa</h3>
+<p>Tomando o carro como referência:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  (</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    media_onibus <span class="sc">-</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      media_carro</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">/</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  media_carro</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 89.19812</code></pre>
+</div>
+</div>
+<p>A interpretação deve sempre mencionar o grupo de referência.</p>
+</section>
+<section id="boxplots-lado-a-lado-1" class="level3" data-number="11.16.6">
+<h3 data-number="11.16.6" class="anchored" data-anchor-id="boxplots-lado-a-lado-1"><span class="header-section-number">11.16.6</span> Boxplots lado a lado</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> meio_transporte,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> tempo_deslocamento_min</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Meio de transporte"</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Analise:</p>
+<ul>
+<li>posição das medianas;</li>
+<li>tamanho das caixas;</li>
+<li>comprimento dos bigodes;</li>
+<li>pontos potencialmente atípicos.</li>
+</ul>
+</section>
+<section id="boxplot-com-os-dados-individuais" class="level3" data-number="11.16.7">
+<h3 data-number="11.16.7" class="anchored" data-anchor-id="boxplot-com-os-dados-individuais"><span class="header-section-number">11.16.7</span> Boxplot com os dados individuais</h3>
+<p>Sobrepor os pontos ajuda a visualizar o tamanho e a estrutura de cada grupo.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> meio_transporte,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> tempo_deslocamento_min</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.shape =</span> <span class="cn">NA</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.12</span>,</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">0</span>,</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.7</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Meio de transporte"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O argumento</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>outlier.shape <span class="ot">=</span> <span class="cn">NA</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>não remove observações do conjunto. Apenas evita que os pontos sinalizados pelo boxplot sejam desenhados duas vezes, pois todas as observações já aparecem no <code>geom_jitter()</code>.</p>
+</section>
+<section id="histogramas-por-grupo-1" class="level3" data-number="11.16.8">
+<h3 data-number="11.16.8" class="anchored" data-anchor-id="histogramas-por-grupo-1"><span class="header-section-number">11.16.8</span> Histogramas por grupo</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> tempo_deslocamento_min</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">15</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">boundary =</span> <span class="dv">10</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">closed =</span> <span class="st">"left"</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> meio_transporte</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Tempo de deslocamento (min)"</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequência"</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Mantenha a mesma largura das classes para tornar a comparação visual coerente.</p>
+</section>
+<section id="histogramas-em-densidade" class="level3" data-number="11.16.9">
+<h3 data-number="11.16.9" class="anchored" data-anchor-id="histogramas-em-densidade"><span class="header-section-number">11.16.9</span> Histogramas em densidade</h3>
+<p>Se o objetivo for comparar a forma em grupos de tamanhos diferentes, podemos utilizar densidade de frequência em vez de contagens.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> tempo_deslocamento_min</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> <span class="fu">after_stat</span>(</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        density</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">binwidth =</span> <span class="dv">15</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">boundary =</span> <span class="dv">10</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">closed =</span> <span class="st">"left"</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> meio_transporte</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Tempo de deslocamento (min)"</span>,</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Densidade"</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Nesse caso, a área de cada histograma é igual a 1, o que facilita a comparação de forma entre grupos com tamanhos diferentes.</p>
+</section>
+<section id="curvas-de-densidade" class="level3" data-number="11.16.10">
+<h3 data-number="11.16.10" class="anchored" data-anchor-id="curvas-de-densidade"><span class="header-section-number">11.16.10</span> Curvas de densidade</h3>
+<p>Para evitar excesso de linhas no mesmo gráfico, selecionaremos três meios:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    meio_transporte <span class="sc">%in%</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">c</span>(</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">"A pé"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Carro"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ônibus"</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> tempo_deslocamento_min,</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">linetype =</span> meio_transporte</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">linewidth =</span> <span class="dv">1</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Tempo de deslocamento (min)"</span>,</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Densidade"</span>,</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"Meio de transporte"</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Compare:</p>
+<ul>
+<li>deslocamento das curvas;</li>
+<li>concentração;</li>
+<li>caudas;</li>
+<li>possíveis assimetrias.</li>
+</ul>
+</section>
+<section id="gráfico-de-pontos" class="level3" data-number="11.16.11">
+<h3 data-number="11.16.11" class="anchored" data-anchor-id="gráfico-de-pontos"><span class="header-section-number">11.16.11</span> Gráfico de pontos</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> meio_transporte,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> tempo_deslocamento_min</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.12</span>,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">0</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.4</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Meio de transporte"</span>,</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Esse gráfico é especialmente útil para perceber que alguns grupos possuem poucas observações.</p>
+</section>
+<section id="gráfico-de-violino-1" class="level3" data-number="11.16.12">
+<h3 data-number="11.16.12" class="anchored" data-anchor-id="gráfico-de-violino-1"><span class="header-section-number">11.16.12</span> Gráfico de violino</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> meio_transporte,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> tempo_deslocamento_min</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">trim =</span> <span class="cn">TRUE</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.10</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">outlier.shape =</span> <span class="cn">NA</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Meio de transporte"</span>,</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Use o violino como complemento, e não como substituto do conhecimento sobre os tamanhos dos grupos.</p>
+</section>
+<section id="comparação-por-outra-variável-qualitativa" class="level3" data-number="11.16.13">
+<h3 data-number="11.16.13" class="anchored" data-anchor-id="comparação-por-outra-variável-qualitativa"><span class="header-section-number">11.16.13</span> Comparação por outra variável qualitativa</h3>
+<p>Podemos repetir a análise utilizando <code>curso</code> e <code>altura_m</code>.</p>
+<p>Uma tabela de medidas resumo:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    curso</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">sum</span>(</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>        altura_m</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">media =</span> <span class="fu">mean</span>(</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>      altura_m,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">mediana =</span> <span class="fu">median</span>(</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>      altura_m,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">desvio_padrao =</span> <span class="fu">sd</span>(</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>      altura_m,</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">aiq =</span> <span class="fu">IQR</span>(</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>      altura_m,</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 6
+  curso           n media mediana desvio_padrao    aiq
+  &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;         &lt;dbl&gt;  &lt;dbl&gt;
+1 Estatística    32  1.67    1.66        0.0716 0.0950
+2 Física         15  1.67    1.67        0.0830 0.0900
+3 Matemática     18  1.70    1.69        0.102  0.105 
+4 Química        15  1.68    1.66        0.115  0.155 </code></pre>
+</div>
+</div>
+<p>Boxplots:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> curso,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> altura_m</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="fl">0.10</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">0</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.6</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Curso"</span>,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Altura (m)"</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="11-qualitativa-quantitativa_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A comparação entre cursos parece muito menos marcada que a comparação entre meios de transporte e tempo de deslocamento. Essa diferença ilustra por que a associação deve ser avaliada a partir do conjunto de medidas e gráficos, e não apenas pelo fato de as médias não serem exatamente iguais.</p>
+</section>
+<section id="roteiro-para-uma-análise-exploratória-completa" class="level3" data-number="11.16.14">
+<h3 data-number="11.16.14" class="anchored" data-anchor-id="roteiro-para-uma-análise-exploratória-completa"><span class="header-section-number">11.16.14</span> Roteiro para uma análise exploratória completa</h3>
+<p>Para uma variável qualitativa <span class="math inline">\(G\)</span> e uma quantitativa <span class="math inline">\(Y\)</span>, um fluxo de trabalho útil é:</p>
+<ol type="1">
+<li>identificar claramente as variáveis e suas unidades;</li>
+<li>verificar o número de observações em cada categoria;</li>
+<li>calcular medidas resumo por grupo;</li>
+<li>comparar médias e medianas;</li>
+<li>comparar medidas de dispersão;</li>
+<li>calcular diferenças absolutas ou relativas quando fizer sentido;</li>
+<li>construir boxplots lado a lado;</li>
+<li>mostrar os valores individuais quando o tamanho da amostra permitir;</li>
+<li>investigar histogramas, densidades ou violinos para comparar a forma;</li>
+<li>procurar observações potencialmente atípicas;</li>
+<li>escrever uma conclusão que integre posição, dispersão e forma;</li>
+<li>restringir a conclusão aos dados observados, quando não houver procedimento inferencial.</li>
+</ol>
+</section>
+<section id="exemplo-de-conclusão-exploratória" class="level3" data-number="11.16.15">
+<h3 data-number="11.16.15" class="anchored" data-anchor-id="exemplo-de-conclusão-exploratória"><span class="header-section-number">11.16.15</span> Exemplo de conclusão exploratória</h3>
+<p>Uma conclusão possível para <code>meio_transporte</code> e <code>tempo_deslocamento_min</code> seria:</p>
+<blockquote class="blockquote">
+<p>No conjunto dos 80 estudantes, o tempo de deslocamento apresenta diferenças claras entre os meios de transporte. Os usuários de ônibus apresentam maior média e mediana, além de maior dispersão absoluta. Os estudantes que se deslocam a pé ou de bicicleta apresentam, em geral, tempos menores. Os boxplots e os valores individuais também mostram que a distribuição dos tempos varia entre os grupos, indicando heterogeneidade não apenas de posição, mas também de dispersão. Essas conclusões descrevem o conjunto observado e não constituem, por si só, inferência para uma população nem evidência causal.</p>
+</blockquote>
+</section>
+</section>
+<section id="síntese" class="level2" data-number="11.17">
+<h2 data-number="11.17" class="anchored" data-anchor-id="síntese"><span class="header-section-number">11.17</span> Síntese</h2>
+<p>Quando analisamos uma variável qualitativa e uma quantitativa, a variável qualitativa define <strong>grupos</strong> e estudamos a distribuição da variável quantitativa dentro de cada grupo.</p>
+<p>A comparação deve considerar:</p>
+<ul>
+<li>posição;</li>
+<li>dispersão;</li>
+<li>forma;</li>
+<li>tamanho dos grupos;</li>
+<li>observações potencialmente atípicas.</li>
+</ul>
+<p>Médias e medianas permitem comparar a posição das distribuições.</p>
+<p>Amplitude interquartílica e desvio padrão ajudam a comparar a dispersão.</p>
+<p>Diferenças absolutas mantêm a unidade original da variável. Diferenças relativas expressam a diferença em relação a um grupo de referência, mas exigem cuidado na escolha do denominador.</p>
+<p>Boxplots lado a lado facilitam comparações de posição e dispersão. Histogramas e curvas de densidade revelam detalhes da forma. Gráficos de pontos preservam os valores individuais. Gráficos de violino combinam uma representação da densidade com uma estrutura conveniente para comparação entre categorias.</p>
+<p>A associação entre uma variável qualitativa e uma quantitativa pode aparecer como mudança no centro, na dispersão, na forma ou em vários desses aspectos simultaneamente.</p>
+<p>Toda a análise realizada neste capítulo é <strong>descritiva</strong>.</p>
+<blockquote class="blockquote">
+<p><strong>Ideia-chave:</strong> comparar grupos significa comparar distribuições, e não apenas comparar médias.</p>
+</blockquote>
+</section>
+<section id="exercícios-teóricos" class="level2" data-number="11.18">
+<h2 data-number="11.18" class="anchored" data-anchor-id="exercícios-teóricos"><span class="header-section-number">11.18</span> Exercícios teóricos</h2>
+<ol type="1">
+<li><p>Explique o que significa estudar a distribuição de uma variável quantitativa condicionada às categorias de uma variável qualitativa.</p></li>
+<li><p>Considere duas turmas com médias iguais a 7,0. É correto concluir que as distribuições das notas são semelhantes? Explique quais outras características deveriam ser comparadas.</p></li>
+<li><p>Considere:</p></li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Grupo</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Mediana</th>
+<th style="text-align: right;">Desvio padrão</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">A</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">B</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Qual medida de posição difere entre os grupos?</p></li>
+<li><p>Qual grupo é mais heterogêneo?</p></li>
+<li><p>Explique por que apenas comparar as médias seria insuficiente.</p></li>
+</ol>
+<!-- -->
+<ol start="4" type="1">
+<li><p>Duas categorias apresentam médias iguais a 80 e 68.</p>
+<ol type="a">
+<li><p>Calcule a diferença absoluta tomando a segunda categoria como referência.</p></li>
+<li><p>Calcule a diferença relativa.</p></li>
+<li><p>Interprete os dois resultados.</p></li>
+</ol></li>
+<li><p>Explique por que uma diferença relativa pode ser problemática quando o valor do grupo de referência está próximo de zero.</p></li>
+<li><p>Quais aspectos de uma distribuição podem ser comparados por meio de boxplots lado a lado?</p></li>
+<li><p>O que um histograma pode mostrar que um boxplot normalmente não mostra?</p></li>
+<li><p>Por que é recomendável manter a mesma largura de classe ao comparar histogramas de diferentes grupos?</p></li>
+<li><p>Explique uma vantagem e uma limitação das curvas de densidade na comparação entre grupos.</p></li>
+<li><p>Em que situação um gráfico de pontos pode ser preferível a um boxplot?</p></li>
+<li><p>Um gráfico de violino apresenta uma região muito larga em determinado intervalo. O que essa largura representa? Ela corresponde diretamente ao número absoluto de observações?</p></li>
+<li><p>Dois grupos possuem medianas e AIQs semelhantes, mas um deles apresenta forte assimetria à direita. Que representações gráficas poderiam revelar essa diferença?</p></li>
+<li><p>Explique o que significa afirmar, em perspectiva descritiva, que existe heterogeneidade entre grupos.</p></li>
+<li><p>Diferencie as afirmações:</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>“No conjunto observado, o grupo A apresentou maior média que o grupo B.”</p>
+</blockquote>
+<p>e</p>
+<blockquote class="blockquote">
+<p>“Na população, a média do grupo A é maior que a do grupo B.”</p>
+</blockquote>
+<ol start="15" type="1">
+<li>Uma análise mostra que usuários de ônibus possuem maior tempo médio de deslocamento que usuários de carro. Por que isso não permite concluir automaticamente que utilizar ônibus causa a diferença observada?</li>
+</ol>
+</section>
+<section id="exercícios-no-r" class="level2" data-number="11.19">
+<h2 data-number="11.19" class="anchored" data-anchor-id="exercícios-no-r"><span class="header-section-number">11.19</span> Exercícios no R</h2>
+<ol type="1">
+<li><p>Utilize <code>meio_transporte</code> e <code>tempo_deslocamento_min</code>.</p>
+<ol type="a">
+<li><p>obtenha o número de observações em cada grupo;</p></li>
+<li><p>calcule média, mediana, desvio padrão e AIQ;</p></li>
+<li><p>identifique os grupos com maior e menor posição central;</p></li>
+<li><p>identifique os grupos com maior e menor dispersão.</p></li>
+</ol></li>
+<li><p>Compare os grupos <code>Ônibus</code> e <code>Carro</code>.</p>
+<ol type="a">
+<li><p>calcule a diferença absoluta entre as médias;</p></li>
+<li><p>calcule a diferença relativa tomando <code>Carro</code> como referência;</p></li>
+<li><p>repita a comparação para as medianas;</p></li>
+<li><p>escreva uma interpretação contextualizada.</p></li>
+</ol></li>
+<li><p>Construa boxplots lado a lado de <code>tempo_deslocamento_min</code> segundo <code>meio_transporte</code>.</p>
+<ol type="a">
+<li><p>compare as medianas;</p></li>
+<li><p>compare os tamanhos das caixas;</p></li>
+<li><p>identifique observações potencialmente atípicas;</p></li>
+<li><p>escreva uma conclusão.</p></li>
+</ol></li>
+<li><p>Refaça o exercício anterior adicionando os valores individuais com <code>geom_jitter()</code>.</p></li>
+</ol>
+<p>Explique quais informações ficaram mais visíveis depois da sobreposição dos pontos.</p>
+<ol start="5" type="1">
+<li>Construa histogramas em painéis separados para o tempo de deslocamento por meio de transporte.</li>
+</ol>
+<p>Utilize a mesma largura de classe em todos os painéis e compare a forma das distribuições.</p>
+<ol start="6" type="1">
+<li>Selecione <code>A pé</code>, <code>Carro</code> e <code>Ônibus</code> e construa curvas de densidade.</li>
+</ol>
+<p>Compare posição, dispersão, concentração e caudas.</p>
+<ol start="7" type="1">
+<li>Construa gráficos de violino do tempo de deslocamento por meio de transporte e acrescente um boxplot estreito dentro de cada violino.</li>
+</ol>
+<p>Compare o que cada camada acrescenta à interpretação.</p>
+<ol start="8" type="1">
+<li><p>Analise <code>curso</code> e <code>altura_m</code>.</p>
+<ol type="a">
+<li><p>produza uma tabela de medidas resumo por curso;</p></li>
+<li><p>construa boxplots lado a lado;</p></li>
+<li><p>sobreponha os dados individuais;</p></li>
+<li><p>descreva se as diferenças entre os cursos parecem grandes ou pequenas no conjunto observado.</p></li>
+</ol></li>
+<li><p>Analise <code>satisfacao</code> e <code>tempo_deslocamento_min</code>.</p></li>
+</ol>
+<p>Antes de construir os gráficos, ordene a variável <code>satisfacao</code> como:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Muito baixa"</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Baixa"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Média"</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Alta"</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Muito alta"</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Depois:</p>
+<ol type="a">
+<li><p>calcule medidas resumo por nível;</p></li>
+<li><p>construa boxplots;</p></li>
+<li><p>construa um gráfico de pontos;</p></li>
+<li><p>investigue se existe algum padrão de mudança do tempo de deslocamento ao longo dos níveis de satisfação.</p></li>
+</ol>
+<!-- -->
+<ol start="10" type="1">
+<li>Escolha livremente uma variável qualitativa e uma quantitativa do banco <code>dados</code> e produza uma análise exploratória contendo:</li>
+</ol>
+<ul>
+<li>identificação das variáveis;</li>
+<li>número de observações por grupo;</li>
+<li>tabela de medidas resumo;</li>
+<li>diferença absoluta entre dois grupos de interesse;</li>
+<li>diferença relativa, se fizer sentido;</li>
+<li>boxplot;</li>
+<li>uma segunda representação gráfica de sua escolha;</li>
+<li>comparação de posição, dispersão e forma;</li>
+<li>conclusão contextualizada;</li>
+<li>indicação explícita de que a análise é descritiva.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./10-associacao-quantitativas.html" class="pagination-link" aria-label="Associação entre duas variáveis quantitativas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./12-extensoes-analise-multivariada.html" class="pagination-link" aria-label="15-analise-multivariada">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">15-analise-multivariada</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

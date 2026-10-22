@@ -1,0 +1,76 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Análise Exploratória de Dados"
+  subtitle: "Fundamentos, métodos e aplicações com R"
+  author: "Prof. José Clelto Barros Gomes"
+
+  page-navigation: true
+
+  chapters:
+    - index.qmd
+
+    - part: "Parte I — Fundamentos e análise univariada"
+      chapters:
+        - 01-fundamentos-aed.qmd
+        - 02-r-rstudio-quarto.qmd
+        - 03-dados-organizacao-qualidade.qmd
+        - 04-distribuicoes-frequencias-representacoes-graficas-v2.qmd
+
+    - part: "Parte II — Medidas resumo"
+      chapters:
+        - 05-medidas-tendencia-central.qmd
+        #- 06-separatrizes-boxplot.qmd
+        - 06-separatrizes-boxplot-revisado.qmd
+        - 07-medidas-dispersao.qmd
+        - 08-forma-distribuicao.qmd
+        #- 11-revisao-unidade2.qmd
+
+    - part: "Parte III — Análise Bivariada"
+      chapters:
+        - 09-associacao-qualitativas.qmd
+        - 10-associacao-quantitativas.qmd
+        - 11-qualitativa-quantitativa.qmd
+    - part: "Parte IV - Extensões para dados multivariados"
+      chapters: 
+        - 12-extensoes-analise-multivariada.qmd
+    #- referencias.qmd
+
+  sidebar:
+    style: docked
+    search: true
+    collapse-level: 1
+
+bibliography: referencias.bib
+link-citations: true
+lang: pt-BR
+
+format:
+  html:
+    theme: cosmo
+    css: styles2.css
+
+    toc: true
+    toc-title: "Neste capítulo"
+    toc-depth: 3
+
+    number-sections: true
+    number-depth: 3
+
+    smooth-scroll: true
+    anchor-sections: true
+
+    code-fold: show
+    code-copy: true
+    code-overflow: wrap
+
+    html-math-method: mathjax
+
+execute:
+  warning: false
+  message: false
+  error: false
+
+editor: visual

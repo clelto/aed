@@ -1,0 +1,2254 @@
+# Extensões para dados multivariados
+
+Nos capítulos anteriores, avançamos gradualmente da análise de **uma variável** para o estudo de **duas variáveis**. Investigamos associações entre duas variáveis qualitativas, entre duas variáveis quantitativas e entre uma variável qualitativa e uma quantitativa.
+
+Muitos problemas reais, entretanto, envolvem várias características observadas simultaneamente sobre cada indivíduo.
+
+Em um estudo com estudantes, por exemplo, podemos registrar ao mesmo tempo:
+
+- idade;
+- número de faltas;
+- tempo de deslocamento;
+- altura.
+
+Cada estudante deixa de ser descrito por um único valor ou por um par de valores e passa a ser representado por um **conjunto de medidas**.
+
+Entramos, assim, no domínio dos **dados multivariados**.
+
+A questão central passa a ser:
+
+> **Como organizar, comparar e visualizar várias variáveis observadas simultaneamente nas mesmas unidades estatísticas?**
+
+Neste capítulo, estudaremos a estrutura básica dos dados multivariados, a matriz de dados, os vetores de observações, a centralização e a padronização, as matrizes de covariâncias e correlações e a distância entre observações. Na parte computacional, utilizaremos essas ideias para construir matrizes de correlações, matrizes de diagramas de dispersão, mapas de calor, gráficos de perfis e coordenadas paralelas.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, espera-se que o estudante seja capaz de:
+
+- reconhecer uma estrutura de dados multivariados;
+- representar dados quantitativos em forma matricial;
+- interpretar linhas como observações e colunas como variáveis;
+- representar cada unidade estatística por um vetor de características;
+- compreender por que diferentes unidades e ordens de grandeza podem afetar uma análise multivariada;
+- centralizar e padronizar variáveis;
+- construir e interpretar uma matriz de covariâncias;
+- construir e interpretar uma matriz de correlações;
+- compreender a distância euclidiana entre observações;
+- reconhecer quando a padronização é importante antes do cálculo de distâncias;
+- explorar dados multivariados no R por meio de matrizes, gráficos e medidas descritivas.
+
+Toda a abordagem permanece **exploratória e descritiva**. Não utilizaremos testes de hipóteses, valores-$p$ ou métodos inferenciais.
+:::
+
+## Da análise bivariada à análise multivariada
+
+Na análise bivariada quantitativa, cada indivíduo era representado por um par
+
+$$
+(x_i,y_i).
+$$
+
+Com três variáveis, cada unidade passa a ser descrita por uma tripla:
+
+$$
+(x_{i1},x_{i2},x_{i3}).
+$$
+
+Com $p$ variáveis, escrevemos
+
+$$
+(x_{i1},x_{i2},\ldots,x_{ip}).
+$$
+
+Esse conjunto ordenado de valores representa o **perfil multivariado** da unidade $i$.
+
+### Exemplo
+
+Considere quatro estudantes descritos por idade, número de faltas, tempo de deslocamento e altura:
+
+| Estudante | Idade (anos) | Faltas | Tempo (min) | Altura (m) |
+|:----------|-------------:|-------:|------------:|-----------:|
+| A | 18 | 1 | 20 | 1,60 |
+| B | 20 | 3 | 50 | 1,80 |
+| C | 23 | 2 | 35 | 1,68 |
+| D | 25 | 4 | 70 | 1,72 |
+
+: Exemplo de dados multivariados quantitativos. {#tbl-exemplo-multivariado}
+
+O estudante A não é descrito apenas pela idade ou apenas pelo tempo de deslocamento. Seu perfil é formado simultaneamente pelas quatro medidas:
+
+$$
+(18,\;1,\;20,\;1{,}60).
+$$
+
+O estudante B possui o perfil
+
+$$
+(20,\;3,\;50,\;1{,}80).
+$$
+
+Quando comparamos A e B, portanto, podemos considerar as quatro características simultaneamente.
+
+::: {.callout-important title="Multivariado não significa apenas muitas colunas"}
+Uma análise é multivariada quando várias variáveis são consideradas conjuntamente, preservando o fato de que os valores de uma mesma linha pertencem à **mesma unidade estatística**.
+
+O pareamento das informações continua sendo fundamental.
+:::
+
+## A matriz de dados multivariados
+
+Quando temos $n$ unidades estatísticas e $p$ variáveis quantitativas, podemos organizar os dados em uma matriz
+
+$$
+\mathbf{X}
+=
+\begin{pmatrix}
+x_{11} & x_{12} & \cdots & x_{1p}\\
+x_{21} & x_{22} & \cdots & x_{2p}\\
+\vdots & \vdots & \ddots & \vdots\\
+x_{n1} & x_{n2} & \cdots & x_{np}
+\end{pmatrix}.
+$$
+
+A matriz possui dimensão
+
+$$
+n\times p.
+$$
+
+Nessa organização:
+
+- cada **linha** representa uma unidade estatística;
+- cada **coluna** representa uma variável;
+- cada elemento $x_{ij}$ é o valor da variável $j$ observado na unidade $i$.
+
+Para a @tbl-exemplo-multivariado,
+
+$$
+\mathbf{X}
+=
+\begin{pmatrix}
+18 & 1 & 20 & 1{,}60\\
+20 & 3 & 50 & 1{,}80\\
+23 & 2 & 35 & 1{,}68\\
+25 & 4 & 70 & 1{,}72
+\end{pmatrix}.
+$$
+
+Temos
+
+$$
+n=4
+$$
+
+observações e
+
+$$
+p=4
+$$
+
+variáveis.
+
+::: {.callout-note title="Matriz de dados e banco de dados"}
+Em um banco real podem existir também identificadores e variáveis qualitativas.
+
+Por exemplo, um `data.frame` do R pode conter nome, curso, sexo, idade e altura na mesma estrutura.
+
+Entretanto, operações como centralização, matriz de covariâncias, matriz de correlações e distância euclidiana são aplicadas, neste capítulo, ao subconjunto de **variáveis quantitativas**.
+:::
+
+## Vetor de observação
+
+Cada linha da matriz pode ser representada por um vetor.
+
+Para a unidade $i$,
+
+$$
+\mathbf{x}_i
+=
+\begin{pmatrix}
+x_{i1}\\
+x_{i2}\\
+\vdots\\
+x_{ip}
+\end{pmatrix}.
+$$
+
+Esse vetor reúne todas as características quantitativas consideradas para aquela unidade.
+
+No exemplo, o vetor do estudante C é
+
+$$
+\mathbf{x}_C
+=
+\begin{pmatrix}
+23\\
+2\\
+35\\
+1{,}68
+\end{pmatrix}.
+$$
+
+Podemos pensar em cada observação como um **ponto em um espaço de $p$ dimensões**.
+
+Com duas variáveis, conseguimos desenhar esse ponto em um plano.
+
+Com três variáveis, ainda podemos imaginar um espaço tridimensional.
+
+Com quatro, dez ou cem variáveis, a representação geométrica direta já não é possível, mas a ideia permanece: cada unidade é caracterizada por sua posição em um espaço definido pelas variáveis.
+
+### Vetor de médias
+
+Também podemos reunir as médias das $p$ variáveis em um vetor:
+
+$$
+\bar{\mathbf{x}}
+=
+\begin{pmatrix}
+\bar{x}_1\\
+\bar{x}_2\\
+\vdots\\
+\bar{x}_p
+\end{pmatrix}.
+$$
+
+O vetor de médias funciona como um **perfil médio** do conjunto.
+
+Comparar uma observação com esse vetor ajuda a identificar em quais características ela está acima ou abaixo do padrão médio.
+
+## Análise simultânea de várias variáveis
+
+A análise multivariada não consiste em abandonar as análises univariadas ou bivariadas.
+
+Ao contrário, elas continuam úteis.
+
+Podemos:
+
+- examinar cada variável separadamente;
+- comparar pares por meio de correlações e diagramas de dispersão;
+- observar todas as correlações em uma única matriz;
+- comparar perfis de várias observações simultaneamente;
+- medir a proximidade entre unidades considerando diversas características.
+
+A diferença é que agora procuramos compreender o **conjunto das variáveis como um sistema**.
+
+### Exemplo
+
+Suponha que dois estudantes tenham o mesmo tempo de deslocamento de 40 minutos.
+
+Em uma análise univariada dessa variável, eles seriam iguais.
+
+Entretanto, seus perfis poderiam ser:
+
+$$
+\mathbf{x}_A
+=
+(18,\;0,\;40,\;1{,}55)
+$$
+
+e
+
+$$
+\mathbf{x}_B
+=
+(27,\;5,\;40,\;1{,}86).
+$$
+
+Considerando várias características, esses dois estudantes deixam de ser semelhantes.
+
+> **Uma observação multivariada é definida pelo conjunto de suas características, e não por uma única variável isolada.**
+
+## Variáveis em diferentes escalas
+
+Um dos primeiros problemas da análise multivariada aparece quando as variáveis possuem **unidades e ordens de grandeza diferentes**.
+
+No banco dos estudantes, por exemplo:
+
+- idade é medida em anos;
+- faltas são contagens;
+- tempo de deslocamento é medido em minutos;
+- altura é medida em metros.
+
+Considere novamente:
+
+$$
+\text{idade}=22,\qquad
+\text{faltas}=2,\qquad
+\text{tempo}=50,\qquad
+\text{altura}=1{,}70.
+$$
+
+Os números não podem ser comparados diretamente.
+
+Não faz sentido concluir que o tempo de deslocamento é "maior" ou "mais importante" apenas porque 50 é numericamente maior que 1,70.
+
+As escalas são diferentes.
+
+### Por que a escala pode dominar uma análise?
+
+Considere dois indivíduos:
+
+$$
+A=(20,\;1,\;20,\;1{,}60)
+$$
+
+e
+
+$$
+B=(22,\;3,\;50,\;1{,}80).
+$$
+
+As diferenças são:
+
+$$
+(2,\;2,\;30,\;0{,}20).
+$$
+
+Se utilizarmos diretamente os quadrados dessas diferenças, obtemos:
+
+$$
+4,\quad4,\quad900,\quad0{,}04.
+$$
+
+A diferença de 30 minutos domina quase completamente o cálculo.
+
+Isso não significa necessariamente que o tempo de deslocamento seja a característica mais importante. Parte desse efeito é consequência de sua **escala numérica**.
+
+Há ainda um problema adicional: se a altura fosse registrada em centímetros, a diferença de
+
+$$
+0{,}20\text{ m}
+$$
+
+passaria a ser
+
+$$
+20\text{ cm}.
+$$
+
+A característica física não mudou, mas seu peso numérico mudaria.
+
+Esse é um forte argumento para considerar a padronização quando variáveis com escalas diferentes são combinadas.
+
+## Centralização
+
+Centralizar uma variável significa subtrair sua média de cada observação.
+
+Para a variável $j$,
+
+$$
+x_{ij}^{(c)}
+=
+x_{ij}-\bar{x}_j.
+$$
+
+Depois da centralização, a média da variável passa a ser zero.
+
+### Exemplo
+
+Considere as idades
+
+$$
+18,\;20,\;22,\;24,\;26.
+$$
+
+A média é
+
+$$
+\bar{x}=22.
+$$
+
+Os valores centralizados são:
+
+$$
+18-22=-4,
+$$
+
+$$
+20-22=-2,
+$$
+
+$$
+22-22=0,
+$$
+
+$$
+24-22=2,
+$$
+
+$$
+26-22=4.
+$$
+
+Portanto,
+
+$$
+-4,\;-2,\;0,\;2,\;4.
+$$
+
+A média desses valores é zero.
+
+### O que muda e o que não muda?
+
+A centralização muda a **origem** da escala, mas não altera a dispersão.
+
+Se
+
+$$
+X_c=X-\bar{X},
+$$
+
+então
+
+$$
+s_{X_c}=s_X.
+$$
+
+As diferenças entre pares de observações também são preservadas:
+
+$$
+(x_i-\bar{x})-(x_j-\bar{x})
+=
+x_i-x_j.
+$$
+
+Consequentemente, centralizar todas as observações não altera as distâncias euclidianas entre elas.
+
+::: {.callout-note title="Interpretação de um valor centralizado"}
+Um valor centralizado:
+
+- positivo indica observação acima da média;
+- negativo indica observação abaixo da média;
+- igual a zero indica observação igual à média.
+
+A unidade original é mantida.
+:::
+
+### Centralização da matriz
+
+Se cada coluna da matriz de dados for centralizada, obtemos a matriz
+
+$$
+\mathbf{X}_c.
+$$
+
+Cada coluna de $\mathbf{X}_c$ possui média zero.
+
+Em notação matricial,
+
+$$
+\mathbf{X}_c
+=
+\mathbf{X}
+-
+\mathbf{1}_n\bar{\mathbf{x}}^\top,
+$$
+
+em que $\mathbf{1}_n$ é um vetor com $n$ elementos iguais a 1.
+
+A expressão matricial é compacta, mas a ideia continua simples: **subtrair de cada coluna a sua própria média**.
+
+## Padronização
+
+A centralização resolve o problema da origem, mas não o problema das diferentes escalas.
+
+Para colocar as variáveis em uma escala comum, podemos utilizar a **padronização**.
+
+Para a variável $j$,
+
+$$
+z_{ij}
+=
+\frac{
+x_{ij}-\bar{x}_j
+}{
+s_j
+},
+$$
+
+em que $s_j$ é o desvio padrão da variável.
+
+O valor padronizado também é chamado de **escore padronizado** ou **escore $z$**.
+
+Depois da padronização amostral, cada variável apresenta:
+
+$$
+\bar{z}=0
+$$
+
+e
+
+$$
+s_z=1.
+$$
+
+### Interpretação
+
+Se
+
+$$
+z=1{,}5,
+$$
+
+a observação está 1,5 desvio padrão acima da média daquela variável.
+
+Se
+
+$$
+z=-0{,}8,
+$$
+
+ela está 0,8 desvio padrão abaixo da média.
+
+Como os escores $z$ são adimensionais, variáveis originalmente medidas em anos, minutos e metros passam a ser expressas em uma escala comparável.
+
+### Exemplo
+
+Considere novamente
+
+$$
+18,\;20,\;22,\;24,\;26.
+$$
+
+A média é
+
+$$
+\bar{x}=22
+$$
+
+e o desvio padrão amostral é
+
+$$
+s=\sqrt{10}\approx3{,}16.
+$$
+
+Os valores padronizados são aproximadamente
+
+$$
+-1{,}26,\;-0{,}63,\;0,\;0{,}63,\;1{,}26.
+$$
+
+Agora a unidade "anos" desapareceu.
+
+### Um exemplo com o banco dos estudantes
+
+Para as quatro variáveis quantitativas do banco dos 80 estudantes, as médias são aproximadamente:
+
+| Variável | Média | Desvio padrão |
+|:---------|------:|--------------:|
+| Idade (anos) | 21,425 | 3,193 |
+| Faltas | 2,125 | 1,236 |
+| Tempo de deslocamento (min) | 40,761 | 21,569 |
+| Altura (m) | 1,6765 | 0,0893 |
+
+: Médias e desvios padrão das variáveis quantitativas. {#tbl-medias-dp-multi}
+
+Depois da padronização, os cinco primeiros estudantes apresentam aproximadamente:
+
+| Estudante | Idade | Faltas | Tempo | Altura |
+|:----------|------:|-------:|------:|-------:|
+| E001 | 1,12 | -0,91 | 2,58 | 0,82 |
+| E002 | -0,13 | -0,91 | -0,14 | 0,38 |
+| E003 | 1,43 | -0,10 | 0,20 | -0,52 |
+| E004 | 0,49 | -0,10 | 0,47 | -0,97 |
+| E005 | -0,76 | 2,33 | 3,30 | -0,75 |
+
+: Perfis padronizados dos cinco primeiros estudantes. {#tbl-perfis-padronizados}
+
+A @tbl-perfis-padronizados permite comparar características originalmente incomparáveis.
+
+O estudante E005, por exemplo, apresenta:
+
+- idade abaixo da média;
+- número de faltas mais de dois desvios padrão acima da média;
+- tempo de deslocamento mais de três desvios padrão acima da média;
+- altura abaixo da média.
+
+A padronização transforma o perfil em uma descrição **relativa às distribuições de cada variável**.
+
+::: {.callout-warning title="Padronizar não é sempre obrigatório"}
+A padronização é especialmente importante quando:
+
+- as variáveis possuem unidades diferentes;
+- as ordens de grandeza são muito diferentes;
+- desejamos calcular distâncias ou comparar perfis dando peso semelhante às variáveis.
+
+Entretanto, padronizar também modifica a interpretação da escala.
+
+Se todas as variáveis já possuem unidade comparável e as diferenças de variabilidade têm significado substantivo, pode haver razões para trabalhar com os dados originais.
+
+A decisão deve ser coerente com o objetivo da análise.
+:::
+
+## Matriz de covariâncias
+
+Com várias variáveis quantitativas, podemos reunir todas as variâncias e covariâncias em uma única matriz.
+
+Para $p$ variáveis,
+
+$$
+\mathbf{S}
+=
+\begin{pmatrix}
+s_1^2 & s_{12} & \cdots & s_{1p}\\
+s_{21} & s_2^2 & \cdots & s_{2p}\\
+\vdots & \vdots & \ddots & \vdots\\
+s_{p1} & s_{p2} & \cdots & s_p^2
+\end{pmatrix}.
+$$
+
+Os elementos da diagonal principal são as **variâncias**:
+
+$$
+s_1^2,\;s_2^2,\ldots,s_p^2.
+$$
+
+Os elementos fora da diagonal são as **covariâncias**.
+
+Para duas variáveis $j$ e $k$,
+
+$$
+s_{jk}
+=
+\frac{1}{n-1}
+\sum_{i=1}^{n}
+(x_{ij}-\bar{x}_j)
+(x_{ik}-\bar{x}_k).
+$$
+
+Como
+
+$$
+s_{jk}=s_{kj},
+$$
+
+a matriz de covariâncias é simétrica.
+
+### Relação com a matriz centralizada
+
+Se $\mathbf{X}_c$ é a matriz de dados centralizados, então
+
+$$
+\mathbf{S}
+=
+\frac{1}{n-1}
+\mathbf{X}_c^\top
+\mathbf{X}_c.
+$$
+
+Essa expressão mostra uma conexão importante: a matriz de covariâncias é construída a partir dos produtos entre as colunas centralizadas.
+
+### Como interpretar?
+
+Considere três variáveis $X_1$, $X_2$ e $X_3$:
+
+$$
+\mathbf{S}
+=
+\begin{pmatrix}
+25 & 8 & -3\\
+8 & 16 & 2\\
+-3 & 2 & 9
+\end{pmatrix}.
+$$
+
+Podemos ler:
+
+$$
+s_1^2=25,
+\qquad
+s_2^2=16,
+\qquad
+s_3^2=9.
+$$
+
+As covariâncias são:
+
+$$
+s_{12}=8,
+$$
+
+$$
+s_{13}=-3,
+$$
+
+$$
+s_{23}=2.
+$$
+
+Assim:
+
+- $X_1$ e $X_2$ apresentam covariância positiva;
+- $X_1$ e $X_3$ apresentam covariância negativa;
+- $X_2$ e $X_3$ apresentam covariância positiva.
+
+Entretanto, como estudado anteriormente, a magnitude de uma covariância depende das escalas das variáveis.
+
+Por isso, quando desejamos comparar a intensidade das associações lineares entre diferentes pares, a matriz de correlações costuma ser mais conveniente.
+
+## Matriz de correlações
+
+A matriz de correlações reúne as correlações lineares de Pearson entre todos os pares de variáveis quantitativas.
+
+Para $p$ variáveis,
+
+$$
+\mathbf{R}
+=
+\begin{pmatrix}
+1 & r_{12} & \cdots & r_{1p}\\
+r_{21} & 1 & \cdots & r_{2p}\\
+\vdots & \vdots & \ddots & \vdots\\
+r_{p1} & r_{p2} & \cdots & 1
+\end{pmatrix}.
+$$
+
+A diagonal principal é formada por 1 porque toda variável possui correlação perfeita consigo mesma:
+
+$$
+r_{jj}=1.
+$$
+
+Além disso,
+
+$$
+r_{jk}=r_{kj},
+$$
+
+de modo que a matriz também é simétrica.
+
+### Exemplo
+
+Considere:
+
+$$
+\mathbf{R}
+=
+\begin{pmatrix}
+1 & 0{,}80 & -0{,}20\\
+0{,}80 & 1 & -0{,}10\\
+-0{,}20 & -0{,}10 & 1
+\end{pmatrix}.
+$$
+
+A correlação mais intensa é entre as variáveis 1 e 2:
+
+$$
+r_{12}=0{,}80.
+$$
+
+As relações envolvendo a variável 3 são relativamente fracas e negativas.
+
+::: {.callout-important title="A matriz de correlações resume pares de variáveis"}
+Uma matriz de correlações é extremamente útil, mas cada célula continua resumindo uma relação **bivariada e linear**.
+
+Ela pode não revelar:
+
+- relações não lineares;
+- agrupamentos;
+- valores extremos influentes;
+- diferenças entre subgrupos.
+
+Por isso, deve ser complementada por gráficos de dispersão.
+:::
+
+### Covariância dos dados padronizados
+
+Existe uma relação elegante entre padronização e correlação.
+
+Se todas as variáveis forem padronizadas, a matriz de covariâncias dos dados padronizados é exatamente a matriz de correlações dos dados originais:
+
+$$
+\operatorname{Cov}(\mathbf{Z})
+=
+\mathbf{R}.
+$$
+
+Isso ocorre porque cada variável padronizada possui variância igual a 1.
+
+Em forma matricial, se
+
+$$
+\mathbf{D}
+=
+\operatorname{diag}(s_1,s_2,\ldots,s_p),
+$$
+
+então
+
+$$
+\mathbf{R}
+=
+\mathbf{D}^{-1}
+\mathbf{S}
+\mathbf{D}^{-1}.
+$$
+
+A expressão apenas formaliza a ideia de dividir cada covariância pelos respectivos desvios padrão.
+
+## Distância entre observações
+
+Em uma análise multivariada, frequentemente queremos medir quão semelhantes ou diferentes são duas unidades considerando várias características simultaneamente.
+
+Uma maneira de fazer isso é calcular uma **distância**.
+
+A distância euclidiana entre as observações $i$ e $j$ é
+
+$$
+d_{ij}
+=
+\sqrt{
+\sum_{k=1}^{p}
+(x_{ik}-x_{jk})^2
+}.
+$$
+
+Ela generaliza o conhecido teorema de Pitágoras para várias dimensões.
+
+### Exemplo com duas variáveis
+
+Considere
+
+$$
+A=(2,3)
+$$
+
+e
+
+$$
+B=(5,7).
+$$
+
+A distância é
+
+$$
+d(A,B)
+=
+\sqrt{
+(2-5)^2+(3-7)^2
+}
+$$
+
+$$
+=
+\sqrt{
+9+16
+}
+=
+5.
+$$
+
+Com duas variáveis, essa é exatamente a distância entre dois pontos no plano.
+
+### Exemplo com quatro variáveis
+
+Considere novamente:
+
+$$
+A=(20,\;1,\;20,\;1{,}60)
+$$
+
+e
+
+$$
+B=(22,\;3,\;50,\;1{,}80).
+$$
+
+A distância nos dados originais seria
+
+$$
+d(A,B)
+=
+\sqrt{
+(20-22)^2+
+(1-3)^2+
+(20-50)^2+
+(1{,}60-1{,}80)^2
+}.
+$$
+
+Logo,
+
+$$
+d(A,B)
+=
+\sqrt{
+4+4+900+0{,}04
+}
+\approx
+30{,}13.
+$$
+
+Observe que o termo relativo ao tempo de deslocamento,
+
+$$
+900,
+$$
+
+domina o cálculo.
+
+Isso acontece, em grande parte, porque minutos estão em uma escala numericamente maior que metros.
+
+## Distância com variáveis padronizadas
+
+Quando as variáveis possuem unidades e escalas diferentes, é comum calcular a distância usando os escores padronizados:
+
+$$
+d_{ij}^{(z)}
+=
+\sqrt{
+\sum_{k=1}^{p}
+(z_{ik}-z_{jk})^2
+}.
+$$
+
+Agora cada diferença está expressa em unidades de desvio padrão.
+
+No banco dos estudantes, por exemplo, a distância padronizada entre E001 e E002, considerando idade, faltas, tempo de deslocamento e altura, é aproximadamente
+
+$$
+3{,}03.
+$$
+
+Esse número não está em anos, minutos ou metros. Ele representa uma distância no espaço das variáveis padronizadas.
+
+### O que significa uma distância pequena?
+
+Uma distância pequena indica que as duas observações possuem **perfis multivariados semelhantes** nas variáveis utilizadas.
+
+Uma distância grande indica maior diferença global entre os perfis.
+
+::: {.callout-important title="A distância depende das variáveis escolhidas"}
+Não existe uma distância entre dois indivíduos independente do contexto.
+
+A distância muda quando:
+
+- incluímos ou retiramos variáveis;
+- alteramos a escala das variáveis;
+- padronizamos ou não os dados;
+- damos maior peso a alguma característica.
+
+Portanto, a interpretação sempre deve mencionar **quais variáveis participaram do cálculo**.
+:::
+
+### Algumas cautelas
+
+A distância euclidiana é útil, mas exige atenção.
+
+Primeiro, variáveis em escalas muito diferentes podem dominar o resultado se os dados não forem padronizados.
+
+Segundo, se várias variáveis muito correlacionadas representam praticamente a mesma característica, essa dimensão pode receber peso excessivo por aparecer repetidamente.
+
+Terceiro, valores extremos podem aumentar bastante as distâncias.
+
+Finalmente, observações com dados ausentes exigem tratamento cuidadoso, pois duas distâncias calculadas com conjuntos diferentes de variáveis podem deixar de ser diretamente comparáveis.
+
+## Visualizando várias variáveis
+
+Com duas variáveis, o diagrama de dispersão oferece uma representação natural.
+
+Com muitas variáveis, precisamos combinar diferentes estratégias.
+
+Algumas das mais úteis para exploração inicial são:
+
+- matriz de diagramas de dispersão;
+- mapa de calor da matriz de correlações;
+- mapa de calor dos valores padronizados;
+- gráfico de perfis;
+- coordenadas paralelas.
+
+Nenhuma representação mostra tudo. Cada uma enfatiza uma parte da estrutura multivariada.
+
+### Matriz de diagramas de dispersão
+
+Uma matriz de diagramas de dispersão apresenta, simultaneamente, gráficos para vários pares de variáveis.
+
+Ela permite observar:
+
+- direção das associações;
+- relações lineares e não lineares;
+- agrupamentos;
+- valores extremos;
+- pares de variáveis com padrões semelhantes.
+
+Apesar do nome "matriz", cada painel continua mostrando apenas duas variáveis por vez. A vantagem é reunir muitos pares em uma única visualização.
+
+### Mapas de calor
+
+Um **mapa de calor** representa valores numericamente por meio da intensidade ou tonalidade de células de uma grade.
+
+Pode ser utilizado, por exemplo, para:
+
+- visualizar uma matriz de correlações;
+- representar valores padronizados de várias observações e variáveis.
+
+Em uma matriz de correlações, o mapa facilita a identificação de blocos de variáveis mais fortemente relacionadas.
+
+Em uma matriz de valores padronizados, ajuda a identificar perfis com valores sistematicamente altos ou baixos.
+
+### Gráficos de perfis
+
+Em um gráfico de perfis, cada observação é representada por uma linha que conecta seus valores em várias variáveis.
+
+Como as unidades podem ser diferentes, normalmente utilizamos valores padronizados.
+
+O gráfico é especialmente útil quando queremos comparar **poucas observações** ou perfis médios de alguns grupos.
+
+### Coordenadas paralelas
+
+As coordenadas paralelas seguem ideia semelhante, mas são frequentemente utilizadas para observar simultaneamente muitos perfis.
+
+Cada variável ocupa um eixo paralelo, e cada observação é representada por uma linha atravessando esses eixos.
+
+Em conjuntos maiores, pode ocorrer sobreposição de muitas linhas. Nesse caso, transparência, seleção de subconjuntos ou identificação por grupos pode facilitar a leitura.
+
+::: {.callout-warning title="Visualização multivariada exige parcimônia"}
+Adicionar mais variáveis nem sempre produz mais informação visível.
+
+Gráficos multivariados podem ficar congestionados quando há:
+
+- muitas observações;
+- muitas variáveis;
+- escalas inadequadas;
+- excesso de cores ou categorias.
+
+Uma boa análise multivariada combina diferentes representações em vez de tentar mostrar tudo em um único gráfico.
+:::
+
+## Um roteiro conceitual para dados multivariados
+
+Antes de aplicar métodos mais avançados, uma exploração multivariada pode seguir este percurso:
+
+1. identificar as unidades estatísticas;
+2. selecionar as variáveis de interesse;
+3. verificar tipos, unidades e escalas;
+4. realizar análises univariadas básicas;
+5. examinar relações bivariadas importantes;
+6. decidir se a centralização ou padronização é necessária;
+7. construir matrizes de covariâncias e correlações;
+8. examinar diagramas de dispersão;
+9. estudar perfis padronizados;
+10. calcular distâncias quando o objetivo envolver semelhança entre unidades;
+11. combinar medidas numéricas e representações gráficas.
+
+> **A análise multivariada não elimina o que foi aprendido anteriormente; ela organiza essas ideias para estudar várias características conjuntamente.**
+
+## Laboratório no R
+
+Nesta aula prática, utilizaremos as quatro variáveis quantitativas do banco dos 80 estudantes:
+
+- `idade_anos`;
+- `faltas`;
+- `tempo_deslocamento_min`;
+- `altura_m`.
+
+### Preparando o ambiente
+
+```{r}
+library(tidyverse)
+
+dados <- read_csv(
+  "dados/aula7_8_estudantes.csv",
+  show_col_types = FALSE
+)
+```
+
+Selecione as variáveis quantitativas:
+
+```{r}
+dados_quantitativos <- dados |>
+  select(
+    idade_anos,
+    faltas,
+    tempo_deslocamento_min,
+    altura_m
+  )
+```
+
+Verifique a estrutura:
+
+```{r}
+glimpse(
+  dados_quantitativos
+)
+```
+
+O banco possui 80 estudantes e quatro variáveis quantitativas. fileciteturn33file0
+
+### Obtendo a matriz de dados
+
+Um `data.frame` pode ser convertido em matriz por:
+
+```{r}
+matriz_x <- as.matrix(
+  dados_quantitativos
+)
+
+dim(
+  matriz_x
+)
+```
+
+O resultado esperado é
+
+```text
+80 4
+```
+
+isto é,
+
+$$
+n=80
+\qquad\text{e}\qquad
+p=4.
+$$
+
+Observe algumas linhas:
+
+```{r}
+matriz_x[
+  1:5,
+]
+```
+
+Cada linha corresponde a um estudante e cada coluna a uma variável.
+
+### Vetor de uma observação
+
+O perfil quantitativo do primeiro estudante é:
+
+```{r}
+matriz_x[
+  1,
+]
+```
+
+Para preservar a identificação:
+
+```{r}
+dados |>
+  select(
+    id_estudante,
+    idade_anos,
+    faltas,
+    tempo_deslocamento_min,
+    altura_m
+  ) |>
+  slice(
+    1
+  )
+```
+
+Assim, o identificador continua disponível, embora não participe diretamente das operações numéricas.
+
+### Vetor de médias
+
+```{r}
+colMeans(
+  dados_quantitativos
+)
+```
+
+Também podemos obter os desvios padrão:
+
+```{r}
+sapply(
+  dados_quantitativos,
+  sd
+)
+```
+
+Esses dois vetores descrevem, respectivamente, a posição média e a escala de cada variável.
+
+### Centralizando as variáveis
+
+A função `scale()` permite centralizar sem padronizar:
+
+```{r}
+dados_centralizados <- scale(
+  dados_quantitativos,
+  center = TRUE,
+  scale = FALSE
+)
+
+dados_centralizados |>
+  head()
+```
+
+Verifique as médias:
+
+```{r}
+colMeans(
+  dados_centralizados
+)
+```
+
+Devido a arredondamentos numéricos, podem aparecer valores extremamente pequenos, como
+
+```text
+2e-16
+```
+
+em vez de zero exato.
+
+Isso é apenas efeito da representação computacional dos números.
+
+Verifique também que os desvios padrão permanecem os mesmos:
+
+```{r}
+apply(
+  dados_centralizados,
+  2,
+  sd
+)
+```
+
+### Padronizando as variáveis
+
+Para centralizar e dividir pelo desvio padrão:
+
+```{r}
+dados_padronizados <- scale(
+  dados_quantitativos
+)
+```
+
+Observe as primeiras linhas:
+
+```{r}
+dados_padronizados |>
+  head()
+```
+
+Verifique as médias:
+
+```{r}
+colMeans(
+  dados_padronizados
+)
+```
+
+E os desvios padrão:
+
+```{r}
+apply(
+  dados_padronizados,
+  2,
+  sd
+)
+```
+
+Devemos obter médias aproximadamente iguais a zero e desvios padrão iguais a 1.
+
+### Mantendo os identificadores
+
+Uma matriz padronizada pode ser convertida novamente para `data.frame`:
+
+```{r}
+dados_z <- dados_padronizados |>
+  as.data.frame() |>
+  bind_cols(
+    id_estudante =
+      dados$id_estudante,
+    .before = 1
+  )
+
+dados_z |>
+  slice_head(
+    n = 5
+  )
+```
+
+Agora podemos interpretar os perfis relativos de estudantes específicos.
+
+Por exemplo:
+
+```{r}
+dados_z |>
+  filter(
+    id_estudante %in%
+      c(
+        "E001",
+        "E002",
+        "E003",
+        "E004",
+        "E005"
+      )
+  )
+```
+
+### Matriz de covariâncias
+
+No R:
+
+```{r}
+matriz_cov <- cov(
+  dados_quantitativos
+)
+
+matriz_cov
+```
+
+Para facilitar a leitura:
+
+```{r}
+round(
+  matriz_cov,
+  3
+)
+```
+
+A matriz obtida é aproximadamente:
+
+|  | Idade | Faltas | Tempo | Altura |
+|:--|------:|-------:|------:|-------:|
+| Idade | 10,197 | -0,092 | 14,784 | -0,020 |
+| Faltas | -0,092 | 1,528 | 5,556 | -0,011 |
+| Tempo | 14,784 | 5,556 | 465,243 | -0,051 |
+| Altura | -0,020 | -0,011 | -0,051 | 0,008 |
+
+: Matriz de covariâncias das variáveis quantitativas. {#tbl-covariancias-multi}
+
+Observe a diagonal da @tbl-covariancias-multi:
+
+$$
+10{,}197,\quad
+1{,}528,\quad
+465{,}243,\quad
+0{,}008.
+$$
+
+Esses valores são as variâncias das quatro variáveis.
+
+Os demais elementos são covariâncias.
+
+As diferenças muito grandes de magnitude refletem também as diferentes unidades e escalas.
+
+### Verificando a relação matricial
+
+Podemos reconstruir a matriz de covariâncias a partir da matriz centralizada:
+
+```{r}
+xc <- scale(
+  dados_quantitativos,
+  center = TRUE,
+  scale = FALSE
+)
+
+cov_manual <-
+  t(xc) %*%
+  xc /
+  (
+    nrow(xc) - 1
+  )
+
+round(
+  cov_manual,
+  3
+)
+```
+
+O resultado coincide com `cov(dados_quantitativos)`.
+
+### Matriz de correlações
+
+```{r}
+matriz_cor <- cor(
+  dados_quantitativos
+)
+
+round(
+  matriz_cor,
+  3
+)
+```
+
+A matriz é aproximadamente:
+
+|  | Idade | Faltas | Tempo | Altura |
+|:--|------:|-------:|------:|-------:|
+| Idade | 1,000 | -0,023 | 0,215 | -0,070 |
+| Faltas | -0,023 | 1,000 | 0,208 | -0,102 |
+| Tempo | 0,215 | 0,208 | 1,000 | -0,026 |
+| Altura | -0,070 | -0,102 | -0,026 | 1,000 |
+
+: Matriz de correlações das variáveis quantitativas. {#tbl-correlacoes-multi}
+
+A @tbl-correlacoes-multi mostra que, nesse conjunto, nenhuma das correlações lineares entre as quatro variáveis é intensa.
+
+As maiores em módulo são as relações de:
+
+- idade com tempo de deslocamento;
+- faltas com tempo de deslocamento.
+
+Mesmo assim, ambas estão pouco acima de
+
+$$
+0{,}20.
+$$
+
+Esse resumo deve ser complementado pelos diagramas de dispersão.
+
+### Correlação como covariância dos dados padronizados
+
+Verifique:
+
+```{r}
+cov_z <- cov(
+  dados_padronizados
+)
+
+round(
+  cov_z,
+  6
+)
+```
+
+Compare com:
+
+```{r}
+round(
+  matriz_cor,
+  6
+)
+```
+
+Os resultados coincidem, exceto por possíveis diferenças numéricas extremamente pequenas de arredondamento.
+
+### Matriz de diagramas de dispersão
+
+O R base possui uma ferramenta simples e muito útil:
+
+```{r}
+#| label: fig-matriz-dispersao-multi
+#| fig-cap: "Matriz de diagramas de dispersão das quatro variáveis quantitativas."
+
+pairs(
+  dados_quantitativos
+)
+```
+
+A @fig-matriz-dispersao-multi permite examinar todos os pares simultaneamente.
+
+Não procure apenas linhas retas. Observe também:
+
+- curvaturas;
+- agrupamentos;
+- lacunas;
+- observações extremas.
+
+### Mapa de calor da matriz de correlações
+
+Primeiro transformaremos a matriz em formato longo:
+
+```{r}
+cor_long <- matriz_cor |>
+  as.data.frame() |>
+  rownames_to_column(
+    "variavel_linha"
+  ) |>
+  pivot_longer(
+    cols = -variavel_linha,
+    names_to = "variavel_coluna",
+    values_to = "correlacao"
+  )
+```
+
+Agora construímos o mapa de calor:
+
+```{r}
+#| label: fig-heatmap-correlacoes
+#| fig-cap: "Mapa de calor da matriz de correlações."
+#| fig-alt: "Grade com as correlações entre idade, faltas, tempo de deslocamento e altura."
+
+ggplot(
+  cor_long,
+  aes(
+    x = variavel_coluna,
+    y = variavel_linha,
+    fill = correlacao
+  )
+) +
+  geom_tile() +
+  geom_text(
+    aes(
+      label = sprintf(
+        "%.2f",
+        correlacao
+      )
+    )
+  ) +
+  scale_fill_gradient2(
+    limits = c(-1, 1),
+    midpoint = 0
+  ) +
+  labs(
+    x = NULL,
+    y = NULL,
+    fill = "Correlação"
+  ) +
+  coord_equal() +
+  theme_minimal()
+```
+
+O mapa da @fig-heatmap-correlacoes facilita a localização visual de correlações positivas e negativas.
+
+Entretanto, ele não substitui os diagramas de dispersão.
+
+### Mapa de calor dos valores padronizados
+
+Também podemos visualizar perfis individuais.
+
+Selecionaremos os 20 primeiros estudantes:
+
+```{r}
+dados_z_long <- dados_z |>
+  slice_head(
+    n = 20
+  ) |>
+  pivot_longer(
+    cols = -id_estudante,
+    names_to = "variavel",
+    values_to = "z"
+  )
+```
+
+Construa o mapa:
+
+```{r}
+#| label: fig-heatmap-perfis
+#| fig-cap: "Mapa de calor dos perfis padronizados dos 20 primeiros estudantes."
+#| fig-alt: "Grade de escores padronizados por estudante e variável."
+
+ggplot(
+  dados_z_long,
+  aes(
+    x = variavel,
+    y = id_estudante,
+    fill = z
+  )
+) +
+  geom_tile() +
+  scale_fill_gradient2(
+    midpoint = 0
+  ) +
+  labs(
+    x = NULL,
+    y = "Estudante",
+    fill = "Escore z"
+  ) +
+  theme_minimal()
+```
+
+Na @fig-heatmap-perfis:
+
+- valores positivos indicam observações acima da média da variável;
+- valores negativos indicam observações abaixo da média;
+- valores próximos de zero indicam proximidade da média.
+
+O objetivo não é classificar os estudantes, mas reconhecer perfis e contrastes.
+
+### Distâncias nos dados originais
+
+A distância euclidiana pode ser calculada com `dist()`:
+
+```{r}
+distancias_originais <- dist(
+  dados_quantitativos
+)
+
+distancias_originais
+```
+
+Entretanto, essa distância utiliza diretamente anos, contagens, minutos e metros.
+
+Como as escalas são muito diferentes, sua interpretação é problemática.
+
+### Distâncias nos dados padronizados
+
+Uma opção mais coerente neste exemplo é:
+
+```{r}
+matriz_z <- scale(
+  dados_quantitativos
+)
+
+rownames(
+  matriz_z
+) <- dados$id_estudante
+
+distancias_z <- dist(
+  matriz_z
+)
+```
+
+Transforme em matriz:
+
+```{r}
+matriz_distancias <- as.matrix(
+  distancias_z
+)
+```
+
+Veja as distâncias entre os cinco primeiros estudantes:
+
+```{r}
+round(
+  matriz_distancias[
+    1:5,
+    1:5
+  ],
+  2
+)
+```
+
+O resultado é aproximadamente:
+
+|  | E001 | E002 | E003 | E004 | E005 |
+|:--|-----:|-----:|-----:|-----:|-----:|
+| E001 | 0,00 | 3,03 | 2,87 | 2,95 | 4,12 |
+| E002 | 3,03 | 0,00 | 2,01 | 1,80 | 4,90 |
+| E003 | 2,87 | 2,01 | 0,00 | 1,08 | 4,51 |
+| E004 | 2,95 | 1,80 | 1,08 | 0,00 | 3,94 |
+| E005 | 4,12 | 4,90 | 4,51 | 3,94 | 0,00 |
+
+: Distâncias euclidianas padronizadas entre os cinco primeiros estudantes. {#tbl-distancias-z}
+
+Na @tbl-distancias-z, E003 e E004 formam o par mais próximo entre esses cinco estudantes:
+
+$$
+d\approx1{,}08.
+$$
+
+Isso significa que seus perfis são relativamente semelhantes **considerando conjuntamente as quatro variáveis padronizadas**.
+
+### Encontrando observações próximas
+
+Podemos localizar os estudantes mais próximos de E001:
+
+```{r}
+dist_e001 <- tibble(
+  id_estudante =
+    colnames(
+      matriz_distancias
+    ),
+  distancia =
+    matriz_distancias[
+      "E001",
+    ]
+) |>
+  filter(
+    id_estudante !=
+      "E001"
+  ) |>
+  arrange(
+    distancia
+  )
+
+dist_e001 |>
+  slice_head(
+    n = 5
+  )
+```
+
+Esse tipo de operação é a base de várias técnicas multivariadas que procuram identificar unidades semelhantes.
+
+Neste capítulo, porém, nosso objetivo é apenas compreender a lógica da distância.
+
+### Gráfico de perfis
+
+Um gráfico de perfis é mais legível quando usamos poucas observações.
+
+Selecione seis estudantes:
+
+```{r}
+perfis_selecionados <- dados_z |>
+  filter(
+    id_estudante %in%
+      c(
+        "E001",
+        "E002",
+        "E003",
+        "E004",
+        "E005",
+        "E006"
+      )
+  ) |>
+  pivot_longer(
+    cols = -id_estudante,
+    names_to = "variavel",
+    values_to = "z"
+  ) |>
+  mutate(
+    variavel = factor(
+      variavel,
+      levels = c(
+        "idade_anos",
+        "faltas",
+        "tempo_deslocamento_min",
+        "altura_m"
+      )
+    )
+  )
+```
+
+Construa o gráfico:
+
+```{r}
+#| label: fig-perfis-multi
+#| fig-cap: "Perfis padronizados de seis estudantes."
+#| fig-alt: "Linhas ligando os escores padronizados de quatro variáveis para seis estudantes."
+
+ggplot(
+  perfis_selecionados,
+  aes(
+    x = variavel,
+    y = z,
+    group = id_estudante,
+    linetype = id_estudante
+  )
+) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
+  ) +
+  geom_line() +
+  geom_point() +
+  labs(
+    x = NULL,
+    y = "Escore padronizado",
+    linetype = "Estudante"
+  ) +
+  theme_minimal()
+```
+
+A linha horizontal em zero representa a média de cada variável.
+
+Um perfil acima de zero em determinada variável indica valor acima da média naquela característica.
+
+A @fig-perfis-multi é mais informativa que um gráfico construído diretamente com os valores originais, porque as quatro variáveis estão em escalas comparáveis.
+
+### Coordenadas paralelas
+
+Para observar muitos indivíduos simultaneamente, podemos utilizar uma representação semelhante com todas as observações.
+
+Primeiro, acrescente o curso para auxiliar a identificação de grupos:
+
+```{r}
+paralelas <- dados_z |>
+  left_join(
+    dados |>
+      select(
+        id_estudante,
+        curso
+      ),
+    by = "id_estudante"
+  ) |>
+  pivot_longer(
+    cols = c(
+      idade_anos,
+      faltas,
+      tempo_deslocamento_min,
+      altura_m
+    ),
+    names_to = "variavel",
+    values_to = "z"
+  ) |>
+  mutate(
+    variavel = factor(
+      variavel,
+      levels = c(
+        "idade_anos",
+        "faltas",
+        "tempo_deslocamento_min",
+        "altura_m"
+      )
+    )
+  )
+```
+
+Agora:
+
+```{r}
+#| label: fig-coordenadas-paralelas
+#| fig-cap: "Coordenadas paralelas dos perfis quantitativos padronizados."
+#| fig-alt: "Linhas dos estudantes atravessando quatro eixos correspondentes às variáveis padronizadas."
+
+ggplot(
+  paralelas,
+  aes(
+    x = variavel,
+    y = z,
+    group = id_estudante,
+    colour = curso
+  )
+) +
+  geom_line(
+    alpha = 0.35
+  ) +
+  labs(
+    x = NULL,
+    y = "Escore padronizado",
+    colour = "Curso"
+  ) +
+  theme_minimal()
+```
+
+A @fig-coordenadas-paralelas mostra todos os perfis, mas também evidencia uma limitação: muitas linhas podem produzir sobreposição.
+
+O gráfico deve ser utilizado para procurar padrões gerais, e não para tentar acompanhar visualmente cada estudante.
+
+### Perfis médios por curso
+
+Uma alternativa mais limpa é comparar os perfis médios padronizados dos cursos:
+
+```{r}
+perfis_curso <- dados_z |>
+  left_join(
+    dados |>
+      select(
+        id_estudante,
+        curso
+      ),
+    by = "id_estudante"
+  ) |>
+  group_by(
+    curso
+  ) |>
+  summarise(
+    across(
+      c(
+        idade_anos,
+        faltas,
+        tempo_deslocamento_min,
+        altura_m
+      ),
+      mean
+    ),
+    .groups = "drop"
+  ) |>
+  pivot_longer(
+    cols = -curso,
+    names_to = "variavel",
+    values_to = "media_z"
+  ) |>
+  mutate(
+    variavel = factor(
+      variavel,
+      levels = c(
+        "idade_anos",
+        "faltas",
+        "tempo_deslocamento_min",
+        "altura_m"
+      )
+    )
+  )
+```
+
+Construa:
+
+```{r}
+#| label: fig-perfis-medios-curso
+#| fig-cap: "Perfis médios padronizados segundo o curso."
+#| fig-alt: "Linhas mostrando as médias padronizadas de idade, faltas, tempo e altura para cada curso."
+
+ggplot(
+  perfis_curso,
+  aes(
+    x = variavel,
+    y = media_z,
+    group = curso,
+    linetype = curso
+  )
+) +
+  geom_hline(
+    yintercept = 0,
+    linetype = "dashed"
+  ) +
+  geom_line() +
+  geom_point() +
+  labs(
+    x = NULL,
+    y = "Média dos escores padronizados",
+    linetype = "Curso"
+  ) +
+  theme_minimal()
+```
+
+Esse gráfico resume cada curso por um perfil médio.
+
+Valores próximos de zero indicam que o grupo está próximo da média geral naquela variável.
+
+Valores positivos ou negativos indicam grupos acima ou abaixo da média geral.
+
+### Um roteiro de exploração multivariada no R
+
+Um fluxo de trabalho inicial pode ser:
+
+1. selecionar as variáveis quantitativas relevantes;
+2. verificar unidades, amplitudes e valores ausentes;
+3. calcular medidas resumo;
+4. construir a matriz de correlações;
+5. examinar a matriz de diagramas de dispersão;
+6. decidir se as escalas exigem padronização;
+7. construir perfis padronizados;
+8. utilizar mapas de calor para reconhecer padrões;
+9. calcular distâncias padronizadas quando houver interesse em semelhança entre observações;
+10. integrar as informações em uma interpretação exploratória.
+
+### Exemplo de conclusão exploratória
+
+Uma conclusão possível para as quatro variáveis quantitativas do banco seria:
+
+> As variáveis idade, faltas, tempo de deslocamento e altura possuem unidades e escalas bastante distintas, de modo que a padronização é útil para comparações de perfis e cálculos de distância. A matriz de correlações mostra associações lineares pouco intensas entre os pares analisados, sendo as maiores correlações positivas observadas entre idade e tempo de deslocamento e entre faltas e tempo de deslocamento. A matriz de diagramas de dispersão deve ser utilizada para verificar se essas correlações resumem adequadamente os padrões observados. Os gráficos de perfis e o mapa de calor dos escores padronizados evidenciam que alguns estudantes apresentam combinações de características bastante diferentes da média. As distâncias padronizadas permitem quantificar essa semelhança global considerando as quatro variáveis simultaneamente. As conclusões permanecem descritivas e dependem diretamente das variáveis selecionadas para a análise.
+
+## Síntese
+
+Um conjunto de dados multivariados contém várias variáveis observadas nas mesmas unidades estatísticas.
+
+Para $n$ observações e $p$ variáveis quantitativas, podemos organizar os dados em uma matriz
+
+$$
+\mathbf{X}_{n\times p}.
+$$
+
+Cada linha é uma observação multivariada e pode ser representada por um vetor de $p$ características.
+
+Quando as variáveis possuem unidades e escalas diferentes, é necessário considerar como essas diferenças afetam a análise.
+
+A **centralização** transforma
+
+$$
+x_{ij}
+$$
+
+em
+
+$$
+x_{ij}-\bar{x}_j,
+$$
+
+fazendo cada variável ter média zero sem alterar sua escala.
+
+A **padronização** transforma
+
+$$
+x_{ij}
+$$
+
+em
+
+$$
+z_{ij}
+=
+\frac{x_{ij}-\bar{x}_j}{s_j},
+$$
+
+produzindo variáveis de média zero e desvio padrão um.
+
+A **matriz de covariâncias** reúne variâncias e covariâncias:
+
+$$
+\mathbf{S}
+=
+\frac{1}{n-1}
+\mathbf{X}_c^\top
+\mathbf{X}_c.
+$$
+
+A **matriz de correlações** reúne as associações lineares padronizadas entre todos os pares de variáveis.
+
+A distância euclidiana mede a diferença global entre duas observações:
+
+$$
+d_{ij}
+=
+\sqrt{
+\sum_{k=1}^{p}
+(x_{ik}-x_{jk})^2
+}.
+$$
+
+Quando as variáveis possuem escalas diferentes, a distância calculada sobre os dados padronizados tende a produzir uma comparação mais equilibrada.
+
+Matrizes de dispersão, mapas de calor, gráficos de perfis e coordenadas paralelas oferecem diferentes maneiras de visualizar estruturas multivariadas.
+
+> **Ideia-chave:** em dados multivariados, cada indivíduo é um perfil formado por várias características; a escala das variáveis determina como esses perfis devem ser comparados.
+
+## Exercícios teóricos
+
+1. Explique a diferença entre um dado univariado, bivariado e multivariado.
+
+2. Uma pesquisa registra, para 200 pessoas, idade, renda, número de filhos, altura e meio de transporte.
+
+   a. Quantas variáveis foram registradas?
+
+   b. Quais são quantitativas?
+
+   c. Se apenas as quatro quantitativas forem colocadas em uma matriz, qual será sua dimensão?
+
+3. Considere
+
+$$
+\mathbf{X}
+=
+\begin{pmatrix}
+10 & 2 & 30\\
+12 & 1 & 25\\
+15 & 4 & 50\\
+11 & 3 & 40
+\end{pmatrix}.
+$$
+
+   a. Determine $n$ e $p$.
+
+   b. Escreva o vetor correspondente à terceira observação.
+
+   c. Escreva a segunda variável como um vetor.
+
+4. Explique por que o identificador de um indivíduo não deve ser incluído automaticamente no cálculo de covariâncias, correlações ou distâncias.
+
+5. Considere a variável
+
+$$
+5,\;7,\;9,\;11,\;13.
+$$
+
+   a. Calcule a média.
+
+   b. Centralize os valores.
+
+   c. Verifique que a média dos valores centralizados é zero.
+
+6. Qual é a diferença conceitual entre centralização e padronização?
+
+7. Explique por que a centralização não altera as distâncias euclidianas entre observações.
+
+8. Uma variável possui média 50 e desvio padrão 10.
+
+   a. Qual é o escore padronizado de um valor igual a 70?
+
+   b. E de um valor igual a 35?
+
+   c. Interprete os resultados.
+
+9. Considere a matriz de covariâncias
+
+$$
+\mathbf{S}
+=
+\begin{pmatrix}
+16 & 6 & -2\\
+6 & 25 & 5\\
+-2 & 5 & 9
+\end{pmatrix}.
+$$
+
+   a. Quais são as variâncias?
+
+   b. Quais pares apresentam covariância positiva?
+
+   c. Qual par apresenta covariância negativa?
+
+   d. É possível determinar apenas por essa matriz qual par possui associação linear mais intensa? Justifique.
+
+10. Considere
+
+$$
+\mathbf{R}
+=
+\begin{pmatrix}
+1 & 0{,}75 & -0{,}10\\
+0{,}75 & 1 & 0{,}20\\
+-0{,}10 & 0{,}20 & 1
+\end{pmatrix}.
+$$
+
+   a. Qual é o par com maior correlação em módulo?
+
+   b. Por que os elementos da diagonal são iguais a 1?
+
+   c. Por que a matriz é simétrica?
+
+11. Explique por que uma matriz de correlações não substitui uma matriz de diagramas de dispersão.
+
+12. Calcule a distância euclidiana entre
+
+$$
+A=(1,2,3)
+$$
+
+e
+
+$$
+B=(4,6,3).
+$$
+
+13. Considere duas variáveis: renda em reais e idade em anos. Explique por que a distância euclidiana calculada diretamente pode ser dominada pela renda.
+
+14. Explique por que mudar a altura de metros para centímetros pode alterar uma distância calculada sobre os dados originais, embora as pessoas não tenham mudado fisicamente.
+
+15. O que significa afirmar que duas observações têm pequena distância euclidiana no espaço padronizado?
+
+16. Duas análises de distância utilizam conjuntos diferentes de variáveis. Os valores das distâncias podem ser comparados diretamente? Justifique.
+
+17. Explique uma vantagem e uma limitação de:
+
+   a. mapa de calor;
+
+   b. gráfico de perfis;
+
+   c. coordenadas paralelas.
+
+## Exercícios no R
+
+1. Selecione as variáveis:
+
+```r
+idade_anos
+faltas
+tempo_deslocamento_min
+altura_m
+```
+
+e:
+
+   a. converta-as para uma matriz;
+
+   b. obtenha sua dimensão;
+
+   c. mostre os vetores correspondentes aos estudantes E001, E002 e E003.
+
+2. Calcule para cada variável:
+
+- média;
+- desvio padrão;
+- mínimo;
+- mediana;
+- máximo.
+
+Compare as ordens de grandeza e discuta por que uma análise de distância nos dados originais pode ser problemática.
+
+3. Centralize as quatro variáveis com `scale()` utilizando:
+
+```r
+center = TRUE
+scale = FALSE
+```
+
+Depois:
+
+   a. calcule as médias das colunas;
+
+   b. calcule os desvios padrão;
+
+   c. compare com os desvios padrão originais.
+
+4. Padronize as quatro variáveis.
+
+   a. verifique as médias;
+
+   b. verifique os desvios padrão;
+
+   c. interprete o perfil padronizado do estudante E005.
+
+5. Construa a matriz de covariâncias.
+
+   a. identifique a diagonal;
+
+   b. confirme que os valores da diagonal são as variâncias;
+
+   c. identifique os sinais das covariâncias.
+
+6. Construa a matriz de correlações e uma matriz de diagramas de dispersão.
+
+Escolha os dois maiores coeficientes em módulo e verifique se os respectivos gráficos são compatíveis com a interpretação linear.
+
+7. Construa um mapa de calor da matriz de correlações.
+
+Explique quais informações ficam mais fáceis de identificar no mapa do que na tabela numérica.
+
+8. Construa um mapa de calor dos valores padronizados dos 20 primeiros estudantes.
+
+Identifique:
+
+   a. um estudante com tempo de deslocamento relativamente alto;
+
+   b. um estudante com número de faltas relativamente alto;
+
+   c. um estudante cujo perfil esteja relativamente próximo da média em várias variáveis.
+
+9. Calcule:
+
+```r
+dist(
+  dados_quantitativos
+)
+```
+
+e depois:
+
+```r
+dist(
+  scale(
+    dados_quantitativos
+  )
+)
+```
+
+Compare as duas abordagens e explique por que as distâncias não têm o mesmo significado.
+
+10. Utilizando as variáveis padronizadas:
+
+   a. construa a matriz de distâncias;
+
+   b. encontre os cinco estudantes mais próximos de E001;
+
+   c. encontre os cinco estudantes mais distantes de E001;
+
+   d. examine os perfis desses estudantes.
+
+11. Construa um gráfico de perfis para os estudantes:
+
+```r
+E001
+E002
+E003
+E004
+E005
+E006
+```
+
+Interprete pelo menos dois contrastes entre os perfis.
+
+12. Construa um gráfico de coordenadas paralelas para todos os estudantes.
+
+Utilize `curso` apenas como variável de identificação visual e responda:
+
+   a. há grande sobreposição entre os perfis?
+
+   b. algum curso parece apresentar um padrão claramente distinto?
+
+   c. quais são as limitações do gráfico quando muitas linhas são mostradas?
+
+13. Calcule os perfis médios padronizados por curso e construa um gráfico de linhas.
+
+Explique o significado de um valor médio:
+
+   a. próximo de zero;
+
+   b. positivo;
+
+   c. negativo.
+
+14. Produza uma exploração multivariada completa das quatro variáveis quantitativas do banco contendo:
+
+- descrição das escalas;
+- padronização;
+- matriz de correlações;
+- matriz de diagramas de dispersão;
+- mapa de calor;
+- gráfico de perfis ou coordenadas paralelas;
+- análise de algumas distâncias;
+- conclusão exploratória integrada.
+
+A conclusão deve explicitar que os resultados dependem das variáveis escolhidas e que a análise é descritiva.

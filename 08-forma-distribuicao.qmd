@@ -127,7 +127,7 @@ A forma não deve ser analisada apenas por meio de um número. Histogramas, curv
 A @tbl-componentes-analise-univariada apresenta as principais dimensões que estudamos até aqui.
 
 | Dimensão | Pergunta principal | Exemplos de medidas ou gráficos |
-|:---------------|:--------------------|:----------------------------------|
+|:-----------------|:--------------------|:---------------------------------|
 | Centro | Onde os dados se concentram? | média, mediana, moda |
 | Posição | Onde determinados valores se localizam? | quartis, decis, percentis |
 | Dispersão | Quanto os dados variam? | amplitude, AIQ, desvio padrão, DAM |
@@ -489,7 +489,7 @@ o que é compatível com assimetria positiva.
 A @tbl-coeficientes-assimetria compara as principais características dos coeficientes apresentados.
 
 | Coeficiente | Informação utilizada | Sensibilidade a extremos | Observação |
-|:---------------|:-------------------|:--------------------:|:---------------|
+|:----------------|:-----------------|:------------------:|:----------------|
 | Pearson 1 | média, moda e desvio padrão | alta | depende de uma moda bem definida |
 | Pearson 2 | média, mediana e desvio padrão | alta | simples e fácil de interpretar |
 | Bowley | $Q_1$, mediana e $Q_3$ | baixa | descreve a assimetria da metade central |
@@ -709,7 +709,7 @@ Utilizando o excesso de curtose como referência:
 A @tbl-classificacao-curtose resume essa nomenclatura.
 
 | Excesso de curtose | Classificação tradicional | Interpretação geral em relação à normal |
-|:-----------------|:---------------------|:--------------------------------|
+|:-----------------|:---------------------|:-------------------------------|
 | $\gamma_2<0$ | platicúrtica | caudas relativamente mais leves |
 | $\gamma_2=0$ | mesocúrtica | referência da distribuição normal |
 | $\gamma_2>0$ | leptocúrtica | maior contribuição das caudas e de valores extremos |
@@ -1073,7 +1073,7 @@ A escolha das medidas deve considerar a presença de assimetria e de valores ext
 A @tbl-sensiveis-resistentes-forma reúne medidas estudadas nos capítulos anteriores e neste capítulo.
 
 | Aspecto | Medidas mais sensíveis | Medidas mais resistentes |
-|:---------------|:--------------------------|:----------------------------|
+|:-----------------|:-------------------------|:---------------------------|
 | Centro | média | mediana |
 | Posição | — | quartis |
 | Dispersão | amplitude, variância, desvio padrão, CV | AIQ, DAM |
@@ -1117,7 +1117,7 @@ A @tbl-graficos-integrados compara essas representações.
 | Boxplot | mediana, quartis, AIQ e valores potencialmente atípicos | oculta muitos detalhes da forma |
 
 : Informações destacadas por histograma, densidade e boxplot. {#tbl-graficos-integrados}
- 
+
 Como mostra a @tbl-graficos-integrados, nenhuma das três representações substitui completamente as demais.
 
 ::: {.callout-note title="Um boxplot não revela multimodalidade"}
@@ -1133,7 +1133,7 @@ Chegamos agora ao objetivo central deste capítulo: reunir os conteúdos estudad
 Uma análise univariada integrada pode seguir a lógica apresentada na @tbl-roteiro-univariado.
 
 | Etapa | Pergunta | Exemplos de procedimentos |
-|:---------------|:---------------|:----------------------------------------|
+|:----------------|:----------------|:-------------------------------------|
 | 1\. Contextualização | O que a variável representa? | unidade, tipo, população/amostra |
 | 2\. Qualidade | Há ausências ou valores implausíveis? | `is.na()`, inspeção, limites plausíveis |
 | 3\. Centro | Onde os dados se concentram? | média, mediana, moda |
@@ -1613,7 +1613,7 @@ Coeficientes de forma são úteis, mas podem ser facilmente utilizados de maneir
 A @tbl-cuidados-forma reúne alguns cuidados importantes.
 
 | Situação | Interpretação inadequada | Abordagem recomendada |
-|:----------------|:-----------------------------|:-------------------------|
+|:-----------------|:----------------------------|:------------------------|
 | Assimetria próxima de zero | “a distribuição é normal” | verificar simetria, modalidade e gráficos |
 | Assimetria positiva | “todos os valores altos são erros” | investigar a cauda e o contexto |
 | Curtose positiva | “o gráfico obrigatoriamente tem pico alto” | examinar principalmente caudas e extremos |
@@ -1630,7 +1630,7 @@ A @tbl-cuidados-forma reforça uma ideia central da AED: **medidas e gráficos s
 A @tbl-propriedades-forma apresenta algumas propriedades dos coeficientes estudados.
 
 | Medida | Unidade | Efeito de adicionar constante | Efeito de multiplicar por $b>0$ | Sensibilidade a extremos |
-|:------------|:------------|:---------------|:----------------|:------------|
+|:--------------|:--------------|:--------------|:--------------|:--------------|
 | Pearson 2 | adimensional | não altera | não altera | alta |
 | Bowley | adimensional | não altera | não altera | baixa |
 | Assimetria por momentos | adimensional | não altera | não altera | alta |

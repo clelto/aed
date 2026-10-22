@@ -1,0 +1,31 @@
+{
+    "id": "E7E8CC23",
+    "path": "~/GitHub/aed/12-extensoes-analise-multivariada.qmd",
+    "project_path": "12-extensoes-analise-multivariada.qmd",
+    "type": "quarto_markdown",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1792556923743.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "rmdVisualMode": "false",
+        "rmdVisualWrapConfigured": "true",
+        "source_window_id": "",
+        "Source": "Source",
+        "docOutlineVisible": "1",
+        "rmdVisualCollapsedChunks": "",
+        "cursorPosition": "1049,22",
+        "scrollLine": "0",
+        "rmdVisualModeLocation": "70:0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1792557135,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1792557135560,
+    "read_only": false,
+    "read_only_alternatives": []
+}

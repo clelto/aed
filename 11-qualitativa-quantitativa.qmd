@@ -1,0 +1,1446 @@
+# Associação entre uma variável qualitativa e uma quantitativa
+
+Até aqui, estudamos três situações importantes:
+
+- uma variável por vez, na análise univariada;
+- duas variáveis qualitativas, por meio de tabelas de contingência e distribuições condicionais;
+- duas variáveis quantitativas, por meio de diagramas de dispersão, covariância, correlação e reta de tendência.
+
+Agora consideraremos um terceiro tipo de problema bivariado: a análise conjunta de **uma variável qualitativa e uma variável quantitativa**.
+
+Exemplos:
+
+- meio de transporte e tempo de deslocamento;
+- curso e altura;
+- turno de estudo e nota;
+- tipo de tratamento e tempo de recuperação;
+- setor de uma empresa e salário;
+- modalidade de ensino e número de horas de estudo.
+
+Nessas situações, a variável qualitativa define **grupos**, enquanto a variável quantitativa é observada dentro de cada grupo.
+
+A pergunta central passa a ser:
+
+> **A distribuição da variável quantitativa é semelhante ou diferente entre as categorias da variável qualitativa?**
+
+Essa comparação pode envolver posição, dispersão e forma. Por isso, médias ou medianas isoladas raramente são suficientes.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, espera-se que o estudante seja capaz de:
+
+- reconhecer uma análise envolvendo uma variável qualitativa e uma quantitativa;
+- interpretar a distribuição quantitativa condicionada às categorias de uma variável qualitativa;
+- calcular e comparar medidas de posição e dispersão por grupo;
+- interpretar diferenças absolutas e relativas entre grupos;
+- utilizar boxplots lado a lado, histogramas, curvas de densidade, gráficos de pontos e gráficos de violino;
+- comparar posição, dispersão e forma das distribuições;
+- reconhecer situações de maior ou menor heterogeneidade entre grupos;
+- escrever conclusões exploratórias contextualizadas;
+- distinguir comparação descritiva de inferência estatística.
+
+Toda a abordagem deste capítulo permanece **descritiva e exploratória**. Não utilizaremos testes de hipóteses, valores-$p$, intervalos de confiança ou afirmações sobre diferenças populacionais.
+:::
+
+```{r}
+#| label: setup-quali-quanti
+#| include: false
+
+library(tidyverse)
+
+dados <- read_csv(
+  "dados/estudantes80n.csv",
+  show_col_types = FALSE
+)
+
+exemplo_turno <- tibble(
+  turno = rep(
+    c("Manhã", "Noite"),
+    each = 8
+  ),
+  nota = c(
+    62, 65, 67, 70, 72, 74, 76, 78,
+    55, 58, 60, 62, 65, 68, 72, 80
+  )
+)
+```
+
+## Uma variável qualitativa define grupos
+
+Considere:
+
+- $G$: variável qualitativa, que define os grupos;
+- $Y$: variável quantitativa, observada em cada indivíduo.
+
+Se $G$ possui categorias
+
+$$
+g_1,g_2,\ldots,g_k,
+$$
+
+podemos estudar separadamente as distribuições
+
+$$
+Y\mid G=g_1,
+\qquad
+Y\mid G=g_2,
+\qquad
+\ldots,
+\qquad
+Y\mid G=g_k.
+$$
+
+A notação
+
+$$
+Y\mid G=g_j
+$$
+
+pode ser lida como:
+
+> distribuição de $Y$ **dentro do grupo** $g_j$.
+
+Não é necessário, neste momento, interpretar o símbolo condicional em termos de probabilidade. Aqui ele indica apenas que estamos observando a variável quantitativa **separadamente em cada categoria** da variável qualitativa.
+
+### Exemplo
+
+Considere notas de estudantes de dois turnos:
+
+| Turno | Notas                          |
+|:------|:-------------------------------|
+| Manhã | 62, 65, 67, 70, 72, 74, 76, 78 |
+| Noite | 55, 58, 60, 62, 65, 68, 72, 80 |
+
+: Notas observadas em dois turnos.
+
+Podemos estudar:
+
+$$
+\text{Nota}\mid\text{Turno = Manhã}
+$$
+
+e
+
+$$
+\text{Nota}\mid\text{Turno = Noite}.
+$$
+
+A variável `turno` não é resumida por média ou desvio padrão. Ela serve para **separar as observações em grupos**, dentro dos quais analisamos a distribuição das notas.
+
+::: {.callout-important title="O objeto da comparação é a distribuição"}
+Ao comparar uma variável quantitativa entre grupos, não devemos perguntar apenas:
+
+> “Qual grupo tem maior média?”
+
+A comparação pode envolver:
+
+- centro;
+- dispersão;
+- assimetria;
+- amplitude;
+- concentração;
+- valores potencialmente atípicos;
+- formato geral da distribuição.
+
+Duas categorias podem ter a mesma média e distribuições muito diferentes.
+:::
+
+## Medidas resumo por categoria
+
+Uma forma inicial de comparar os grupos é calcular medidas resumo da variável quantitativa dentro de cada categoria.
+
+Entre as medidas mais úteis estão:
+
+- número de observações;
+- média;
+- mediana;
+- primeiro e terceiro quartis;
+- amplitude interquartílica;
+- desvio padrão;
+- mínimo e máximo.
+
+### Exemplo
+
+Para os dados da @tbl-exemplo-turno-notas:
+
+| Turno | $n$ | Média | Mediana | Desvio padrão | $Q_1$ | $Q_3$ |
+|:------|----:|------:|--------:|--------------:|------:|------:|
+| Manhã |   8 |  70,5 |    71,0 |          5,61 |  66,5 |  74,5 |
+| Noite |   8 |  65,0 |    63,5 |          8,23 |  59,5 |  69,0 |
+
+: Medidas resumo das notas por turno.
+
+A @tbl-resumo-turno-notas sugere duas diferenças:
+
+1.  as notas do turno da manhã estão, em geral, em uma posição mais elevada;
+2.  o turno da noite apresenta maior dispersão.
+
+Portanto, dizer apenas que a média da manhã é maior não descreve toda a diferença entre os grupos.
+
+### Comparação de médias e medianas
+
+A média compara o centro aritmético das distribuições.
+
+A mediana compara a posição central de maneira mais resistente a valores extremos.
+
+Quando média e mediana fornecem conclusões semelhantes, temos maior segurança de que a diferença de posição não depende apenas de poucos valores extremos.
+
+Quando produzem conclusões muito diferentes, devemos investigar a forma das distribuições.
+
+No exemplo,
+
+$$
+\bar{x}_{\text{Manhã}}=70{,}5
+$$
+
+e
+
+$$
+\bar{x}_{\text{Noite}}=65{,}0.
+$$
+
+As medianas são
+
+$$
+Md_{\text{Manhã}}=71{,}0
+$$
+
+e
+
+$$
+Md_{\text{Noite}}=63{,}5.
+$$
+
+As duas medidas indicam posição central mais elevada no turno da manhã.
+
+## Diferença absoluta entre grupos
+
+Quando queremos quantificar a diferença entre duas medidas, podemos calcular uma **diferença absoluta**.
+
+Para as médias,
+
+$$
+D_{\text{abs}}
+=
+\bar{x}_A-\bar{x}_B.
+$$
+
+No exemplo,
+
+$$
+D_{\text{abs}}
+=
+70{,}5-65{,}0
+=
+5{,}5.
+$$
+
+Podemos dizer:
+
+> A média das notas do turno da manhã é 5,5 pontos maior que a média do turno da noite.
+
+A interpretação mantém a unidade da variável.
+
+Da mesma forma, para as medianas,
+
+$$
+71{,}0-63{,}5
+=
+7{,}5.
+$$
+
+A mediana do turno da manhã é 7,5 pontos maior.
+
+::: {.callout-note title="A ordem da subtração importa"}
+A diferença
+
+$$
+\bar{x}_A-\bar{x}_B
+$$
+
+não é a mesma expressão interpretativa de
+
+$$
+\bar{x}_B-\bar{x}_A.
+$$
+
+Antes de calcular, defina claramente qual grupo será tomado como referência.
+:::
+
+## Diferença relativa entre grupos
+
+Em alguns contextos, a diferença absoluta pode ser complementada por uma comparação relativa.
+
+Tomando o grupo $B$ como referência,
+
+$$
+D_{\text{rel}}
+=
+\frac{
+\bar{x}_A-\bar{x}_B
+}{
+\bar{x}_B
+}
+\times100\%.
+$$
+
+No exemplo,
+
+$$
+D_{\text{rel}}
+=
+\frac{
+70{,}5-65{,}0
+}{
+65{,}0
+}
+\times100\%
+\approx
+8{,}46\%.
+$$
+
+Assim, a média do turno da manhã é aproximadamente 8,5% maior que a média do turno da noite, tomando o turno da noite como referência.
+
+A diferença relativa pode ser útil quando o tamanho da diferença precisa ser interpretado em relação ao nível do grupo de referência.
+
+::: {.callout-warning title="Diferença relativa exige um denominador com significado"}
+A comparação relativa deve ser utilizada com cuidado.
+
+Ela pode ser inadequada quando:
+
+- o valor de referência é zero ou muito próximo de zero;
+- a variável não possui uma escala em que razões sejam substantivamente interpretáveis;
+- a escolha do grupo de referência é arbitrária e pode induzir interpretações diferentes.
+
+Sempre explicite qual grupo foi utilizado como referência.
+:::
+
+## Comparação da dispersão entre grupos
+
+Duas categorias podem apresentar centros semelhantes, mas graus de variabilidade muito diferentes.
+
+Podemos comparar, por exemplo:
+
+- amplitude;
+- amplitude interquartílica;
+- desvio padrão;
+- desvio absoluto mediano;
+- coeficiente de variação, quando apropriado.
+
+No exemplo dos turnos, o desvio padrão é aproximadamente
+
+$$
+s_{\text{Manhã}}=5{,}61
+$$
+
+e
+
+$$
+s_{\text{Noite}}=8{,}23.
+$$
+
+Assim, as notas do turno da noite estão mais dispersas em torno de seu centro.
+
+É importante observar que diferenças na dispersão podem ser tão relevantes quanto diferenças nas médias.
+
+### Mesmo centro, dispersões diferentes
+
+Considere:
+
+$$
+A:\quad
+8,\;9,\;10,\;11,\;12
+$$
+
+e
+
+$$
+B:\quad
+2,\;6,\;10,\;14,\;18.
+$$
+
+Nos dois grupos,
+
+$$
+\bar{x}=10
+$$
+
+e
+
+$$
+Md=10.
+$$
+
+Entretanto, o grupo $B$ apresenta muito maior dispersão.
+
+Esse exemplo mostra que:
+
+> **igualdade de médias não significa igualdade de distribuições.**
+
+## Comparação da forma das distribuições
+
+Além de posição e dispersão, a forma também pode variar entre os grupos.
+
+Uma categoria pode apresentar:
+
+- distribuição aproximadamente simétrica;
+- assimetria à direita;
+- assimetria à esquerda;
+- maior concentração central;
+- caudas mais longas;
+- mais de uma região de concentração;
+- observações potencialmente atípicas.
+
+Por isso, tabelas de medidas resumo devem ser combinadas com representações gráficas.
+
+## Boxplots lado a lado
+
+O boxplot é especialmente útil para comparar grupos porque resume, no mesmo gráfico:
+
+- mediana;
+- primeiro e terceiro quartis;
+- amplitude interquartílica;
+- extensão dos bigodes;
+- observações sinalizadas como potencialmente atípicas.
+
+Considere o tempo de deslocamento dos estudantes segundo o meio de transporte.
+
+```{r}
+#| label: fig-boxplot-transporte-tempo
+#| fig-cap: "Tempo de deslocamento dos estudantes segundo o meio de transporte."
+#| fig-alt: "Boxplots lado a lado do tempo de deslocamento para seis meios de transporte."
+#| echo: false
+
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_boxplot() +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+A @fig-boxplot-transporte-tempo permite observar que os estudantes que utilizam ônibus apresentam tempos geralmente mais elevados e também maior dispersão que vários dos demais grupos.
+
+A comparação, entretanto, não deve se limitar à mediana. Devemos observar a caixa inteira, os bigodes e possíveis pontos extremos.
+
+::: {.callout-important title="Boxplots lado a lado favorecem comparações"}
+O boxplot é particularmente útil quando a variável qualitativa possui várias categorias.
+
+Como todos os grupos aparecem na mesma escala vertical, diferenças de posição e dispersão tornam-se mais fáceis de perceber.
+:::
+
+## Histogramas por grupo
+
+O histograma mostra detalhes da forma que podem ser ocultados pelo boxplot.
+
+Quando o número de grupos é pequeno, podemos comparar histogramas utilizando painéis separados.
+
+```{r}
+#| label: fig-histogramas-transporte-tempo
+#| fig-cap: "Distribuições do tempo de deslocamento por meio de transporte."
+#| fig-alt: "Histogramas em painéis separados mostrando a distribuição do tempo para cada meio de transporte."
+#| echo: false
+
+dados |>
+  ggplot(
+    aes(
+      x = tempo_deslocamento_min
+    )
+  ) +
+  geom_histogram(
+    binwidth = 15,
+    boundary = 10,
+    closed = "left"
+  ) +
+  facet_wrap(
+    ~ meio_transporte
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Frequência"
+  ) +
+  theme_minimal()
+```
+
+Na @fig-histogramas-transporte-tempo, cada painel representa a distribuição condicionada a uma categoria de transporte.
+
+Para comparar corretamente os grupos, é recomendável manter:
+
+- a mesma largura de classe;
+- os mesmos limites do eixo;
+- a mesma definição das classes.
+
+Alterar a construção do histograma entre grupos pode produzir diferenças visuais artificiais.
+
+## Curvas de densidade por grupo
+
+Curvas de densidade podem ser úteis para comparar a forma de distribuições contínuas, especialmente quando os grupos possuem tamanho razoável.
+
+Como o banco possui grupos pequenos para alguns meios de transporte, é prudente interpretar a densidade com cautela.
+
+Para evitar excesso de sobreposição, podemos selecionar três meios com perfis distintos.
+
+```{r}
+#| label: fig-densidade-transporte-tempo
+#| fig-cap: "Curvas de densidade do tempo de deslocamento para três meios de transporte."
+#| fig-alt: "Curvas de densidade comparando A pé, Carro e Ônibus."
+#| echo: false
+
+dados |>
+  filter(
+    meio_transporte %in%
+      c("A pé", "Carro", "Ônibus")
+  ) |>
+  ggplot(
+    aes(
+      x = tempo_deslocamento_min,
+      linetype = meio_transporte
+    )
+  ) +
+  geom_density(
+    linewidth = 1
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Densidade",
+    linetype = "Meio de transporte"
+  ) +
+  theme_minimal()
+```
+
+A @fig-densidade-transporte-tempo enfatiza diferenças de posição e forma.
+
+::: {.callout-warning title="A curva de densidade é uma suavização"}
+A forma de uma curva de densidade depende do grau de suavização.
+
+Com poucos dados, pequenas alterações no parâmetro de suavização podem mudar substancialmente a aparência da curva.
+
+Por isso, a densidade deve complementar — e não substituir — a inspeção dos dados e de outras representações.
+:::
+
+## Gráfico de pontos por grupo
+
+Quando o tamanho da amostra não é muito grande, mostrar os próprios valores observados pode ser muito informativo.
+
+```{r}
+#| label: fig-pontos-transporte-tempo
+#| fig-cap: "Valores individuais do tempo de deslocamento por meio de transporte."
+#| fig-alt: "Pontos individuais dos tempos de deslocamento distribuídos por categorias de transporte."
+#| echo: false
+
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_jitter(
+    width = 0.12,
+    height = 0,
+    alpha = 0.8
+  ) +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+A @fig-pontos-transporte-tempo preserva os valores individuais e permite perceber o tamanho de cada grupo.
+
+Isso é especialmente importante quando alguns grupos possuem poucas observações.
+
+## Gráfico de violino
+
+O gráfico de violino combina uma representação da densidade com uma disposição semelhante à do boxplot.
+
+A largura do violino em determinada região indica onde a densidade estimada é maior.
+
+```{r}
+#| label: fig-violino-transporte-tempo-cap11
+#| fig-cap: "Gráficos de violino do tempo de deslocamento segundo o meio de transporte."
+#| fig-alt: "Violinos mostrando a forma estimada das distribuições do tempo em cada meio de transporte."
+#| echo: false
+
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_violin(
+    trim = TRUE
+  ) +
+  geom_boxplot(
+    width = 0.10,
+    outlier.shape = NA
+  ) +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+A @fig-violino-transporte-tempo-cap11 combina duas informações:
+
+- o boxplot resume posição e dispersão;
+- o violino destaca a forma estimada da distribuição.
+
+Com grupos pequenos, entretanto, o formato do violino deve ser interpretado com cautela.
+
+## Heterogeneidade entre grupos
+
+Dizemos, em sentido descritivo, que existe **heterogeneidade entre grupos** quando as distribuições da variável quantitativa apresentam diferenças relevantes entre as categorias da variável qualitativa.
+
+Essas diferenças podem ocorrer em:
+
+- posição;
+- dispersão;
+- forma;
+- frequência de valores extremos;
+- presença de agrupamentos internos.
+
+A associação entre uma variável qualitativa e uma quantitativa não precisa aparecer apenas como diferença de médias.
+
+### Exemplo
+
+Suponha três grupos com a mesma média igual a 50:
+
+- grupo A: valores fortemente concentrados em torno de 50;
+- grupo B: valores muito dispersos;
+- grupo C: distribuição assimétrica à direita.
+
+As médias são iguais, mas as distribuições não são.
+
+Portanto, uma análise baseada apenas na comparação de médias deixaria de perceber a heterogeneidade existente.
+
+::: {.callout-note title="Associação em perspectiva descritiva"}
+Neste contexto, podemos dizer que a variável qualitativa está associada à quantitativa quando a distribuição da variável quantitativa **muda entre as categorias**.
+
+A mudança pode envolver centro, dispersão, forma ou uma combinação desses aspectos.
+:::
+
+## Tamanhos de grupo diferentes
+
+Na prática, as categorias frequentemente possuem números diferentes de observações.
+
+No banco dos estudantes, por exemplo, os tamanhos dos grupos de transporte não são iguais.
+
+Isso exige cuidado na interpretação:
+
+- histogramas de frequência absoluta podem parecer maiores apenas porque um grupo possui mais indivíduos;
+- curvas de densidade normalizam a área, favorecendo comparações de forma;
+- boxplots não mostram diretamente o tamanho de cada grupo;
+- gráficos de pontos revelam quantas observações existem em cada categoria.
+
+Por isso, é útil apresentar também o valor de
+
+$$
+n
+$$
+
+de cada grupo nas tabelas de medidas resumo.
+
+## Comparação descritiva e inferência estatística
+
+Até este ponto, fazemos afirmações sobre **os dados observados**.
+
+Se a média do tempo de deslocamento for maior entre usuários de ônibus que entre usuários de carro, podemos afirmar:
+
+> No conjunto observado, o tempo médio de deslocamento dos usuários de ônibus foi maior que o dos usuários de carro.
+
+Não podemos, apenas com essa comparação descritiva, concluir:
+
+> Na população, usuários de ônibus possuem maior tempo médio de deslocamento.
+
+Essa segunda afirmação é inferencial e exige métodos que ainda não foram estudados.
+
+Também não devemos interpretar uma diferença observada como causal.
+
+Por exemplo:
+
+> usuários de ônibus apresentaram maior tempo de deslocamento
+
+não implica que
+
+> usar ônibus, por si só, cause todo o aumento observado no tempo.
+
+Outras características podem diferir entre os grupos, como distância da residência, horário, localização do curso e condições de trânsito.
+
+::: {.callout-warning title="Descrever não é testar"}
+Uma diferença observada entre médias, medianas ou distribuições pode ser importante para a exploração dos dados.
+
+Entretanto, neste capítulo não responderemos se essa diferença é "estatisticamente significativa" ou se pode ser generalizada para uma população.
+
+Essas são perguntas de inferência estatística.
+:::
+
+## Exemplo integrado: meio de transporte e tempo de deslocamento
+
+No banco dos 80 estudantes, podemos resumir o tempo de deslocamento por meio de transporte:
+
+| Meio de transporte | $n$ | Média | Mediana | Desvio padrão | $Q_1$ | $Q_3$ |   AIQ |
+|:-------------------|----:|------:|--------:|--------------:|------:|------:|------:|
+| A pé               |   7 | 19,91 |   15,30 |          7,80 | 14,50 | 23,70 |  9,20 |
+| Aplicativo         |  14 | 36,90 |   38,35 |         12,61 | 26,30 | 46,22 | 19,92 |
+| Bicicleta          |   5 | 22,84 |   26,30 |          6,58 | 22,00 | 26,70 |  4,70 |
+| Carro              |  15 | 31,26 |   31,60 |          9,87 | 24,35 | 37,55 | 13,20 |
+| Motocicleta        |   9 | 27,50 |   27,50 |          9,90 | 20,10 | 28,30 |  8,20 |
+| Ônibus             |  30 | 59,14 |   57,35 |         22,03 | 45,82 | 68,82 | 23,00 |
+
+: Medidas resumo do tempo de deslocamento por meio de transporte.
+
+A @tbl-resumo-transporte-tempo mostra diferenças importantes.
+
+Os usuários de ônibus possuem a maior média e a maior mediana de tempo de deslocamento:
+
+$$
+\bar{x}_{\text{Ônibus}}
+\approx
+59{,}14
+$$
+
+e
+
+$$
+Md_{\text{Ônibus}}
+=
+57{,}35.
+$$
+
+Os estudantes que vão a pé apresentam:
+
+$$
+\bar{x}_{\text{A pé}}
+\approx
+19{,}91
+$$
+
+e
+
+$$
+Md_{\text{A pé}}
+=
+15{,}30.
+$$
+
+A diferença absoluta entre as médias é
+
+$$
+59{,}14-19{,}91
+=
+39{,}23\text{ minutos}.
+$$
+
+Tomando o grupo "A pé" como referência, a diferença relativa é aproximadamente
+
+$$
+\frac{
+59{,}14-19{,}91
+}{
+19{,}91
+}
+\times100
+\approx
+197\%.
+$$
+
+Isso significa que, no conjunto observado, o tempo médio dos usuários de ônibus é aproximadamente 197% maior que o dos estudantes que vão a pé.
+
+A comparação da dispersão também é relevante:
+
+$$
+s_{\text{Ônibus}}
+\approx
+22{,}03
+$$
+
+e
+
+$$
+s_{\text{A pé}}
+\approx
+7{,}80.
+$$
+
+Logo, além de apresentarem tempos maiores, os usuários de ônibus também exibem maior variabilidade absoluta.
+
+Essa conclusão deve ser interpretada juntamente com os tamanhos dos grupos:
+
+$$
+n_{\text{Ônibus}}=30
+$$
+
+e
+
+$$
+n_{\text{A pé}}=7.
+$$
+
+O conjunto observado, portanto, apresenta clara heterogeneidade entre os meios de transporte quanto à posição e à dispersão dos tempos de deslocamento.
+
+## Laboratório no R
+
+Nesta aula prática, utilizaremos principalmente:
+
+- `meio_transporte`, variável qualitativa;
+- `tempo_deslocamento_min`, variável quantitativa.
+
+### Preparando os dados
+
+```{r}
+library(tidyverse)
+
+dados <- read_csv(
+  "dados/estudantes80n.csv",
+  show_col_types = FALSE
+)
+```
+
+Verifique as duas variáveis:
+
+```{r}
+dados |>
+  select(
+    meio_transporte,
+    tempo_deslocamento_min
+  ) |>
+  glimpse()
+```
+
+### Número de observações por grupo
+
+Antes de comparar medidas, verifique os tamanhos dos grupos:
+
+```{r}
+dados |>
+  count(
+    meio_transporte,
+    name = "n"
+  ) |>
+  arrange(
+    desc(n)
+  )
+```
+
+Tamanhos muito diferentes devem ser considerados na interpretação dos gráficos.
+
+### Tabela de medidas resumo por grupo
+
+```{r}
+resumo_transporte <- dados |>
+  group_by(
+    meio_transporte
+  ) |>
+  summarise(
+    n = sum(
+      !is.na(
+        tempo_deslocamento_min
+      )
+    ),
+    media = mean(
+      tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    mediana = median(
+      tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    q1 = quantile(
+      tempo_deslocamento_min,
+      0.25,
+      na.rm = TRUE
+    ),
+    q3 = quantile(
+      tempo_deslocamento_min,
+      0.75,
+      na.rm = TRUE
+    ),
+    aiq = IQR(
+      tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    desvio_padrao = sd(
+      tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    minimo = min(
+      tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    maximo = max(
+      tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  )
+
+resumo_transporte
+```
+
+Uma versão mais compacta:
+
+```{r}
+resumo_transporte |>
+  select(
+    meio_transporte,
+    n,
+    media,
+    mediana,
+    desvio_padrao,
+    aiq
+  )
+```
+
+Ao interpretar, procure responder:
+
+- quais grupos apresentam maior e menor posição central?
+- média e mediana contam histórias semelhantes?
+- quais grupos apresentam maior dispersão?
+- os tamanhos das amostras são semelhantes?
+
+### Diferença absoluta entre dois grupos
+
+Vamos comparar ônibus e carro.
+
+```{r}
+medias_veiculos <- dados |>
+  filter(
+    meio_transporte %in%
+      c("Ônibus", "Carro")
+  ) |>
+  group_by(
+    meio_transporte
+  ) |>
+  summarise(
+    media = mean(
+      tempo_deslocamento_min,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  )
+
+medias_veiculos
+```
+
+Podemos extrair as duas médias:
+
+```{r}
+media_onibus <- medias_veiculos |>
+  filter(
+    meio_transporte == "Ônibus"
+  ) |>
+  pull(media)
+
+media_carro <- medias_veiculos |>
+  filter(
+    meio_transporte == "Carro"
+  ) |>
+  pull(media)
+```
+
+A diferença absoluta é:
+
+```{r}
+media_onibus -
+  media_carro
+```
+
+Interprete o resultado em minutos.
+
+### Diferença relativa
+
+Tomando o carro como referência:
+
+```{r}
+100 *
+  (
+    media_onibus -
+      media_carro
+  ) /
+  media_carro
+```
+
+A interpretação deve sempre mencionar o grupo de referência.
+
+### Boxplots lado a lado
+
+```{r}
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_boxplot() +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+Analise:
+
+- posição das medianas;
+- tamanho das caixas;
+- comprimento dos bigodes;
+- pontos potencialmente atípicos.
+
+### Boxplot com os dados individuais
+
+Sobrepor os pontos ajuda a visualizar o tamanho e a estrutura de cada grupo.
+
+```{r}
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_boxplot(
+    outlier.shape = NA
+  ) +
+  geom_jitter(
+    width = 0.12,
+    height = 0,
+    alpha = 0.7
+  ) +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+O argumento
+
+``` r
+outlier.shape = NA
+```
+
+não remove observações do conjunto. Apenas evita que os pontos sinalizados pelo boxplot sejam desenhados duas vezes, pois todas as observações já aparecem no `geom_jitter()`.
+
+### Histogramas por grupo
+
+```{r}
+dados |>
+  ggplot(
+    aes(
+      x = tempo_deslocamento_min
+    )
+  ) +
+  geom_histogram(
+    binwidth = 15,
+    boundary = 10,
+    closed = "left"
+  ) +
+  facet_wrap(
+    ~ meio_transporte
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Frequência"
+  ) +
+  theme_minimal()
+```
+
+Mantenha a mesma largura das classes para tornar a comparação visual coerente.
+
+### Histogramas em densidade
+
+Se o objetivo for comparar a forma em grupos de tamanhos diferentes, podemos utilizar densidade de frequência em vez de contagens.
+
+```{r}
+dados |>
+  ggplot(
+    aes(
+      x = tempo_deslocamento_min
+    )
+  ) +
+  geom_histogram(
+    aes(
+      y = after_stat(
+        density
+      )
+    ),
+    binwidth = 15,
+    boundary = 10,
+    closed = "left"
+  ) +
+  facet_wrap(
+    ~ meio_transporte
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+Nesse caso, a área de cada histograma é igual a 1, o que facilita a comparação de forma entre grupos com tamanhos diferentes.
+
+### Curvas de densidade
+
+Para evitar excesso de linhas no mesmo gráfico, selecionaremos três meios:
+
+```{r}
+dados |>
+  filter(
+    meio_transporte %in%
+      c(
+        "A pé",
+        "Carro",
+        "Ônibus"
+      )
+  ) |>
+  ggplot(
+    aes(
+      x = tempo_deslocamento_min,
+      linetype = meio_transporte
+    )
+  ) +
+  geom_density(
+    linewidth = 1
+  ) +
+  labs(
+    x = "Tempo de deslocamento (min)",
+    y = "Densidade",
+    linetype = "Meio de transporte"
+  ) +
+  theme_minimal()
+```
+
+Compare:
+
+- deslocamento das curvas;
+- concentração;
+- caudas;
+- possíveis assimetrias.
+
+### Gráfico de pontos
+
+```{r}
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_jitter(
+    width = 0.12,
+    height = 0,
+    size = 2.4,
+    alpha = 0.8
+  ) +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+Esse gráfico é especialmente útil para perceber que alguns grupos possuem poucas observações.
+
+### Gráfico de violino
+
+```{r}
+dados |>
+  ggplot(
+    aes(
+      x = meio_transporte,
+      y = tempo_deslocamento_min
+    )
+  ) +
+  geom_violin(
+    trim = TRUE
+  ) +
+  geom_boxplot(
+    width = 0.10,
+    outlier.shape = NA
+  ) +
+  labs(
+    x = "Meio de transporte",
+    y = "Tempo de deslocamento (min)"
+  ) +
+  theme_minimal()
+```
+
+Use o violino como complemento, e não como substituto do conhecimento sobre os tamanhos dos grupos.
+
+### Comparação por outra variável qualitativa
+
+Podemos repetir a análise utilizando `curso` e `altura_m`.
+
+Uma tabela de medidas resumo:
+
+```{r}
+dados |>
+  group_by(
+    curso
+  ) |>
+  summarise(
+    n = sum(
+      !is.na(
+        altura_m
+      )
+    ),
+    media = mean(
+      altura_m,
+      na.rm = TRUE
+    ),
+    mediana = median(
+      altura_m,
+      na.rm = TRUE
+    ),
+    desvio_padrao = sd(
+      altura_m,
+      na.rm = TRUE
+    ),
+    aiq = IQR(
+      altura_m,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  )
+```
+
+Boxplots:
+
+```{r}
+dados |>
+  ggplot(
+    aes(
+      x = curso,
+      y = altura_m
+    )
+  ) +
+  geom_boxplot() +
+  geom_jitter(
+    width = 0.10,
+    height = 0,
+    alpha = 0.6
+  ) +
+  labs(
+    x = "Curso",
+    y = "Altura (m)"
+  ) +
+  theme_minimal()
+```
+
+A comparação entre cursos parece muito menos marcada que a comparação entre meios de transporte e tempo de deslocamento. Essa diferença ilustra por que a associação deve ser avaliada a partir do conjunto de medidas e gráficos, e não apenas pelo fato de as médias não serem exatamente iguais.
+
+### Roteiro para uma análise exploratória completa
+
+Para uma variável qualitativa $G$ e uma quantitativa $Y$, um fluxo de trabalho útil é:
+
+1.  identificar claramente as variáveis e suas unidades;
+2.  verificar o número de observações em cada categoria;
+3.  calcular medidas resumo por grupo;
+4.  comparar médias e medianas;
+5.  comparar medidas de dispersão;
+6.  calcular diferenças absolutas ou relativas quando fizer sentido;
+7.  construir boxplots lado a lado;
+8.  mostrar os valores individuais quando o tamanho da amostra permitir;
+9.  investigar histogramas, densidades ou violinos para comparar a forma;
+10. procurar observações potencialmente atípicas;
+11. escrever uma conclusão que integre posição, dispersão e forma;
+12. restringir a conclusão aos dados observados, quando não houver procedimento inferencial.
+
+### Exemplo de conclusão exploratória
+
+Uma conclusão possível para `meio_transporte` e `tempo_deslocamento_min` seria:
+
+> No conjunto dos 80 estudantes, o tempo de deslocamento apresenta diferenças claras entre os meios de transporte. Os usuários de ônibus apresentam maior média e mediana, além de maior dispersão absoluta. Os estudantes que se deslocam a pé ou de bicicleta apresentam, em geral, tempos menores. Os boxplots e os valores individuais também mostram que a distribuição dos tempos varia entre os grupos, indicando heterogeneidade não apenas de posição, mas também de dispersão. Essas conclusões descrevem o conjunto observado e não constituem, por si só, inferência para uma população nem evidência causal.
+
+## Síntese
+
+Quando analisamos uma variável qualitativa e uma quantitativa, a variável qualitativa define **grupos** e estudamos a distribuição da variável quantitativa dentro de cada grupo.
+
+A comparação deve considerar:
+
+- posição;
+- dispersão;
+- forma;
+- tamanho dos grupos;
+- observações potencialmente atípicas.
+
+Médias e medianas permitem comparar a posição das distribuições.
+
+Amplitude interquartílica e desvio padrão ajudam a comparar a dispersão.
+
+Diferenças absolutas mantêm a unidade original da variável. Diferenças relativas expressam a diferença em relação a um grupo de referência, mas exigem cuidado na escolha do denominador.
+
+Boxplots lado a lado facilitam comparações de posição e dispersão. Histogramas e curvas de densidade revelam detalhes da forma. Gráficos de pontos preservam os valores individuais. Gráficos de violino combinam uma representação da densidade com uma estrutura conveniente para comparação entre categorias.
+
+A associação entre uma variável qualitativa e uma quantitativa pode aparecer como mudança no centro, na dispersão, na forma ou em vários desses aspectos simultaneamente.
+
+Toda a análise realizada neste capítulo é **descritiva**.
+
+> **Ideia-chave:** comparar grupos significa comparar distribuições, e não apenas comparar médias.
+
+## Exercícios teóricos
+
+1.  Explique o que significa estudar a distribuição de uma variável quantitativa condicionada às categorias de uma variável qualitativa.
+
+2.  Considere duas turmas com médias iguais a 7,0. É correto concluir que as distribuições das notas são semelhantes? Explique quais outras características deveriam ser comparadas.
+
+3.  Considere:
+
+| Grupo | Média | Mediana | Desvio padrão |
+|:------|------:|--------:|--------------:|
+| A     |    50 |      50 |             4 |
+| B     |    50 |      50 |            15 |
+
+a.  Qual medida de posição difere entre os grupos?
+
+b.  Qual grupo é mais heterogêneo?
+
+c.  Explique por que apenas comparar as médias seria insuficiente.
+
+<!-- -->
+
+4.  Duas categorias apresentam médias iguais a 80 e 68.
+
+    a.  Calcule a diferença absoluta tomando a segunda categoria como referência.
+
+    b.  Calcule a diferença relativa.
+
+    c.  Interprete os dois resultados.
+
+5.  Explique por que uma diferença relativa pode ser problemática quando o valor do grupo de referência está próximo de zero.
+
+6.  Quais aspectos de uma distribuição podem ser comparados por meio de boxplots lado a lado?
+
+7.  O que um histograma pode mostrar que um boxplot normalmente não mostra?
+
+8.  Por que é recomendável manter a mesma largura de classe ao comparar histogramas de diferentes grupos?
+
+9.  Explique uma vantagem e uma limitação das curvas de densidade na comparação entre grupos.
+
+10. Em que situação um gráfico de pontos pode ser preferível a um boxplot?
+
+11. Um gráfico de violino apresenta uma região muito larga em determinado intervalo. O que essa largura representa? Ela corresponde diretamente ao número absoluto de observações?
+
+12. Dois grupos possuem medianas e AIQs semelhantes, mas um deles apresenta forte assimetria à direita. Que representações gráficas poderiam revelar essa diferença?
+
+13. Explique o que significa afirmar, em perspectiva descritiva, que existe heterogeneidade entre grupos.
+
+14. Diferencie as afirmações:
+
+> “No conjunto observado, o grupo A apresentou maior média que o grupo B.”
+
+e
+
+> “Na população, a média do grupo A é maior que a do grupo B.”
+
+15. Uma análise mostra que usuários de ônibus possuem maior tempo médio de deslocamento que usuários de carro. Por que isso não permite concluir automaticamente que utilizar ônibus causa a diferença observada?
+
+## Exercícios no R
+
+1.  Utilize `meio_transporte` e `tempo_deslocamento_min`.
+
+    a.  obtenha o número de observações em cada grupo;
+
+    b.  calcule média, mediana, desvio padrão e AIQ;
+
+    c.  identifique os grupos com maior e menor posição central;
+
+    d.  identifique os grupos com maior e menor dispersão.
+
+2.  Compare os grupos `Ônibus` e `Carro`.
+
+    a.  calcule a diferença absoluta entre as médias;
+
+    b.  calcule a diferença relativa tomando `Carro` como referência;
+
+    c.  repita a comparação para as medianas;
+
+    d.  escreva uma interpretação contextualizada.
+
+3.  Construa boxplots lado a lado de `tempo_deslocamento_min` segundo `meio_transporte`.
+
+    a.  compare as medianas;
+
+    b.  compare os tamanhos das caixas;
+
+    c.  identifique observações potencialmente atípicas;
+
+    d.  escreva uma conclusão.
+
+4.  Refaça o exercício anterior adicionando os valores individuais com `geom_jitter()`.
+
+Explique quais informações ficaram mais visíveis depois da sobreposição dos pontos.
+
+5.  Construa histogramas em painéis separados para o tempo de deslocamento por meio de transporte.
+
+Utilize a mesma largura de classe em todos os painéis e compare a forma das distribuições.
+
+6.  Selecione `A pé`, `Carro` e `Ônibus` e construa curvas de densidade.
+
+Compare posição, dispersão, concentração e caudas.
+
+7.  Construa gráficos de violino do tempo de deslocamento por meio de transporte e acrescente um boxplot estreito dentro de cada violino.
+
+Compare o que cada camada acrescenta à interpretação.
+
+8.  Analise `curso` e `altura_m`.
+
+    a.  produza uma tabela de medidas resumo por curso;
+
+    b.  construa boxplots lado a lado;
+
+    c.  sobreponha os dados individuais;
+
+    d.  descreva se as diferenças entre os cursos parecem grandes ou pequenas no conjunto observado.
+
+9.  Analise `satisfacao` e `tempo_deslocamento_min`.
+
+Antes de construir os gráficos, ordene a variável `satisfacao` como:
+
+``` r
+c(
+  "Muito baixa",
+  "Baixa",
+  "Média",
+  "Alta",
+  "Muito alta"
+)
+```
+
+Depois:
+
+a.  calcule medidas resumo por nível;
+
+b.  construa boxplots;
+
+c.  construa um gráfico de pontos;
+
+d.  investigue se existe algum padrão de mudança do tempo de deslocamento ao longo dos níveis de satisfação.
+
+<!-- -->
+
+10. Escolha livremente uma variável qualitativa e uma quantitativa do banco `dados` e produza uma análise exploratória contendo:
+
+- identificação das variáveis;
+- número de observações por grupo;
+- tabela de medidas resumo;
+- diferença absoluta entre dois grupos de interesse;
+- diferença relativa, se fizer sentido;
+- boxplot;
+- uma segunda representação gráfica de sua escolha;
+- comparação de posição, dispersão e forma;
+- conclusão contextualizada;
+- indicação explícita de que a análise é descritiva.

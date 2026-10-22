@@ -1,0 +1,5 @@
+x <- seq(10, 30, length.out = 100)
+y <- dnorm(x, mean = 20, sd = 2)
+plot(x, y, type = "l",col="red",lwd=4)
+
+

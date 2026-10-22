@@ -1,0 +1,2888 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análise Exploratória de Dados – 10&nbsp; Associação entre duas variáveis quantitativas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./11-qualitativa-quantitativa.html" rel="next">
+<link href="./09-associacao-qualitativas.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles2.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html">Parte III — Análise Bivariada</a></li><li class="breadcrumb-item"><a href="./10-associacao-quantitativas.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise Exploratória de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apresentação</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos e análise univariada</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-fundamentos-aed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-r-rstudio-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-dados-organizacao-qualidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estrutura, organização e qualidade dos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distribuicoes-frequencias-representacoes-graficas-v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuições de frequências e representações gráficas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Medidas resumo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-medidas-tendencia-central.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Medidas de tendência central</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-separatrizes-boxplot-revisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-medidas-dispersao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Medidas de dispersão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-forma-distribuicao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma das distribuições e análise univariada integrada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte III — Análise Bivariada</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-associacao-qualitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-associacao-quantitativas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-qualitativa-quantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Associação entre uma variável qualitativa e uma quantitativa</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV - Extensões para dados multivariados</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-extensoes-analise-multivariada.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">15-analise-multivariada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Neste capítulo</h2>
+   
+  <ul>
+  <li><a href="#pares-de-variáveis-quantitativas" id="toc-pares-de-variáveis-quantitativas" class="nav-link active" data-scroll-target="#pares-de-variáveis-quantitativas"><span class="header-section-number">10.1</span> Pares de variáveis quantitativas</a>
+  <ul class="collapse">
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">10.1.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#diagrama-de-dispersão" id="toc-diagrama-de-dispersão" class="nav-link" data-scroll-target="#diagrama-de-dispersão"><span class="header-section-number">10.2</span> Diagrama de dispersão</a>
+  <ul class="collapse">
+  <li><a href="#o-que-observar-em-um-diagrama-de-dispersão" id="toc-o-que-observar-em-um-diagrama-de-dispersão" class="nav-link" data-scroll-target="#o-que-observar-em-um-diagrama-de-dispersão"><span class="header-section-number">10.2.1</span> O que observar em um diagrama de dispersão?</a></li>
+  </ul></li>
+  <li><a href="#direção-da-associação" id="toc-direção-da-associação" class="nav-link" data-scroll-target="#direção-da-associação"><span class="header-section-number">10.3</span> Direção da associação</a>
+  <ul class="collapse">
+  <li><a href="#associação-positiva" id="toc-associação-positiva" class="nav-link" data-scroll-target="#associação-positiva"><span class="header-section-number">10.3.1</span> Associação positiva</a></li>
+  <li><a href="#associação-negativa" id="toc-associação-negativa" class="nav-link" data-scroll-target="#associação-negativa"><span class="header-section-number">10.3.2</span> Associação negativa</a></li>
+  <li><a href="#ausência-de-direção-clara" id="toc-ausência-de-direção-clara" class="nav-link" data-scroll-target="#ausência-de-direção-clara"><span class="header-section-number">10.3.3</span> Ausência de direção clara</a></li>
+  </ul></li>
+  <li><a href="#intensidade-da-associação" id="toc-intensidade-da-associação" class="nav-link" data-scroll-target="#intensidade-da-associação"><span class="header-section-number">10.4</span> Intensidade da associação</a></li>
+  <li><a href="#forma-da-associação" id="toc-forma-da-associação" class="nav-link" data-scroll-target="#forma-da-associação"><span class="header-section-number">10.5</span> Forma da associação</a>
+  <ul class="collapse">
+  <li><a href="#relação-aproximadamente-linear" id="toc-relação-aproximadamente-linear" class="nav-link" data-scroll-target="#relação-aproximadamente-linear"><span class="header-section-number">10.5.1</span> Relação aproximadamente linear</a></li>
+  <li><a href="#relação-não-linear" id="toc-relação-não-linear" class="nav-link" data-scroll-target="#relação-não-linear"><span class="header-section-number">10.5.2</span> Relação não linear</a></li>
+  </ul></li>
+  <li><a href="#agrupamentos-lacunas-e-observações-potencialmente-atípicas" id="toc-agrupamentos-lacunas-e-observações-potencialmente-atípicas" class="nav-link" data-scroll-target="#agrupamentos-lacunas-e-observações-potencialmente-atípicas"><span class="header-section-number">10.6</span> Agrupamentos, lacunas e observações potencialmente atípicas</a>
+  <ul class="collapse">
+  <li><a href="#agrupamentos" id="toc-agrupamentos" class="nav-link" data-scroll-target="#agrupamentos"><span class="header-section-number">10.6.1</span> Agrupamentos</a></li>
+  <li><a href="#lacunas" id="toc-lacunas" class="nav-link" data-scroll-target="#lacunas"><span class="header-section-number">10.6.2</span> Lacunas</a></li>
+  <li><a href="#observações-potencialmente-atípicas" id="toc-observações-potencialmente-atípicas" class="nav-link" data-scroll-target="#observações-potencialmente-atípicas"><span class="header-section-number">10.6.3</span> Observações potencialmente atípicas</a></li>
+  </ul></li>
+  <li><a href="#covariância" id="toc-covariância" class="nav-link" data-scroll-target="#covariância"><span class="header-section-number">10.7</span> Covariância</a>
+  <ul class="collapse">
+  <li><a href="#covariância-populacional" id="toc-covariância-populacional" class="nav-link" data-scroll-target="#covariância-populacional"><span class="header-section-number">10.7.1</span> Covariância populacional</a></li>
+  <li><a href="#covariância-amostral" id="toc-covariância-amostral" class="nav-link" data-scroll-target="#covariância-amostral"><span class="header-section-number">10.7.2</span> Covariância amostral</a></li>
+  <li><a href="#exemplo-1" id="toc-exemplo-1" class="nav-link" data-scroll-target="#exemplo-1"><span class="header-section-number">10.7.3</span> Exemplo</a></li>
+  <li><a href="#limitação-da-covariância" id="toc-limitação-da-covariância" class="nav-link" data-scroll-target="#limitação-da-covariância"><span class="header-section-number">10.7.4</span> Limitação da covariância</a></li>
+  </ul></li>
+  <li><a href="#coeficiente-de-correlação-linear-de-pearson" id="toc-coeficiente-de-correlação-linear-de-pearson" class="nav-link" data-scroll-target="#coeficiente-de-correlação-linear-de-pearson"><span class="header-section-number">10.8</span> Coeficiente de correlação linear de Pearson</a>
+  <ul class="collapse">
+  <li><a href="#interpretação-do-sinal" id="toc-interpretação-do-sinal" class="nav-link" data-scroll-target="#interpretação-do-sinal"><span class="header-section-number">10.8.1</span> Interpretação do sinal</a></li>
+  <li><a href="#interpretação-do-módulo" id="toc-interpretação-do-módulo" class="nav-link" data-scroll-target="#interpretação-do-módulo"><span class="header-section-number">10.8.2</span> Interpretação do módulo</a></li>
+  <li><a href="#exemplo-2" id="toc-exemplo-2" class="nav-link" data-scroll-target="#exemplo-2"><span class="header-section-number">10.8.3</span> Exemplo</a></li>
+  <li><a href="#propriedades-da-correlação-de-pearson" id="toc-propriedades-da-correlação-de-pearson" class="nav-link" data-scroll-target="#propriedades-da-correlação-de-pearson"><span class="header-section-number">10.8.4</span> Propriedades da correlação de Pearson</a></li>
+  </ul></li>
+  <li><a href="#coeficiente-de-correlação-de-spearman" id="toc-coeficiente-de-correlação-de-spearman" class="nav-link" data-scroll-target="#coeficiente-de-correlação-de-spearman"><span class="header-section-number">10.9</span> Coeficiente de correlação de Spearman</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-3" id="toc-exemplo-3" class="nav-link" data-scroll-target="#exemplo-3"><span class="header-section-number">10.9.1</span> Exemplo</a></li>
+  <li><a href="#associação-monotônica" id="toc-associação-monotônica" class="nav-link" data-scroll-target="#associação-monotônica"><span class="header-section-number">10.9.2</span> Associação monotônica</a></li>
+  </ul></li>
+  <li><a href="#influência-de-observações-extremas" id="toc-influência-de-observações-extremas" class="nav-link" data-scroll-target="#influência-de-observações-extremas"><span class="header-section-number">10.10</span> Influência de observações extremas</a></li>
+  <li><a href="#correlação-não-implica-causalidade" id="toc-correlação-não-implica-causalidade" class="nav-link" data-scroll-target="#correlação-não-implica-causalidade"><span class="header-section-number">10.11</span> Correlação não implica causalidade</a>
+  <ul class="collapse">
+  <li><a href="#exemplo-4" id="toc-exemplo-4" class="nav-link" data-scroll-target="#exemplo-4"><span class="header-section-number">10.11.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#correlações-espúrias" id="toc-correlações-espúrias" class="nav-link" data-scroll-target="#correlações-espúrias"><span class="header-section-number">10.12</span> Correlações espúrias</a></li>
+  <li><a href="#reta-de-tendência-como-ferramenta-exploratória" id="toc-reta-de-tendência-como-ferramenta-exploratória" class="nav-link" data-scroll-target="#reta-de-tendência-como-ferramenta-exploratória"><span class="header-section-number">10.13</span> Reta de tendência como ferramenta exploratória</a>
+  <ul class="collapse">
+  <li><a href="#método-dos-mínimos-quadrados" id="toc-método-dos-mínimos-quadrados" class="nav-link" data-scroll-target="#método-dos-mínimos-quadrados"><span class="header-section-number">10.13.1</span> Método dos mínimos quadrados</a></li>
+  <li><a href="#exemplo-5" id="toc-exemplo-5" class="nav-link" data-scroll-target="#exemplo-5"><span class="header-section-number">10.13.2</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#valores-ajustados-e-resíduos" id="toc-valores-ajustados-e-resíduos" class="nav-link" data-scroll-target="#valores-ajustados-e-resíduos"><span class="header-section-number">10.14</span> Valores ajustados e resíduos</a></li>
+  <li><a href="#gráfico-de-resíduos" id="toc-gráfico-de-resíduos" class="nav-link" data-scroll-target="#gráfico-de-resíduos"><span class="header-section-number">10.15</span> Gráfico de resíduos</a></li>
+  <li><a href="#coeficiente-de-determinação" id="toc-coeficiente-de-determinação" class="nav-link" data-scroll-target="#coeficiente-de-determinação"><span class="header-section-number">10.16</span> Coeficiente de determinação</a></li>
+  <li><a href="#extrapolação" id="toc-extrapolação" class="nav-link" data-scroll-target="#extrapolação"><span class="header-section-number">10.17</span> Extrapolação</a></li>
+  <li><a href="#laboratório-no-r" id="toc-laboratório-no-r" class="nav-link" data-scroll-target="#laboratório-no-r"><span class="header-section-number">10.18</span> Laboratório no R</a>
+  <ul class="collapse">
+  <li><a href="#preparando-os-dados" id="toc-preparando-os-dados" class="nav-link" data-scroll-target="#preparando-os-dados"><span class="header-section-number">10.18.1</span> Preparando os dados</a></li>
+  <li><a href="#construindo-um-diagrama-de-dispersão" id="toc-construindo-um-diagrama-de-dispersão" class="nav-link" data-scroll-target="#construindo-um-diagrama-de-dispersão"><span class="header-section-number">10.18.2</span> Construindo um diagrama de dispersão</a></li>
+  <li><a href="#covariância-no-r" id="toc-covariância-no-r" class="nav-link" data-scroll-target="#covariância-no-r"><span class="header-section-number">10.18.3</span> Covariância no R</a></li>
+  <li><a href="#correlação-de-pearson" id="toc-correlação-de-pearson" class="nav-link" data-scroll-target="#correlação-de-pearson"><span class="header-section-number">10.18.4</span> Correlação de Pearson</a></li>
+  <li><a href="#correlação-de-spearman" id="toc-correlação-de-spearman" class="nav-link" data-scroll-target="#correlação-de-spearman"><span class="header-section-number">10.18.5</span> Correlação de Spearman</a></li>
+  <li><a href="#comparando-várias-correlações" id="toc-comparando-várias-correlações" class="nav-link" data-scroll-target="#comparando-várias-correlações"><span class="header-section-number">10.18.6</span> Comparando várias correlações</a></li>
+  <li><a href="#pearson-e-spearman-em-uma-relação-monotônica-não-linear" id="toc-pearson-e-spearman-em-uma-relação-monotônica-não-linear" class="nav-link" data-scroll-target="#pearson-e-spearman-em-uma-relação-monotônica-não-linear"><span class="header-section-number">10.18.7</span> Pearson e Spearman em uma relação monotônica não linear</a></li>
+  <li><a href="#uma-relação-forte-com-correlação-próxima-de-zero" id="toc-uma-relação-forte-com-correlação-próxima-de-zero" class="nav-link" data-scroll-target="#uma-relação-forte-com-correlação-próxima-de-zero"><span class="header-section-number">10.18.8</span> Uma relação forte com correlação próxima de zero</a></li>
+  <li><a href="#influência-de-uma-observação-extrema" id="toc-influência-de-uma-observação-extrema" class="nav-link" data-scroll-target="#influência-de-uma-observação-extrema"><span class="header-section-number">10.18.9</span> Influência de uma observação extrema</a></li>
+  <li><a href="#ajustando-uma-reta-de-tendência" id="toc-ajustando-uma-reta-de-tendência" class="nav-link" data-scroll-target="#ajustando-uma-reta-de-tendência"><span class="header-section-number">10.18.10</span> Ajustando uma reta de tendência</a></li>
+  <li><a href="#diagrama-de-dispersão-com-reta-ajustada" id="toc-diagrama-de-dispersão-com-reta-ajustada" class="nav-link" data-scroll-target="#diagrama-de-dispersão-com-reta-ajustada"><span class="header-section-number">10.18.11</span> Diagrama de dispersão com reta ajustada</a></li>
+  <li><a href="#valores-ajustados-e-resíduos-1" id="toc-valores-ajustados-e-resíduos-1" class="nav-link" data-scroll-target="#valores-ajustados-e-resíduos-1"><span class="header-section-number">10.18.12</span> Valores ajustados e resíduos</a></li>
+  <li><a href="#gráfico-de-resíduos-1" id="toc-gráfico-de-resíduos-1" class="nav-link" data-scroll-target="#gráfico-de-resíduos-1"><span class="header-section-number">10.18.13</span> Gráfico de resíduos</a></li>
+  <li><a href="#coeficiente-de-determinação-1" id="toc-coeficiente-de-determinação-1" class="nav-link" data-scroll-target="#coeficiente-de-determinação-1"><span class="header-section-number">10.18.14</span> Coeficiente de determinação</a></li>
+  <li><a href="#interpolação-e-extrapolação" id="toc-interpolação-e-extrapolação" class="nav-link" data-scroll-target="#interpolação-e-extrapolação"><span class="header-section-number">10.18.15</span> Interpolação e extrapolação</a></li>
+  <li><a href="#roteiro-de-análise-de-duas-variáveis-quantitativas" id="toc-roteiro-de-análise-de-duas-variáveis-quantitativas" class="nav-link" data-scroll-target="#roteiro-de-análise-de-duas-variáveis-quantitativas"><span class="header-section-number">10.18.16</span> Roteiro de análise de duas variáveis quantitativas</a></li>
+  </ul></li>
+  <li><a href="#síntese" id="toc-síntese" class="nav-link" data-scroll-target="#síntese"><span class="header-section-number">10.19</span> Síntese</a></li>
+  <li><a href="#exercícios-teóricos" id="toc-exercícios-teóricos" class="nav-link" data-scroll-target="#exercícios-teóricos"><span class="header-section-number">10.20</span> Exercícios teóricos</a></li>
+  <li><a href="#exercícios-no-r" id="toc-exercícios-no-r" class="nav-link" data-scroll-target="#exercícios-no-r"><span class="header-section-number">10.21</span> Exercícios no R</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html">Parte III — Análise Bivariada</a></li><li class="breadcrumb-item"><a href="./10-associacao-quantitativas.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Nos capítulos anteriores, estudamos inicialmente uma variável de cada vez e, em seguida, passamos à análise conjunta de duas variáveis qualitativas. Agora avançaremos para outra situação fundamental da análise bivariada: o estudo de <strong>duas variáveis quantitativas observadas nas mesmas unidades estatísticas</strong>.</p>
+<p>Exemplos desse tipo de problema incluem:</p>
+<ul>
+<li>idade e tempo de deslocamento;</li>
+<li>altura e massa corporal;</li>
+<li>horas de estudo e nota;</li>
+<li>temperatura e consumo de energia;</li>
+<li>renda e despesa;</li>
+<li>velocidade e consumo de combustível.</li>
+</ul>
+<p>Nesses casos, não basta resumir cada variável separadamente. Queremos investigar se os valores de uma variável apresentam algum padrão quando a outra varia.</p>
+<p>A questão central passa a ser:</p>
+<blockquote class="blockquote">
+<p><strong>Como duas variáveis quantitativas variam conjuntamente?</strong></p>
+</blockquote>
+<p>Neste capítulo, essa pergunta será explorada por meio de diagramas de dispersão, covariância, correlações de Pearson e Spearman e, na parte computacional, por uma reta de tendência utilizada como ferramenta exploratória.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, espera-se que o estudante seja capaz de:</p>
+<ul>
+<li>reconhecer pares de observações quantitativas;</li>
+<li>construir e interpretar diagramas de dispersão;</li>
+<li>descrever direção, intensidade e forma de uma associação;</li>
+<li>identificar agrupamentos, lacunas e observações potencialmente atípicas;</li>
+<li>compreender o significado da covariância;</li>
+<li>calcular e interpretar a correlação linear de Pearson;</li>
+<li>calcular e interpretar a correlação de Spearman;</li>
+<li>distinguir associação linear de associação monotônica;</li>
+<li>compreender a influência de valores extremos sobre medidas de associação;</li>
+<li>reconhecer que correlação não implica causalidade;</li>
+<li>utilizar uma reta de tendência como resumo exploratório de uma relação aproximadamente linear;</li>
+<li>interpretar valores ajustados, resíduos e o coeficiente de determinação;</li>
+<li>reconhecer os riscos da extrapolação.</li>
+</ul>
+<p>Toda a abordagem deste capítulo permanece <strong>descritiva e exploratória</strong>. Não utilizaremos testes de hipóteses, valores-<span class="math inline">\(p\)</span>, intervalos de confiança ou conclusões inferenciais.</p>
+</div>
+</div>
+<section id="pares-de-variáveis-quantitativas" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="pares-de-variáveis-quantitativas"><span class="header-section-number">10.1</span> Pares de variáveis quantitativas</h2>
+<p>Sejam duas variáveis quantitativas <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> observadas nos mesmos <span class="math inline">\(n\)</span> indivíduos.</p>
+<p>Para cada unidade estatística <span class="math inline">\(i\)</span>, registramos o par</p>
+<p><span class="math display">\[
+(x_i,y_i).
+\]</span></p>
+<p>Assim, os dados bivariados podem ser representados por</p>
+<p><span class="math display">\[
+(x_1,y_1),\;
+(x_2,y_2),\;
+\ldots,\;
+(x_n,y_n).
+\]</span></p>
+<p>O pareamento continua sendo essencial: os valores <span class="math inline">\(x_i\)</span> e <span class="math inline">\(y_i\)</span> devem pertencer à <strong>mesma unidade observacional</strong>.</p>
+<section id="exemplo" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">10.1.1</span> Exemplo</h3>
+<p>Considere oito estudantes para os quais foram registrados o número de horas de estudo em determinada semana e a nota obtida em uma atividade.</p>
+<div id="tbl-exemplo-horas-notas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-exemplo-horas-notas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;10.1: Horas de estudo e notas de oito estudantes.
+</figcaption>
+<div aria-describedby="tbl-exemplo-horas-notas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estudante</th>
+<th style="text-align: right;">Horas de estudo (<span class="math inline">\(x\)</span>)</th>
+<th style="text-align: right;">Nota (<span class="math inline">\(y\)</span>)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">55</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">60</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">58</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">67</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">7</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">74</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">80</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-exemplo-horas-notas" class="quarto-xref">Tabela&nbsp;<span>10.1</span></a> contém duas distribuições univariadas, mas também contém algo adicional: a informação de <strong>quais duas observações pertencem ao mesmo estudante</strong>.</p>
+<p>Por exemplo,</p>
+<p><span class="math display">\[
+(1,52)
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+(8,80)
+\]</span></p>
+<p>são dois dos pares observados.</p>
+<p>Se embaralhássemos apenas a coluna das notas, as médias e os desvios padrão das duas variáveis permaneceriam os mesmos, mas a relação entre horas de estudo e nota seria alterada. A análise bivariada depende, portanto, do pareamento.</p>
+</section>
+</section>
+<section id="diagrama-de-dispersão" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="diagrama-de-dispersão"><span class="header-section-number">10.2</span> Diagrama de dispersão</h2>
+<p>A primeira ferramenta para investigar duas variáveis quantitativas é o <strong>diagrama de dispersão</strong>.</p>
+<p>Cada par <span class="math inline">\((x_i,y_i)\)</span> é representado por um ponto no plano cartesiano:</p>
+<ul>
+<li>o valor de <span class="math inline">\(X\)</span> determina a posição horizontal;</li>
+<li>o valor de <span class="math inline">\(Y\)</span> determina a posição vertical.</li>
+</ul>
+<p>No exemplo das horas de estudo e notas:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-dispersao-horas-notas" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Pontos mostrando tendência crescente entre horas de estudo e nota.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dispersao-horas-notas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-associacao-quantitativas_files/figure-html/fig-dispersao-horas-notas-1.png" class="img-fluid figure-img" alt="Pontos mostrando tendência crescente entre horas de estudo e nota." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dispersao-horas-notas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.1: Diagrama de dispersão das horas de estudo e das notas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-dispersao-horas-notas" class="quarto-xref">Figura&nbsp;<span>10.1</span></a> sugere que estudantes com maior número de horas de estudo tendem, nesse pequeno conjunto, a apresentar notas maiores.</p>
+<p>Essa conclusão é <strong>descritiva</strong>. O gráfico mostra associação, mas não demonstra que estudar mais seja a única causa das diferenças nas notas.</p>
+<section id="o-que-observar-em-um-diagrama-de-dispersão" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="o-que-observar-em-um-diagrama-de-dispersão"><span class="header-section-number">10.2.1</span> O que observar em um diagrama de dispersão?</h3>
+<p>Uma leitura cuidadosa deve considerar pelo menos cinco aspectos:</p>
+<ol type="1">
+<li><strong>direção</strong> da associação;</li>
+<li><strong>intensidade</strong> do padrão;</li>
+<li><strong>forma</strong> da relação;</li>
+<li>presença de <strong>agrupamentos ou lacunas</strong>;</li>
+<li>presença de <strong>observações potencialmente atípicas</strong>.</li>
+</ol>
+</section>
+</section>
+<section id="direção-da-associação" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="direção-da-associação"><span class="header-section-number">10.3</span> Direção da associação</h2>
+<p>A direção descreve se valores maiores de uma variável tendem a estar associados a valores maiores ou menores da outra.</p>
+<section id="associação-positiva" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="associação-positiva"><span class="header-section-number">10.3.1</span> Associação positiva</h3>
+<p>Uma associação é <strong>positiva</strong> quando valores maiores de <span class="math inline">\(X\)</span> tendem a acompanhar valores maiores de <span class="math inline">\(Y\)</span>.</p>
+<p>No exemplo das horas de estudo e notas, o padrão é predominantemente crescente.</p>
+<p>Podemos representar a ideia por</p>
+<p><span class="math display">\[
+X\uparrow
+\quad\Longrightarrow\quad
+Y\uparrow.
+\]</span></p>
+<p>Isso não significa que todos os pontos estejam perfeitamente alinhados. O interesse está na tendência geral.</p>
+</section>
+<section id="associação-negativa" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="associação-negativa"><span class="header-section-number">10.3.2</span> Associação negativa</h3>
+<p>Uma associação é <strong>negativa</strong> quando valores maiores de <span class="math inline">\(X\)</span> tendem a acompanhar valores menores de <span class="math inline">\(Y\)</span>.</p>
+<p>Por exemplo, em determinado contexto, poderíamos observar uma relação entre velocidade média de execução de uma tarefa e tempo necessário para concluí-la:</p>
+<p><span class="math display">\[
+X\uparrow
+\quad\Longrightarrow\quad
+Y\downarrow.
+\]</span></p>
+</section>
+<section id="ausência-de-direção-clara" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="ausência-de-direção-clara"><span class="header-section-number">10.3.3</span> Ausência de direção clara</h3>
+<p>Também pode ocorrer de os pontos não apresentarem uma tendência crescente ou decrescente perceptível.</p>
+<p>Nesse caso, dizemos que não há uma associação direcional clara.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Ausência de direção linear não significa ausência de relação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ausência de direção linear não significa ausência de relação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um conjunto pode apresentar uma relação forte e, ainda assim, não mostrar tendência crescente ou decrescente.</p>
+<p>Isso ocorre, por exemplo, em relações em forma de U.</p>
+<p>Por essa razão, o diagrama de dispersão deve ser examinado <strong>antes</strong> de resumir a associação por um único coeficiente.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="intensidade-da-associação" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="intensidade-da-associação"><span class="header-section-number">10.4</span> Intensidade da associação</h2>
+<p>A intensidade descreve o quanto os pontos seguem um padrão reconhecível.</p>
+<p>Quando os pontos ficam próximos de uma linha crescente ou decrescente, a associação linear tende a ser mais intensa.</p>
+<p>Quando os pontos estão muito espalhados ao redor da tendência, a associação linear tende a ser mais fraca.</p>
+<p>Não existe, entretanto, uma classificação universal que transforme automaticamente valores de correlação em “fraco”, “moderado” ou “forte”. A interpretação depende:</p>
+<ul>
+<li>da área de aplicação;</li>
+<li>da qualidade das medidas;</li>
+<li>da variabilidade natural do fenômeno;</li>
+<li>do objetivo da análise;</li>
+<li>da forma observada no gráfico.</li>
+</ul>
+<p>Assim, medidas numéricas devem ser interpretadas juntamente com o diagrama de dispersão.</p>
+</section>
+<section id="forma-da-associação" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="forma-da-associação"><span class="header-section-number">10.5</span> Forma da associação</h2>
+<p>Duas variáveis podem estar associadas de diferentes maneiras.</p>
+<section id="relação-aproximadamente-linear" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="relação-aproximadamente-linear"><span class="header-section-number">10.5.1</span> Relação aproximadamente linear</h3>
+<p>Uma relação é aproximadamente <strong>linear</strong> quando a nuvem de pontos pode ser razoavelmente resumida por uma linha reta.</p>
+<p>O exemplo da <a href="#fig-dispersao-horas-notas" class="quarto-xref">Figura&nbsp;<span>10.1</span></a> apresenta esse comportamento.</p>
+</section>
+<section id="relação-não-linear" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="relação-não-linear"><span class="header-section-number">10.5.2</span> Relação não linear</h3>
+<p>Nem toda associação possui forma linear.</p>
+<p>Considere</p>
+<p><span class="math display">\[
+Y=X^2.
+\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-relacao-nao-linear" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Pontos formando uma parábola em U.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-relacao-nao-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-associacao-quantitativas_files/figure-html/fig-relacao-nao-linear-1.png" class="img-fluid figure-img" alt="Pontos formando uma parábola em U." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-relacao-nao-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.2: Exemplo de associação não linear em forma de U.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Na <a href="#fig-relacao-nao-linear" class="quarto-xref">Figura&nbsp;<span>10.2</span></a>, existe uma relação exata entre as duas variáveis: conhecendo <span class="math inline">\(X\)</span>, conhecemos <span class="math inline">\(Y\)</span>.</p>
+<p>Entretanto, a relação não é crescente em todo o domínio nem pode ser adequadamente resumida por uma única reta.</p>
+<p>Esse exemplo será importante quando estudarmos a correlação de Pearson.</p>
+</section>
+</section>
+<section id="agrupamentos-lacunas-e-observações-potencialmente-atípicas" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="agrupamentos-lacunas-e-observações-potencialmente-atípicas"><span class="header-section-number">10.6</span> Agrupamentos, lacunas e observações potencialmente atípicas</h2>
+<p>O diagrama de dispersão fornece informações que não aparecem em um único coeficiente numérico.</p>
+<section id="agrupamentos" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="agrupamentos"><span class="header-section-number">10.6.1</span> Agrupamentos</h3>
+<p>A presença de dois ou mais agrupamentos pode indicar que os dados contêm subgrupos com características diferentes.</p>
+<p>Por exemplo, um gráfico de altura e massa corporal pode apresentar agrupamentos associados a diferentes faixas etárias.</p>
+<p>Quando grupos distintos aparecem, pode ser inadequado resumir toda a nuvem de pontos com um único coeficiente.</p>
+</section>
+<section id="lacunas" class="level3" data-number="10.6.2">
+<h3 data-number="10.6.2" class="anchored" data-anchor-id="lacunas"><span class="header-section-number">10.6.2</span> Lacunas</h3>
+<p>Uma região sem pontos pode refletir:</p>
+<ul>
+<li>ausência real de observações naquela combinação;</li>
+<li>limitação do processo de coleta;</li>
+<li>estrutura de grupos;</li>
+<li>restrições naturais das variáveis.</li>
+</ul>
+<p>As lacunas merecem investigação, e não devem ser ignoradas automaticamente.</p>
+</section>
+<section id="observações-potencialmente-atípicas" class="level3" data-number="10.6.3">
+<h3 data-number="10.6.3" class="anchored" data-anchor-id="observações-potencialmente-atípicas"><span class="header-section-number">10.6.3</span> Observações potencialmente atípicas</h3>
+<p>Um ponto muito distante dos demais pode influenciar fortemente medidas de associação.</p>
+<p>É importante distinguir:</p>
+<ul>
+<li>um valor extremo em uma das variáveis;</li>
+<li>um ponto distante da tendência geral;</li>
+<li>um erro de registro.</li>
+</ul>
+<p>Essas situações não são equivalentes.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Valor atípico não significa valor errado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Valor atípico não significa valor errado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um ponto incomum pode representar uma observação real e informativa.</p>
+<p>Antes de excluir qualquer ponto, deve-se investigar sua origem e seu contexto.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="covariância" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="covariância"><span class="header-section-number">10.7</span> Covariância</h2>
+<p>A covariância é uma primeira medida numérica da maneira como duas variáveis quantitativas variam conjuntamente.</p>
+<p>A ideia parte dos desvios em relação às médias:</p>
+<p><span class="math display">\[
+x_i-\bar{x}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+y_i-\bar{y}.
+\]</span></p>
+<p>Para cada par, multiplicamos esses desvios:</p>
+<p><span class="math display">\[
+(x_i-\bar{x})(y_i-\bar{y}).
+\]</span></p>
+<p>O sinal desse produto possui interpretação simples.</p>
+<ul>
+<li>Se <span class="math inline">\(x_i\)</span> e <span class="math inline">\(y_i\)</span> estão ambos acima de suas médias, o produto é positivo.</li>
+<li>Se ambos estão abaixo de suas médias, o produto também é positivo.</li>
+<li>Se um está acima e o outro abaixo, o produto é negativo.</li>
+</ul>
+<p>Portanto, quando predominam pares que se afastam das médias na <strong>mesma direção</strong>, a covariância tende a ser positiva.</p>
+<p>Quando predominam afastamentos em <strong>direções opostas</strong>, a covariância tende a ser negativa.</p>
+<section id="covariância-populacional" class="level3" data-number="10.7.1">
+<h3 data-number="10.7.1" class="anchored" data-anchor-id="covariância-populacional"><span class="header-section-number">10.7.1</span> Covariância populacional</h3>
+<p>Para uma população com <span class="math inline">\(N\)</span> pares,</p>
+<p><span class="math display">\[
+\sigma_{XY}
+=
+\frac{1}{N}
+\sum_{i=1}^{N}
+(x_i-\mu_X)(y_i-\mu_Y).
+\]</span></p>
+</section>
+<section id="covariância-amostral" class="level3" data-number="10.7.2">
+<h3 data-number="10.7.2" class="anchored" data-anchor-id="covariância-amostral"><span class="header-section-number">10.7.2</span> Covariância amostral</h3>
+<p>Para uma amostra com <span class="math inline">\(n\)</span> pares,</p>
+<p><span class="math display">\[
+s_{XY}
+=
+\frac{1}{n-1}
+\sum_{i=1}^{n}
+(x_i-\bar{x})(y_i-\bar{y}).
+\]</span></p>
+</section>
+<section id="exemplo-1" class="level3" data-number="10.7.3">
+<h3 data-number="10.7.3" class="anchored" data-anchor-id="exemplo-1"><span class="header-section-number">10.7.3</span> Exemplo</h3>
+<p>Na <a href="#tbl-exemplo-horas-notas" class="quarto-xref">Tabela&nbsp;<span>10.1</span></a>,</p>
+<p><span class="math display">\[
+\bar{x}=4{,}5
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\bar{y}=64{,}5.
+\]</span></p>
+<p>A soma dos produtos dos desvios é</p>
+<p><span class="math display">\[
+\sum
+(x_i-\bar{x})(y_i-\bar{y})
+=
+165.
+\]</span></p>
+<p>Portanto, a covariância amostral é</p>
+<p><span class="math display">\[
+s_{XY}
+=
+\frac{165}{8-1}
+\approx
+23{,}57.
+\]</span></p>
+<p>O valor positivo indica que, nesse conjunto, valores acima da média de horas de estudo tendem a acompanhar notas acima da média, e valores abaixo da média de horas tendem a acompanhar notas abaixo da média.</p>
+</section>
+<section id="limitação-da-covariância" class="level3" data-number="10.7.4">
+<h3 data-number="10.7.4" class="anchored" data-anchor-id="limitação-da-covariância"><span class="header-section-number">10.7.4</span> Limitação da covariância</h3>
+<p>Embora o sinal da covariância seja informativo, seu valor numérico depende das unidades de medida.</p>
+<p>Se <span class="math inline">\(X\)</span> for medido em horas e <span class="math inline">\(Y\)</span> em pontos, a covariância possui unidade</p>
+<p><span class="math display">\[
+\text{horas}\times\text{pontos}.
+\]</span></p>
+<p>Uma mudança de escala altera seu valor.</p>
+<p>Por isso, números como</p>
+<p><span class="math display">\[
+23{,}57
+\]</span></p>
+<p>não possuem uma interpretação universal de intensidade.</p>
+<p>Essa limitação motiva a padronização da covariância, dando origem ao coeficiente de correlação.</p>
+</section>
+</section>
+<section id="coeficiente-de-correlação-linear-de-pearson" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="coeficiente-de-correlação-linear-de-pearson"><span class="header-section-number">10.8</span> Coeficiente de correlação linear de Pearson</h2>
+<p>O <strong>coeficiente de correlação linear de Pearson</strong> mede a direção e a intensidade da <strong>associação linear</strong> entre duas variáveis quantitativas.</p>
+<p>Para uma amostra,</p>
+<p><span class="math display">\[
+r
+=
+\frac{s_{XY}}{s_Xs_Y}.
+\]</span></p>
+<p>Uma forma equivalente, que explicita os desvios em relação às médias, é</p>
+<p><span class="math display">\[
+r
+=
+\frac{
+\sum_{i=1}^{n}
+(x_i-\bar{x})(y_i-\bar{y})
+}{
+\sqrt{
+\sum_{i=1}^{n}
+(x_i-\bar{x})^2
+}
+\sqrt{
+\sum_{i=1}^{n}
+(y_i-\bar{y})^2
+}
+}.
+\]</span></p>
+<p>Ao dividir a covariância pelos desvios padrão das duas variáveis, eliminamos as unidades de medida.</p>
+<p>O coeficiente de Pearson é, portanto, <strong>adimensional</strong>.</p>
+<p>Além disso,</p>
+<p><span class="math display">\[
+-1\leq r\leq1.
+\]</span></p>
+<section id="interpretação-do-sinal" class="level3" data-number="10.8.1">
+<h3 data-number="10.8.1" class="anchored" data-anchor-id="interpretação-do-sinal"><span class="header-section-number">10.8.1</span> Interpretação do sinal</h3>
+<ul>
+<li><span class="math inline">\(r&gt;0\)</span>: associação linear positiva;</li>
+<li><span class="math inline">\(r&lt;0\)</span>: associação linear negativa;</li>
+<li><span class="math inline">\(r\)</span> próximo de zero: pouca associação <strong>linear</strong>.</li>
+</ul>
+</section>
+<section id="interpretação-do-módulo" class="level3" data-number="10.8.2">
+<h3 data-number="10.8.2" class="anchored" data-anchor-id="interpretação-do-módulo"><span class="header-section-number">10.8.2</span> Interpretação do módulo</h3>
+<p>Quanto mais próximo <span class="math inline">\(|r|\)</span> estiver de 1, mais os pontos se aproximam de uma reta.</p>
+<p>Quando</p>
+<p><span class="math display">\[
+r=1,
+\]</span></p>
+<p>todos os pontos estão exatamente sobre uma reta crescente.</p>
+<p>Quando</p>
+<p><span class="math display">\[
+r=-1,
+\]</span></p>
+<p>todos os pontos estão exatamente sobre uma reta decrescente.</p>
+<p>Quando</p>
+<p><span class="math display">\[
+r=0,
+\]</span></p>
+<p>não há associação linear, mas pode existir uma associação não linear.</p>
+</section>
+<section id="exemplo-2" class="level3" data-number="10.8.3">
+<h3 data-number="10.8.3" class="anchored" data-anchor-id="exemplo-2"><span class="header-section-number">10.8.3</span> Exemplo</h3>
+<p>No exemplo das horas de estudo,</p>
+<p><span class="math display">\[
+\sum
+(x_i-\bar{x})(y_i-\bar{y})
+=
+165,
+\]</span></p>
+<p><span class="math display">\[
+\sum
+(x_i-\bar{x})^2
+=
+42
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\sum
+(y_i-\bar{y})^2
+=
+676.
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+r
+=
+\frac{165}
+{\sqrt{42\times676}}
+\approx
+0{,}979.
+\]</span></p>
+<p>O valor é positivo e muito próximo de 1, indicando uma associação linear positiva bastante intensa nesse conjunto de oito observações.</p>
+<p>Isso é coerente com o padrão visual da <a href="#fig-dispersao-horas-notas" class="quarto-xref">Figura&nbsp;<span>10.1</span></a>.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Correlação de Pearson mede linearidade">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Correlação de Pearson mede linearidade
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um valor de <span class="math inline">\(r\)</span> próximo de zero não autoriza concluir que as variáveis são independentes ou que não existe relação entre elas.</p>
+<p>No exemplo</p>
+<p><span class="math display">\[
+Y=X^2,
+\]</span></p>
+<p>com valores de <span class="math inline">\(X\)</span> simétricos em torno de zero, a correlação de Pearson é aproximadamente zero, embora a relação entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> seja exata.</p>
+<p>O diagrama de dispersão continua sendo indispensável.</p>
+</div>
+</div>
+</section>
+<section id="propriedades-da-correlação-de-pearson" class="level3" data-number="10.8.4">
+<h3 data-number="10.8.4" class="anchored" data-anchor-id="propriedades-da-correlação-de-pearson"><span class="header-section-number">10.8.4</span> Propriedades da correlação de Pearson</h3>
+<p>O coeficiente de Pearson:</p>
+<ul>
+<li>varia entre <span class="math inline">\(-1\)</span> e <span class="math inline">\(1\)</span>;</li>
+<li>é adimensional;</li>
+<li>é simétrico, isto é,</li>
+</ul>
+<p><span class="math display">\[
+r_{XY}=r_{YX};
+\]</span></p>
+<ul>
+<li>não se altera quando adicionamos uma constante a todos os valores de uma variável;</li>
+<li>não se altera em módulo quando multiplicamos uma variável por uma constante não nula;</li>
+<li>muda de sinal se apenas uma das variáveis for multiplicada por uma constante negativa;</li>
+<li>mede associação <strong>linear</strong>;</li>
+<li>utiliza todos os pares observados;</li>
+<li>pode ser fortemente influenciado por observações extremas.</li>
+</ul>
+</section>
+</section>
+<section id="coeficiente-de-correlação-de-spearman" class="level2" data-number="10.9">
+<h2 data-number="10.9" class="anchored" data-anchor-id="coeficiente-de-correlação-de-spearman"><span class="header-section-number">10.9</span> Coeficiente de correlação de Spearman</h2>
+<p>Nem toda associação interessante é bem descrita por uma reta.</p>
+<p>Em algumas situações, queremos avaliar se valores maiores de <span class="math inline">\(X\)</span> tendem, de maneira geral, a acompanhar valores maiores ou menores de <span class="math inline">\(Y\)</span>, ainda que a relação seja curva.</p>
+<p>O <strong>coeficiente de correlação de Spearman</strong> utiliza as <strong>posições ordenadas</strong>, ou postos, dos valores.</p>
+<p>A ideia é:</p>
+<ol type="1">
+<li>ordenar os valores de <span class="math inline">\(X\)</span> e atribuir seus postos;</li>
+<li>fazer o mesmo para <span class="math inline">\(Y\)</span>;</li>
+<li>calcular a correlação de Pearson entre esses postos.</li>
+</ol>
+<p>Se representarmos os postos por</p>
+<p><span class="math display">\[
+R(X)
+\qquad\text{e}\qquad
+R(Y),
+\]</span></p>
+<p>então</p>
+<p><span class="math display">\[
+r_s
+=
+\operatorname{cor}
+\bigl(
+R(X),R(Y)
+\bigr).
+\]</span></p>
+<p>Quando não existem empates, também pode ser utilizada a expressão</p>
+<p><span class="math display">\[
+r_s
+=
+1-
+\frac{
+6\sum d_i^2
+}{
+n(n^2-1)
+},
+\]</span></p>
+<p>em que <span class="math inline">\(d_i\)</span> é a diferença entre os postos das duas variáveis para a observação <span class="math inline">\(i\)</span>.</p>
+<section id="exemplo-3" class="level3" data-number="10.9.1">
+<h3 data-number="10.9.1" class="anchored" data-anchor-id="exemplo-3"><span class="header-section-number">10.9.1</span> Exemplo</h3>
+<p>No exemplo das horas de estudo, os postos das horas são</p>
+<p><span class="math display">\[
+1,2,3,4,5,6,7,8.
+\]</span></p>
+<p>As notas possuem a ordenação</p>
+<p><span class="math display">\[
+52,\;55,\;58,\;60,\;67,\;70,\;74,\;80.
+\]</span></p>
+<p>Assim, apenas as notas 58 e 60 aparecem invertidas em relação à ordem das horas.</p>
+<p>A soma dos quadrados das diferenças entre os postos é</p>
+<p><span class="math display">\[
+\sum d_i^2=2.
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+r_s
+=
+1-
+\frac{
+6(2)
+}{
+8(8^2-1)
+}
+\approx
+0{,}976.
+\]</span></p>
+<p>Nesse exemplo, Pearson e Spearman são muito próximos, pois o padrão é simultaneamente quase linear e quase perfeitamente crescente.</p>
+</section>
+<section id="associação-monotônica" class="level3" data-number="10.9.2">
+<h3 data-number="10.9.2" class="anchored" data-anchor-id="associação-monotônica"><span class="header-section-number">10.9.2</span> Associação monotônica</h3>
+<p>Spearman é especialmente útil para descrever uma relação <strong>monotônica</strong>.</p>
+<p>Uma relação é monotônica crescente quando, em termos gerais, valores maiores de <span class="math inline">\(X\)</span> acompanham valores maiores de <span class="math inline">\(Y\)</span>, mesmo que a relação não seja linear.</p>
+<p>Considere:</p>
+<p><span class="math display">\[
+Y=X^2,
+\qquad
+X=1,2,\ldots,6.
+\]</span></p>
+<p>Nesse intervalo, a relação é crescente, mas curva.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-monotonica-nao-linear" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Pontos crescentes formando uma curva convexa.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-monotonica-nao-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-associacao-quantitativas_files/figure-html/fig-monotonica-nao-linear-1.png" class="img-fluid figure-img" alt="Pontos crescentes formando uma curva convexa." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-monotonica-nao-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.3: Exemplo de associação monotônica crescente, mas não linear.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Para esses dados,</p>
+<p><span class="math display">\[
+r\approx0{,}979,
+\]</span></p>
+<p>enquanto</p>
+<p><span class="math display">\[
+r_s=1.
+\]</span></p>
+<p>Spearman é igual a 1 porque a ordem dos valores é perfeitamente preservada: todo aumento de <span class="math inline">\(X\)</span> corresponde a um aumento de <span class="math inline">\(Y\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Pearson e Spearman respondem a perguntas diferentes">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pearson e Spearman respondem a perguntas diferentes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pearson resume <strong>associação linear</strong>.</p>
+<p>Spearman resume <strong>associação monotônica baseada em postos</strong>.</p>
+<p>Nenhum dos dois substitui a inspeção do diagrama de dispersão.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="influência-de-observações-extremas" class="level2" data-number="10.10">
+<h2 data-number="10.10" class="anchored" data-anchor-id="influência-de-observações-extremas"><span class="header-section-number">10.10</span> Influência de observações extremas</h2>
+<p>A correlação de Pearson pode mudar substancialmente com a inclusão de uma única observação distante da nuvem principal.</p>
+<p>Retome o exemplo das horas de estudo, para o qual</p>
+<p><span class="math display">\[
+r\approx0{,}979.
+\]</span></p>
+<p>Agora acrescente o par</p>
+<p><span class="math display">\[
+(9,30).
+\]</span></p>
+<p>Esse ponto possui um valor elevado de horas de estudo, mas uma nota muito inferior à tendência dos demais.</p>
+<p>Com essa única observação, a correlação de Pearson passa para aproximadamente</p>
+<p><span class="math display">\[
+r\approx0{,}084.
+\]</span></p>
+<p>A associação linear que antes parecia muito intensa praticamente desaparece quando resumida por <span class="math inline">\(r\)</span>.</p>
+<p>A correlação de Spearman também é afetada, mas passa para aproximadamente</p>
+<p><span class="math display">\[
+r_s\approx0{,}383.
+\]</span></p>
+<p>Esse exemplo ilustra duas ideias:</p>
+<ul>
+<li>medidas de associação devem ser analisadas juntamente com o gráfico;</li>
+<li>uma observação incomum pode carregar grande influência sobre o resultado.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Não exclua um ponto apenas para aumentar a correlação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Não exclua um ponto apenas para aumentar a correlação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma observação extrema deve ser investigada.</p>
+<p>Ela pode representar:</p>
+<ul>
+<li>erro de registro;</li>
+<li>situação real rara;</li>
+<li>integrante de outro subgrupo;</li>
+<li>comportamento importante do fenômeno.</li>
+</ul>
+<p>Excluir um valor simplesmente porque reduz a correlação produz uma análise inadequada.</p>
+</div>
+</div>
+</section>
+<section id="correlação-não-implica-causalidade" class="level2" data-number="10.11">
+<h2 data-number="10.11" class="anchored" data-anchor-id="correlação-não-implica-causalidade"><span class="header-section-number">10.11</span> Correlação não implica causalidade</h2>
+<p>Uma correlação descreve como duas variáveis variam conjuntamente.</p>
+<p>Ela não demonstra, por si só, que mudanças em uma variável <strong>causem</strong> mudanças na outra.</p>
+<p>Uma associação pode surgir porque:</p>
+<ul>
+<li><span class="math inline">\(X\)</span> influencia <span class="math inline">\(Y\)</span>;</li>
+<li><span class="math inline">\(Y\)</span> influencia <span class="math inline">\(X\)</span>;</li>
+<li>uma terceira variável influencia ambas;</li>
+<li>existem diferentes grupos misturados nos dados;</li>
+<li>as duas variáveis compartilham uma tendência temporal;</li>
+<li>a associação é consequência da forma como os dados foram selecionados;</li>
+<li>ocorreu uma coincidência no conjunto observado.</li>
+</ul>
+<section id="exemplo-4" class="level3" data-number="10.11.1">
+<h3 data-number="10.11.1" class="anchored" data-anchor-id="exemplo-4"><span class="header-section-number">10.11.1</span> Exemplo</h3>
+<p>Suponha que, ao longo de vários meses, aumentem simultaneamente:</p>
+<ul>
+<li>as vendas de sorvete;</li>
+<li>o consumo de energia elétrica para refrigeração.</li>
+</ul>
+<p>Uma correlação positiva entre essas variáveis não significa que comprar sorvete cause aumento direto do consumo de energia residencial.</p>
+<p>A temperatura pode estar associada às duas.</p>
+<p>Esse tipo de situação mostra a importância de considerar o <strong>contexto</strong> e possíveis variáveis adicionais.</p>
+</section>
+</section>
+<section id="correlações-espúrias" class="level2" data-number="10.12">
+<h2 data-number="10.12" class="anchored" data-anchor-id="correlações-espúrias"><span class="header-section-number">10.12</span> Correlações espúrias</h2>
+<p>Uma correlação é chamada de <strong>espúria</strong> quando sugere uma relação substantiva que não corresponde ao mecanismo de interesse.</p>
+<p>Isso pode ocorrer, por exemplo, quando duas séries aumentam ao longo do tempo por razões distintas.</p>
+<p>Também pode surgir quando examinamos muitas variáveis e selecionamos apenas as correlações mais altas sem uma justificativa contextual.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Uma correlação deve fazer sentido no contexto">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Uma correlação deve fazer sentido no contexto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O valor numérico de <span class="math inline">\(r\)</span> ou <span class="math inline">\(r_s\)</span> não é suficiente.</p>
+<p>Uma análise adequada deve perguntar:</p>
+<ul>
+<li>quais são as variáveis?</li>
+<li>como foram medidas?</li>
+<li>existe um mecanismo plausível que explique a associação?</li>
+<li>há subgrupos?</li>
+<li>existem observações influentes?</li>
+<li>a forma da relação é realmente linear ou monotônica?</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="reta-de-tendência-como-ferramenta-exploratória" class="level2" data-number="10.13">
+<h2 data-number="10.13" class="anchored" data-anchor-id="reta-de-tendência-como-ferramenta-exploratória"><span class="header-section-number">10.13</span> Reta de tendência como ferramenta exploratória</h2>
+<p>Quando o diagrama de dispersão sugere uma relação aproximadamente linear, podemos resumir a tendência por uma reta.</p>
+<p>Se <span class="math inline">\(X\)</span> for utilizada como variável explicativa e <span class="math inline">\(Y\)</span> como variável resposta, escrevemos</p>
+<p><span class="math display">\[
+\widehat{Y}
+=
+b_0+b_1X.
+\]</span></p>
+<p>O símbolo</p>
+<p><span class="math display">\[
+\widehat{Y}
+\]</span></p>
+<p>representa o <strong>valor ajustado</strong> de <span class="math inline">\(Y\)</span> pela reta.</p>
+<p>A escolha de qual variável ocupa o eixo <span class="math inline">\(X\)</span> e qual ocupa o eixo <span class="math inline">\(Y\)</span> deve ser determinada pelo contexto da análise.</p>
+<p>Diferentemente da correlação,</p>
+<p><span class="math display">\[
+r_{XY}=r_{YX},
+\]</span></p>
+<p>a regressão não é simétrica: ajustar <span class="math inline">\(Y\)</span> em função de <span class="math inline">\(X\)</span> não é a mesma coisa que ajustar <span class="math inline">\(X\)</span> em função de <span class="math inline">\(Y\)</span>.</p>
+<section id="método-dos-mínimos-quadrados" class="level3" data-number="10.13.1">
+<h3 data-number="10.13.1" class="anchored" data-anchor-id="método-dos-mínimos-quadrados"><span class="header-section-number">10.13.1</span> Método dos mínimos quadrados</h3>
+<p>A reta é escolhida de modo a tornar pequenos, em conjunto, os desvios verticais entre os valores observados e os valores ajustados.</p>
+<p>Esses desvios são chamados de <strong>resíduos</strong>.</p>
+<p>Para a observação <span class="math inline">\(i\)</span>,</p>
+<p><span class="math display">\[
+e_i
+=
+y_i-\widehat{y}_i.
+\]</span></p>
+<p>O método dos mínimos quadrados escolhe a reta que minimiza</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n}e_i^2.
+\]</span></p>
+<p>Para uma regressão linear simples,</p>
+<p><span class="math display">\[
+b_1
+=
+\frac{
+\sum
+(x_i-\bar{x})(y_i-\bar{y})
+}{
+\sum
+(x_i-\bar{x})^2
+}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+b_0
+=
+\bar{y}-b_1\bar{x}.
+\]</span></p>
+</section>
+<section id="exemplo-5" class="level3" data-number="10.13.2">
+<h3 data-number="10.13.2" class="anchored" data-anchor-id="exemplo-5"><span class="header-section-number">10.13.2</span> Exemplo</h3>
+<p>No exemplo das horas de estudo,</p>
+<p><span class="math display">\[
+\sum
+(x_i-\bar{x})(y_i-\bar{y})
+=
+165
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\sum
+(x_i-\bar{x})^2
+=
+42.
+\]</span></p>
+<p>Assim,</p>
+<p><span class="math display">\[
+b_1
+=
+\frac{165}{42}
+\approx
+3{,}93.
+\]</span></p>
+<p>Como</p>
+<p><span class="math display">\[
+\bar{x}=4{,}5
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+\bar{y}=64{,}5,
+\]</span></p>
+<p>temos</p>
+<p><span class="math display">\[
+b_0
+=
+64{,}5-
+3{,}93(4{,}5)
+\approx
+46{,}82.
+\]</span></p>
+<p>A reta ajustada é</p>
+<p><span class="math display">\[
+\widehat{y}
+=
+46{,}82+
+3{,}93x.
+\]</span></p>
+<p>Dentro da faixa de horas observada, a inclinação indica que um acréscimo de uma hora em <span class="math inline">\(X\)</span> está associado, na reta ajustada, a um aumento de aproximadamente</p>
+<p><span class="math display">\[
+3{,}93
+\]</span></p>
+<p>pontos na nota.</p>
+<p>Essa é uma interpretação <strong>descritiva da inclinação</strong>. Não devemos afirmar, apenas com esses dados, que uma hora adicional de estudo causa exatamente 3,93 pontos de aumento.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-reta-horas-notas" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Pontos de horas de estudo e nota acompanhados por uma reta crescente.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reta-horas-notas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-associacao-quantitativas_files/figure-html/fig-reta-horas-notas-1.png" class="img-fluid figure-img" alt="Pontos de horas de estudo e nota acompanhados por uma reta crescente." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reta-horas-notas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10.4: Diagrama de dispersão com reta de tendência ajustada.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-reta-horas-notas" class="quarto-xref">Figura&nbsp;<span>10.4</span></a> mostra que os pontos permanecem relativamente próximos da reta.</p>
+</section>
+</section>
+<section id="valores-ajustados-e-resíduos" class="level2" data-number="10.14">
+<h2 data-number="10.14" class="anchored" data-anchor-id="valores-ajustados-e-resíduos"><span class="header-section-number">10.14</span> Valores ajustados e resíduos</h2>
+<p>Para cada valor observado de <span class="math inline">\(x_i\)</span>, a reta fornece um valor ajustado</p>
+<p><span class="math display">\[
+\widehat{y}_i.
+\]</span></p>
+<p>O resíduo é</p>
+<p><span class="math display">\[
+e_i
+=
+y_i-\widehat{y}_i.
+\]</span></p>
+<p>Portanto:</p>
+<ul>
+<li><span class="math inline">\(e_i&gt;0\)</span>: o ponto observado está acima da reta;</li>
+<li><span class="math inline">\(e_i&lt;0\)</span>: o ponto observado está abaixo da reta;</li>
+<li><span class="math inline">\(e_i=0\)</span>: o ponto está exatamente sobre a reta.</li>
+</ul>
+<p>Para o exemplo anterior:</p>
+<div id="tbl-ajustados-residuos" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ajustados-residuos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;10.2: Valores ajustados e resíduos para a reta de tendência.
+</figcaption>
+<div aria-describedby="tbl-ajustados-residuos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Horas</th>
+<th style="text-align: right;">Nota observada</th>
+<th style="text-align: right;">Nota ajustada</th>
+<th style="text-align: right;">Resíduo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">50,75</td>
+<td style="text-align: right;">1,25</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">54,68</td>
+<td style="text-align: right;">0,32</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">58,61</td>
+<td style="text-align: right;">1,39</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">62,54</td>
+<td style="text-align: right;">-4,54</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">66,46</td>
+<td style="text-align: right;">0,54</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">70,39</td>
+<td style="text-align: right;">-0,39</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">74</td>
+<td style="text-align: right;">74,32</td>
+<td style="text-align: right;">-0,32</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">80</td>
+<td style="text-align: right;">78,25</td>
+<td style="text-align: right;">1,75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A maior discrepância desse pequeno exemplo ocorre para quatro horas de estudo: a reta ajusta aproximadamente 62,54 pontos, enquanto a nota observada foi 58.</p>
+<p>Assim,</p>
+<p><span class="math display">\[
+e
+=
+58-62{,}54
+=
+-4{,}54.
+\]</span></p>
+</section>
+<section id="gráfico-de-resíduos" class="level2" data-number="10.15">
+<h2 data-number="10.15" class="anchored" data-anchor-id="gráfico-de-resíduos"><span class="header-section-number">10.15</span> Gráfico de resíduos</h2>
+<p>Uma reta pode parecer razoável no diagrama de dispersão e ainda deixar algum padrão não explicado.</p>
+<p>Por isso, é útil representar os resíduos em função dos valores ajustados ou de <span class="math inline">\(X\)</span>.</p>
+<p>Em uma relação bem resumida por uma reta, espera-se, descritivamente, que os resíduos fiquem distribuídos em torno de zero sem um padrão sistemático evidente.</p>
+<p>Um gráfico de resíduos pode revelar:</p>
+<ul>
+<li>curvatura, sugerindo relação não linear;</li>
+<li>aumento ou redução da dispersão;</li>
+<li>observações com resíduos muito grandes;</li>
+<li>agrupamentos não percebidos inicialmente.</li>
+</ul>
+<p>O gráfico de resíduos não deve ser tratado apenas como uma formalidade. Ele ajuda a verificar <strong>o que a reta deixou de explicar como padrão</strong>.</p>
+</section>
+<section id="coeficiente-de-determinação" class="level2" data-number="10.16">
+<h2 data-number="10.16" class="anchored" data-anchor-id="coeficiente-de-determinação"><span class="header-section-number">10.16</span> Coeficiente de determinação</h2>
+<p>O <strong>coeficiente de determinação</strong>, representado por <span class="math inline">\(R^2\)</span>, mede quanto da variabilidade de <span class="math inline">\(Y\)</span> em torno de sua média é descrita pelo ajuste linear.</p>
+<p>Defina a variação total de <span class="math inline">\(Y\)</span> por</p>
+<p><span class="math display">\[
+SQ_T
+=
+\sum_{i=1}^{n}
+(y_i-\bar{y})^2
+\]</span></p>
+<p>e a soma dos quadrados dos resíduos por</p>
+<p><span class="math display">\[
+SQ_E
+=
+\sum_{i=1}^{n}
+(y_i-\widehat{y}_i)^2.
+\]</span></p>
+<p>Então,</p>
+<p><span class="math display">\[
+R^2
+=
+1-
+\frac{SQ_E}{SQ_T}.
+\]</span></p>
+<p>No exemplo,</p>
+<p><span class="math display">\[
+SQ_T=676
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+SQ_E\approx27{,}79.
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+R^2
+=
+1-
+\frac{27{,}79}{676}
+\approx
+0{,}959.
+\]</span></p>
+<p>Podemos escrever</p>
+<p><span class="math display">\[
+R^2\approx95{,}9\%.
+\]</span></p>
+<p>Nesse conjunto, aproximadamente 95,9% da variabilidade observada nas notas em torno da média é descrita pela reta ajustada às horas de estudo.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="O que R² não significa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O que R² não significa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um <span class="math inline">\(R^2\)</span> elevado não prova causalidade.</p>
+<p>Também não significa que o modelo seja adequado em qualquer faixa de valores, nem que previsões futuras serão necessariamente precisas.</p>
+<p><span class="math inline">\(R^2\)</span> deve ser interpretado juntamente com:</p>
+<ul>
+<li>o diagrama de dispersão;</li>
+<li>a forma da relação;</li>
+<li>os resíduos;</li>
+<li>o contexto das variáveis.</li>
+</ul>
+</div>
+</div>
+<p>Na regressão linear simples com intercepto, existe uma relação importante:</p>
+<p><span class="math display">\[
+R^2=r^2,
+\]</span></p>
+<p>em que <span class="math inline">\(r\)</span> é a correlação de Pearson entre <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>.</p>
+<p>No exemplo,</p>
+<p><span class="math display">\[
+r\approx0{,}979
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+r^2\approx0{,}959.
+\]</span></p>
+</section>
+<section id="extrapolação" class="level2" data-number="10.17">
+<h2 data-number="10.17" class="anchored" data-anchor-id="extrapolação"><span class="header-section-number">10.17</span> Extrapolação</h2>
+<p>A reta ajustada descreve a tendência observada <strong>na faixa de valores estudada</strong>.</p>
+<p>No exemplo das horas de estudo, observamos valores entre</p>
+<p><span class="math display">\[
+1
+\quad\text{e}\quad
+8
+\]</span></p>
+<p>horas.</p>
+<p>Utilizar a reta para estimar a nota correspondente a 6 horas é uma interpolação dentro da região observada.</p>
+<p>Utilizá-la para 20 horas seria uma <strong>extrapolação</strong>.</p>
+<p>Mesmo que a equação permita calcular</p>
+<p><span class="math display">\[
+\widehat{y}
+=
+46{,}82+
+3{,}93(20),
+\]</span></p>
+<p>não temos evidência, com esses dados, de que a mesma tendência linear continue válida até 20 horas.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Uma equação pode produzir um número sem produzir uma conclusão válida">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Uma equação pode produzir um número sem produzir uma conclusão válida
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O fato de ser possível substituir qualquer valor de <span class="math inline">\(X\)</span> na equação não significa que o resultado tenha interpretação estatística adequada.</p>
+<p>Antes de usar uma reta fora da faixa observada, é necessário justificar por que a relação deveria continuar com a mesma forma.</p>
+</div>
+</div>
+</section>
+<section id="laboratório-no-r" class="level2" data-number="10.18">
+<h2 data-number="10.18" class="anchored" data-anchor-id="laboratório-no-r"><span class="header-section-number">10.18</span> Laboratório no R</h2>
+<p>Nesta parte prática, utilizaremos tanto exemplos construídos para destacar propriedades dos coeficientes quanto o banco dos 80 estudantes já utilizado nos capítulos anteriores.</p>
+<section id="preparando-os-dados" class="level3" data-number="10.18.1">
+<h3 data-number="10.18.1" class="anchored" data-anchor-id="preparando-os-dados"><span class="header-section-number">10.18.1</span> Preparando os dados</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dados/estudantes80n.csv"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>As variáveis quantitativas do banco são:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    idade_anos,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    faltas,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    altura_m</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 80
+Columns: 4
+$ idade_anos             &lt;dbl&gt; 25, 21, 26, 23, 19, 19, 22, 23, 21, 17, 17, 19,…
+$ faltas                 &lt;dbl&gt; 1, 1, 2, 2, 5, 4, 2, 3, 4, 1, 2, 5, 3, 1, 1, 3,…
+$ tempo_deslocamento_min &lt;dbl&gt; 96.5, 37.7, 45.1, 51.0, 112.0, 14.0, 35.7, 27.9…
+$ altura_m               &lt;dbl&gt; 1.75, 1.71, 1.63, 1.59, 1.61, 1.64, 1.65, 1.69,…</code></pre>
+</div>
+</div>
+</section>
+<section id="construindo-um-diagrama-de-dispersão" class="level3" data-number="10.18.2">
+<h3 data-number="10.18.2" class="anchored" data-anchor-id="construindo-um-diagrama-de-dispersão"><span class="header-section-number">10.18.2</span> Construindo um diagrama de dispersão</h3>
+<p>Vamos investigar <code>idade_anos</code> e <code>tempo_deslocamento_min</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> idade_anos,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> tempo_deslocamento_min</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Idade (anos)"</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-associacao-quantitativas_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Antes de calcular qualquer coeficiente, observe:</p>
+<ul>
+<li>existe direção aparente?</li>
+<li>os pontos seguem aproximadamente uma reta?</li>
+<li>há regiões sem observações?</li>
+<li>existem pontos muito afastados?</li>
+<li>a dispersão é semelhante ao longo do eixo horizontal?</li>
+</ul>
+</section>
+<section id="covariância-no-r" class="level3" data-number="10.18.3">
+<h3 data-number="10.18.3" class="anchored" data-anchor-id="covariância-no-r"><span class="header-section-number">10.18.3</span> Covariância no R</h3>
+<p>A covariância amostral é calculada com <code>cov()</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>idade_anos,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"complete.obs"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14.78377</code></pre>
+</div>
+</div>
+<p>Para esse banco, o valor é aproximadamente</p>
+<p><span class="math display">\[
+14{,}78.
+\]</span></p>
+<p>O sinal positivo indica que idades maiores tendem, no conjunto observado, a acompanhar tempos de deslocamento um pouco maiores.</p>
+<p>O valor numérico, entretanto, depende das unidades:</p>
+<p><span class="math display">\[
+\text{anos}\times\text{minutos}.
+\]</span></p>
+<p>Por isso, ele não deve ser utilizado isoladamente para classificar a intensidade da associação.</p>
+</section>
+<section id="correlação-de-pearson" class="level3" data-number="10.18.4">
+<h3 data-number="10.18.4" class="anchored" data-anchor-id="correlação-de-pearson"><span class="header-section-number">10.18.4</span> Correlação de Pearson</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>idade_anos,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"complete.obs"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.214641</code></pre>
+</div>
+</div>
+<p>O resultado é aproximadamente</p>
+<p><span class="math display">\[
+r=0{,}215.
+\]</span></p>
+<p>O sinal indica direção positiva, mas o valor está próximo de zero. Em conjunto com o diagrama de dispersão, isso sugere uma associação linear positiva pouco intensa no conjunto observado.</p>
+</section>
+<section id="correlação-de-spearman" class="level3" data-number="10.18.5">
+<h3 data-number="10.18.5" class="anchored" data-anchor-id="correlação-de-spearman"><span class="header-section-number">10.18.5</span> Correlação de Spearman</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>idade_anos,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"complete.obs"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.2145916</code></pre>
+</div>
+</div>
+<p>O resultado também é aproximadamente</p>
+<p><span class="math display">\[
+r_s=0{,}215.
+\]</span></p>
+<p>Nesse caso, Pearson e Spearman fornecem resultados muito semelhantes.</p>
+</section>
+<section id="comparando-várias-correlações" class="level3" data-number="10.18.6">
+<h3 data-number="10.18.6" class="anchored" data-anchor-id="comparando-várias-correlações"><span class="header-section-number">10.18.6</span> Comparando várias correlações</h3>
+<p>Podemos calcular as correlações entre todas as variáveis quantitativas.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dados_quantitativos <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    idade_anos,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    faltas,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    altura_m</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  dados_quantitativos,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"complete.obs"</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                        idade_anos     faltas tempo_deslocamento_min
+idade_anos              1.00000000 -0.0232460             0.21464096
+faltas                 -0.02324600  1.0000000             0.20833217
+tempo_deslocamento_min  0.21464096  0.2083322             1.00000000
+altura_m               -0.06976854 -0.1015148            -0.02644906
+                          altura_m
+idade_anos             -0.06976854
+faltas                 -0.10151482
+tempo_deslocamento_min -0.02644906
+altura_m                1.00000000</code></pre>
+</div>
+</div>
+<p>E, para Spearman:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  dados_quantitativos,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"complete.obs"</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         idade_anos       faltas tempo_deslocamento_min
+idade_anos              1.000000000 -0.006211593              0.2145916
+faltas                 -0.006211593  1.000000000              0.1229796
+tempo_deslocamento_min  0.214591616  0.122979576              1.0000000
+altura_m               -0.092375625 -0.082441127             -0.0467187
+                          altura_m
+idade_anos             -0.09237563
+faltas                 -0.08244113
+tempo_deslocamento_min -0.04671870
+altura_m                1.00000000</code></pre>
+</div>
+</div>
+<p>Não interprete a matriz apenas procurando o maior número. Para cada par que parecer interessante, retorne ao diagrama de dispersão.</p>
+</section>
+<section id="pearson-e-spearman-em-uma-relação-monotônica-não-linear" class="level3" data-number="10.18.7">
+<h3 data-number="10.18.7" class="anchored" data-anchor-id="pearson-e-spearman-em-uma-relação-monotônica-não-linear"><span class="header-section-number">10.18.7</span> Pearson e Spearman em uma relação monotônica não linear</h3>
+<p>Considere:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>monotonico <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> (<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>monotonico</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+      x     y
+  &lt;int&gt; &lt;dbl&gt;
+1     1     1
+2     2     4
+3     3     9
+4     4    16
+5     5    25
+6     6    36</code></pre>
+</div>
+</div>
+<p>Construa o gráfico:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>monotonico <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> x,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> y</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-associacao-quantitativas_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Agora compare:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  monotonico<span class="sc">$</span>x,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  monotonico<span class="sc">$</span>y,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9789173</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  monotonico<span class="sc">$</span>x,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  monotonico<span class="sc">$</span>y,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+<p>A correlação de Pearson é aproximadamente 0,979, enquanto Spearman é igual a 1.</p>
+<p>O segundo resultado reflete o fato de que a ordem é perfeitamente crescente, apesar da curvatura.</p>
+</section>
+<section id="uma-relação-forte-com-correlação-próxima-de-zero" class="level3" data-number="10.18.8">
+<h3 data-number="10.18.8" class="anchored" data-anchor-id="uma-relação-forte-com-correlação-próxima-de-zero"><span class="header-section-number">10.18.8</span> Uma relação forte com correlação próxima de zero</h3>
+<p>Agora considere:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nao_linear <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="sc">-</span><span class="dv">4</span><span class="sc">:</span><span class="dv">4</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> (<span class="sc">-</span><span class="dv">4</span><span class="sc">:</span><span class="dv">4</span>)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Visualize:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>nao_linear <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> x,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> y</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-associacao-quantitativas_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Calcule:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  nao_linear<span class="sc">$</span>x,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  nao_linear<span class="sc">$</span>y,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  nao_linear<span class="sc">$</span>x,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  nao_linear<span class="sc">$</span>y,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>Os dois coeficientes ficam próximos de zero.</p>
+<p>Isso não significa ausência de relação. O gráfico mostra uma associação não monotônica perfeitamente definida.</p>
+</section>
+<section id="influência-de-uma-observação-extrema" class="level3" data-number="10.18.9">
+<h3 data-number="10.18.9" class="anchored" data-anchor-id="influência-de-uma-observação-extrema"><span class="header-section-number">10.18.9</span> Influência de uma observação extrema</h3>
+<p>Reconstruímos o exemplo das horas de estudo:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>estudo <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">horas =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nota =</span> <span class="fu">c</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">52</span>, <span class="dv">55</span>, <span class="dv">60</span>, <span class="dv">58</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">67</span>, <span class="dv">70</span>, <span class="dv">74</span>, <span class="dv">80</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Calcule as correlações:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  estudo<span class="sc">$</span>horas,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  estudo<span class="sc">$</span>nota,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9792328</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  estudo<span class="sc">$</span>horas,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  estudo<span class="sc">$</span>nota,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9761905</code></pre>
+</div>
+</div>
+<p>Agora acrescente uma observação distante da tendência:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>estudo_extremo <span class="ot">&lt;-</span> estudo <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_row</span>(</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">horas =</span> <span class="dv">9</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">nota =</span> <span class="dv">30</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Compare novamente:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  estudo_extremo<span class="sc">$</span>horas,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  estudo_extremo<span class="sc">$</span>nota,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"pearson"</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.08370735</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  estudo_extremo<span class="sc">$</span>horas,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  estudo_extremo<span class="sc">$</span>nota,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"spearman"</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3833333</code></pre>
+</div>
+</div>
+<p>Visualize:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>estudo_extremo <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> horas,</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> nota</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-associacao-quantitativas_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O exercício mostra por que o gráfico deve acompanhar a medida numérica.</p>
+</section>
+<section id="ajustando-uma-reta-de-tendência" class="level3" data-number="10.18.10">
+<h3 data-number="10.18.10" class="anchored" data-anchor-id="ajustando-uma-reta-de-tendência"><span class="header-section-number">10.18.10</span> Ajustando uma reta de tendência</h3>
+<p>Voltaremos ao banco dos estudantes e utilizaremos a idade como variável explicativa e o tempo de deslocamento como variável resposta.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>modelo_tempo <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  tempo_deslocamento_min <span class="sc">~</span> idade_anos,</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dados</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Os coeficientes podem ser obtidos sem imprimir uma tabela inferencial:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  modelo_tempo</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)  idade_anos 
+   9.698458    1.449839 </code></pre>
+</div>
+</div>
+<p>A reta ajustada é aproximadamente</p>
+<p><span class="math display">\[
+\widehat{\text{tempo}}
+=
+9{,}70+
+1{,}45(\text{idade}).
+\]</span></p>
+<p>No conjunto observado, um aumento de um ano na idade corresponde a um aumento de aproximadamente 1,45 minuto no valor ajustado do tempo de deslocamento.</p>
+<p>Essa tendência é fraca e deve ser interpretada juntamente com a grande dispersão observada no gráfico.</p>
+</section>
+<section id="diagrama-de-dispersão-com-reta-ajustada" class="level3" data-number="10.18.11">
+<h3 data-number="10.18.11" class="anchored" data-anchor-id="diagrama-de-dispersão-com-reta-ajustada"><span class="header-section-number">10.18.11</span> Diagrama de dispersão com reta ajustada</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> idade_anos,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> tempo_deslocamento_min</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(</span>
+<span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">"lm"</span>,</span>
+<span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="cn">FALSE</span></span>
+<span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb42-17"><a href="#cb42-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Idade (anos)"</span>,</span>
+<span id="cb42-18"><a href="#cb42-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Tempo de deslocamento (min)"</span></span>
+<span id="cb42-19"><a href="#cb42-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb42-20"><a href="#cb42-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-associacao-quantitativas_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A reta resume a tendência linear, mas não deve esconder a grande variabilidade dos pontos ao seu redor.</p>
+</section>
+<section id="valores-ajustados-e-resíduos-1" class="level3" data-number="10.18.12">
+<h3 data-number="10.18.12" class="anchored" data-anchor-id="valores-ajustados-e-resíduos-1"><span class="header-section-number">10.18.12</span> Valores ajustados e resíduos</h3>
+<p>Podemos acrescentar os valores ajustados e os resíduos ao banco:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>diagnostico_tempo <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ajustado =</span> <span class="fu">fitted</span>(</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>      modelo_tempo</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">residuo =</span> <span class="fu">residuals</span>(</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>      modelo_tempo</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    idade_anos,</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>    tempo_deslocamento_min,</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    ajustado,</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    residuo</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>diagnostico_tempo <span class="sc">|&gt;</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 5
+   id_estudante idade_anos tempo_deslocamento_min ajustado residuo
+   &lt;chr&gt;             &lt;dbl&gt;                  &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+ 1 E001                 25                   96.5     45.9   50.6 
+ 2 E002                 21                   37.7     40.1   -2.45
+ 3 E003                 26                   45.1     47.4   -2.29
+ 4 E004                 23                   51       43.0    7.96
+ 5 E005                 19                  112       37.2   74.8 
+ 6 E006                 19                   14       37.2  -23.2 
+ 7 E007                 22                   35.7     41.6   -5.89
+ 8 E008                 23                   27.9     43.0  -15.1 
+ 9 E009                 21                   58.2     40.1   18.1 
+10 E010                 17                   20       34.3  -14.3 </code></pre>
+</div>
+</div>
+<p>Lembre-se:</p>
+<p><span class="math display">\[
+e_i
+=
+y_i-\widehat{y}_i.
+\]</span></p>
+<p>Um resíduo positivo indica tempo observado acima do valor fornecido pela reta; um resíduo negativo indica tempo abaixo do valor ajustado.</p>
+</section>
+<section id="gráfico-de-resíduos-1" class="level3" data-number="10.18.13">
+<h3 data-number="10.18.13" class="anchored" data-anchor-id="gráfico-de-resíduos-1"><span class="header-section-number">10.18.13</span> Gráfico de resíduos</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>diagnostico_tempo <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> ajustado,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> residuo</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(</span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">2.5</span>,</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">alpha =</span> <span class="fl">0.8</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">yintercept =</span> <span class="dv">0</span>,</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">linetype =</span> <span class="st">"dashed"</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Tempo ajustado (min)"</span>,</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Resíduo"</span></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="10-associacao-quantitativas_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Procure:</p>
+<ul>
+<li>curvatura;</li>
+<li>pontos muito afastados de zero;</li>
+<li>mudanças no espalhamento;</li>
+<li>agrupamentos.</li>
+</ul>
+</section>
+<section id="coeficiente-de-determinação-1" class="level3" data-number="10.18.14">
+<h3 data-number="10.18.14" class="anchored" data-anchor-id="coeficiente-de-determinação-1"><span class="header-section-number">10.18.14</span> Coeficiente de determinação</h3>
+<p>Extraia apenas o <span class="math inline">\(R^2\)</span>:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>r2_tempo <span class="ot">&lt;-</span> <span class="fu">summary</span>(</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  modelo_tempo</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>)<span class="sc">$</span>r.squared</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>r2_tempo</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04607074</code></pre>
+</div>
+</div>
+<p>O resultado é aproximadamente</p>
+<p><span class="math display">\[
+R^2=0{,}046.
+\]</span></p>
+<p>Assim, cerca de 4,6% da variabilidade observada no tempo de deslocamento em torno de sua média é descrita pela reta linear ajustada à idade.</p>
+<p>Esse valor pequeno é coerente com a nuvem de pontos bastante dispersa.</p>
+<p>Podemos verificar a relação</p>
+<p><span class="math display">\[
+R^2=r^2
+\]</span></p>
+<p>neste modelo simples:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>r_tempo <span class="ot">&lt;-</span> <span class="fu">cor</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>idade_anos,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>tempo_deslocamento_min,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">use =</span> <span class="st">"complete.obs"</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>r_tempo<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04607074</code></pre>
+</div>
+</div>
+</section>
+<section id="interpolação-e-extrapolação" class="level3" data-number="10.18.15">
+<h3 data-number="10.18.15" class="anchored" data-anchor-id="interpolação-e-extrapolação"><span class="header-section-number">10.18.15</span> Interpolação e extrapolação</h3>
+<p>Primeiro verifique a faixa de idades observada:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>idade_anos,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 17 30</code></pre>
+</div>
+</div>
+<p>No banco, as idades estão entre 17 e 30 anos.</p>
+<p>Obter um valor ajustado para 22 anos permanece dentro da faixa observada:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  modelo_tempo,</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> <span class="fu">tibble</span>(</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">idade_anos =</span> <span class="dv">22</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+41.59491 </code></pre>
+</div>
+</div>
+<p>Já utilizar a reta para uma idade muito distante dessa faixa constitui extrapolação.</p>
+<p>O R produzirá numericamente um resultado, mas isso não garante que a tendência observada entre 17 e 30 anos continue válida fora dessa região.</p>
+</section>
+<section id="roteiro-de-análise-de-duas-variáveis-quantitativas" class="level3" data-number="10.18.16">
+<h3 data-number="10.18.16" class="anchored" data-anchor-id="roteiro-de-análise-de-duas-variáveis-quantitativas"><span class="header-section-number">10.18.16</span> Roteiro de análise de duas variáveis quantitativas</h3>
+<p>Um fluxo de trabalho útil é:</p>
+<ol type="1">
+<li>identificar claramente as duas variáveis e suas unidades;</li>
+<li>confirmar que os pares pertencem às mesmas unidades estatísticas;</li>
+<li>construir o diagrama de dispersão;</li>
+<li>examinar direção, intensidade, forma, agrupamentos, lacunas e pontos potencialmente atípicos;</li>
+<li>calcular a covariância, se houver interesse na variação conjunta em escala original;</li>
+<li>calcular Pearson quando a associação linear for relevante;</li>
+<li>calcular Spearman quando a ordenação e uma relação monotônica forem relevantes;</li>
+<li>comparar as medidas com o gráfico;</li>
+<li>se houver padrão aproximadamente linear, ajustar uma reta como resumo exploratório;</li>
+<li>examinar valores ajustados, resíduos e <span class="math inline">\(R^2\)</span>;</li>
+<li>evitar extrapolações sem justificativa;</li>
+<li>não transformar associação em causalidade.</li>
+</ol>
+</section>
+</section>
+<section id="síntese" class="level2" data-number="10.19">
+<h2 data-number="10.19" class="anchored" data-anchor-id="síntese"><span class="header-section-number">10.19</span> Síntese</h2>
+<p>A análise de duas variáveis quantitativas começa pelo <strong>diagrama de dispersão</strong>.</p>
+<p>Esse gráfico permite avaliar:</p>
+<ul>
+<li>direção;</li>
+<li>intensidade;</li>
+<li>forma;</li>
+<li>agrupamentos;</li>
+<li>lacunas;</li>
+<li>observações potencialmente atípicas.</li>
+</ul>
+<p>A <strong>covariância</strong> descreve se as duas variáveis tendem a se afastar de suas médias na mesma direção ou em direções opostas. Seu sinal é informativo, mas sua magnitude depende das unidades de medida.</p>
+<p>A <strong>correlação de Pearson</strong> padroniza a covariância e varia entre <span class="math inline">\(-1\)</span> e <span class="math inline">\(1\)</span>. Ela resume a associação <strong>linear</strong>.</p>
+<p>A <strong>correlação de Spearman</strong> é baseada nos postos e resume a associação <strong>monotônica</strong>.</p>
+<p>Pearson e Spearman podem produzir resultados semelhantes ou diferentes, dependendo da forma da relação e da influência de observações extremas.</p>
+<p>Nenhum coeficiente substitui o diagrama de dispersão.</p>
+<p>Quando a relação é aproximadamente linear, uma reta de tendência pode ser utilizada como resumo exploratório. Os valores ajustados representam os pontos previstos pela reta, enquanto os resíduos medem os desvios verticais entre os valores observados e ajustados.</p>
+<p>O coeficiente de determinação <span class="math inline">\(R^2\)</span> informa quanto da variabilidade de <span class="math inline">\(Y\)</span> em torno da média é descrita pelo ajuste linear. Em regressão linear simples com intercepto,</p>
+<p><span class="math display">\[
+R^2=r^2.
+\]</span></p>
+<p>Finalmente, associação estatística não implica causalidade, e uma reta ajustada dentro de determinada faixa de valores não deve ser extrapolada automaticamente para regiões não observadas.</p>
+<blockquote class="blockquote">
+<p><strong>Ideia-chave:</strong> para duas variáveis quantitativas, o gráfico mostra a estrutura da associação; os coeficientes resumem aspectos específicos dessa estrutura.</p>
+</blockquote>
+</section>
+<section id="exercícios-teóricos" class="level2" data-number="10.20">
+<h2 data-number="10.20" class="anchored" data-anchor-id="exercícios-teóricos"><span class="header-section-number">10.20</span> Exercícios teóricos</h2>
+<ol type="1">
+<li><p>Explique por que o pareamento das observações é indispensável na análise de duas variáveis quantitativas. O que aconteceria com a associação se os valores de uma das variáveis fossem embaralhados aleatoriamente?</p></li>
+<li><p>Para cada descrição, indique a direção e a forma mais plausível da associação:</p>
+<ol type="a">
+<li><p>quanto maior a velocidade média de um veículo em um percurso fixo, menor tende a ser o tempo necessário;</p></li>
+<li><p>à medida que a dose de determinado fertilizante aumenta, a produção cresce inicialmente, mas pode diminuir para doses muito altas;</p></li>
+<li><p>altura e massa corporal em adultos apresentam, em geral, uma tendência crescente.</p></li>
+</ol></li>
+<li><p>Considere os pares</p></li>
+</ol>
+<p><span class="math display">\[
+(1,2),\;(2,4),\;(3,5),\;(4,7),\;(5,7).
+\]</span></p>
+<ol type="a">
+<li><p>Calcule <span class="math inline">\(\bar{x}\)</span> e <span class="math inline">\(\bar{y}\)</span>.</p></li>
+<li><p>Calcule a covariância amostral.</p></li>
+<li><p>Indique o sinal esperado da correlação de Pearson.</p></li>
+<li><p>Faça um esboço do diagrama de dispersão e verifique se sua interpretação numérica é coerente com o gráfico.</p></li>
+</ol>
+<ol start="4" type="1">
+<li><p>Considere duas variáveis com covariância igual a 120. É correto concluir que a associação é mais intensa do que em outro conjunto cuja covariância seja 15? Explique.</p></li>
+<li><p>Mostre por que a correlação de Pearson é adimensional, enquanto a covariância depende das unidades das variáveis.</p></li>
+<li><p>Um conjunto apresenta correlação de Pearson igual a zero. Um estudante conclui: “as variáveis não possuem nenhuma relação”. Explique por que essa conclusão pode estar errada e forneça um exemplo de relação não linear.</p></li>
+<li><p>Diferencie:</p>
+<ol type="a">
+<li><p>associação linear;</p></li>
+<li><p>associação monotônica crescente;</p></li>
+<li><p>associação monotônica decrescente;</p></li>
+<li><p>associação não monotônica.</p></li>
+</ol></li>
+<li><p>Em que situação uma correlação de Spearman pode ser mais informativa que a correlação de Pearson?</p></li>
+<li><p>Um conjunto de dados possui <span class="math inline">\(r=0{,}91\)</span>. Após a retirada de uma única observação, o valor passa para <span class="math inline">\(r=0{,}42\)</span>.</p>
+<ol type="a">
+<li><p>O que isso sugere sobre essa observação?</p></li>
+<li><p>Ela deve ser automaticamente excluída? Justifique.</p></li>
+</ol></li>
+<li><p>Considere a reta</p></li>
+</ol>
+<p><span class="math display">\[
+\widehat{y}
+=
+12+3x.
+\]</span></p>
+<p>Para <span class="math inline">\(x=5\)</span>, o valor observado foi <span class="math inline">\(y=30\)</span>.</p>
+<ol type="a">
+<li><p>Calcule o valor ajustado.</p></li>
+<li><p>Calcule o resíduo.</p></li>
+<li><p>O ponto está acima ou abaixo da reta?</p></li>
+</ol>
+<ol start="11" type="1">
+<li>Uma regressão linear simples produziu</li>
+</ol>
+<p><span class="math display">\[
+R^2=0{,}64.
+\]</span></p>
+<p>Explique o significado descritivo desse valor. O resultado permite concluir que <span class="math inline">\(X\)</span> causa 64% das mudanças em <span class="math inline">\(Y\)</span>? Justifique.</p>
+<ol start="12" type="1">
+<li><p>Uma reta foi ajustada utilizando valores de <span class="math inline">\(X\)</span> entre 10 e 25. Explique por que utilizar a equação para <span class="math inline">\(X=80\)</span> exige cautela.</p></li>
+<li><p>Dê dois exemplos de mecanismos que podem produzir uma correlação espúria entre duas variáveis.</p></li>
+<li><p>Explique a diferença entre as afirmações:</p></li>
+</ol>
+<blockquote class="blockquote">
+<p>“<span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> apresentam forte associação linear.”</p>
+</blockquote>
+<p>e</p>
+<blockquote class="blockquote">
+<p>“<span class="math inline">\(X\)</span> causa <span class="math inline">\(Y\)</span>.”</p>
+</blockquote>
+</section>
+<section id="exercícios-no-r" class="level2" data-number="10.21">
+<h2 data-number="10.21" class="anchored" data-anchor-id="exercícios-no-r"><span class="header-section-number">10.21</span> Exercícios no R</h2>
+<ol type="1">
+<li><p>Utilize <code>idade_anos</code> e <code>tempo_deslocamento_min</code>.</p>
+<ol type="a">
+<li><p>Construa o diagrama de dispersão.</p></li>
+<li><p>Descreva direção, intensidade e forma.</p></li>
+<li><p>Calcule a covariância.</p></li>
+<li><p>Calcule as correlações de Pearson e Spearman.</p></li>
+<li><p>Compare os dois coeficientes com o gráfico.</p></li>
+</ol></li>
+<li><p>Analise <code>faltas</code> e <code>tempo_deslocamento_min</code>.</p>
+<ol type="a">
+<li><p>Construa o diagrama de dispersão.</p></li>
+<li><p>Calcule Pearson e Spearman.</p></li>
+<li><p>Explique por que os dois coeficientes podem diferir.</p></li>
+<li><p>Investigue se alguma observação parece exercer influência importante.</p></li>
+</ol></li>
+<li><p>Construa uma matriz de correlações de Pearson para:</p></li>
+</ol>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>idade_anos</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>faltas</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>tempo_deslocamento_min</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>altura_m</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Escolha dois pares e construa os respectivos diagramas de dispersão. Verifique se a interpretação do coeficiente é compatível com a estrutura visual.</p>
+<ol start="4" type="1">
+<li>Crie no R:</li>
+</ol>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">10</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> x<span class="sc">^</span><span class="dv">2</span></span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="a">
+<li><p>Construa o diagrama de dispersão.</p></li>
+<li><p>Calcule Pearson.</p></li>
+<li><p>Calcule Spearman.</p></li>
+<li><p>Explique por que valores próximos de zero não significam ausência de relação.</p></li>
+</ol>
+<ol start="5" type="1">
+<li><p>Crie um conjunto com associação linear positiva e acrescente uma observação extrema.</p>
+<ol type="a">
+<li><p>Calcule Pearson antes e depois.</p></li>
+<li><p>Calcule Spearman antes e depois.</p></li>
+<li><p>Compare a sensibilidade das duas medidas.</p></li>
+<li><p>Mostre os dois diagramas de dispersão.</p></li>
+</ol></li>
+<li><p>Ajuste o modelo</p></li>
+</ol>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  tempo_deslocamento_min <span class="sc">~</span> idade_anos,</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dados</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>e obtenha:</p>
+<ol type="a">
+<li><p>intercepto;</p></li>
+<li><p>inclinação;</p></li>
+<li><p>valores ajustados;</p></li>
+<li><p>resíduos;</p></li>
+<li><p><span class="math inline">\(R^2\)</span>.</p></li>
+</ol>
+<p>Escreva uma interpretação descritiva completa.</p>
+<ol start="7" type="1">
+<li><p>Para o modelo do exercício anterior, construa:</p>
+<ol type="a">
+<li><p>diagrama de dispersão com reta ajustada;</p></li>
+<li><p>gráfico dos resíduos contra os valores ajustados.</p></li>
+</ol></li>
+</ol>
+<p>Comente se a reta parece resumir adequadamente a relação observada.</p>
+<ol start="8" type="1">
+<li>Ajuste agora</li>
+</ol>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  tempo_deslocamento_min <span class="sc">~</span> faltas,</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> dados</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Compare esse modelo com o anterior considerando:</p>
+<ul>
+<li>diagrama de dispersão;</li>
+<li>correlação de Pearson;</li>
+<li>inclinação;</li>
+<li><span class="math inline">\(R^2\)</span>;</li>
+<li>resíduos.</li>
+</ul>
+<p>Não escolha automaticamente o modelo com maior <span class="math inline">\(R^2\)</span>. Discuta a qualidade da descrição oferecida por cada ajuste.</p>
+<ol start="9" type="1">
+<li>Utilize o exemplo:</li>
+</ol>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>estudo <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">horas =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>,</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">nota =</span> <span class="fu">c</span>(</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">52</span>, <span class="dv">55</span>, <span class="dv">60</span>, <span class="dv">58</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">67</span>, <span class="dv">70</span>, <span class="dv">74</span>, <span class="dv">80</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="a">
+<li><p>ajuste uma regressão linear;</p></li>
+<li><p>obtenha a equação da reta;</p></li>
+<li><p>calcule os resíduos;</p></li>
+<li><p>verifique que a soma dos resíduos é aproximadamente zero;</p></li>
+<li><p>calcule <span class="math inline">\(R^2\)</span>;</p></li>
+<li><p>confirme numericamente que, nesse caso,</p></li>
+</ol>
+<p><span class="math display">\[
+R^2=r^2.
+\]</span></p>
+<ol start="10" type="1">
+<li>Escolha duas variáveis quantitativas do banco <code>dados</code> e produza uma pequena análise exploratória contendo:</li>
+</ol>
+<ul>
+<li>identificação das variáveis e unidades;</li>
+<li>diagrama de dispersão;</li>
+<li>descrição de direção, intensidade e forma;</li>
+<li>Pearson;</li>
+<li>Spearman;</li>
+<li>investigação de observações potencialmente atípicas;</li>
+<li>reta de tendência, quando fizer sentido;</li>
+<li>resíduos e <span class="math inline">\(R^2\)</span>, quando o ajuste linear for utilizado;</li>
+<li>conclusão contextualizada, sem afirmação causal não sustentada.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./09-associacao-qualitativas.html" class="pagination-link" aria-label="Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./11-qualitativa-quantitativa.html" class="pagination-link" aria-label="Associação entre uma variável qualitativa e uma quantitativa">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Associação entre uma variável qualitativa e uma quantitativa</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

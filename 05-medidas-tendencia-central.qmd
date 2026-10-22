@@ -1568,7 +1568,7 @@ $$2500,\ 2700,\ 2800,\ 2900,\ 3100.$$
 
 Agora suponha que um sexto trabalhador, com salário de R\$ 15.000, seja incluído.
 
-| Cenário             | Média (R$) | Mediana (R$) |          |
+| Cenário             | Média (R\$) | Mediana (R\$) |          |
 |:--------------------|--------------------------:|---------:|
 | Sem o valor extremo |                  2.800,00 | 2.800,00 |
 | Com R\$ 15.000      |                  4.833,33 | 2.850,00 |

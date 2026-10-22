@@ -1,0 +1,2876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.43">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Análise Exploratória de Dados – 9&nbsp; Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./10-associacao-quantitativas.html" rel="next">
+<link href="./08-forma-distribuicao.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles2.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html">Parte III — Análise Bivariada</a></li><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Análise Exploratória de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apresentação</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos e análise univariada</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-fundamentos-aed.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-r-rstudio-quarto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introdução ao R, ao RStudio, à edição de texto, à internet e às planilhas eletrônicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-dados-organizacao-qualidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Estrutura, organização e qualidade dos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-distribuicoes-frequencias-representacoes-graficas-v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Distribuições de frequências e representações gráficas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Medidas resumo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-medidas-tendencia-central.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Medidas de tendência central</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-separatrizes-boxplot-revisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Separatrizes, resumo de cinco números e boxplot</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-medidas-dispersao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Medidas de dispersão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-forma-distribuicao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma das distribuições e análise univariada integrada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte III — Análise Bivariada</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-associacao-qualitativas.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-associacao-quantitativas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-qualitativa-quantitativa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Associação entre uma variável qualitativa e uma quantitativa</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV - Extensões para dados multivariados</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-extensoes-analise-multivariada.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">15-analise-multivariada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Neste capítulo</h2>
+   
+  <ul>
+  <li><a href="#da-análise-univariada-à-análise-bivariada" id="toc-da-análise-univariada-à-análise-bivariada" class="nav-link active" data-scroll-target="#da-análise-univariada-à-análise-bivariada"><span class="header-section-number">9.1</span> Da análise univariada à análise bivariada</a>
+  <ul class="collapse">
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">9.1.1</span> Exemplo</a></li>
+  </ul></li>
+  <li><a href="#distribuição-conjunta-de-frequências" id="toc-distribuição-conjunta-de-frequências" class="nav-link" data-scroll-target="#distribuição-conjunta-de-frequências"><span class="header-section-number">9.2</span> Distribuição conjunta de frequências</a>
+  <ul class="collapse">
+  <li><a href="#notação-geral" id="toc-notação-geral" class="nav-link" data-scroll-target="#notação-geral"><span class="header-section-number">9.2.1</span> Notação geral</a></li>
+  </ul></li>
+  <li><a href="#frequências-relativas-conjuntas" id="toc-frequências-relativas-conjuntas" class="nav-link" data-scroll-target="#frequências-relativas-conjuntas"><span class="header-section-number">9.3</span> Frequências relativas conjuntas</a></li>
+  <li><a href="#distribuições-marginais" id="toc-distribuições-marginais" class="nav-link" data-scroll-target="#distribuições-marginais"><span class="header-section-number">9.4</span> Distribuições marginais</a></li>
+  <li><a href="#distribuições-condicionais" id="toc-distribuições-condicionais" class="nav-link" data-scroll-target="#distribuições-condicionais"><span class="header-section-number">9.5</span> Distribuições condicionais</a>
+  <ul class="collapse">
+  <li><a href="#percentuais-por-linha" id="toc-percentuais-por-linha" class="nav-link" data-scroll-target="#percentuais-por-linha"><span class="header-section-number">9.5.1</span> Percentuais por linha</a></li>
+  <li><a href="#percentuais-por-coluna" id="toc-percentuais-por-coluna" class="nav-link" data-scroll-target="#percentuais-por-coluna"><span class="header-section-number">9.5.2</span> Percentuais por coluna</a></li>
+  <li><a href="#a-escolha-do-denominador" id="toc-a-escolha-do-denominador" class="nav-link" data-scroll-target="#a-escolha-do-denominador"><span class="header-section-number">9.5.3</span> A escolha do denominador</a></li>
+  </ul></li>
+  <li><a href="#associação-entre-duas-variáveis-qualitativas" id="toc-associação-entre-duas-variáveis-qualitativas" class="nav-link" data-scroll-target="#associação-entre-duas-variáveis-qualitativas"><span class="header-section-number">9.6</span> Associação entre duas variáveis qualitativas</a>
+  <ul class="collapse">
+  <li><a href="#independência-em-perspectiva-descritiva" id="toc-independência-em-perspectiva-descritiva" class="nav-link" data-scroll-target="#independência-em-perspectiva-descritiva"><span class="header-section-number">9.6.1</span> Independência em perspectiva descritiva</a></li>
+  </ul></li>
+  <li><a href="#frequências-de-referência-sob-independência" id="toc-frequências-de-referência-sob-independência" class="nav-link" data-scroll-target="#frequências-de-referência-sob-independência"><span class="header-section-number">9.7</span> Frequências de referência sob independência</a></li>
+  <li><a href="#diferença-de-proporções" id="toc-diferença-de-proporções" class="nav-link" data-scroll-target="#diferença-de-proporções"><span class="header-section-number">9.8</span> Diferença de proporções</a></li>
+  <li><a href="#coeficiente-phi" id="toc-coeficiente-phi" class="nav-link" data-scroll-target="#coeficiente-phi"><span class="header-section-number">9.9</span> Coeficiente Phi</a></li>
+  <li><a href="#v-de-cramér" id="toc-v-de-cramér" class="nav-link" data-scroll-target="#v-de-cramér"><span class="header-section-number">9.10</span> V de Cramér</a></li>
+  <li><a href="#representações-gráficas-para-duas-variáveis-qualitativas" id="toc-representações-gráficas-para-duas-variáveis-qualitativas" class="nav-link" data-scroll-target="#representações-gráficas-para-duas-variáveis-qualitativas"><span class="header-section-number">9.11</span> Representações gráficas para duas variáveis qualitativas</a>
+  <ul class="collapse">
+  <li><a href="#barras-agrupadas" id="toc-barras-agrupadas" class="nav-link" data-scroll-target="#barras-agrupadas"><span class="header-section-number">9.11.1</span> Barras agrupadas</a></li>
+  <li><a href="#barras-empilhadas" id="toc-barras-empilhadas" class="nav-link" data-scroll-target="#barras-empilhadas"><span class="header-section-number">9.11.2</span> Barras empilhadas</a></li>
+  <li><a href="#barras-proporcionais" id="toc-barras-proporcionais" class="nav-link" data-scroll-target="#barras-proporcionais"><span class="header-section-number">9.11.3</span> Barras proporcionais</a></li>
+  <li><a href="#gráfico-mosaico" id="toc-gráfico-mosaico" class="nav-link" data-scroll-target="#gráfico-mosaico"><span class="header-section-number">9.11.4</span> Gráfico mosaico</a></li>
+  </ul></li>
+  <li><a href="#como-escrever-a-interpretação-de-uma-tabela-de-contingência" id="toc-como-escrever-a-interpretação-de-uma-tabela-de-contingência" class="nav-link" data-scroll-target="#como-escrever-a-interpretação-de-uma-tabela-de-contingência"><span class="header-section-number">9.12</span> Como escrever a interpretação de uma tabela de contingência</a></li>
+  <li><a href="#cuidados-na-análise-de-associação" id="toc-cuidados-na-análise-de-associação" class="nav-link" data-scroll-target="#cuidados-na-análise-de-associação"><span class="header-section-number">9.13</span> Cuidados na análise de associação</a></li>
+  <li><a href="#laboratório-no-r" id="toc-laboratório-no-r" class="nav-link" data-scroll-target="#laboratório-no-r"><span class="header-section-number">9.14</span> Laboratório no R</a>
+  <ul class="collapse">
+  <li><a href="#preparando-os-dados" id="toc-preparando-os-dados" class="nav-link" data-scroll-target="#preparando-os-dados"><span class="header-section-number">9.14.1</span> Preparando os dados</a></li>
+  <li><a href="#construindo-uma-tabela-de-contingência" id="toc-construindo-uma-tabela-de-contingência" class="nav-link" data-scroll-target="#construindo-uma-tabela-de-contingência"><span class="header-section-number">9.14.2</span> Construindo uma tabela de contingência</a></li>
+  <li><a href="#frequências-relativas-conjuntas-1" id="toc-frequências-relativas-conjuntas-1" class="nav-link" data-scroll-target="#frequências-relativas-conjuntas-1"><span class="header-section-number">9.14.3</span> Frequências relativas conjuntas</a></li>
+  <li><a href="#percentuais-por-linha-1" id="toc-percentuais-por-linha-1" class="nav-link" data-scroll-target="#percentuais-por-linha-1"><span class="header-section-number">9.14.4</span> Percentuais por linha</a></li>
+  <li><a href="#percentuais-por-coluna-1" id="toc-percentuais-por-coluna-1" class="nav-link" data-scroll-target="#percentuais-por-coluna-1"><span class="header-section-number">9.14.5</span> Percentuais por coluna</a></li>
+  <li><a href="#construindo-a-tabela-com-dplyr" id="toc-construindo-a-tabela-com-dplyr" class="nav-link" data-scroll-target="#construindo-a-tabela-com-dplyr"><span class="header-section-number">9.14.6</span> Construindo a tabela com <code>dplyr</code></a></li>
+  <li><a href="#barras-agrupadas-1" id="toc-barras-agrupadas-1" class="nav-link" data-scroll-target="#barras-agrupadas-1"><span class="header-section-number">9.14.7</span> Barras agrupadas</a></li>
+  <li><a href="#barras-empilhadas-1" id="toc-barras-empilhadas-1" class="nav-link" data-scroll-target="#barras-empilhadas-1"><span class="header-section-number">9.14.8</span> Barras empilhadas</a></li>
+  <li><a href="#barras-proporcionais-1" id="toc-barras-proporcionais-1" class="nav-link" data-scroll-target="#barras-proporcionais-1"><span class="header-section-number">9.14.9</span> Barras proporcionais</a></li>
+  <li><a href="#gráfico-mosaico-1" id="toc-gráfico-mosaico-1" class="nav-link" data-scroll-target="#gráfico-mosaico-1"><span class="header-section-number">9.14.10</span> Gráfico mosaico</a></li>
+  <li><a href="#diferença-de-proporções-no-r" id="toc-diferença-de-proporções-no-r" class="nav-link" data-scroll-target="#diferença-de-proporções-no-r"><span class="header-section-number">9.14.11</span> Diferença de proporções no R</a></li>
+  <li><a href="#coeficiente-phi-no-r" id="toc-coeficiente-phi-no-r" class="nav-link" data-scroll-target="#coeficiente-phi-no-r"><span class="header-section-number">9.14.12</span> Coeficiente Phi no R</a></li>
+  <li><a href="#frequências-de-referência-sob-independência-no-r" id="toc-frequências-de-referência-sob-independência-no-r" class="nav-link" data-scroll-target="#frequências-de-referência-sob-independência-no-r"><span class="header-section-number">9.14.13</span> Frequências de referência sob independência no R</a></li>
+  <li><a href="#v-de-cramér-no-r" id="toc-v-de-cramér-no-r" class="nav-link" data-scroll-target="#v-de-cramér-no-r"><span class="header-section-number">9.14.14</span> V de Cramér no R</a></li>
+  <li><a href="#um-roteiro-de-análise-computacional" id="toc-um-roteiro-de-análise-computacional" class="nav-link" data-scroll-target="#um-roteiro-de-análise-computacional"><span class="header-section-number">9.14.15</span> Um roteiro de análise computacional</a></li>
+  </ul></li>
+  <li><a href="#síntese" id="toc-síntese" class="nav-link" data-scroll-target="#síntese"><span class="header-section-number">9.15</span> Síntese</a></li>
+  <li><a href="#exercícios-teóricos" id="toc-exercícios-teóricos" class="nav-link" data-scroll-target="#exercícios-teóricos"><span class="header-section-number">9.16</span> Exercícios teóricos</a></li>
+  <li><a href="#exercícios-no-r" id="toc-exercícios-no-r" class="nav-link" data-scroll-target="#exercícios-no-r"><span class="header-section-number">9.17</span> Exercícios no R</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html">Parte III — Análise Bivariada</a></li><li class="breadcrumb-item"><a href="./09-associacao-qualitativas.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Distribuições de frequências para dados bivariados e associação entre duas variáveis qualitativas</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Até aqui, a maior parte da análise foi <strong>univariada</strong>: estudamos uma variável de cada vez, descrevendo sua distribuição por meio de tabelas, gráficos e medidas de resumo.</p>
+<p>A partir deste capítulo, iniciaremos a <strong>análise bivariada</strong>, isto é, o estudo simultâneo de duas variáveis observadas nas mesmas unidades estatísticas.</p>
+<p>Quando as duas variáveis são qualitativas, nosso interesse deixa de ser apenas saber quantos indivíduos pertencem a cada categoria. Passamos a perguntar, por exemplo:</p>
+<ul>
+<li>a distribuição da satisfação é semelhante entre os cursos?</li>
+<li>o meio de transporte utilizado apresenta o mesmo perfil em todos os cursos?</li>
+<li>a proporção de estudantes com alta satisfação é a mesma entre usuários e não usuários de ônibus?</li>
+<li>conhecer a categoria de uma variável acrescenta informação sobre a outra?</li>
+</ul>
+<p>Essas perguntas serão investigadas por meio de <strong>tabelas de contingência</strong>, frequências conjuntas, distribuições marginais e condicionais, percentuais por linha e por coluna, representações gráficas e medidas descritivas de associação.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, espera-se que o estudante seja capaz de:</p>
+<ul>
+<li>reconhecer um dado bivariado e identificar corretamente o pareamento das observações;</li>
+<li>construir e interpretar uma distribuição conjunta de duas variáveis qualitativas;</li>
+<li>distinguir frequências conjuntas, marginais e condicionais;</li>
+<li>escolher adequadamente entre percentuais por linha e por coluna;</li>
+<li>interpretar tabelas de contingência;</li>
+<li>reconhecer, em perspectiva descritiva, situações de independência e de associação;</li>
+<li>comparar proporções entre grupos;</li>
+<li>compreender o coeficiente Phi e o V de Cramér como medidas descritivas de associação;</li>
+<li>construir tabelas e gráficos bivariados no R;</li>
+<li>escrever uma interpretação estatística coerente sem confundir associação com causalidade.</li>
+</ul>
+</div>
+</div>
+<section id="da-análise-univariada-à-análise-bivariada" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="da-análise-univariada-à-análise-bivariada"><span class="header-section-number">9.1</span> Da análise univariada à análise bivariada</h2>
+<p>Na análise univariada, cada variável é estudada separadamente. Podemos, por exemplo, construir uma tabela de frequências para <code>curso</code> e outra para <code>satisfacao</code>.</p>
+<p>Essas duas tabelas informam quantos estudantes pertencem a cada curso e quantos apresentam cada nível de satisfação, mas não mostram <strong>como curso e satisfação aparecem conjuntamente em cada estudante</strong>.</p>
+<p>A análise bivariada acrescenta justamente essa informação.</p>
+<p>Sejam duas variáveis, <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span>. Para cada unidade estatística <span class="math inline">\(i\)</span>, observamos o par</p>
+<p><span class="math display">\[
+(x_i,y_i).
+\]</span></p>
+<p>Assim, os dados bivariados podem ser representados por</p>
+<p><span class="math display">\[
+(x_1,y_1),\;(x_2,y_2),\;\ldots,\;(x_n,y_n).
+\]</span></p>
+<p>O ponto fundamental é que os dois valores de cada par pertencem à <strong>mesma unidade observacional</strong>.</p>
+<section id="exemplo" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">9.1.1</span> Exemplo</h3>
+<p>Considere cinco estudantes para os quais foram registrados o turno e a avaliação da disciplina.</p>
+<div id="tbl-exemplo-pares-bivariados" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-exemplo-pares-bivariados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.1: Exemplo de observações bivariadas.
+</figcaption>
+<div aria-describedby="tbl-exemplo-pares-bivariados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estudante</th>
+<th style="text-align: left;">Turno</th>
+<th style="text-align: left;">Avaliação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: left;">Alta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Noite</td>
+<td style="text-align: left;">Baixa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: left;">Média</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: left;">Alta</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Noite</td>
+<td style="text-align: left;">Média</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Para o primeiro estudante, o par observado é</p>
+<p><span class="math display">\[
+(\text{Manhã},\text{Alta}).
+\]</span></p>
+<p>Para o segundo,</p>
+<p><span class="math display">\[
+(\text{Noite},\text{Baixa}).
+\]</span></p>
+<p>A análise bivariada preserva esses pares e procura identificar padrões na ocorrência conjunta das duas características.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="O pareamento não pode ser perdido">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O pareamento não pode ser perdido
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em uma análise bivariada, não basta possuir duas listas de valores. É necessário saber quais valores pertencem à mesma unidade estatística.</p>
+<p>Trocar aleatoriamente a ordem de uma das variáveis preservaria suas distribuições univariadas, mas destruiria a relação existente entre elas.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="distribuição-conjunta-de-frequências" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="distribuição-conjunta-de-frequências"><span class="header-section-number">9.2</span> Distribuição conjunta de frequências</h2>
+<p>Quando <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> são variáveis qualitativas, podemos contar quantas unidades apresentam simultaneamente cada combinação de categorias.</p>
+<p>Considere:</p>
+<ul>
+<li><span class="math inline">\(X\)</span>: turno, com categorias Manhã e Noite;</li>
+<li><span class="math inline">\(Y\)</span>: avaliação, com categorias Baixa, Média e Alta.</li>
+</ul>
+<p>Suponha que 40 estudantes tenham produzido a seguinte distribuição:</p>
+<div id="tbl-conjunta-turno-avaliacao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conjunta-turno-avaliacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.2: Distribuição conjunta do turno e da avaliação.
+</figcaption>
+<div aria-describedby="tbl-conjunta-turno-avaliacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>12</strong></td>
+<td style="text-align: right;"><strong>13</strong></td>
+<td style="text-align: right;"><strong>15</strong></td>
+<td style="text-align: right;"><strong>40</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A parte interna da <a href="#tbl-conjunta-turno-avaliacao" class="quarto-xref">Tabela&nbsp;<span>9.2</span></a> contém as <strong>frequências conjuntas</strong>.</p>
+<p>Por exemplo,</p>
+<p><span class="math display">\[
+f_{\text{Manhã, Alta}}=10
+\]</span></p>
+<p>significa que 10 estudantes pertencem simultaneamente ao turno da manhã <strong>e</strong> à categoria de avaliação alta.</p>
+<p>Da mesma forma,</p>
+<p><span class="math display">\[
+f_{\text{Noite, Baixa}}=8
+\]</span></p>
+<p>indica que 8 estudantes são do turno da noite e apresentam avaliação baixa.</p>
+<p>Uma tabela que organiza simultaneamente as categorias de duas variáveis qualitativas é chamada de <strong>tabela de contingência</strong> ou <strong>tabela de dupla entrada</strong>.</p>
+<section id="notação-geral" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="notação-geral"><span class="header-section-number">9.2.1</span> Notação geral</h3>
+<p>Suponha que <span class="math inline">\(X\)</span> possua <span class="math inline">\(r\)</span> categorias,</p>
+<p><span class="math display">\[
+x_1,x_2,\ldots,x_r,
+\]</span></p>
+<p>e que <span class="math inline">\(Y\)</span> possua <span class="math inline">\(c\)</span> categorias,</p>
+<p><span class="math display">\[
+y_1,y_2,\ldots,y_c.
+\]</span></p>
+<p>Representamos por</p>
+<p><span class="math display">\[
+f_{ij}
+\]</span></p>
+<p>a frequência conjunta correspondente à categoria <span class="math inline">\(x_i\)</span> de <span class="math inline">\(X\)</span> e à categoria <span class="math inline">\(y_j\)</span> de <span class="math inline">\(Y\)</span>.</p>
+<p>A soma de todas as frequências conjuntas é igual ao número total de unidades:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{r}\sum_{j=1}^{c}f_{ij}=n.
+\]</span></p>
+</section>
+</section>
+<section id="frequências-relativas-conjuntas" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="frequências-relativas-conjuntas"><span class="header-section-number">9.3</span> Frequências relativas conjuntas</h2>
+<p>Também podemos expressar cada célula em relação ao total de observações.</p>
+<p>A frequência relativa conjunta é</p>
+<p><span class="math display">\[
+f_{r_{ij}}
+=
+\frac{f_{ij}}{n}.
+\]</span></p>
+<p>Em porcentagem,</p>
+<p><span class="math display">\[
+100\times\frac{f_{ij}}{n}.
+\]</span></p>
+<p>No exemplo anterior,</p>
+<p><span class="math display">\[
+\frac{10}{40}=0{,}25.
+\]</span></p>
+<p>Portanto, 25% de todos os estudantes pertencem simultaneamente ao turno da manhã e à categoria de avaliação alta.</p>
+<p>A distribuição conjunta em porcentagens é:</p>
+<div id="tbl-conjunta-percentual-turno" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-conjunta-percentual-turno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.3: Distribuição conjunta percentual do turno e da avaliação.
+</figcaption>
+<div aria-describedby="tbl-conjunta-percentual-turno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">10,0%</td>
+<td style="text-align: right;">15,0%</td>
+<td style="text-align: right;">25,0%</td>
+<td style="text-align: right;">50,0%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">20,0%</td>
+<td style="text-align: right;">17,5%</td>
+<td style="text-align: right;">12,5%</td>
+<td style="text-align: right;">50,0%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>30,0%</strong></td>
+<td style="text-align: right;"><strong>32,5%</strong></td>
+<td style="text-align: right;"><strong>37,5%</strong></td>
+<td style="text-align: right;"><strong>100,0%</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Observe que, nessa tabela, todas as células foram divididas pelo mesmo denominador:</p>
+<p><span class="math display">\[
+n=40.
+\]</span></p>
+<p>Por isso, a soma das células internas é 100%.</p>
+</section>
+<section id="distribuições-marginais" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="distribuições-marginais"><span class="header-section-number">9.4</span> Distribuições marginais</h2>
+<p>Os totais das linhas e das colunas são chamados de <strong>frequências marginais</strong>.</p>
+<p>Na <a href="#tbl-conjunta-turno-avaliacao" class="quarto-xref">Tabela&nbsp;<span>9.2</span></a>, temos</p>
+<p><span class="math display">\[
+f_{\text{Manhã},\cdot}=20
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+f_{\text{Noite},\cdot}=20.
+\]</span></p>
+<p>Esses valores descrevem a distribuição do turno <strong>sem considerar a avaliação</strong>.</p>
+<p>Da mesma forma,</p>
+<p><span class="math display">\[
+f_{\cdot,\text{Baixa}}=12,
+\]</span></p>
+<p><span class="math display">\[
+f_{\cdot,\text{Média}}=13
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+f_{\cdot,\text{Alta}}=15
+\]</span></p>
+<p>descrevem a distribuição da avaliação <strong>sem considerar o turno</strong>.</p>
+<p>Em notação geral,</p>
+<p><span class="math display">\[
+f_{i\cdot}=\sum_{j=1}^{c}f_{ij}
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+f_{\cdot j}=\sum_{i=1}^{r}f_{ij}.
+\]</span></p>
+<p>O ponto na notação indica que estamos somando sobre todas as categorias da outra variável.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Conjunta e marginal">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Conjunta e marginal
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A frequência <strong>conjunta</strong> envolve duas categorias ao mesmo tempo:</p>
+<blockquote class="blockquote">
+<p>turno da manhã <strong>e</strong> avaliação alta.</p>
+</blockquote>
+<p>A frequência <strong>marginal</strong> descreve apenas uma variável:</p>
+<blockquote class="blockquote">
+<p>turno da manhã, independentemente da avaliação;</p>
+</blockquote>
+<p>ou</p>
+<blockquote class="blockquote">
+<p>avaliação alta, independentemente do turno.</p>
+</blockquote>
+</div>
+</div>
+</section>
+<section id="distribuições-condicionais" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="distribuições-condicionais"><span class="header-section-number">9.5</span> Distribuições condicionais</h2>
+<p>As distribuições marginais descrevem cada variável separadamente. Para investigar associação, entretanto, geralmente precisamos responder perguntas do tipo:</p>
+<blockquote class="blockquote">
+<p>Como a avaliação se distribui <strong>entre os estudantes do turno da manhã</strong>?</p>
+</blockquote>
+<p>A expressão “entre os estudantes do turno da manhã” estabelece uma <strong>condição</strong>. O denominador deixa de ser o total de 40 estudantes e passa a ser o total da categoria Manhã:</p>
+<p><span class="math display">\[
+20.
+\]</span></p>
+<p>Assim, entre os estudantes da manhã,</p>
+<p><span class="math display">\[
+\frac{4}{20}=20\%
+\]</span></p>
+<p>apresentam avaliação baixa,</p>
+<p><span class="math display">\[
+\frac{6}{20}=30\%
+\]</span></p>
+<p>apresentam avaliação média e</p>
+<p><span class="math display">\[
+\frac{10}{20}=50\%
+\]</span></p>
+<p>apresentam avaliação alta.</p>
+<p>Temos, portanto, a distribuição da avaliação <strong>condicionada ao turno da manhã</strong>.</p>
+<section id="percentuais-por-linha" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="percentuais-por-linha"><span class="header-section-number">9.5.1</span> Percentuais por linha</h3>
+<p>Quando a variável que estabelece a condição está nas linhas, calculamos percentuais por linha.</p>
+<div id="tbl-percentuais-linha-turno" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-percentuais-linha-turno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.4: Distribuição percentual da avaliação dentro de cada turno.
+</figcaption>
+<div aria-describedby="tbl-percentuais-linha-turno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">20%</td>
+<td style="text-align: right;">30%</td>
+<td style="text-align: right;">50%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">40%</td>
+<td style="text-align: right;">35%</td>
+<td style="text-align: right;">25%</td>
+<td style="text-align: right;">100%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Cada linha da <a href="#tbl-percentuais-linha-turno" class="quarto-xref">Tabela&nbsp;<span>9.4</span></a> soma 100%.</p>
+<p>Esses percentuais permitem responder à pergunta:</p>
+<blockquote class="blockquote">
+<p><strong>Como a avaliação se distribui dentro de cada turno?</strong></p>
+</blockquote>
+<p>A comparação é imediata: a categoria Alta corresponde a 50% dos estudantes da manhã e a 25% dos estudantes da noite.</p>
+</section>
+<section id="percentuais-por-coluna" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="percentuais-por-coluna"><span class="header-section-number">9.5.2</span> Percentuais por coluna</h3>
+<p>Podemos inverter o condicionamento.</p>
+<p>Suponha que a pergunta seja:</p>
+<blockquote class="blockquote">
+<p>Entre os estudantes com avaliação alta, como eles se distribuem entre os turnos?</p>
+</blockquote>
+<p>Agora o denominador é o total da coluna Alta:</p>
+<p><span class="math display">\[
+15.
+\]</span></p>
+<p>Logo,</p>
+<p><span class="math display">\[
+\frac{10}{15}\times100
+\approx
+66{,}7\%
+\]</span></p>
+<p>são do turno da manhã e</p>
+<p><span class="math display">\[
+\frac{5}{15}\times100
+\approx
+33{,}3\%
+\]</span></p>
+<p>são do turno da noite.</p>
+<p>A tabela completa de percentuais por coluna é:</p>
+<div id="tbl-percentuais-coluna-turno" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-percentuais-coluna-turno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.5: Distribuição percentual do turno dentro de cada categoria de avaliação.
+</figcaption>
+<div aria-describedby="tbl-percentuais-coluna-turno-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">33,3%</td>
+<td style="text-align: right;">46,2%</td>
+<td style="text-align: right;">66,7%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">66,7%</td>
+<td style="text-align: right;">53,8%</td>
+<td style="text-align: right;">33,3%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>100%</strong></td>
+<td style="text-align: right;"><strong>100%</strong></td>
+<td style="text-align: right;"><strong>100%</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="a-escolha-do-denominador" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="a-escolha-do-denominador"><span class="header-section-number">9.5.3</span> A escolha do denominador</h3>
+<p>A mesma frequência conjunta pode produzir porcentagens diferentes, todas corretas, dependendo da pergunta.</p>
+<p>Considere novamente os 10 estudantes do turno da manhã com avaliação alta.</p>
+<p>Em relação ao total de estudantes,</p>
+<p><span class="math display">\[
+\frac{10}{40}=25\%.
+\]</span></p>
+<p>Entre os estudantes do turno da manhã,</p>
+<p><span class="math display">\[
+\frac{10}{20}=50\%.
+\]</span></p>
+<p>Entre os estudantes com avaliação alta,</p>
+<p><span class="math display">\[
+\frac{10}{15}\approx66{,}7\%.
+\]</span></p>
+<p>Os três resultados utilizam a mesma célula, mas respondem a perguntas diferentes.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Antes de calcular uma porcentagem, identifique o grupo de referência">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Antes de calcular uma porcentagem, identifique o grupo de referência
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pergunte sempre:</p>
+<blockquote class="blockquote">
+<p><strong>Entre quem estou calculando a porcentagem?</strong></p>
+</blockquote>
+<ul>
+<li>se a resposta for “entre todos os indivíduos”, use o total geral;</li>
+<li>se a resposta for “entre os indivíduos desta linha”, use o total da linha;</li>
+<li>se a resposta for “entre os indivíduos desta coluna”, use o total da coluna.</li>
+</ul>
+<p>A escolha do denominador é determinada pela pergunta estatística, e não por uma regra mecânica.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="associação-entre-duas-variáveis-qualitativas" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="associação-entre-duas-variáveis-qualitativas"><span class="header-section-number">9.6</span> Associação entre duas variáveis qualitativas</h2>
+<p>Duas variáveis qualitativas apresentam <strong>associação</strong> quando a distribuição de uma delas se modifica de acordo com as categorias da outra.</p>
+<p>No exemplo, a distribuição da avaliação é:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">20%</td>
+<td style="text-align: right;">30%</td>
+<td style="text-align: right;">50%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">40%</td>
+<td style="text-align: right;">35%</td>
+<td style="text-align: right;">25%</td>
+</tr>
+</tbody>
+</table>
+<p>A proporção de avaliações altas cai de 50% no turno da manhã para 25% no turno da noite. A proporção de avaliações baixas, por sua vez, aumenta de 20% para 40%.</p>
+<p>As distribuições condicionais não são iguais. Descritivamente, isso sugere <strong>associação entre turno e avaliação</strong>.</p>
+<p>A ideia central é:</p>
+<blockquote class="blockquote">
+<p>Se conhecer a categoria de uma variável ajuda a descrever como a outra variável se distribui, existe associação entre elas.</p>
+</blockquote>
+<section id="independência-em-perspectiva-descritiva" class="level3" data-number="9.6.1">
+<h3 data-number="9.6.1" class="anchored" data-anchor-id="independência-em-perspectiva-descritiva"><span class="header-section-number">9.6.1</span> Independência em perspectiva descritiva</h3>
+<p>A situação oposta é a <strong>independência</strong>.</p>
+<p>Em termos descritivos, duas variáveis seriam independentes se a distribuição de uma delas permanecesse a mesma em todas as categorias da outra.</p>
+<p>Imagine, por exemplo:</p>
+<div id="tbl-independencia-perfis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-independencia-perfis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.6: Exemplo de perfis condicionais compatíveis com independência.
+</figcaption>
+<div aria-describedby="tbl-independencia-perfis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">30%</td>
+<td style="text-align: right;">32,5%</td>
+<td style="text-align: right;">37,5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">30%</td>
+<td style="text-align: right;">32,5%</td>
+<td style="text-align: right;">37,5%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Nesse caso, saber o turno do estudante não modifica o perfil da avaliação. A informação sobre o turno não acrescenta informação descritiva sobre a distribuição da avaliação.</p>
+<p>Na prática, com dados observados, não esperamos necessariamente percentuais exatamente iguais. Por isso, nesta etapa, procuramos avaliar <strong>quão semelhantes ou diferentes são os perfis condicionais</strong>.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Associação não significa causalidade">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Associação não significa causalidade
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A existência de associação entre duas variáveis não permite concluir, por si só, que uma delas causa a outra.</p>
+<p>Uma associação pode refletir diversos mecanismos, outras variáveis não observadas, diferenças entre grupos ou simplesmente a estrutura dos dados analisados.</p>
+<p>Neste capítulo, nosso objetivo é <strong>descrever a associação observada</strong>, e não estabelecer relações causais.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="frequências-de-referência-sob-independência" class="level2" data-number="9.7">
+<h2 data-number="9.7" class="anchored" data-anchor-id="frequências-de-referência-sob-independência"><span class="header-section-number">9.7</span> Frequências de referência sob independência</h2>
+<p>Também podemos comparar as frequências observadas com as frequências que seriam compatíveis com uma situação de independência, mantendo os mesmos totais marginais.</p>
+<p>Para a célula <span class="math inline">\((i,j)\)</span>, essa frequência de referência é</p>
+<p><span class="math display">\[
+e_{ij}
+=
+\frac{f_{i\cdot}f_{\cdot j}}{n}.
+\]</span></p>
+<p>A lógica pode ser entendida sem recorrer à inferência estatística.</p>
+<p>No exemplo, 50% dos estudantes pertencem ao turno da manhã e 37,5% apresentam avaliação alta. Se as duas características não estivessem associadas, seria natural esperar que aproximadamente 37,5% dos 20 estudantes da manhã apresentassem avaliação alta:</p>
+<p><span class="math display">\[
+20\times0{,}375=7{,}5.
+\]</span></p>
+<p>Equivalentemente,</p>
+<p><span class="math display">\[
+e_{\text{Manhã, Alta}}
+=
+\frac{20\times15}{40}
+=
+7{,}5.
+\]</span></p>
+<p>Entretanto, foram observados 10 estudantes nessa célula.</p>
+<p>Para toda a tabela, as frequências de referência sob independência são:</p>
+<div id="tbl-frequencias-esperadas-independencia" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-frequencias-esperadas-independencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.7: Frequências de referência sob independência.
+</figcaption>
+<div aria-describedby="tbl-frequencias-esperadas-independencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">6,0</td>
+<td style="text-align: right;">6,5</td>
+<td style="text-align: right;">7,5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">6,0</td>
+<td style="text-align: right;">6,5</td>
+<td style="text-align: right;">7,5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Quanto maiores forem, de forma conjunta, as diferenças entre frequências observadas e frequências de referência, maior será a evidência <strong>descritiva</strong> de associação.</p>
+</section>
+<section id="diferença-de-proporções" class="level2" data-number="9.8">
+<h2 data-number="9.8" class="anchored" data-anchor-id="diferença-de-proporções"><span class="header-section-number">9.8</span> Diferença de proporções</h2>
+<p>Quando a comparação de interesse envolve <strong>dois grupos</strong> e uma categoria específica da variável resposta, uma medida particularmente simples é a <strong>diferença de proporções</strong>.</p>
+<p>Considere a categoria Avaliação alta.</p>
+<p>No turno da manhã,</p>
+<p><span class="math display">\[
+p_{\text{Manhã}}
+=
+\frac{10}{20}
+=
+0{,}50.
+\]</span></p>
+<p>No turno da noite,</p>
+<p><span class="math display">\[
+p_{\text{Noite}}
+=
+\frac{5}{20}
+=
+0{,}25.
+\]</span></p>
+<p>A diferença é</p>
+<p><span class="math display">\[
+\Delta p
+=
+0{,}50-0{,}25
+=
+0{,}25.
+\]</span></p>
+<p>Em porcentagem,</p>
+<p><span class="math display">\[
+25\text{ pontos percentuais}.
+\]</span></p>
+<p>Portanto, a proporção de estudantes com avaliação alta é 25 pontos percentuais maior no turno da manhã do que no turno da noite.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Porcentagem e pontos percentuais">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Porcentagem e pontos percentuais
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A diferença entre 50% e 25% é de <strong>25 pontos percentuais</strong>.</p>
+<p>Evite dizer que a diferença é simplesmente “25%”, pois essa expressão pode ser confundida com uma variação relativa.</p>
+</div>
+</div>
+<p>A diferença de proporções possui duas vantagens: é simples de calcular e preserva a <strong>direção da comparação</strong>. Entretanto, ela depende da categoria escolhida e da ordem em que os grupos são comparados.</p>
+</section>
+<section id="coeficiente-phi" class="level2" data-number="9.9">
+<h2 data-number="9.9" class="anchored" data-anchor-id="coeficiente-phi"><span class="header-section-number">9.9</span> Coeficiente Phi</h2>
+<p>Para uma tabela <span class="math inline">\(2\times2\)</span>, podemos resumir a intensidade da associação pelo <strong>coeficiente Phi</strong>, representado por <span class="math inline">\(\phi\)</span>.</p>
+<p>Considere uma tabela genérica:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;"><span class="math inline">\(Y_1\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(Y_2\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(X_1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(a\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(b\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(X_2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(c\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(d\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>O coeficiente Phi pode ser calculado por</p>
+<p><span class="math display">\[
+\phi
+=
+\frac{ad-bc}
+{\sqrt{(a+b)(c+d)(a+c)(b+d)}}.
+\]</span></p>
+<p>No exemplo, vamos reunir Média e Baixa em uma única categoria, “Não alta”:</p>
+<div id="tbl-exemplo-phi" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-exemplo-phi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.8: Tabela <span class="math inline">\(2\times2\)</span> para avaliação alta.
+</figcaption>
+<div aria-describedby="tbl-exemplo-phi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Turno</th>
+<th style="text-align: right;">Alta</th>
+<th style="text-align: right;">Não alta</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">20</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Assim,</p>
+<p><span class="math display">\[
+\phi
+=
+\frac{10(15)-10(5)}
+{\sqrt{20\cdot20\cdot15\cdot25}}
+\approx
+0{,}258.
+\]</span></p>
+<p>Em uma tabela <span class="math inline">\(2\times2\)</span>,</p>
+<p><span class="math display">\[
+-1\leq\phi\leq1.
+\]</span></p>
+<p>O valor zero corresponde à ausência de associação segundo essa medida, enquanto magnitudes maiores indicam associação mais intensa.</p>
+<p>Entretanto, o <strong>sinal de <span class="math inline">\(\phi\)</span> depende da ordem e da codificação das categorias</strong>. Para variáveis puramente nominais, essa ordem pode ser arbitrária. Por isso, muitas vezes a interpretação concentra-se em <span class="math inline">\(|\phi|\)</span> e a direção é descrita por meio das proporções.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Evite classificações rígidas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Evite classificações rígidas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não existe uma regra universal que transforme automaticamente valores de <span class="math inline">\(\phi\)</span> em “associação fraca”, “moderada” ou “forte”.</p>
+<p>A interpretação deve considerar o contexto, os percentuais condicionais, o tamanho da tabela e a relevância substantiva das diferenças observadas.</p>
+</div>
+</div>
+</section>
+<section id="v-de-cramér" class="level2" data-number="9.10">
+<h2 data-number="9.10" class="anchored" data-anchor-id="v-de-cramér"><span class="header-section-number">9.10</span> V de Cramér</h2>
+<p>O coeficiente Phi é especialmente adequado para tabelas <span class="math inline">\(2\times2\)</span>. Para tabelas maiores, uma medida amplamente utilizada é o <strong>V de Cramér</strong>.</p>
+<p>Primeiro, resumimos a discrepância entre as frequências observadas <span class="math inline">\(f_{ij}\)</span> e as frequências de referência sob independência <span class="math inline">\(e_{ij}\)</span> por</p>
+<p><span class="math display">\[
+\chi^2
+=
+\sum_{i=1}^{r}
+\sum_{j=1}^{c}
+\frac{(f_{ij}-e_{ij})^2}{e_{ij}}.
+\]</span></p>
+<p>Neste capítulo, essa quantidade será utilizada apenas como uma <strong>medida descritiva de discrepância</strong>. Não realizaremos teste de hipóteses nem utilizaremos valores-<span class="math inline">\(p\)</span>.</p>
+<p>O V de Cramér é definido por</p>
+<p><span class="math display">\[
+V
+=
+\sqrt{
+\frac{\chi^2}
+{n\min(r-1,c-1)}
+}.
+\]</span></p>
+<p>Seu valor varia entre 0 e 1:</p>
+<p><span class="math display">\[
+0\leq V\leq1.
+\]</span></p>
+<ul>
+<li>valores próximos de 0 indicam que os perfis observados estão próximos do padrão de independência;</li>
+<li>valores maiores indicam maior afastamento desse padrão e, portanto, associação descritiva mais intensa.</li>
+</ul>
+<p>Para a <a href="#tbl-conjunta-turno-avaliacao" class="quarto-xref">Tabela&nbsp;<span>9.2</span></a>,</p>
+<p><span class="math display">\[
+\chi^2\approx3{,}077
+\]</span></p>
+<p>e</p>
+<p><span class="math display">\[
+V
+=
+\sqrt{\frac{3{,}077}{40\cdot1}}
+\approx
+0{,}277.
+\]</span></p>
+<p>Esse número resume a associação da tabela completa, utilizando simultaneamente as três categorias de avaliação.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Phi e V de Cramér">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Phi e V de Cramér
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para uma tabela <span class="math inline">\(2\times2\)</span>,</p>
+<p><span class="math display">\[
+V=|\phi|.
+\]</span></p>
+<p>O coeficiente Phi pode conservar um sinal, dependendo da ordenação das categorias. O V de Cramér é sempre não negativo.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="O V de Cramér não utiliza a ordem das categorias">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+O V de Cramér não utiliza a ordem das categorias
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se uma variável for ordinal, como níveis de satisfação, o V de Cramér trata suas categorias apenas como categorias distintas.</p>
+<p>Ele não aproveita a informação de que, por exemplo,</p>
+<p><span class="math display">\[
+\text{Muito baixa}&lt;\text{Baixa}&lt;\text{Média}&lt;\text{Alta}&lt;\text{Muito alta}.
+\]</span></p>
+<p>Portanto, o V de Cramér é uma medida geral de associação entre variáveis qualitativas, mas não é uma medida específica de associação ordinal.</p>
+</div>
+</div>
+</section>
+<section id="representações-gráficas-para-duas-variáveis-qualitativas" class="level2" data-number="9.11">
+<h2 data-number="9.11" class="anchored" data-anchor-id="representações-gráficas-para-duas-variáveis-qualitativas"><span class="header-section-number">9.11</span> Representações gráficas para duas variáveis qualitativas</h2>
+<p>A tabela de contingência é fundamental, mas gráficos podem tornar os padrões de associação mais fáceis de perceber.</p>
+<section id="barras-agrupadas" class="level3" data-number="9.11.1">
+<h3 data-number="9.11.1" class="anchored" data-anchor-id="barras-agrupadas"><span class="header-section-number">9.11.1</span> Barras agrupadas</h3>
+<p>No gráfico de barras agrupadas, as categorias de uma variável são colocadas lado a lado dentro das categorias da outra.</p>
+<p>Esse gráfico facilita comparações diretas entre alturas de barras, principalmente quando o número de categorias não é muito grande.</p>
+</section>
+<section id="barras-empilhadas" class="level3" data-number="9.11.2">
+<h3 data-number="9.11.2" class="anchored" data-anchor-id="barras-empilhadas"><span class="header-section-number">9.11.2</span> Barras empilhadas</h3>
+<p>No gráfico de barras empilhadas, as categorias são acumuladas dentro de cada barra.</p>
+<p>A altura total pode representar o número de indivíduos de cada grupo, enquanto os segmentos mostram sua composição.</p>
+<p>A comparação dos segmentos internos, entretanto, pode ser difícil quando eles não compartilham a mesma linha de base.</p>
+</section>
+<section id="barras-proporcionais" class="level3" data-number="9.11.3">
+<h3 data-number="9.11.3" class="anchored" data-anchor-id="barras-proporcionais"><span class="header-section-number">9.11.3</span> Barras proporcionais</h3>
+<p>No gráfico proporcional, todas as barras possuem a mesma altura, correspondente a 100%.</p>
+<p>Assim, o foco deixa de ser o tamanho absoluto dos grupos e passa a ser a comparação das <strong>distribuições condicionais</strong>.</p>
+<p>Esse gráfico é particularmente útil para investigar associação entre duas variáveis qualitativas.</p>
+</section>
+<section id="gráfico-mosaico" class="level3" data-number="9.11.4">
+<h3 data-number="9.11.4" class="anchored" data-anchor-id="gráfico-mosaico"><span class="header-section-number">9.11.4</span> Gráfico mosaico</h3>
+<p>O gráfico mosaico representa cada combinação de categorias por um retângulo cuja <strong>área é proporcional à frequência conjunta</strong>.</p>
+<p>As larguras e alturas dos retângulos refletem as distribuições marginais e condicionais. Por isso, o gráfico mosaico permite visualizar simultaneamente o tamanho dos grupos e sua composição.</p>
+<p>A interpretação exige alguma familiaridade, mas ele é especialmente útil quando a tabela possui várias categorias.</p>
+<div id="tbl-graficos-qualitativos-bivariados" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-graficos-qualitativos-bivariados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.9: Comparação entre representações gráficas de duas variáveis qualitativas.
+</figcaption>
+<div aria-describedby="tbl-graficos-qualitativos-bivariados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 42%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Representação</th>
+<th style="text-align: left;">Principal destaque</th>
+<th style="text-align: left;">Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Barras agrupadas</td>
+<td style="text-align: left;">comparação direta entre categorias</td>
+<td style="text-align: left;">pode ficar carregado com muitas categorias</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Barras empilhadas</td>
+<td style="text-align: left;">total e composição do grupo</td>
+<td style="text-align: left;">segmentos internos são mais difíceis de comparar</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Barras proporcionais</td>
+<td style="text-align: left;">comparação das distribuições condicionais</td>
+<td style="text-align: left;">perde a informação visual do tamanho dos grupos</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mosaico</td>
+<td style="text-align: left;">frequências conjuntas, marginais e composição</td>
+<td style="text-align: left;">exige maior atenção na leitura</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+</section>
+<section id="como-escrever-a-interpretação-de-uma-tabela-de-contingência" class="level2" data-number="9.12">
+<h2 data-number="9.12" class="anchored" data-anchor-id="como-escrever-a-interpretação-de-uma-tabela-de-contingência"><span class="header-section-number">9.12</span> Como escrever a interpretação de uma tabela de contingência</h2>
+<p>Uma boa análise não deve limitar-se a reproduzir números da tabela. Uma sequência útil é:</p>
+<ol type="1">
+<li>identificar claramente as duas variáveis;</li>
+<li>indicar qual variável será utilizada como condição;</li>
+<li>comparar os percentuais condicionais relevantes;</li>
+<li>destacar as principais diferenças entre os grupos;</li>
+<li>verificar se essas diferenças sugerem associação;</li>
+<li>quando adequado, complementar a interpretação com diferença de proporções, Phi ou V de Cramér;</li>
+<li>evitar conclusões causais não sustentadas pelos dados.</li>
+</ol>
+<p>Por exemplo, para a <a href="#tbl-percentuais-linha-turno" class="quarto-xref">Tabela&nbsp;<span>9.4</span></a>, uma interpretação adequada seria:</p>
+<blockquote class="blockquote">
+<p>A distribuição da avaliação difere entre os turnos. Entre os estudantes da manhã, 50% apresentam avaliação alta, enquanto essa proporção é de 25% entre os estudantes da noite. Avaliações baixas correspondem a 20% no turno da manhã e a 40% no turno da noite. Assim, os dados apresentam um padrão descritivo de associação entre turno e avaliação.</p>
+</blockquote>
+<p>Observe que a interpretação compara <strong>proporções dentro dos grupos</strong>, e não apenas frequências absolutas.</p>
+</section>
+<section id="cuidados-na-análise-de-associação" class="level2" data-number="9.13">
+<h2 data-number="9.13" class="anchored" data-anchor-id="cuidados-na-análise-de-associação"><span class="header-section-number">9.13</span> Cuidados na análise de associação</h2>
+<p>Alguns cuidados são importantes:</p>
+<ul>
+<li>frequências absolutas podem ser enganosas quando os grupos possuem tamanhos diferentes;</li>
+<li>percentuais devem sempre ser acompanhados da identificação do denominador;</li>
+<li>categorias com poucas observações podem gerar percentuais muito instáveis;</li>
+<li>categorias não devem ser agrupadas apenas para produzir um resultado mais conveniente; o agrupamento deve ter justificativa substantiva;</li>
+<li>Phi e V de Cramér resumem a associação, mas não mostram quais células são responsáveis pelo padrão observado;</li>
+<li>medidas numéricas devem ser interpretadas juntamente com a tabela e os gráficos;</li>
+<li>associação não implica causalidade;</li>
+<li>neste capítulo, toda conclusão é <strong>descritiva</strong>, restrita aos dados analisados.</li>
+</ul>
+</section>
+<section id="laboratório-no-r" class="level2" data-number="9.14">
+<h2 data-number="9.14" class="anchored" data-anchor-id="laboratório-no-r"><span class="header-section-number">9.14</span> Laboratório no R</h2>
+<p><strong>Aula 22 — Prática: análise computacional de duas variáveis qualitativas.</strong></p>
+<p>Nesta parte prática, utilizaremos novamente o banco com 80 estudantes empregado nos capítulos anteriores. O arquivo contém, entre outras, as variáveis qualitativas <code>curso</code>, <code>meio_transporte</code> e <code>satisfacao</code>.</p>
+<p>O objetivo não é apenas aprender comandos, mas desenvolver um fluxo de análise: construir a tabela, escolher o percentual adequado, representar graficamente e escrever uma interpretação.</p>
+<section id="preparando-os-dados" class="level3" data-number="9.14.1">
+<h3 data-number="9.14.1" class="anchored" data-anchor-id="preparando-os-dados"><span class="header-section-number">9.14.1</span> Preparando os dados</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dados/estudantes80n.csv"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Vamos preservar a ordem natural da variável satisfação:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">satisfacao =</span> <span class="fu">factor</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      satisfacao,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Muito baixa"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Baixa"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Média"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Alta"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Muito alta"</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Antes da análise:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    id_estudante,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    curso,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    meio_transporte,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    satisfacao</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">8</span>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 4
+  id_estudante curso       meio_transporte satisfacao
+  &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;           &lt;ord&gt;     
+1 E001         Química     Ônibus          Alta      
+2 E002         Física      Aplicativo      Muito alta
+3 E003         Física      Carro           Alta      
+4 E004         Física      Aplicativo      Alta      
+5 E005         Física      Ônibus          Alta      
+6 E006         Física      A pé            Alta      
+7 E007         Estatística Carro           Alta      
+8 E008         Matemática  Motocicleta     Alta      </code></pre>
+</div>
+</div>
+<p>Cada linha continua representando um estudante. Esse pareamento é a base da análise bivariada.</p>
+</section>
+<section id="construindo-uma-tabela-de-contingência" class="level3" data-number="9.14.2">
+<h3 data-number="9.14.2" class="anchored" data-anchor-id="construindo-uma-tabela-de-contingência"><span class="header-section-number">9.14.2</span> Construindo uma tabela de contingência</h3>
+<p>Vamos estudar a associação entre <code>curso</code> e <code>satisfacao</code>.</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tab_curso_satisfacao <span class="ot">&lt;-</span> <span class="fu">table</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>curso,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  dados<span class="sc">$</span>satisfacao</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>tab_curso_satisfacao</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             
+              Muito baixa Baixa Média Alta Muito alta
+  Estatística           3     6     9   10          4
+  Física                0     0     4    7          4
+  Matemática            1     1     6    7          3
+  Química               0     2     5    6          2</code></pre>
+</div>
+</div>
+<p>Para adicionar as frequências marginais:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  tab_curso_satisfacao</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             
+              Muito baixa Baixa Média Alta Muito alta Sum
+  Estatística           3     6     9   10          4  32
+  Física                0     0     4    7          4  15
+  Matemática            1     1     6    7          3  18
+  Química               0     2     5    6          2  15
+  Sum                   4     9    24   30         13  80</code></pre>
+</div>
+</div>
+<p>No banco dos 80 estudantes, a tabela conjunta é:</p>
+<div id="tbl-r-curso-satisfacao" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.10: Distribuição conjunta do curso e da satisfação dos 80 estudantes.
+</figcaption>
+<div aria-describedby="tbl-r-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Curso</th>
+<th style="text-align: right;">Muito baixa</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+<th style="text-align: right;">Muito alta</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Estatística</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">32</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Física</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matemática</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Química</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>4</strong></td>
+<td style="text-align: right;"><strong>9</strong></td>
+<td style="text-align: right;"><strong>24</strong></td>
+<td style="text-align: right;"><strong>30</strong></td>
+<td style="text-align: right;"><strong>13</strong></td>
+<td style="text-align: right;"><strong>80</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-r-curso-satisfacao" class="quarto-xref">Tabela&nbsp;<span>9.10</span></a> permite recuperar simultaneamente as frequências conjuntas e marginais.</p>
+</section>
+<section id="frequências-relativas-conjuntas-1" class="level3" data-number="9.14.3">
+<h3 data-number="9.14.3" class="anchored" data-anchor-id="frequências-relativas-conjuntas-1"><span class="header-section-number">9.14.3</span> Frequências relativas conjuntas</h3>
+<p>Para dividir todas as células pelo total geral:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  tab_curso_satisfacao</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             
+              Muito baixa  Baixa  Média   Alta Muito alta
+  Estatística      0.0375 0.0750 0.1125 0.1250     0.0500
+  Física           0.0000 0.0000 0.0500 0.0875     0.0500
+  Matemática       0.0125 0.0125 0.0750 0.0875     0.0375
+  Química          0.0000 0.0250 0.0625 0.0750     0.0250</code></pre>
+</div>
+</div>
+<p>Em porcentagem:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    tab_curso_satisfacao</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             
+              Muito baixa Baixa Média Alta Muito alta
+  Estatística         3.8   7.5  11.2 12.5        5.0
+  Física              0.0   0.0   5.0  8.8        5.0
+  Matemática          1.2   1.2   7.5  8.8        3.8
+  Química             0.0   2.5   6.2  7.5        2.5</code></pre>
+</div>
+</div>
+<p>A soma de todas as células é 100%.</p>
+<p>Essa tabela responde a perguntas como:</p>
+<blockquote class="blockquote">
+<p>Qual percentual de todos os estudantes é de Estatística e apresenta satisfação alta?</p>
+</blockquote>
+</section>
+<section id="percentuais-por-linha-1" class="level3" data-number="9.14.4">
+<h3 data-number="9.14.4" class="anchored" data-anchor-id="percentuais-por-linha-1"><span class="header-section-number">9.14.4</span> Percentuais por linha</h3>
+<p>Se queremos responder</p>
+<blockquote class="blockquote">
+<p>Como a satisfação se distribui dentro de cada curso?</p>
+</blockquote>
+<p>os cursos formam os grupos de referência. Como estão nas linhas, calculamos:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>percentuais_linha <span class="ot">&lt;-</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    tab_curso_satisfacao,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">margin =</span> <span class="dv">1</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  percentuais_linha,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             
+              Muito baixa Baixa Média Alta Muito alta
+  Estatística         9.4  18.8  28.1 31.2       12.5
+  Física              0.0   0.0  26.7 46.7       26.7
+  Matemática          5.6   5.6  33.3 38.9       16.7
+  Química             0.0  13.3  33.3 40.0       13.3</code></pre>
+</div>
+</div>
+<p>Cada linha soma 100%.</p>
+<p>Para os dados observados, obtemos aproximadamente:</p>
+<div id="tbl-r-percentual-linha" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-percentual-linha-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabela&nbsp;9.11: Distribuição percentual da satisfação dentro de cada curso.
+</figcaption>
+<div aria-describedby="tbl-r-percentual-linha-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Curso</th>
+<th style="text-align: right;">Muito baixa</th>
+<th style="text-align: right;">Baixa</th>
+<th style="text-align: right;">Média</th>
+<th style="text-align: right;">Alta</th>
+<th style="text-align: right;">Muito alta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Estatística</td>
+<td style="text-align: right;">9,4%</td>
+<td style="text-align: right;">18,8%</td>
+<td style="text-align: right;">28,1%</td>
+<td style="text-align: right;">31,2%</td>
+<td style="text-align: right;">12,5%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Física</td>
+<td style="text-align: right;">0,0%</td>
+<td style="text-align: right;">0,0%</td>
+<td style="text-align: right;">26,7%</td>
+<td style="text-align: right;">46,7%</td>
+<td style="text-align: right;">26,7%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Matemática</td>
+<td style="text-align: right;">5,6%</td>
+<td style="text-align: right;">5,6%</td>
+<td style="text-align: right;">33,3%</td>
+<td style="text-align: right;">38,9%</td>
+<td style="text-align: right;">16,7%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Química</td>
+<td style="text-align: right;">0,0%</td>
+<td style="text-align: right;">13,3%</td>
+<td style="text-align: right;">33,3%</td>
+<td style="text-align: right;">40,0%</td>
+<td style="text-align: right;">13,3%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>A <a href="#tbl-r-percentual-linha" class="quarto-xref">Tabela&nbsp;<span>9.11</span></a> mostra que os perfis de satisfação não são idênticos entre os cursos. Por exemplo, as categorias Alta e Muito alta representam conjuntamente 73,4% dos estudantes de Física e 43,7% dos estudantes de Estatística.</p>
+<p>Essa diferença sugere associação descritiva, mas deve ser interpretada juntamente com os tamanhos dos grupos e com as demais categorias.</p>
+</section>
+<section id="percentuais-por-coluna-1" class="level3" data-number="9.14.5">
+<h3 data-number="9.14.5" class="anchored" data-anchor-id="percentuais-por-coluna-1"><span class="header-section-number">9.14.5</span> Percentuais por coluna</h3>
+<p>Agora suponha que a pergunta seja:</p>
+<blockquote class="blockquote">
+<p>Dentro de cada nível de satisfação, como os estudantes se distribuem entre os cursos?</p>
+</blockquote>
+<p>Nesse caso, a condição está nas colunas:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>percentuais_coluna <span class="ot">&lt;-</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    tab_curso_satisfacao,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">margin =</span> <span class="dv">2</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  percentuais_coluna,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>             
+              Muito baixa Baixa Média Alta Muito alta
+  Estatística        75.0  66.7  37.5 33.3       30.8
+  Física              0.0   0.0  16.7 23.3       30.8
+  Matemática         25.0  11.1  25.0 23.3       23.1
+  Química             0.0  22.2  20.8 20.0       15.4</code></pre>
+</div>
+</div>
+<p>Cada coluna soma 100%.</p>
+<p>Essa análise responde a uma pergunta diferente da anterior. Não existe um percentual “correto” independentemente do contexto; existe o percentual adequado à pergunta formulada.</p>
+</section>
+<section id="construindo-a-tabela-com-dplyr" class="level3" data-number="9.14.6">
+<h3 data-number="9.14.6" class="anchored" data-anchor-id="construindo-a-tabela-com-dplyr"><span class="header-section-number">9.14.6</span> Construindo a tabela com <code>dplyr</code></h3>
+<p>Também podemos trabalhar em formato longo:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tabela_longa <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    curso,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    satisfacao,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"fi"</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(curso) <span class="sc">|&gt;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">percentual_no_curso =</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>      <span class="dv">100</span> <span class="sc">*</span> fi <span class="sc">/</span> <span class="fu">sum</span>(fi)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>tabela_longa</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 17 × 4
+   curso       satisfacao     fi percentual_no_curso
+   &lt;chr&gt;       &lt;ord&gt;       &lt;int&gt;               &lt;dbl&gt;
+ 1 Estatística Muito baixa     3                9.38
+ 2 Estatística Baixa           6               18.8 
+ 3 Estatística Média           9               28.1 
+ 4 Estatística Alta           10               31.2 
+ 5 Estatística Muito alta      4               12.5 
+ 6 Física      Média           4               26.7 
+ 7 Física      Alta            7               46.7 
+ 8 Física      Muito alta      4               26.7 
+ 9 Matemática  Muito baixa     1                5.56
+10 Matemática  Baixa           1                5.56
+11 Matemática  Média           6               33.3 
+12 Matemática  Alta            7               38.9 
+13 Matemática  Muito alta      3               16.7 
+14 Química     Baixa           2               13.3 
+15 Química     Média           5               33.3 
+16 Química     Alta            6               40   
+17 Química     Muito alta      2               13.3 </code></pre>
+</div>
+</div>
+<p>Esse formato é especialmente conveniente para construir gráficos e realizar transformações adicionais.</p>
+</section>
+<section id="barras-agrupadas-1" class="level3" data-number="9.14.7">
+<h3 data-number="9.14.7" class="anchored" data-anchor-id="barras-agrupadas-1"><span class="header-section-number">9.14.7</span> Barras agrupadas</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> curso,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> satisfacao</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"dodge"</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Curso"</span>,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequência"</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Satisfação"</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-barras-agrupadas-curso-satisfacao" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras lado a lado comparando os níveis de satisfação nos quatro cursos.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barras-agrupadas-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-associacao-qualitativas_files/figure-html/fig-barras-agrupadas-curso-satisfacao-1.png" class="img-fluid figure-img" alt="Gráfico de barras lado a lado comparando os níveis de satisfação nos quatro cursos." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barras-agrupadas-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.1: Frequências de satisfação por curso em barras agrupadas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-barras-agrupadas-curso-satisfacao" class="quarto-xref">Figura&nbsp;<span>9.1</span></a> facilita a comparação das frequências absolutas das categorias de satisfação. Entretanto, os cursos possuem tamanhos diferentes, o que deve ser lembrado durante a leitura.</p>
+</section>
+<section id="barras-empilhadas-1" class="level3" data-number="9.14.8">
+<h3 data-number="9.14.8" class="anchored" data-anchor-id="barras-empilhadas-1"><span class="header-section-number">9.14.8</span> Barras empilhadas</h3>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> curso,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> satisfacao</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Curso"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Frequência"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Satisfação"</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-barras-empilhadas-curso-satisfacao" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Barras empilhadas com altura correspondente ao número de estudantes e segmentos correspondentes aos níveis de satisfação.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barras-empilhadas-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-associacao-qualitativas_files/figure-html/fig-barras-empilhadas-curso-satisfacao-1.png" class="img-fluid figure-img" alt="Barras empilhadas com altura correspondente ao número de estudantes e segmentos correspondentes aos níveis de satisfação." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barras-empilhadas-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.2: Distribuição da satisfação por curso em barras empilhadas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>A <a href="#fig-barras-empilhadas-curso-satisfacao" class="quarto-xref">Figura&nbsp;<span>9.2</span></a> preserva visualmente o tamanho de cada curso e mostra sua composição.</p>
+</section>
+<section id="barras-proporcionais-1" class="level3" data-number="9.14.9">
+<h3 data-number="9.14.9" class="anchored" data-anchor-id="barras-proporcionais-1"><span class="header-section-number">9.14.9</span> Barras proporcionais</h3>
+<p>Para comparar diretamente os perfis condicionais, usamos <code>position = "fill"</code>:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>dados <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> curso,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> satisfacao</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"fill"</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> scales<span class="sc">::</span>percent</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Curso"</span>,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Percentual"</span>,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Satisfação"</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-barras-proporcionais-curso-satisfacao" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Barras de mesma altura mostrando a composição percentual dos níveis de satisfação em cada curso.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-barras-proporcionais-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-associacao-qualitativas_files/figure-html/fig-barras-proporcionais-curso-satisfacao-1.png" class="img-fluid figure-img" alt="Barras de mesma altura mostrando a composição percentual dos níveis de satisfação em cada curso." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-barras-proporcionais-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.3: Distribuição percentual da satisfação dentro de cada curso.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Na <a href="#fig-barras-proporcionais-curso-satisfacao" class="quarto-xref">Figura&nbsp;<span>9.3</span></a>, todas as barras possuem altura igual a 100%. Isso remove visualmente a diferença de tamanho entre os cursos e coloca em evidência as distribuições condicionais.</p>
+<p>Para investigar associação, esse gráfico costuma ser mais informativo do que comparar apenas frequências absolutas.</p>
+</section>
+<section id="gráfico-mosaico-1" class="level3" data-number="9.14.10">
+<h3 data-number="9.14.10" class="anchored" data-anchor-id="gráfico-mosaico-1"><span class="header-section-number">9.14.10</span> Gráfico mosaico</h3>
+<p>O R possui <code>mosaicplot()</code> na instalação básica:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mosaicplot</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  tab_curso_satisfacao,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Curso e satisfação"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Curso"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Satisfação"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">las =</span> <span class="dv">1</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-mosaico-curso-satisfacao" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico mosaico com retângulos de áreas proporcionais às frequências conjuntas de curso e satisfação.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mosaico-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="09-associacao-qualitativas_files/figure-html/fig-mosaico-curso-satisfacao-1.png" class="img-fluid figure-img" alt="Gráfico mosaico com retângulos de áreas proporcionais às frequências conjuntas de curso e satisfação." width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mosaico-curso-satisfacao-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;9.4: Gráfico mosaico da associação entre curso e satisfação.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>No gráfico mosaico, a área de cada retângulo é proporcional à frequência conjunta da respectiva combinação de categorias.</p>
+</section>
+<section id="diferença-de-proporções-no-r" class="level3" data-number="9.14.11">
+<h3 data-number="9.14.11" class="anchored" data-anchor-id="diferença-de-proporções-no-r"><span class="header-section-number">9.14.11</span> Diferença de proporções no R</h3>
+<p>Para ilustrar uma comparação <span class="math inline">\(2\times2\)</span>, vamos formular uma pergunta específica:</p>
+<blockquote class="blockquote">
+<p>A proporção de satisfação Alta ou Muito alta difere entre estudantes que utilizam ônibus e estudantes que utilizam outros meios de transporte?</p>
+</blockquote>
+<p>Primeiro, criamos duas variáveis binárias:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>dados_binarios <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">transporte_binario =</span> <span class="fu">factor</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>        meio_transporte <span class="sc">==</span> <span class="st">"Ônibus"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ônibus"</span>,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Outros"</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Ônibus"</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Outros"</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">satisfacao_alta =</span> <span class="fu">factor</span>(</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">if_else</span>(</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        satisfacao <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Alta"</span>,</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Muito alta"</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Alta/Muito alta"</span>,</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Demais"</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Alta/Muito alta"</span>,</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Demais"</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>A tabela <span class="math inline">\(2\times2\)</span> é:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tab_2x2 <span class="ot">&lt;-</span> <span class="fu">table</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  dados_binarios<span class="sc">$</span>transporte_binario,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  dados_binarios<span class="sc">$</span>satisfacao_alta</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="fu">addmargins</span>(tab_2x2)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+         Alta/Muito alta Demais Sum
+  Ônibus              14     16  30
+  Outros              29     21  50
+  Sum                 43     37  80</code></pre>
+</div>
+</div>
+<p>Os percentuais por linha são:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>prop_2x2 <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  tab_2x2,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">margin =</span> <span class="dv">1</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="dv">100</span> <span class="sc">*</span> prop_2x2,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>        
+         Alta/Muito alta Demais
+  Ônibus            46.7   53.3
+  Outros            58.0   42.0</code></pre>
+</div>
+</div>
+<p>Nos dados observados, 46,7% dos usuários de ônibus apresentam satisfação Alta ou Muito alta, contra 58,0% dos usuários de outros meios.</p>
+<p>A diferença, tomando Ônibus menos Outros, é:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>diferenca <span class="ot">&lt;-</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  prop_2x2[</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Ônibus"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Alta/Muito alta"</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  ] <span class="sc">-</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  prop_2x2[</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Outros"</span>,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Alta/Muito alta"</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> diferenca</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -11.33333</code></pre>
+</div>
+</div>
+<p>O resultado é aproximadamente</p>
+<p><span class="math display">\[
+-11{,}3\text{ pontos percentuais}.
+\]</span></p>
+<p>O sinal negativo indica que, neste banco, a proporção de satisfação Alta ou Muito alta é menor entre usuários de ônibus.</p>
+</section>
+<section id="coeficiente-phi-no-r" class="level3" data-number="9.14.12">
+<h3 data-number="9.14.12" class="anchored" data-anchor-id="coeficiente-phi-no-r"><span class="header-section-number">9.14.12</span> Coeficiente Phi no R</h3>
+<p>Podemos criar uma função para tabelas <span class="math inline">\(2\times2\)</span>:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>phi_2x2 <span class="ot">&lt;-</span> <span class="cf">function</span>(tab) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">all</span>(<span class="fu">dim</span>(tab) <span class="sc">==</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> tab[<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> tab[<span class="dv">1</span>, <span class="dv">2</span>]</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  c <span class="ot">&lt;-</span> tab[<span class="dv">2</span>, <span class="dv">1</span>]</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> tab[<span class="dv">2</span>, <span class="dv">2</span>]</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  (a <span class="sc">*</span> d <span class="sc">-</span> b <span class="sc">*</span> c) <span class="sc">/</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>      (a <span class="sc">+</span> b) <span class="sc">*</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>      (c <span class="sc">+</span> d) <span class="sc">*</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>      (a <span class="sc">+</span> c) <span class="sc">*</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>      (b <span class="sc">+</span> d)</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Aplicando:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>phi <span class="ot">&lt;-</span> <span class="fu">phi_2x2</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  tab_2x2</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>phi</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.1100445</code></pre>
+</div>
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abs</span>(phi)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1100445</code></pre>
+</div>
+</div>
+<p>Para esses dados,</p>
+<p><span class="math display">\[
+\phi\approx-0{,}110.
+\]</span></p>
+<p>A magnitude é pequena em relação ao máximo possível de 1, o que está de acordo com a diferença relativamente modesta observada nas proporções.</p>
+<p>O sinal depende da ordem adotada para as categorias. A direção é mais claramente comunicada pela diferença de proporções.</p>
+</section>
+<section id="frequências-de-referência-sob-independência-no-r" class="level3" data-number="9.14.13">
+<h3 data-number="9.14.13" class="anchored" data-anchor-id="frequências-de-referência-sob-independência-no-r"><span class="header-section-number">9.14.13</span> Frequências de referência sob independência no R</h3>
+<p>Para a tabela <code>curso</code> por <code>satisfacao</code>, podemos construir as frequências de referência diretamente a partir das margens:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">sum</span>(</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  tab_curso_satisfacao</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>frequencias_referencia <span class="ot">&lt;-</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">outer</span>(</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowSums</span>(tab_curso_satisfacao),</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colSums</span>(tab_curso_satisfacao)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">/</span> n</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>  frequencias_referencia,</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Muito baixa Baixa Média  Alta Muito alta
+Estatística        1.60  3.60   9.6 12.00       5.20
+Física             0.75  1.69   4.5  5.62       2.44
+Matemática         0.90  2.02   5.4  6.75       2.92
+Química            0.75  1.69   4.5  5.62       2.44</code></pre>
+</div>
+</div>
+<p>Agora podemos calcular a discrepância total:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>qui_quadrado_descritivo <span class="ot">&lt;-</span> <span class="fu">sum</span>(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  (</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    tab_curso_satisfacao <span class="sc">-</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>      frequencias_referencia</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    frequencias_referencia</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>qui_quadrado_descritivo</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.878264</code></pre>
+</div>
+</div>
+<p>Neste capítulo, esse valor não será utilizado para realizar um teste estatístico. Ele serve apenas como etapa para construir uma medida padronizada de associação.</p>
+</section>
+<section id="v-de-cramér-no-r" class="level3" data-number="9.14.14">
+<h3 data-number="9.14.14" class="anchored" data-anchor-id="v-de-cramér-no-r"><span class="header-section-number">9.14.14</span> V de Cramér no R</h3>
+<p>Podemos criar uma função geral:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>cramer_v <span class="ot">&lt;-</span> <span class="cf">function</span>(tab) {</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(tab)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">sum</span>(tab)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  esperado <span class="ot">&lt;-</span> <span class="fu">outer</span>(</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowSums</span>(tab),</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colSums</span>(tab)</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">/</span> n</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  x2 <span class="ot">&lt;-</span> <span class="fu">sum</span>(</span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>    (tab <span class="sc">-</span> esperado)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>      esperado</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> <span class="fu">min</span>(</span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>(tab) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ncol</span>(tab) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a>    x2 <span class="sc">/</span> (n <span class="sc">*</span> k)</span>
+<span id="cb39-24"><a href="#cb39-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb39-25"><a href="#cb39-25" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Aplicando à tabela entre curso e satisfação:</p>
+<div class="cell">
+<details open="" class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>v_curso_satisfacao <span class="ot">&lt;-</span> <span class="fu">cramer_v</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  tab_curso_satisfacao</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>v_curso_satisfacao</span></code><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.192335</code></pre>
+</div>
+</div>
+<p>Para os 80 estudantes,</p>
+<p><span class="math display">\[
+V\approx0{,}192.
+\]</span></p>
+<p>Esse valor indica que a distribuição conjunta se afasta do padrão de independência, mas está distante da associação máxima possível. A interpretação não deve ser feita isoladamente: a <a href="#tbl-r-percentual-linha" class="quarto-xref">Tabela&nbsp;<span>9.11</span></a> e a <a href="#fig-barras-proporcionais-curso-satisfacao" class="quarto-xref">Figura&nbsp;<span>9.3</span></a> mostram <strong>como</strong> os perfis diferem.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Medida de associação não substitui a tabela">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Medida de associação não substitui a tabela
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O V de Cramér resume toda a tabela em um único número.</p>
+<p>Essa síntese é útil, mas não informa:</p>
+<ul>
+<li>quais categorias diferem mais;</li>
+<li>em que direção ocorrem as diferenças;</li>
+<li>quais grupos apresentam perfis semelhantes;</li>
+<li>quais células concentram as maiores discrepâncias.</li>
+</ul>
+<p>Por isso, a medida deve ser interpretada juntamente com percentuais condicionais e gráficos.</p>
+</div>
+</div>
+</section>
+<section id="um-roteiro-de-análise-computacional" class="level3" data-number="9.14.15">
+<h3 data-number="9.14.15" class="anchored" data-anchor-id="um-roteiro-de-análise-computacional"><span class="header-section-number">9.14.15</span> Um roteiro de análise computacional</h3>
+<p>Para duas variáveis qualitativas, um fluxo de trabalho útil é:</p>
+<ol type="1">
+<li>verificar o significado e as categorias das duas variáveis;</li>
+<li>construir a tabela de contingência;</li>
+<li>examinar as frequências marginais;</li>
+<li>formular claramente a pergunta de comparação;</li>
+<li>calcular percentuais por linha ou por coluna conforme o condicionamento;</li>
+<li>construir um gráfico adequado, preferencialmente proporcional quando o objetivo é comparar perfis;</li>
+<li>quando houver interesse, calcular diferença de proporções, Phi ou V de Cramér;</li>
+<li>interpretar conjuntamente tabela, gráfico e medida numérica;</li>
+<li>evitar afirmações causais.</li>
+</ol>
+</section>
+</section>
+<section id="síntese" class="level2" data-number="9.15">
+<h2 data-number="9.15" class="anchored" data-anchor-id="síntese"><span class="header-section-number">9.15</span> Síntese</h2>
+<p>Neste capítulo, passamos da análise univariada para a análise simultânea de duas variáveis qualitativas.</p>
+<p>Uma observação bivariada é formada por um par de valores registrados na mesma unidade estatística. Quando ambas as variáveis são qualitativas, sua distribuição conjunta pode ser organizada em uma tabela de contingência.</p>
+<p>As células internas representam <strong>frequências conjuntas</strong>, enquanto os totais das linhas e das colunas são as <strong>frequências marginais</strong>.</p>
+<p>As frequências relativas podem ser calculadas em relação:</p>
+<ul>
+<li>ao total da amostra;</li>
+<li>ao total de cada linha;</li>
+<li>ao total de cada coluna.</li>
+</ul>
+<p>Percentuais por linha e por coluna respondem a perguntas diferentes. O denominador deve ser escolhido a partir do grupo definido pela pergunta.</p>
+<p>A associação entre duas variáveis qualitativas é investigada comparando suas <strong>distribuições condicionais</strong>. Se essas distribuições forem semelhantes, o comportamento é compatível com independência; se diferirem de forma relevante, os dados apresentam associação descritiva.</p>
+<p>A diferença de proporções é útil para comparações simples entre dois grupos. O coeficiente Phi resume a associação em tabelas <span class="math inline">\(2\times2\)</span>, enquanto o V de Cramér pode ser utilizado em tabelas de dimensões maiores.</p>
+<p>Gráficos de barras agrupadas, empilhadas e proporcionais, assim como o gráfico mosaico, complementam a leitura da tabela de contingência.</p>
+<p>Toda interpretação realizada neste capítulo é <strong>descritiva</strong>. Não utilizamos testes de hipóteses, valores-<span class="math inline">\(p\)</span> ou conclusões inferenciais.</p>
+<blockquote class="blockquote">
+<p><strong>Ideia-chave:</strong> na análise de duas variáveis qualitativas, associação é percebida quando os perfis percentuais de uma variável mudam de acordo com as categorias da outra.</p>
+</blockquote>
+</section>
+<section id="exercícios-teóricos" class="level2" data-number="9.16">
+<h2 data-number="9.16" class="anchored" data-anchor-id="exercícios-teóricos"><span class="header-section-number">9.16</span> Exercícios teóricos</h2>
+<ol type="1">
+<li><p>Explique a diferença entre análise univariada e análise bivariada. Por que preservar o pareamento das observações é indispensável?</p></li>
+<li><p>Considere a tabela:</p></li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Modalidade</th>
+<th style="text-align: right;">Satisfeito</th>
+<th style="text-align: right;">Não satisfeito</th>
+<th style="text-align: right;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Presencial</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Remota</td>
+<td style="text-align: right;">24</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: right;"><strong>60</strong></td>
+<td style="text-align: right;"><strong>40</strong></td>
+<td style="text-align: right;"><strong>100</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Responda:</p>
+<ol type="a">
+<li><p>Qual é a frequência conjunta correspondente a modalidade remota e estudante satisfeito?</p></li>
+<li><p>Quais são as frequências marginais da variável modalidade?</p></li>
+<li><p>Qual percentual de todos os estudantes é presencial e satisfeito?</p></li>
+<li><p>Entre os estudantes presenciais, qual percentual está satisfeito?</p></li>
+<li><p>Entre os estudantes satisfeitos, qual percentual pertence à modalidade presencial?</p></li>
+<li><p>Explique por que os percentuais obtidos nos itens c, d e e são diferentes, embora partam da mesma célula.</p></li>
+</ol>
+<ol start="3" type="1">
+<li><p>A partir da tabela do exercício anterior, construa a distribuição percentual por linha e compare os dois perfis. Os dados sugerem associação? Justifique descritivamente.</p></li>
+<li><p>Considere duas tabelas de percentuais condicionais:</p></li>
+</ol>
+<p><strong>Situação A</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Grupo</th>
+<th style="text-align: right;">Categoria 1</th>
+<th style="text-align: right;">Categoria 2</th>
+<th style="text-align: right;">Categoria 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">G1</td>
+<td style="text-align: right;">20%</td>
+<td style="text-align: right;">50%</td>
+<td style="text-align: right;">30%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">G2</td>
+<td style="text-align: right;">20%</td>
+<td style="text-align: right;">50%</td>
+<td style="text-align: right;">30%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Situação B</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Grupo</th>
+<th style="text-align: right;">Categoria 1</th>
+<th style="text-align: right;">Categoria 2</th>
+<th style="text-align: right;">Categoria 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">G1</td>
+<td style="text-align: right;">10%</td>
+<td style="text-align: right;">30%</td>
+<td style="text-align: right;">60%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">G2</td>
+<td style="text-align: right;">40%</td>
+<td style="text-align: right;">40%</td>
+<td style="text-align: right;">20%</td>
+</tr>
+</tbody>
+</table>
+<p>Em qual situação há maior evidência descritiva de associação? Explique sem utilizar testes estatísticos.</p>
+<ol start="5" type="1">
+<li><p>Em uma comparação entre dois grupos, a proporção de determinada categoria foi de 62% no grupo A e 47% no grupo B.</p>
+<ol type="a">
+<li><p>Calcule a diferença de proporções em pontos percentuais.</p></li>
+<li><p>Interprete o sinal se a diferença for definida como <span class="math inline">\(p_A-p_B\)</span>.</p></li>
+<li><p>O resultado seria o mesmo se a ordem dos grupos fosse invertida? Explique.</p></li>
+</ol></li>
+<li><p>Considere a tabela <span class="math inline">\(2\times2\)</span>:</p></li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Resposta Sim</th>
+<th style="text-align: right;">Resposta Não</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Grupo A</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Grupo B</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">25</td>
+</tr>
+</tbody>
+</table>
+<ol type="a">
+<li><p>Calcule as proporções de resposta Sim em cada grupo.</p></li>
+<li><p>Calcule a diferença de proporções.</p></li>
+<li><p>Calcule o coeficiente Phi.</p></li>
+<li><p>Interprete conjuntamente a diferença de proporções e <span class="math inline">\(|\phi|\)</span>.</p></li>
+</ol>
+<ol start="7" type="1">
+<li><p>Explique por que o V de Cramér não deve ser interpretado isoladamente, sem examinar a tabela de contingência.</p></li>
+<li><p>Uma variável possui categorias ordinais. Explique por que o V de Cramér pode ser utilizado, mas não aproveita a informação de ordenação das categorias.</p></li>
+<li><p>Explique a diferença entre associação e causalidade. Dê um exemplo em que duas variáveis possam estar associadas sem que seja apropriado afirmar que uma causa a outra.</p></li>
+<li><p>Em uma tabela de contingência, algumas categorias possuem apenas uma ou duas observações. Que cuidados devem ser tomados antes de interpretar percentuais muito elevados ou muito baixos nessas categorias?</p></li>
+</ol>
+</section>
+<section id="exercícios-no-r" class="level2" data-number="9.17">
+<h2 data-number="9.17" class="anchored" data-anchor-id="exercícios-no-r"><span class="header-section-number">9.17</span> Exercícios no R</h2>
+<ol type="1">
+<li><p>Utilize as variáveis <code>curso</code> e <code>meio_transporte</code> do banco <code>dados</code>.</p>
+<ol type="a">
+<li><p>Construa a tabela de contingência.</p></li>
+<li><p>Acrescente as frequências marginais.</p></li>
+<li><p>Calcule os percentuais conjuntos.</p></li>
+<li><p>Calcule os percentuais por curso.</p></li>
+<li><p>Calcule os percentuais por meio de transporte.</p></li>
+<li><p>Escreva duas perguntas que sejam respondidas pelos percentuais por linha e duas que sejam respondidas pelos percentuais por coluna.</p></li>
+</ol></li>
+<li><p>Para <code>curso</code> e <code>meio_transporte</code>, construa:</p>
+<ol type="a">
+<li><p>um gráfico de barras agrupadas;</p></li>
+<li><p>um gráfico de barras empilhadas;</p></li>
+<li><p>um gráfico de barras proporcionais;</p></li>
+<li><p>um gráfico mosaico.</p></li>
+</ol></li>
+</ol>
+<p>Compare o que cada representação destaca e indique qual delas você considera mais adequada para comparar os perfis de transporte entre os cursos.</p>
+<ol start="3" type="1">
+<li><p>Estude as variáveis <code>meio_transporte</code> e <code>satisfacao</code>.</p>
+<ol type="a">
+<li><p>Construa a tabela de contingência.</p></li>
+<li><p>Calcule percentuais por meio de transporte.</p></li>
+<li><p>Construa um gráfico de barras proporcionais.</p></li>
+<li><p>Descreva os principais padrões observados.</p></li>
+<li><p>Calcule o V de Cramér e interprete-o juntamente com a tabela e o gráfico.</p></li>
+</ol></li>
+<li><p>Considere como “satisfação elevada” as categorias Alta e Muito alta. Compare a proporção de satisfação elevada entre:</p>
+<ol type="a">
+<li><p>estudantes de Estatística e estudantes dos demais cursos;</p></li>
+<li><p>usuários de ônibus e usuários dos demais meios de transporte.</p></li>
+</ol></li>
+</ol>
+<p>Para cada comparação, obtenha a diferença em pontos percentuais e o coeficiente Phi.</p>
+<ol start="5" type="1">
+<li><p>Crie uma função em R que receba uma tabela de contingência e retorne:</p>
+<ul>
+<li>número total de observações;</li>
+<li>número de linhas e colunas;</li>
+<li>tabela de percentuais conjuntos;</li>
+<li>tabela de percentuais por linha;</li>
+<li>tabela de percentuais por coluna;</li>
+<li>V de Cramér.</li>
+</ul></li>
+</ol>
+<p>Teste a função com <code>curso</code> e <code>satisfacao</code>.</p>
+<ol start="6" type="1">
+<li><p>Escolha duas variáveis qualitativas do banco e produza uma pequena análise bivariada contendo:</p>
+<ul>
+<li>identificação das variáveis e de suas categorias;</li>
+<li>tabela de contingência;</li>
+<li>frequências marginais;</li>
+<li>percentuais condicionais adequados à pergunta escolhida;</li>
+<li>pelo menos uma representação gráfica;</li>
+<li>uma medida de associação apropriada;</li>
+<li>uma interpretação final em linguagem estatística.</li>
+</ul></li>
+</ol>
+<p>Não utilize linguagem causal.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiada");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiada");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./08-forma-distribuicao.html" class="pagination-link" aria-label="Forma das distribuições e análise univariada integrada">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Forma das distribuições e análise univariada integrada</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./10-associacao-quantitativas.html" class="pagination-link" aria-label="Associação entre duas variáveis quantitativas">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Associação entre duas variáveis quantitativas</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

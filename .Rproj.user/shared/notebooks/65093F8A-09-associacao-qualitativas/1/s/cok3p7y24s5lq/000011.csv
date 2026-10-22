@@ -1,0 +1,6 @@
+"0","library(tidyverse)"
+"0",""
+"0","dados <- read_csv("
+"0","  ""dados/estudantes80n.csv"","
+"0","  show_col_types = FALSE"
+"0",")"
